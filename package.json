@@ -1,0 +1,23 @@
+{
+  "name": "depression-prediction",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "bun run scripts/lint.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "db-check-setembrobr": "bun run scripts/db-check-setembrobr.ts",
+    "manifest-setembrobr": "bun run scripts/manifest-setembrobr.ts",
+    "audit-oof-setembrobr": "bun run scripts/audit-oof-setembrobr.ts",
+    "select-ensemble-setembrobr": "bun run scripts/select-ensemble-setembrobr.ts",
+    "evaluate-test-setembrobr": "bun run scripts/evaluate-test-setembrobr.ts"
+  },
+  "dependencies": {
+    "postgres": "^3.4.7"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
+  }
+}
+

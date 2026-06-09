@@ -1,0 +1,34 @@
+{
+  "dataset": "setembrobr",
+  "seed": 42,
+  "foldCount": 5,
+  "outputDir": "outputs/setembrobr/seed42_strict_blind",
+  "database": {
+    "tables": {
+      "trainUserEmb": "train_user_emb",
+      "testUserEmb": "test_user_emb",
+      "trainUserEmbRel3": "train_user_emb_rel3",
+      "testUserEmbRel3": "test_user_emb_rel3",
+      "trainSubFeatures": "train_sub_features",
+      "testSubFeatures": "test_sub_features",
+      "trainEmbeddings": "train_embeddings",
+      "testEmbeddings": "test_embeddings"
+    },
+    "embeddingDimension": 3072
+  },
+  "models": [
+    "baseline_logreg",
+    "combined_all_logreg",
+    "combined_all_focal_g1",
+    "mlp_128_alpha_001",
+    "seq_cnn_top128_s42",
+    "seq_cnn_top128_s13",
+    "seq_cnn_top256_s13"
+  ],
+  "ensemble": {
+    "weightStep": 0.05,
+    "primaryMetric": "macroF1",
+    "tieBreakers": ["diagnosedF1", "precision"]
+  }
+}
+
