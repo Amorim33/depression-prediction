@@ -33,6 +33,9 @@ interface TernarySelectionInput {
   exhaustiveModelLimit?: number | undefined;
   candidatePruneTo?: number | undefined;
   maxModels?: number | undefined;
+  refineWeightStep?: number | undefined;
+  refineWeightRadius?: number | undefined;
+  refineModelLimit?: number | undefined;
 }
 
 interface SelectionData {
@@ -278,7 +281,7 @@ export function selectTernaryEnsemble(input: TernarySelectionInput): TernaryEnse
   if (input.decisionRules.length === 0) throw new Error("No ternary decision rules configured");
   const data = buildSelectionData(input.oofByModel, modelIds, input.labelPolicyId);
   const exhaustiveLimit = input.exhaustiveModelLimit ?? 6;
-  const result =
+  const coarseResult =
     modelIds.length <= exhaustiveLimit
       ? selectTernaryExhaustive(data, modelIds.map((_modelId, index) => index), input.weightStep, input.decisionRules, "exhaustive")
       : selectTernaryGreedyPruned(data, modelIds, input.decisionRules, {
@@ -286,6 +289,11 @@ export function selectTernaryEnsemble(input: TernarySelectionInput): TernaryEnse
           candidatePruneTo: input.candidatePruneTo ?? 16,
           maxModels: input.maxModels ?? 8,
         });
+  const result = refineTernaryWeights(data, coarseResult, input.decisionRules, {
+    weightStep: input.refineWeightStep,
+    radius: input.refineWeightRadius,
+    maxModels: input.refineModelLimit,
+  });
   const compacted = compactIndexWeights(result.indexes, result.weights);
   const selectedModelIds = compacted.indexes.map((index) => modelIds[index]!);
   return {
@@ -303,6 +311,44 @@ export function selectTernaryEnsemble(input: TernarySelectionInput): TernaryEnse
     command: input.command,
     selectionStrategy: result.strategy,
   };
+}
+
+function refineTernaryWeights(
+  data: SelectionData,
+  result: SelectionResult,
+  decisionRules: readonly TernaryDecisionRule[],
+  options: { weightStep?: number | undefined; radius?: number | undefined; maxModels?: number | undefined },
+): SelectionResult {
+  if (options.weightStep === undefined || options.radius === undefined || options.maxModels === undefined) return result;
+  if (options.weightStep <= 0 || options.radius <= 0) return result;
+  const refineStep = options.weightStep;
+  const radius = options.radius;
+  const maxModels = options.maxModels;
+  const compacted = compactIndexWeights(result.indexes, result.weights);
+  if (compacted.indexes.length < 2 || compacted.indexes.length > maxModels) return result;
+
+  const precision = Math.round(1 / refineStep);
+  if (precision < 1 || Math.abs(1 / precision - refineStep) > 1e-12) {
+    throw new Error(`Refinement weight step must divide 1 exactly: ${refineStep}`);
+  }
+  const ranges = compacted.weights.map((weight) => ({
+    min: Math.max(0, Math.floor((weight - radius) * precision)),
+    max: Math.min(precision, Math.ceil((weight + radius) * precision)),
+  }));
+  const probsByModel = compacted.indexes.map((index) => data.probsByModel[index]!);
+  let best: SelectionResult = { ...result };
+  forEachBoundedWeight(ranges, precision, (weights) => {
+    const candidate = evaluateWeightedCandidate(data.labels, probsByModel, weights, decisionRules);
+    if (compareTernaryMetrics(candidate.metrics, best.metrics) > 0) {
+      best = {
+        indexes: compacted.indexes,
+        weights,
+        ...candidate,
+        strategy: `${result.strategy}+local-refine(step=${refineStep},radius=${radius})`,
+      };
+    }
+  });
+  return best;
 }
 
 export function evaluateTernaryLockedEnsemble(
@@ -556,6 +602,22 @@ function enumerateWeights(count: number, step: number): number[][] {
   }
   recurse([], precision);
   return out;
+}
+
+function forEachBoundedWeight(ranges: readonly { min: number; max: number }[], precision: number, callback: (weights: number[]) => void): void {
+  function recurse(prefix: number[], remaining: number): void {
+    const index = prefix.length;
+    if (index === ranges.length - 1) {
+      const range = ranges[index]!;
+      if (remaining >= range.min && remaining <= range.max) callback([...prefix, remaining / precision]);
+      return;
+    }
+    const range = ranges[index]!;
+    for (let units = range.min; units <= Math.min(range.max, remaining); units += 1) {
+      recurse([...prefix, units / precision], remaining - units);
+    }
+  }
+  recurse([], precision);
 }
 
 function compactIndexWeights(indexes: readonly number[], weights: readonly number[]): { indexes: number[]; weights: number[] } {

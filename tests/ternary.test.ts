@@ -132,6 +132,63 @@ describe("ternary ensemble selection", () => {
     expect(lock.modelIds).toEqual(["m1"]);
     expect(metrics.macroF1).toBe(1);
   });
+
+  test("locally refines ternary ensemble weights from train OOF only", () => {
+    const labels: TernaryLabel[] = ["diagnosed", "control", "no-evidence", "diagnosed", "control", "no-evidence"];
+    const m1 = ternaryRowsFromProbs("m1", labels, [
+      [0.29970438728381416, 0.31041908736529367, 0.38987652535089234],
+      [0.01119046301401629, 0.35448640458375646, 0.6343231324022272],
+      [0.6794043259574124, 0.15850712114884224, 0.1620885528937454],
+      [0.89445485545787, 0.0600389282089413, 0.04550621633318868],
+      [0.7806317072012139, 0.08037286017607773, 0.13899543262270841],
+      [0.2796146364241091, 0.19067766842510728, 0.5297076951507835],
+    ]);
+    const m2 = ternaryRowsFromProbs("m2", labels, [
+      [0.4154874090003096, 0.26138437916822543, 0.323128211831465],
+      [0.6788747376240226, 0.28682780475234443, 0.03429745762363305],
+      [0.14732529578889636, 0.23177586339779552, 0.6208988408133082],
+      [0.3306863689342943, 0.10747429370312139, 0.5618393373625844],
+      [0.6056446494966663, 0.11871788459571377, 0.2756374659076199],
+      [0.37756236476433863, 0.22997778254535808, 0.39245985269030326],
+    ]);
+
+    const coarse = selectTernaryEnsemble({
+      seed: 42,
+      originalManifestHash: "manifest",
+      labelPolicyId: "p",
+      labelPolicyHash: "policy",
+      oofByModel: new Map([
+        ["m1", m1],
+        ["m2", m2],
+      ]),
+      sourceHashes: { m1: "hash1", m2: "hash2" },
+      weightStep: 0.5,
+      decisionRules: [{ ruleId: "argmax", kind: "argmax" }],
+      command: "test",
+    });
+    const refined = selectTernaryEnsemble({
+      seed: 42,
+      originalManifestHash: "manifest",
+      labelPolicyId: "p",
+      labelPolicyHash: "policy",
+      oofByModel: new Map([
+        ["m1", m1],
+        ["m2", m2],
+      ]),
+      sourceHashes: { m1: "hash1", m2: "hash2" },
+      weightStep: 0.5,
+      refineWeightStep: 0.25,
+      refineWeightRadius: 0.5,
+      refineModelLimit: 2,
+      decisionRules: [{ ruleId: "argmax", kind: "argmax" }],
+      command: "test",
+    });
+
+    expect(coarse.weights).toEqual({ m1: 0.5, m2: 0.5 });
+    expect(refined.selectionStrategy).toContain("local-refine(step=0.25,radius=0.5)");
+    expect(refined.weights).toEqual({ m1: 0.25, m2: 0.75 });
+    expect(refined.oofMetrics.macroF1).toBeGreaterThan(coarse.oofMetrics.macroF1);
+  });
 });
 
 function ternaryManifest(): TernaryManifestRow[] {
@@ -175,6 +232,19 @@ function ternaryRows(modelId: string): TernaryProbabilityRow[] {
       labelPolicyId: "p",
     },
   ];
+}
+
+function ternaryRowsFromProbs(modelId: string, labels: readonly TernaryLabel[], probs: readonly (readonly [number, number, number])[]): TernaryProbabilityRow[] {
+  return probs.map((prob, index) => ({
+    userId: `U${index}`,
+    label: labels[index]!,
+    fold: index % 3,
+    probDiagnosed: prob[0],
+    probControl: prob[1],
+    probNoEvidence: prob[2],
+    modelId,
+    labelPolicyId: "p",
+  }));
 }
 
 function marker(overrides: Partial<EvidenceMarker> = {}): EvidenceMarker {

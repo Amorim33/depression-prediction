@@ -143,6 +143,14 @@ testing specific strict-blind model combinations without letting later broad can
 previously strong train-OOF mixtures. The locked champion is the best train-OOF candidate across label
 policies, model groups, weights, and decision rules.
 
+The config may also pre-register bounded local weight refinement for specific label-policy and model
+group pairs. Local refinement starts from a train-OOF-selected ensemble, keeps only its nonzero model
+weights, enumerates nearby probability-simplex weights with the configured finer step and radius, and
+keeps a replacement only if it improves the official train-OOF objective. The current refinement is
+limited to `diag_evidence_q20` boosted-core groups, uses weight step `0.01`, radius `0.03`, and at most
+six selected models. It must not read test scores, test labels, test prevalence, final test reports, or
+any remote GPU artifacts beyond label-free candidate probabilities.
+
 ## Train-Only Robustness Report
 
 After the OOF audit and ensemble lock, a train-only robustness report can be generated:
@@ -174,7 +182,9 @@ alternate train-only splits.
 
 Nested diagnostics evaluate every configured model group, but use a bounded selector so routine
 reproduction stays tractable: groups with more than four models use the same greedy-pruned selector
-available to the official ensemble search. The official champion lock remains selected by the
+available to the official ensemble search. If local refinement is configured for an inner
+policy/group, the nested selector applies the same train-only bounded refinement on the inner folds
+before scoring the held-out train fold. The official champion lock remains selected by the
 pre-registered selector before final test evaluation.
 
 The nested report must remain train-only: no test score files, test labels, final test reports, or test

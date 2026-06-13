@@ -167,7 +167,19 @@ function selectForGroup(
     exhaustiveModelLimit: config.ensemble.exhaustiveModelLimit,
     candidatePruneTo: config.ensemble.candidatePruneTo,
     maxModels: config.ensemble.maxModels,
+    ...localRefinementForGroup(policyLock.policyId, groupId),
   });
+}
+
+function localRefinementForGroup(policyId: string, groupId: string) {
+  const refinement = config.ensemble.localRefinement;
+  if (!refinement?.groupIds.includes(groupId)) return {};
+  if (refinement.policyIds && !refinement.policyIds.includes(policyId)) return {};
+  return {
+    refineWeightStep: refinement.weightStep,
+    refineWeightRadius: refinement.radius,
+    refineModelLimit: refinement.maxModels,
+  };
 }
 
 function bestBy(entries: readonly AblationEntry[], keyFn: (entry: AblationEntry) => string): AblationEntry[] {

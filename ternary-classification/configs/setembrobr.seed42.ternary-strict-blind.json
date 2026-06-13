@@ -329,6 +329,13 @@
     "exhaustiveModelLimit": 6,
     "candidatePruneTo": 16,
     "maxModels": 8,
+    "localRefinement": {
+      "policyIds": ["diag_evidence_q20"],
+      "groupIds": ["tabular_core_xgb_s42_shallow", "tabular_core_xgb_s42_rich"],
+      "weightStep": 0.01,
+      "radius": 0.03,
+      "maxModels": 6
+    },
     "decisionRules": [
       { "ruleId": "argmax", "kind": "argmax" },
       { "ruleId": "diagnosed_margin_005", "kind": "diagnosed_margin", "diagnosedMargin": 0.05 },

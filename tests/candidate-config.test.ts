@@ -59,6 +59,17 @@ describe("candidate registry", () => {
     }
   });
 
+  test("pre-registers bounded ternary local refinement groups", () => {
+    const refinement = ternaryConfig.ensemble.localRefinement;
+    expect(refinement?.policyIds).toEqual(["diag_evidence_q20"]);
+    expect(refinement?.groupIds).toEqual(["tabular_core_xgb_s42_shallow", "tabular_core_xgb_s42_rich"]);
+    expect(refinement?.weightStep).toBe(0.01);
+    expect(refinement?.radius).toBe(0.03);
+    expect(refinement?.maxModels).toBe(6);
+    const groups = new Set((ternaryConfig.ensemble.selectionGroups ?? []).map((group) => group.groupId));
+    for (const groupId of refinement?.groupIds ?? []) expect(groups.has(groupId)).toBe(true);
+  });
+
   test("pre-registers ternary XGBoost tabular candidates", () => {
     const xgb = ternaryConfig.candidateModels.tabular.filter((model) => model.family === "xgboost");
     const tabularGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "tabular_all");

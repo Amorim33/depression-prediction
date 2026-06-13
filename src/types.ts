@@ -251,6 +251,14 @@ export interface TernaryModelSelectionGroup {
   modelIds: string[];
 }
 
+export interface TernaryLocalRefinementConfig {
+  policyIds?: string[];
+  groupIds: string[];
+  weightStep: number;
+  radius: number;
+  maxModels: number;
+}
+
 export interface TernaryStackingCandidateModel {
   modelId: string;
   family: "stacking_logreg";
@@ -284,6 +292,7 @@ export interface TernaryProjectConfig {
     exhaustiveModelLimit?: number;
     candidatePruneTo?: number;
     maxModels?: number;
+    localRefinement?: TernaryLocalRefinementConfig;
     decisionRules: TernaryDecisionRule[];
     selectionGroups?: TernaryModelSelectionGroup[];
   };
