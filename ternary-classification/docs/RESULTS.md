@@ -59,7 +59,7 @@ already existed.
 ## Train-Only Diagnostics
 
 - Fold-combination robustness ranked the locked ensemble first with mean Macro F1 `0.736719` and minimum Macro F1 `0.712095`.
-- Nested OOF split-selection selected `diag_evidence_q20` in all 5 outer folds, with held-out train-fold mean Macro F1 `0.725461` and minimum Macro F1 `0.710505`.
+- Group-aware nested OOF split-selection selected `diag_evidence_q20/all_models` in all 5 outer folds, with held-out train-fold mean Macro F1 `0.724689` and minimum Macro F1 `0.710505`.
 - OOF probability diagnostics for the locked ensemble reported Brier score `0.301943`, negative log likelihood `0.524836`, and expected calibration error `0.067121`.
 - The train-only single-model leaderboard ranked `diag_evidence_q20/ternary_hier_logreg_gate` first with OOF Macro F1 `0.708104`; the locked ensemble remains higher at `0.736756`.
 - Family ablation found a stronger train-OOF tabular-only group for `diag_evidence_q20` with Macro F1 `0.759500`. Future reproductions select across pre-registered model groups before final evaluation; no additional final test evaluation was run for this post-report finding.

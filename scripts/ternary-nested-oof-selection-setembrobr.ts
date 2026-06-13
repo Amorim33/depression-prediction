@@ -15,12 +15,15 @@ import type {
   TernaryLabel,
   TernaryLabelPolicyLock,
   TernaryMetrics,
+  TernaryModelSelectionGroup,
   TernaryProbabilityRow,
 } from "../src/types.ts";
 
 interface OuterFoldResult {
   heldoutFold: number;
   selectedLabelPolicyId: string;
+  selectedSelectionGroupId: string;
+  selectedCandidateModelIds: string[];
   selectedModelIds: string[];
   selectedDecisionRuleId: string;
   innerSelectionMetrics: TernaryMetrics;
@@ -35,6 +38,11 @@ interface PolicyRows {
 }
 
 const config = await loadTernaryConfig();
+const nestedSelector = {
+  exhaustiveModelLimit: Math.min(config.ensemble.exhaustiveModelLimit ?? 4, 4),
+  candidatePruneTo: Math.min(config.ensemble.candidatePruneTo ?? 8, 8),
+  maxModels: Math.min(config.ensemble.maxModels ?? 6, 6),
+};
 const policyRows = await loadPolicyRows();
 const folds = [...new Set([...policyRows.values()].flatMap((policy) => policy.folds))].sort((a, b) => a - b);
 const outerFoldResults: OuterFoldResult[] = [];
@@ -44,22 +52,7 @@ for (const heldoutFold of folds) {
   for (const policy of policyRows.values()) {
     const innerRows = filterRowsByFold(policy.rowsByModel, heldoutFold, false);
     if (innerRows.size === 0) continue;
-    locks.push(
-      selectTernaryEnsemble({
-        seed: config.seed,
-        originalManifestHash: policy.lock.originalManifestHash,
-        labelPolicyId: policy.lock.policyId,
-        labelPolicyHash: policy.lock.policyHash,
-        oofByModel: innerRows,
-        sourceHashes: policy.sourceHashes,
-        weightStep: config.ensemble.weightStep,
-        decisionRules: config.ensemble.decisionRules,
-        command: `make ternary-nested-oof-selection-setembrobr heldout_fold=${heldoutFold}`,
-        exhaustiveModelLimit: config.ensemble.exhaustiveModelLimit,
-        candidatePruneTo: config.ensemble.candidatePruneTo,
-        maxModels: config.ensemble.maxModels,
-      }),
-    );
+    locks.push(...selectionGroups([...innerRows.keys()].sort()).map((group) => selectForGroup(policy, innerRows, group, heldoutFold)));
   }
 
   const selected = bestLock(locks);
@@ -69,6 +62,8 @@ for (const heldoutFold of folds) {
   outerFoldResults.push({
     heldoutFold,
     selectedLabelPolicyId: selected.labelPolicyId,
+    selectedSelectionGroupId: selected.selectionGroupId ?? "all_models",
+    selectedCandidateModelIds: selected.candidateModelIds ?? selected.modelIds,
     selectedModelIds: selected.modelIds,
     selectedDecisionRuleId: selected.decisionRule.ruleId,
     innerSelectionMetrics: selected.oofMetrics,
@@ -85,8 +80,12 @@ const report = {
   seed: config.seed,
   usesTestLabels: false,
   usesTestScores: false,
-  sourceArtifacts: ["train_oof_*.csv", "label-policies/*.json"],
-  method: "For each train fold, select policy/models/weights/rule on the other train OOF folds, then evaluate the locked inner choice on the held-out train fold OOF rows.",
+  sourceArtifacts: ["train_oof_*.csv", "label-policies/*.json", "ternary config selectionGroups"],
+  method: "For each train fold, select policy/model-group/models/weights/rule on the other train OOF folds, then evaluate the locked inner choice on the held-out train fold OOF rows.",
+  boundedSelector: {
+    ...nestedSelector,
+    reason: "Nested diagnostics evaluate every label policy and selection group, but force larger groups through the existing greedy-pruned selector to keep routine strict-blind reproduction bounded.",
+  },
   outerFoldCount: outerFoldResults.length,
   selectionCounts,
   aggregateHeldoutMetrics: aggregate,
@@ -144,12 +143,60 @@ function filterRowsByFold(
   return out;
 }
 
+function selectionGroups(availableModelIds: readonly string[]): TernaryModelSelectionGroup[] {
+  const configured = config.ensemble.selectionGroups?.length
+    ? config.ensemble.selectionGroups
+    : [{ groupId: "all_models", description: "All available models.", modelIds: [...availableModelIds] }];
+  return configured
+    .map((group) => ({
+      ...group,
+      modelIds: group.modelIds.filter((modelId) => availableModelIds.includes(modelId)).sort(),
+    }))
+    .filter((group) => group.modelIds.length > 0);
+}
+
+function selectForGroup(
+  policy: PolicyRows,
+  innerRows: ReadonlyMap<string, readonly TernaryProbabilityRow[]>,
+  group: TernaryModelSelectionGroup,
+  heldoutFold: number,
+): TernaryEnsembleLock {
+  const groupedRows = new Map<string, readonly TernaryProbabilityRow[]>();
+  const groupedHashes: Record<string, string> = {};
+  for (const modelId of group.modelIds) {
+    const rows = innerRows.get(modelId);
+    if (!rows) throw new Error(`${policy.lock.policyId}/${group.groupId}: missing inner rows for ${modelId}`);
+    groupedRows.set(modelId, rows);
+    groupedHashes[modelId] = policy.sourceHashes[modelId] ?? "missing";
+  }
+  const lock = selectTernaryEnsemble({
+    seed: config.seed,
+    originalManifestHash: policy.lock.originalManifestHash,
+    labelPolicyId: policy.lock.policyId,
+    labelPolicyHash: policy.lock.policyHash,
+    oofByModel: groupedRows,
+    sourceHashes: groupedHashes,
+    weightStep: config.ensemble.weightStep,
+    decisionRules: config.ensemble.decisionRules,
+    command: `make ternary-nested-oof-selection-setembrobr heldout_fold=${heldoutFold} group=${group.groupId}`,
+    exhaustiveModelLimit: nestedSelector.exhaustiveModelLimit,
+    candidatePruneTo: nestedSelector.candidatePruneTo,
+    maxModels: nestedSelector.maxModels,
+  });
+  return {
+    ...lock,
+    selectionGroupId: group.groupId,
+    selectionGroupDescription: group.description,
+    candidateModelIds: group.modelIds,
+  };
+}
+
 function bestLock(locks: readonly TernaryEnsembleLock[]): TernaryEnsembleLock {
   if (locks.length === 0) throw new Error("No inner locks generated");
   return [...locks].sort((left, right) => {
     const metricDiff = compareTernaryMetrics(right.oofMetrics, left.oofMetrics);
     if (metricDiff !== 0) return metricDiff;
-    return left.labelPolicyId.localeCompare(right.labelPolicyId);
+    return `${left.labelPolicyId}:${left.selectionGroupId ?? ""}`.localeCompare(`${right.labelPolicyId}:${right.selectionGroupId ?? ""}`);
   })[0]!;
 }
 
@@ -208,24 +255,28 @@ function scalar(values: readonly number[]) {
 
 function countSelections(results: readonly OuterFoldResult[]) {
   const policies: Record<string, number> = {};
+  const groups: Record<string, number> = {};
   const rules: Record<string, number> = {};
   for (const result of results) {
     policies[result.selectedLabelPolicyId] = (policies[result.selectedLabelPolicyId] ?? 0) + 1;
+    groups[result.selectedSelectionGroupId] = (groups[result.selectedSelectionGroupId] ?? 0) + 1;
     rules[result.selectedDecisionRuleId] = (rules[result.selectedDecisionRuleId] ?? 0) + 1;
   }
-  return { policies, rules };
+  return { policies, groups, rules };
 }
 
 function renderMarkdown(report: {
   aggregateHeldoutMetrics: ReturnType<typeof aggregateMetrics>;
   outerFoldResults: OuterFoldResult[];
   selectionCounts: ReturnType<typeof countSelections>;
+  boundedSelector: { exhaustiveModelLimit: number; candidatePruneTo: number; maxModels: number; reason: string };
 }): string {
   const lines = [
     "# SetembroBR Ternary Nested OOF Selection",
     "",
-    "This report is train-only. Each outer split selects on four train OOF folds and evaluates on the remaining train OOF fold.",
+    "This report is train-only. Each outer split selects policy, model group, weights, and rule on four train OOF folds, then evaluates on the remaining train OOF fold.",
     "It does not read test score files, test labels, final test reports, or test prevalence.",
+    `Nested selector bounds: exhaustive groups up to ${report.boundedSelector.exhaustiveModelLimit} models; prune to ${report.boundedSelector.candidatePruneTo}; max selected models ${report.boundedSelector.maxModels}.`,
     "",
     "## Aggregate Held-Out Train-Fold Metrics",
     "",
@@ -238,16 +289,17 @@ function renderMarkdown(report: {
     "",
     "## Outer Fold Results",
     "",
-    "| Held-out fold | Selected policy | Rule | Models | Inner Macro F1 | Held-out Macro F1 | Held-out diagnosed precision |",
-    "| ---: | --- | --- | ---: | ---: | ---: | ---: |",
+    "| Held-out fold | Selected policy | Group | Rule | Candidate models | Selected models | Inner Macro F1 | Held-out Macro F1 | Held-out diagnosed precision |",
+    "| ---: | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |",
     ...report.outerFoldResults.map(
       (result) =>
-        `| ${result.heldoutFold} | \`${result.selectedLabelPolicyId}\` | \`${result.selectedDecisionRuleId}\` | ${result.selectedModelIds.length} | ${fmt(result.innerSelectionMetrics.macroF1)} | ${fmt(result.heldoutMetrics.macroF1)} | ${fmt(result.heldoutMetrics.diagnosedPrecision)} |`,
+        `| ${result.heldoutFold} | \`${result.selectedLabelPolicyId}\` | \`${result.selectedSelectionGroupId}\` | \`${result.selectedDecisionRuleId}\` | ${result.selectedCandidateModelIds.length} | ${result.selectedModelIds.length} | ${fmt(result.innerSelectionMetrics.macroF1)} | ${fmt(result.heldoutMetrics.macroF1)} | ${fmt(result.heldoutMetrics.diagnosedPrecision)} |`,
     ),
     "",
     "## Selection Counts",
     "",
     `- Policies: ${JSON.stringify(report.selectionCounts.policies)}`,
+    `- Groups: ${JSON.stringify(report.selectionCounts.groups)}`,
     `- Rules: ${JSON.stringify(report.selectionCounts.rules)}`,
     "",
   ];

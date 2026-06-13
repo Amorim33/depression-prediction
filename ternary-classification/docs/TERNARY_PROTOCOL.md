@@ -136,9 +136,15 @@ A stricter train-only split-combination check can be generated with:
 make ternary-nested-oof-selection-setembrobr
 ```
 
-For each outer train fold, this report selects the label policy, model set, weights, and decision rule
-using only the other train OOF folds. It then evaluates that inner lock on the held-out train fold's
-OOF rows. This estimates whether the selection procedure is stable under alternate train-only splits.
+For each outer train fold, this report selects the label policy, pre-registered model group, model set,
+weights, and decision rule using only the other train OOF folds. It then evaluates that inner lock on
+the held-out train fold's OOF rows. This estimates whether the selection procedure is stable under
+alternate train-only splits.
+
+Nested diagnostics evaluate every configured model group, but use a bounded selector so routine
+reproduction stays tractable: groups with more than four models use the same greedy-pruned selector
+available to the official ensemble search. The official champion lock remains selected by the
+pre-registered selector before final test evaluation.
 
 The nested report must remain train-only: no test score files, test labels, final test reports, or test
 prevalence may be read or used.
