@@ -107,3 +107,19 @@ The official selection order is:
 4. Accuracy
 
 No test metric may be used to alter models, label policies, weights, or decision rules.
+
+## Train-Only Robustness Report
+
+After the OOF audit and ensemble lock, a train-only robustness report can be generated:
+
+```bash
+make ternary-robustness-setembrobr
+```
+
+This report reads only train OOF probability files and the already-created train-OOF ensemble lock.
+It computes metrics over every non-empty combination of train validation folds, ranks candidates by
+mean fold-combination Macro F1, and reports minimum fold-combination Macro F1 as a stability check.
+
+The robustness report is diagnostic. It must not read test score files, test labels, final test reports,
+or test prevalence, and it must not be used to change the already-locked champion after final test
+evaluation has run.

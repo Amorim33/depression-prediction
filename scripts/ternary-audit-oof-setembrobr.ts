@@ -54,6 +54,7 @@ reports.push(
     "scripts/ternary_train_tabular_oof_setembrobr.py",
     "scripts/ternary_train_seq_oof_setembrobr.py",
     "scripts/ternary-select-ensemble-setembrobr.ts",
+    "scripts/ternary-robustness-setembrobr.ts",
   ]),
 );
 reports.push(
@@ -61,6 +62,7 @@ reports.push(
     "scripts/ternary_train_tabular_oof_setembrobr.py",
     "scripts/ternary_train_seq_oof_setembrobr.py",
     "scripts/ternary-select-ensemble-setembrobr.ts",
+    "scripts/ternary-robustness-setembrobr.ts",
   ]),
 );
 
