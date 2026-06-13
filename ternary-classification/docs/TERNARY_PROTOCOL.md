@@ -108,6 +108,10 @@ The official selection order is:
 
 No test metric may be used to alter models, label policies, weights, or decision rules.
 
+Official ensemble selection evaluates the pre-registered `selectionGroups` from the ternary config,
+including all-model, tabular-only, sequence-only, and baseline-only groups. The locked champion is the
+best train-OOF candidate across label policies, model groups, weights, and decision rules.
+
 ## Train-Only Robustness Report
 
 After the OOF audit and ensemble lock, a train-only robustness report can be generated:
@@ -168,3 +172,18 @@ family. It reads train OOF score files and pre-registered metadata only.
 
 The leaderboard must not read test score files, test labels, final test reports, or test prevalence,
 and must not be used to revise a champion after final test evaluation.
+
+## Family Ablation Report
+
+Model-family ensemble ablations can be generated from train OOF probabilities:
+
+```bash
+make ternary-family-ablation-setembrobr
+```
+
+This report reruns the train-OOF ensemble selector over predefined model groups such as all tabular
+models, all sequence models, CNN-only sequence models, BiLSTM/transformer sequence models, and the
+relevance-only baseline. It compares each restricted group with the full policy-specific OOF ensemble.
+
+The ablation report must remain train-only and must not read test score files, test labels, final test
+reports, or test prevalence.

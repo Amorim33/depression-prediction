@@ -191,6 +191,78 @@
       { "ruleId": "diagnosed_margin_010", "kind": "diagnosed_margin", "diagnosedMargin": 0.1 },
       { "ruleId": "no_evidence_gate_045", "kind": "no_evidence_gate", "noEvidenceMin": 0.45 },
       { "ruleId": "no_evidence_gate_055", "kind": "no_evidence_gate", "noEvidenceMin": 0.55 }
+    ],
+    "selectionGroups": [
+      {
+        "groupId": "all_models",
+        "description": "All pre-registered ternary models.",
+        "modelIds": [
+          "ternary_logreg_all",
+          "ternary_extra_trees_evidence",
+          "ternary_mlp_h128_s42",
+          "ternary_focal_linear_g1",
+          "ternary_hier_logreg_gate",
+          "ternary_relevance_baseline",
+          "ternary_seq_cnn_top128_s42",
+          "ternary_seq_cnn_wide_top128_s13",
+          "ternary_seq_bilstm_top128_s13",
+          "ternary_seq_transformer_top128_s42"
+        ]
+      },
+      {
+        "groupId": "tabular_all",
+        "description": "All tabular ternary models.",
+        "modelIds": [
+          "ternary_logreg_all",
+          "ternary_extra_trees_evidence",
+          "ternary_mlp_h128_s42",
+          "ternary_focal_linear_g1",
+          "ternary_hier_logreg_gate",
+          "ternary_relevance_baseline"
+        ]
+      },
+      {
+        "groupId": "tabular_without_relevance_baseline",
+        "description": "Tabular models excluding the relevance-only baseline.",
+        "modelIds": [
+          "ternary_logreg_all",
+          "ternary_extra_trees_evidence",
+          "ternary_mlp_h128_s42",
+          "ternary_focal_linear_g1",
+          "ternary_hier_logreg_gate"
+        ]
+      },
+      {
+        "groupId": "sequence_all",
+        "description": "All Fedora-trained sequence models.",
+        "modelIds": [
+          "ternary_seq_cnn_top128_s42",
+          "ternary_seq_cnn_wide_top128_s13",
+          "ternary_seq_bilstm_top128_s13",
+          "ternary_seq_transformer_top128_s42"
+        ]
+      },
+      {
+        "groupId": "sequence_cnn_family",
+        "description": "CNN and wide-CNN sequence models.",
+        "modelIds": [
+          "ternary_seq_cnn_top128_s42",
+          "ternary_seq_cnn_wide_top128_s13"
+        ]
+      },
+      {
+        "groupId": "sequence_bilstm_transformer",
+        "description": "BiLSTM and tiny-transformer sequence models.",
+        "modelIds": [
+          "ternary_seq_bilstm_top128_s13",
+          "ternary_seq_transformer_top128_s42"
+        ]
+      },
+      {
+        "groupId": "relevance_baseline_only",
+        "description": "Relevance-only no-evidence baseline.",
+        "modelIds": ["ternary_relevance_baseline"]
+      }
     ]
   },
   "documentation": {

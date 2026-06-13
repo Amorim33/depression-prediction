@@ -62,6 +62,7 @@ already existed.
 - Nested OOF split-selection selected `diag_evidence_q20` in all 5 outer folds, with held-out train-fold mean Macro F1 `0.725461` and minimum Macro F1 `0.710505`.
 - OOF probability diagnostics for the locked ensemble reported Brier score `0.301943`, negative log likelihood `0.524836`, and expected calibration error `0.067121`.
 - The train-only single-model leaderboard ranked `diag_evidence_q20/ternary_hier_logreg_gate` first with OOF Macro F1 `0.708104`; the locked ensemble remains higher at `0.736756`.
+- Family ablation found a stronger train-OOF tabular-only group for `diag_evidence_q20` with Macro F1 `0.759500`. Future reproductions select across pre-registered model groups before final evaluation; no additional final test evaluation was run for this post-report finding.
 
 ## Artifacts
 
@@ -71,6 +72,7 @@ already existed.
 - Nested OOF split-selection: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-nested-oof-selection.json`
 - OOF probability diagnostics: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-oof-diagnostics.json`
 - Model/policy leaderboard: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-model-policy-leaderboard.json`
+- Family ablation: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-family-ablation.json`
 - Final report: `outputs/setembrobr/seed42_ternary_strict_blind/reports/final-test-report.json`
 - GPU run manifest: `outputs/setembrobr/seed42_ternary_strict_blind/gpu-runs/fedora-ternary-seq-oof.json`
 

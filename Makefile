@@ -4,7 +4,7 @@ FEDORA_HOST ?= fedora
 FEDORA_RUN_DIR ?= ~/codex-runs/depression-prediction-setembrobr
 FEDORA_TERNARY_RUN_DIR ?= ~/codex-runs/depression-prediction-setembrobr-ternary
 
-.PHONY: lint typecheck test db-check-setembrobr manifest-setembrobr export-sequences-setembrobr train-tabular-oof-setembrobr train-seq-oof-setembrobr train-candidate-tabular-oof-setembrobr train-candidate-seq-oof-setembrobr fedora-candidate-seq-oof-setembrobr train-candidate-oof-setembrobr audit-oof-setembrobr select-ensemble-setembrobr evaluate-test-setembrobr reproduce-setembrobr ternary-markers-setembrobr ternary-manifest-setembrobr ternary-train-tabular-oof-setembrobr ternary-train-seq-oof-setembrobr fedora-ternary-train-seq-oof-setembrobr ternary-audit-oof-setembrobr ternary-select-ensemble-setembrobr ternary-robustness-setembrobr ternary-nested-oof-selection-setembrobr ternary-oof-diagnostics-setembrobr ternary-model-policy-leaderboard-setembrobr ternary-evaluate-test-setembrobr reproduce-ternary-setembrobr reproduce-ternary-setembrobr-gpu
+.PHONY: lint typecheck test db-check-setembrobr manifest-setembrobr export-sequences-setembrobr train-tabular-oof-setembrobr train-seq-oof-setembrobr train-candidate-tabular-oof-setembrobr train-candidate-seq-oof-setembrobr fedora-candidate-seq-oof-setembrobr train-candidate-oof-setembrobr audit-oof-setembrobr select-ensemble-setembrobr evaluate-test-setembrobr reproduce-setembrobr ternary-markers-setembrobr ternary-manifest-setembrobr ternary-train-tabular-oof-setembrobr ternary-train-seq-oof-setembrobr fedora-ternary-train-seq-oof-setembrobr ternary-audit-oof-setembrobr ternary-select-ensemble-setembrobr ternary-robustness-setembrobr ternary-nested-oof-selection-setembrobr ternary-oof-diagnostics-setembrobr ternary-model-policy-leaderboard-setembrobr ternary-family-ablation-setembrobr ternary-evaluate-test-setembrobr reproduce-ternary-setembrobr reproduce-ternary-setembrobr-gpu
 
 lint:
 	bun run lint
@@ -100,9 +100,12 @@ ternary-oof-diagnostics-setembrobr:
 ternary-model-policy-leaderboard-setembrobr:
 	bun run ternary-model-policy-leaderboard-setembrobr
 
+ternary-family-ablation-setembrobr:
+	bun run ternary-family-ablation-setembrobr
+
 ternary-evaluate-test-setembrobr:
 	bun run ternary-evaluate-test-setembrobr
 
-reproduce-ternary-setembrobr: lint typecheck test db-check-setembrobr ternary-manifest-setembrobr ternary-train-tabular-oof-setembrobr ternary-train-seq-oof-setembrobr ternary-audit-oof-setembrobr ternary-select-ensemble-setembrobr ternary-robustness-setembrobr ternary-nested-oof-selection-setembrobr ternary-oof-diagnostics-setembrobr ternary-model-policy-leaderboard-setembrobr ternary-evaluate-test-setembrobr
+reproduce-ternary-setembrobr: lint typecheck test db-check-setembrobr ternary-manifest-setembrobr ternary-train-tabular-oof-setembrobr ternary-train-seq-oof-setembrobr ternary-audit-oof-setembrobr ternary-select-ensemble-setembrobr ternary-robustness-setembrobr ternary-nested-oof-selection-setembrobr ternary-oof-diagnostics-setembrobr ternary-model-policy-leaderboard-setembrobr ternary-family-ablation-setembrobr ternary-evaluate-test-setembrobr
 
-reproduce-ternary-setembrobr-gpu: lint typecheck test db-check-setembrobr ternary-manifest-setembrobr ternary-train-tabular-oof-setembrobr fedora-ternary-train-seq-oof-setembrobr ternary-audit-oof-setembrobr ternary-select-ensemble-setembrobr ternary-robustness-setembrobr ternary-nested-oof-selection-setembrobr ternary-oof-diagnostics-setembrobr ternary-model-policy-leaderboard-setembrobr ternary-evaluate-test-setembrobr
+reproduce-ternary-setembrobr-gpu: lint typecheck test db-check-setembrobr ternary-manifest-setembrobr ternary-train-tabular-oof-setembrobr fedora-ternary-train-seq-oof-setembrobr ternary-audit-oof-setembrobr ternary-select-ensemble-setembrobr ternary-robustness-setembrobr ternary-nested-oof-selection-setembrobr ternary-oof-diagnostics-setembrobr ternary-model-policy-leaderboard-setembrobr ternary-family-ablation-setembrobr ternary-evaluate-test-setembrobr

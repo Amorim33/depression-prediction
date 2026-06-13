@@ -235,6 +235,12 @@ export interface TernarySequenceCandidateModel {
   dropout?: number;
 }
 
+export interface TernaryModelSelectionGroup {
+  groupId: string;
+  description: string;
+  modelIds: string[];
+}
+
 export interface TernaryProjectConfig {
   dataset: "setembrobr";
   seed: number;
@@ -259,6 +265,7 @@ export interface TernaryProjectConfig {
     candidatePruneTo?: number;
     maxModels?: number;
     decisionRules: TernaryDecisionRule[];
+    selectionGroups?: TernaryModelSelectionGroup[];
   };
   documentation?: {
     protocolPath?: string;
@@ -280,4 +287,7 @@ export interface TernaryEnsembleLock {
   createdAt: string;
   command: string;
   selectionStrategy?: string;
+  selectionGroupId?: string;
+  selectionGroupDescription?: string;
+  candidateModelIds?: string[];
 }

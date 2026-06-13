@@ -58,6 +58,7 @@ reports.push(
     "scripts/ternary-nested-oof-selection-setembrobr.ts",
     "scripts/ternary-oof-diagnostics-setembrobr.ts",
     "scripts/ternary-model-policy-leaderboard-setembrobr.ts",
+    "scripts/ternary-family-ablation-setembrobr.ts",
   ]),
 );
 reports.push(
@@ -69,6 +70,7 @@ reports.push(
     "scripts/ternary-nested-oof-selection-setembrobr.ts",
     "scripts/ternary-oof-diagnostics-setembrobr.ts",
     "scripts/ternary-model-policy-leaderboard-setembrobr.ts",
+    "scripts/ternary-family-ablation-setembrobr.ts",
   ]),
 );
 

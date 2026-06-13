@@ -1,7 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import { loadConfig } from "../src/config.ts";
+import { loadTernaryConfig } from "../src/ternary-config.ts";
 
 const config = await loadConfig();
+const ternaryConfig = await loadTernaryConfig();
 const tabular = config.candidateModels?.tabular ?? [];
 const sequence = config.candidateModels?.sequence ?? [];
 const candidateIds = [...tabular.map((model) => model.modelId), ...sequence.map((model) => model.modelId)];
@@ -41,6 +43,19 @@ describe("candidate registry", () => {
     ] as const) {
       expect(Boolean(tables[trainKey])).toBe(true);
       expect(Boolean(tables[testKey])).toBe(true);
+    }
+  });
+
+  test("pre-registers ternary model selection groups", () => {
+    const groups = ternaryConfig.ensemble.selectionGroups ?? [];
+    const ternaryModelIds = new Set(ternaryConfig.models);
+    expect(groups.map((group) => group.groupId)).toContain("all_models");
+    expect(groups.map((group) => group.groupId)).toContain("tabular_all");
+    expect(groups.map((group) => group.groupId)).toContain("sequence_all");
+    expect(new Set(groups.map((group) => group.groupId)).size).toBe(groups.length);
+    for (const group of groups) {
+      expect(group.modelIds.length).toBeGreaterThan(0);
+      for (const modelId of group.modelIds) expect(ternaryModelIds.has(modelId)).toBe(true);
     }
   });
 });
