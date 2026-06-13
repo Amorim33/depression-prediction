@@ -1,32 +1,40 @@
 # SetembroBR Ternary Results
 
-Status: reproduced with the strict-blind ternary workflow.
+Status: reproduced with the strict-blind ternary workflow. The current train-only lock includes
+post-report XGBoost tabular candidates and has not been final-test evaluated.
 
-All selection used train OOF probabilities only. Final test labels were read only by
+All selection used train OOF probabilities only. For the historical pre-XGBoost run, final test labels were read only by
 `make ternary-evaluate-test-setembrobr` after
 `outputs/setembrobr/seed42_ternary_strict_blind/ensemble/ensemble-lock.json`
 already existed.
 
-## Locked Champion
+## Current Train-Only Lock
 
 - Label policy: `diag_evidence_q20`
 - Label policy hash: `06ad79f1e2ac608e7ebf87f2d23a8279b57ede196121302d064c87cbbc3098cd`
 - Original split manifest hash: `08ce39f8863fc57165f4b8efe57b4a31b764ab6b974968f0ab0a5e167d44108e`
-- Selection strategy: `ranked-prefix-pruned(top=10,max=8,step=0.05)`
-- Decision rule: `diagnosed_margin_005`
-- Models: `ternary_extra_trees_evidence`, `ternary_hier_logreg_gate`, `ternary_logreg_all`, `ternary_mlp_h128_s42`, `ternary_seq_bilstm_top128_s13`, `ternary_seq_transformer_top128_s42`
+- Selection group: `all_models`
+- Selection strategy: `ranked-prefix-pruned(top=12,max=8,step=0.05)`
+- Decision rule: `argmax`
+- Models: `ternary_hier_logreg_gate`, `ternary_mlp_h128_s42`, `ternary_xgb_expanded_pca_s13`, `ternary_xgb_tabular_markers_s42`
 
 ## Train OOF Selection Table
 
-| Rank | Label policy | Decision rule | Models | Macro F1 | Diagnosed F1 | Diagnosed precision | Accuracy |
-| ---: | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| 1 | `diag_evidence_q20` | `diagnosed_margin_005` | 6 | `0.736756` | `0.886385` | `0.896486` | `0.794318` |
-| 2 | `diag_evidence_q10` | `argmax` | 3 | `0.709318` | `0.882039` | `0.878788` | `0.802273` |
-| 3 | `diag_low_density` | `diagnosed_margin_010` | 8 | `0.517929` | `0.892630` | `0.899698` | `0.836932` |
-| 4 | `diag_rel3_zero` | `diagnosed_margin_010` | 8 | `0.517929` | `0.892630` | `0.899698` | `0.836932` |
-| 5 | `diag_rel5_zero` | `diagnosed_margin_010` | 8 | `0.517929` | `0.892630` | `0.899698` | `0.836932` |
+| Rank | Label policy | Group | Decision rule | Models | Macro F1 | Diagnosed F1 | Diagnosed precision | Accuracy |
+| ---: | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | `diag_evidence_q20` | `all_models` | `argmax` | 4 | `0.796108` | `0.918894` | `0.912168` | `0.843182` |
+| 2 | `diag_evidence_q20` | `tabular_all` | `argmax` | 4 | `0.796108` | `0.918894` | `0.912168` | `0.843182` |
+| 3 | `diag_evidence_q20` | `tabular_without_relevance_baseline` | `argmax` | 4 | `0.796108` | `0.918894` | `0.912168` | `0.843182` |
+| 4 | `diag_evidence_q10` | `all_models` | `argmax` | 4 | `0.777985` | `0.902399` | `0.904643` | `0.832386` |
+| 5 | `diag_evidence_q10` | `tabular_all` | `argmax` | 4 | `0.777985` | `0.902399` | `0.904643` | `0.832386` |
 
-## Final Test Metrics
+Rows 1-3 are the same selected model set reached through `all_models`, `tabular_all`, and
+`tabular_without_relevance_baseline`.
+
+## Historical Final Test Metrics
+
+These metrics belong to the earlier pre-XGBoost lock. They are retained as a historical strict-blind
+report. No final test evaluation has been run for the current XGBoost train-only lock.
 
 | Metric | Value |
 | --- | ---: |
@@ -36,7 +44,7 @@ already existed.
 | Diagnosed recall | `0.974453` |
 | Accuracy | `0.387611` |
 
-## Final Test Confusion Matrix
+## Historical Final Test Confusion Matrix
 
 | Actual \ Predicted | diagnosed | control | no-evidence |
 | --- | ---: | ---: | ---: |
@@ -58,11 +66,11 @@ already existed.
 
 ## Train-Only Diagnostics
 
-- Fold-combination robustness ranked the locked ensemble first with mean Macro F1 `0.736719` and minimum Macro F1 `0.712095`.
-- Group-aware nested OOF split-selection selected `diag_evidence_q20/all_models` in all 5 outer folds, with held-out train-fold mean Macro F1 `0.724689` and minimum Macro F1 `0.710505`.
-- OOF probability diagnostics for the locked ensemble reported Brier score `0.301943`, negative log likelihood `0.524836`, and expected calibration error `0.067121`.
-- The train-only single-model leaderboard ranked `diag_evidence_q20/ternary_hier_logreg_gate` first with OOF Macro F1 `0.708104`; the locked ensemble remains higher at `0.736756`.
-- Family ablation found a stronger train-OOF tabular-only group for `diag_evidence_q20` with Macro F1 `0.759500`. Future reproductions select across pre-registered model groups before final evaluation; no additional final test evaluation was run for this post-report finding.
+- Fold-combination robustness ranked the current train-only lock first with mean Macro F1 `0.795983` and minimum Macro F1 `0.768371`.
+- Group-aware nested OOF split-selection selected `diag_evidence_q20/all_models` in all 5 outer folds, with held-out train-fold mean Macro F1 `0.784688` and minimum Macro F1 `0.750277`.
+- OOF probability diagnostics for the current train-only lock reported Brier score `0.244671`, negative log likelihood `0.404696`, and expected calibration error `0.055907`.
+- The train-only single-model leaderboard ranked `diag_evidence_q20/ternary_xgb_expanded_pca_s13` first with OOF Macro F1 `0.787201`.
+- Family ablation selected the same XGBoost-assisted 4-model lock for `diag_evidence_q20/all_models`, `tabular_all`, and `tabular_without_relevance_baseline`, with OOF Macro F1 `0.796108`.
 
 ## Artifacts
 
@@ -73,7 +81,7 @@ already existed.
 - OOF probability diagnostics: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-oof-diagnostics.json`
 - Model/policy leaderboard: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-model-policy-leaderboard.json`
 - Family ablation: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-family-ablation.json`
-- Final report: `outputs/setembrobr/seed42_ternary_strict_blind/reports/final-test-report.json`
+- Historical pre-XGBoost final report: `outputs/setembrobr/seed42_ternary_strict_blind/reports/final-test-report.json`
 - GPU run manifest: `outputs/setembrobr/seed42_ternary_strict_blind/gpu-runs/fedora-ternary-seq-oof.json`
 
 Reports are aggregate-only. They contain no raw tweet text.

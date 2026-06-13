@@ -58,4 +58,18 @@ describe("candidate registry", () => {
       for (const modelId of group.modelIds) expect(ternaryModelIds.has(modelId)).toBe(true);
     }
   });
+
+  test("pre-registers ternary XGBoost tabular candidates", () => {
+    const xgb = ternaryConfig.candidateModels.tabular.filter((model) => model.family === "xgboost");
+    const tabularGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "tabular_all");
+    expect(new Set(xgb.map((model) => model.modelId))).toEqual(
+      new Set(["ternary_xgb_tabular_markers_s42", "ternary_xgb_expanded_pca_s13"]),
+    );
+    for (const model of xgb) {
+      expect(ternaryConfig.models).toContain(model.modelId);
+      expect(tabularGroup?.modelIds).toContain(model.modelId);
+      expect(model.nEstimators).toBeGreaterThan(0);
+      expect(model.learningRate).toBeGreaterThan(0);
+    }
+  });
 });

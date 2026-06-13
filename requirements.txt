@@ -2,4 +2,4 @@ numpy>=1.26
 psycopg2-binary>=2.9
 scikit-learn>=1.4
 torch>=2.2
-
+xgboost>=2.1

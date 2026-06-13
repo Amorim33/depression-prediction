@@ -72,6 +72,8 @@
   "models": [
     "ternary_logreg_all",
     "ternary_extra_trees_evidence",
+    "ternary_xgb_tabular_markers_s42",
+    "ternary_xgb_expanded_pca_s13",
     "ternary_mlp_h128_s42",
     "ternary_focal_linear_g1",
     "ternary_hier_logreg_gate",
@@ -99,6 +101,33 @@
         "nEstimators": 500,
         "maxDepth": 5,
         "minSamplesLeaf": 10
+      },
+      {
+        "modelId": "ternary_xgb_tabular_markers_s42",
+        "family": "xgboost",
+        "seed": 42,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "evidence_markers", "rel5_combined"],
+        "nEstimators": 220,
+        "maxDepth": 2,
+        "learningRate": 0.05,
+        "subsample": 0.9,
+        "colsampleBytree": 0.9,
+        "regLambda": 4,
+        "minChildWeight": 3
+      },
+      {
+        "modelId": "ternary_xgb_expanded_pca_s13",
+        "family": "xgboost",
+        "seed": 13,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "evidence_markers", "rel5_combined", "mean_pca", "rel3_pca"],
+        "pcaComponents": 40,
+        "nEstimators": 260,
+        "maxDepth": 3,
+        "learningRate": 0.05,
+        "subsample": 0.85,
+        "colsampleBytree": 0.85,
+        "regLambda": 3,
+        "minChildWeight": 2
       },
       {
         "modelId": "ternary_mlp_h128_s42",
@@ -199,6 +228,8 @@
         "modelIds": [
           "ternary_logreg_all",
           "ternary_extra_trees_evidence",
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_expanded_pca_s13",
           "ternary_mlp_h128_s42",
           "ternary_focal_linear_g1",
           "ternary_hier_logreg_gate",
@@ -215,6 +246,8 @@
         "modelIds": [
           "ternary_logreg_all",
           "ternary_extra_trees_evidence",
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_expanded_pca_s13",
           "ternary_mlp_h128_s42",
           "ternary_focal_linear_g1",
           "ternary_hier_logreg_gate",
@@ -227,6 +260,8 @@
         "modelIds": [
           "ternary_logreg_all",
           "ternary_extra_trees_evidence",
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_expanded_pca_s13",
           "ternary_mlp_h128_s42",
           "ternary_focal_linear_g1",
           "ternary_hier_logreg_gate"

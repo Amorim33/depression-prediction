@@ -204,6 +204,7 @@ export type TernaryTabularCandidateFamily =
   | "multinomial_logreg"
   | "mlp"
   | "extra_trees"
+  | "xgboost"
   | "focal_linear"
   | "hierarchical_logreg"
   | "relevance_baseline";
@@ -220,6 +221,11 @@ export interface TernaryTabularCandidateModel {
   nEstimators?: number;
   maxDepth?: number;
   minSamplesLeaf?: number;
+  learningRate?: number;
+  subsample?: number;
+  colsampleBytree?: number;
+  regLambda?: number;
+  minChildWeight?: number;
 }
 
 export interface TernarySequenceCandidateModel {

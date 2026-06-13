@@ -22,6 +22,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 
+try:
+    from xgboost import XGBClassifier
+except ImportError:
+    XGBClassifier = None
+
 LABELS = ["diagnosed", "control", "no-evidence"]
 LABEL_TO_CODE = {label: index for index, label in enumerate(LABELS)}
 
@@ -384,6 +389,12 @@ def constant_probs(count, code):
     return normalize_probs(out)
 
 
+def balanced_sample_weights(y_train):
+    counts = np.bincount(y_train, minlength=3).astype(np.float64)
+    class_weights = len(y_train) / (3.0 * np.maximum(counts, 1.0))
+    return class_weights[y_train].astype(np.float32)
+
+
 def fit_predict(candidate, x_train, y_train, binary_train, x_val, x_test):
     family = candidate["family"]
     seed = int(candidate["seed"])
@@ -411,6 +422,27 @@ def fit_predict(candidate, x_train, y_train, binary_train, x_val, x_test):
             n_jobs=-1,
         )
         model.fit(x_train, y_train)
+        return map_sklearn_probs(model, model.predict_proba(x_val)), map_sklearn_probs(model, model.predict_proba(x_test))
+    if family == "xgboost":
+        if XGBClassifier is None:
+            raise RuntimeError("xgboost is required for ternary xgboost candidates. Install requirements.txt.")
+        model = XGBClassifier(
+            objective="multi:softprob",
+            num_class=3,
+            eval_metric="mlogloss",
+            tree_method="hist",
+            n_estimators=int(candidate.get("nEstimators", 250)),
+            max_depth=int(candidate.get("maxDepth", 3)),
+            learning_rate=float(candidate.get("learningRate", 0.05)),
+            subsample=float(candidate.get("subsample", 0.85)),
+            colsample_bytree=float(candidate.get("colsampleBytree", 0.85)),
+            reg_lambda=float(candidate.get("regLambda", 3.0)),
+            min_child_weight=float(candidate.get("minChildWeight", 2.0)),
+            random_state=seed,
+            n_jobs=-1,
+            verbosity=0,
+        )
+        model.fit(x_train, y_train, sample_weight=balanced_sample_weights(y_train))
         return map_sklearn_probs(model, model.predict_proba(x_val)), map_sklearn_probs(model, model.predict_proba(x_test))
     if family == "focal_linear":
         return fit_focal_predict(x_train, y_train, x_val, x_test, float(candidate.get("gamma", 1.0)), seed)

@@ -70,6 +70,17 @@ make reproduce-ternary-setembrobr-gpu
 
 Local audit, ensemble selection, and final test evaluation run after the Fedora sequence outputs are synced back.
 
+## Tabular Candidate Families
+
+Tabular OOF candidates are CPU-trained locally from existing database rows and evidence-marker
+artifacts. The registered families include multinomial logistic regression, balanced ExtraTrees, MLP,
+focal linear, hierarchical logistic gates, relevance-only baselines, and fixed-hyperparameter
+XGBoost classifiers adapted from the older `depression-nlp` embedding/meta-feature experiments.
+
+XGBoost candidates use deterministic multiclass probability outputs and balanced train-fold sample
+weights. They do not use test labels, test prevalence, or test metrics for fitting, early stopping,
+thresholding, model selection, or calibration.
+
 ## Evidence Markers
 
 Evidence markers are aggregate, label-free features derived from `gpt_3_5_relevance`:
