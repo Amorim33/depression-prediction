@@ -138,3 +138,18 @@ OOF rows. This estimates whether the selection procedure is stable under alterna
 
 The nested report must remain train-only: no test score files, test labels, final test reports, or test
 prevalence may be read or used.
+
+## OOF Probability Diagnostics
+
+The locked ensemble's train OOF probabilities can be diagnosed with:
+
+```bash
+make ternary-oof-diagnostics-setembrobr
+```
+
+This report computes train-only confidence bins, Brier score, negative log likelihood, expected
+calibration error, per-fold summaries, and high-confidence OOF errors. It is meant to explain
+train-side overconfidence and class skew before any future pre-registered run.
+
+The diagnostics must not read test score files, test labels, final test reports, or test prevalence,
+and must not alter the locked champion.

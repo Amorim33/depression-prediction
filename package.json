@@ -17,6 +17,7 @@
     "ternary-select-ensemble-setembrobr": "bun run scripts/ternary-select-ensemble-setembrobr.ts",
     "ternary-robustness-setembrobr": "bun run scripts/ternary-robustness-setembrobr.ts",
     "ternary-nested-oof-selection-setembrobr": "bun run scripts/ternary-nested-oof-selection-setembrobr.ts",
+    "ternary-oof-diagnostics-setembrobr": "bun run scripts/ternary-oof-diagnostics-setembrobr.ts",
     "ternary-evaluate-test-setembrobr": "bun run scripts/ternary-evaluate-test-setembrobr.ts"
   },
   "dependencies": {

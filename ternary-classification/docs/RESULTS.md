@@ -56,12 +56,19 @@ already existed.
 | `diag_evidence_q10` | `0.446368022` | 1212 | 413 | 135 |
 | `diag_evidence_q20` | `0.499652214` | 1077 | 413 | 270 |
 
+## Train-Only Diagnostics
+
+- Fold-combination robustness ranked the locked ensemble first with mean Macro F1 `0.736719` and minimum Macro F1 `0.712095`.
+- Nested OOF split-selection selected `diag_evidence_q20` in all 5 outer folds, with held-out train-fold mean Macro F1 `0.725461` and minimum Macro F1 `0.710505`.
+- OOF probability diagnostics for the locked ensemble reported Brier score `0.301943`, negative log likelihood `0.524836`, and expected calibration error `0.067121`.
+
 ## Artifacts
 
 - Lock: `outputs/setembrobr/seed42_ternary_strict_blind/ensemble/ensemble-lock.json`
 - Candidate table: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ensemble-candidates.json`
 - Train-only robustness: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-robustness.json`
 - Nested OOF split-selection: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-nested-oof-selection.json`
+- OOF probability diagnostics: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-oof-diagnostics.json`
 - Final report: `outputs/setembrobr/seed42_ternary_strict_blind/reports/final-test-report.json`
 - GPU run manifest: `outputs/setembrobr/seed42_ternary_strict_blind/gpu-runs/fedora-ternary-seq-oof.json`
 
