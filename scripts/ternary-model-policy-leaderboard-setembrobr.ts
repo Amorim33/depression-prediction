@@ -8,7 +8,7 @@ import type { TernaryDecisionRule, TernaryLabel, TernaryMetrics, TernaryProbabil
 interface ModelMetadata {
   modelId: string;
   family: string;
-  source: "tabular" | "sequence" | "unknown";
+  source: "tabular" | "sequence" | "stacking" | "unknown";
 }
 
 interface LeaderboardEntry {
@@ -88,6 +88,9 @@ function modelMetadata(): Map<string, ModelMetadata> {
   }
   for (const candidate of config.candidateModels.sequence) {
     out.set(candidate.modelId, { modelId: candidate.modelId, family: candidate.family, source: "sequence" });
+  }
+  for (const candidate of config.candidateModels.stacking ?? []) {
+    out.set(candidate.modelId, { modelId: candidate.modelId, family: candidate.family, source: "stacking" });
   }
   return out;
 }

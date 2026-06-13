@@ -32,6 +32,7 @@ describe("Makefile Fedora targets", () => {
     expect(target).toContain("db-check-setembrobr");
     expect(target).toContain("ternary-train-tabular-oof-setembrobr");
     expect(target).toContain("fedora-ternary-train-seq-oof-setembrobr");
+    expect(target).toContain("ternary-train-stack-oof-setembrobr");
     expect(target).toContain("ternary-audit-oof-setembrobr");
     expect(target).toContain("ternary-select-ensemble-setembrobr");
     expect(target).toContain("ternary-robustness-setembrobr");
@@ -40,6 +41,7 @@ describe("Makefile Fedora targets", () => {
     expect(target).toContain("ternary-model-policy-leaderboard-setembrobr");
     expect(target).toContain("ternary-family-ablation-setembrobr");
     expect(target).toContain("ternary-evaluate-test-setembrobr");
+    expect(target.indexOf("ternary-train-stack-oof-setembrobr")).toBeLessThan(target.indexOf("ternary-audit-oof-setembrobr"));
     expect(target.indexOf("ternary-robustness-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
     expect(target.indexOf("ternary-nested-oof-selection-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
     expect(target.indexOf("ternary-oof-diagnostics-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
@@ -90,6 +92,23 @@ describe("Makefile Fedora targets", () => {
     expect(target).toContain("bun run ternary-family-ablation-setembrobr");
     expect(target).not.toContain("ternary-evaluate-test-setembrobr");
     expect(target).not.toContain("test_score");
+  });
+
+  test("defines strict-blind ternary stacking before audit and selection", async () => {
+    const makefile = await readFile("Makefile", "utf8");
+    const stackTarget = extractTarget(makefile, "ternary-train-stack-oof-setembrobr");
+    const reproduceTarget = extractTarget(makefile, "reproduce-ternary-setembrobr");
+
+    expect(stackTarget).toContain("python3 scripts/ternary_stack_oof_setembrobr.py --config $(TERNARY_CONFIG)");
+    expect(stackTarget).not.toContain("ternary-evaluate-test-setembrobr");
+    expect(stackTarget).not.toContain("test_labels");
+    expect(reproduceTarget).toContain("ternary-train-stack-oof-setembrobr");
+    expect(reproduceTarget.indexOf("ternary-train-stack-oof-setembrobr")).toBeLessThan(
+      reproduceTarget.indexOf("ternary-audit-oof-setembrobr"),
+    );
+    expect(reproduceTarget.indexOf("ternary-train-stack-oof-setembrobr")).toBeLessThan(
+      reproduceTarget.indexOf("ternary-select-ensemble-setembrobr"),
+    );
   });
 });
 

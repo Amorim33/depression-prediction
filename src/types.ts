@@ -247,6 +247,15 @@ export interface TernaryModelSelectionGroup {
   modelIds: string[];
 }
 
+export interface TernaryStackingCandidateModel {
+  modelId: string;
+  family: "stacking_logreg";
+  seed: number;
+  baseModelIds: string[];
+  c?: number;
+  maxIter?: number;
+}
+
 export interface TernaryProjectConfig {
   dataset: "setembrobr";
   seed: number;
@@ -262,6 +271,7 @@ export interface TernaryProjectConfig {
   candidateModels: {
     tabular: TernaryTabularCandidateModel[];
     sequence: TernarySequenceCandidateModel[];
+    stacking?: TernaryStackingCandidateModel[];
   };
   ensemble: {
     weightStep: number;

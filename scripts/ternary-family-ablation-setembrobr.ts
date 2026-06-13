@@ -9,7 +9,7 @@ import type { TernaryEnsembleLock, TernaryLabelPolicyLock, TernaryProbabilityRow
 interface ModelMetadata {
   modelId: string;
   family: string;
-  source: "tabular" | "sequence";
+  source: "tabular" | "sequence" | "stacking";
 }
 
 interface GroupSpec {
@@ -89,6 +89,9 @@ function modelMetadata(): Map<string, ModelMetadata> {
   for (const candidate of config.candidateModels.sequence) {
     out.set(candidate.modelId, { modelId: candidate.modelId, family: candidate.family, source: "sequence" });
   }
+  for (const candidate of config.candidateModels.stacking ?? []) {
+    out.set(candidate.modelId, { modelId: candidate.modelId, family: candidate.family, source: "stacking" });
+  }
   return out;
 }
 
@@ -98,6 +101,7 @@ function groupSpecs(): GroupSpec[] {
   const tabular = modelsWhere((metadata) => metadata.source === "tabular");
   const tabularWithoutBaseline = modelsWhere((metadata) => metadata.source === "tabular" && metadata.family !== "relevance_baseline");
   const sequence = modelsWhere((metadata) => metadata.source === "sequence");
+  const stacking = modelsWhere((metadata) => metadata.source === "stacking");
   const cnnSequence = modelsWhere((metadata) => metadata.source === "sequence" && (metadata.family === "cnn" || metadata.family === "cnn_wide"));
   const nonCnnSequence = modelsWhere((metadata) => metadata.source === "sequence" && metadata.family !== "cnn" && metadata.family !== "cnn_wide");
   const evidenceBaseline = modelsWhere((metadata) => metadata.family === "relevance_baseline");
@@ -109,6 +113,7 @@ function groupSpecs(): GroupSpec[] {
     { groupId: "sequence_cnn_family", description: "CNN and wide-CNN sequence models.", modelIds: cnnSequence },
     { groupId: "sequence_bilstm_transformer", description: "BiLSTM and tiny-transformer sequence models.", modelIds: nonCnnSequence },
     { groupId: "relevance_baseline_only", description: "Relevance-only no-evidence baseline.", modelIds: evidenceBaseline },
+    { groupId: "stacking_only", description: "OOF-trained stacking models.", modelIds: stacking },
   ];
 }
 

@@ -72,4 +72,23 @@ describe("candidate registry", () => {
       expect(model.learningRate).toBeGreaterThan(0);
     }
   });
+
+  test("pre-registers ternary stacking candidates", () => {
+    const stacking = ternaryConfig.candidateModels.stacking ?? [];
+    const allModelsGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "all_models");
+    const stackingGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "stacking_only");
+    expect(stacking.map((model) => model.modelId)).toEqual(["ternary_stack_logreg_xgb_tabular"]);
+    for (const model of stacking) {
+      expect(model.family).toBe("stacking_logreg");
+      expect(model.baseModelIds).toEqual([
+        "ternary_hier_logreg_gate",
+        "ternary_mlp_h128_s42",
+        "ternary_xgb_expanded_pca_s13",
+        "ternary_xgb_tabular_markers_s42",
+      ]);
+      expect(ternaryConfig.models).toContain(model.modelId);
+      expect(allModelsGroup?.modelIds).toContain(model.modelId);
+      expect(stackingGroup?.modelIds).toContain(model.modelId);
+    }
+  });
 });

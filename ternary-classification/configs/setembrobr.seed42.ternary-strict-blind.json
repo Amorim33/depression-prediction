@@ -78,6 +78,7 @@
     "ternary_focal_linear_g1",
     "ternary_hier_logreg_gate",
     "ternary_relevance_baseline",
+    "ternary_stack_logreg_xgb_tabular",
     "ternary_seq_cnn_top128_s42",
     "ternary_seq_cnn_wide_top128_s13",
     "ternary_seq_bilstm_top128_s13",
@@ -205,6 +206,21 @@
         "hiddenSize": 192,
         "dropout": 0.25
       }
+    ],
+    "stacking": [
+      {
+        "modelId": "ternary_stack_logreg_xgb_tabular",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": [
+          "ternary_hier_logreg_gate",
+          "ternary_mlp_h128_s42",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_tabular_markers_s42"
+        ],
+        "c": 1,
+        "maxIter": 1000
+      }
     ]
   },
   "ensemble": {
@@ -234,6 +250,7 @@
           "ternary_focal_linear_g1",
           "ternary_hier_logreg_gate",
           "ternary_relevance_baseline",
+          "ternary_stack_logreg_xgb_tabular",
           "ternary_seq_cnn_top128_s42",
           "ternary_seq_cnn_wide_top128_s13",
           "ternary_seq_bilstm_top128_s13",
@@ -297,6 +314,11 @@
         "groupId": "relevance_baseline_only",
         "description": "Relevance-only no-evidence baseline.",
         "modelIds": ["ternary_relevance_baseline"]
+      },
+      {
+        "groupId": "stacking_only",
+        "description": "OOF-trained logistic stacking model over the strongest tabular base probabilities.",
+        "modelIds": ["ternary_stack_logreg_xgb_tabular"]
       }
     ]
   },
