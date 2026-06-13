@@ -62,13 +62,38 @@ describe("candidate registry", () => {
   test("pre-registers ternary XGBoost tabular candidates", () => {
     const xgb = ternaryConfig.candidateModels.tabular.filter((model) => model.family === "xgboost");
     const tabularGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "tabular_all");
+    const boostingGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "tabular_boosting");
     expect(new Set(xgb.map((model) => model.modelId))).toEqual(
-      new Set(["ternary_xgb_tabular_markers_s42", "ternary_xgb_expanded_pca_s13"]),
+      new Set([
+        "ternary_xgb_tabular_markers_s42",
+        "ternary_xgb_expanded_pca_s13",
+        "ternary_xgb_expanded_pca_s42",
+        "ternary_xgb_embedding_rich_s7",
+        "ternary_xgb_shallow_pca_s99",
+      ]),
     );
     for (const model of xgb) {
       expect(ternaryConfig.models).toContain(model.modelId);
       expect(tabularGroup?.modelIds).toContain(model.modelId);
+      expect(boostingGroup?.modelIds).toContain(model.modelId);
       expect(model.nEstimators).toBeGreaterThan(0);
+      expect(model.learningRate).toBeGreaterThan(0);
+    }
+  });
+
+  test("pre-registers ternary histogram gradient boosting candidates", () => {
+    const hgb = ternaryConfig.candidateModels.tabular.filter((model) => model.family === "hist_gradient_boosting");
+    const tabularGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "tabular_all");
+    const boostingGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "tabular_boosting");
+    expect(new Set(hgb.map((model) => model.modelId))).toEqual(
+      new Set(["ternary_hgb_expanded_pca_s42", "ternary_hgb_markers_s13"]),
+    );
+    for (const model of hgb) {
+      expect(ternaryConfig.models).toContain(model.modelId);
+      expect(tabularGroup?.modelIds).toContain(model.modelId);
+      expect(boostingGroup?.modelIds).toContain(model.modelId);
+      expect(model.maxIter).toBeGreaterThan(0);
+      expect(model.maxLeafNodes).toBeGreaterThan(0);
       expect(model.learningRate).toBeGreaterThan(0);
     }
   });
@@ -77,15 +102,33 @@ describe("candidate registry", () => {
     const stacking = ternaryConfig.candidateModels.stacking ?? [];
     const allModelsGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "all_models");
     const stackingGroup = ternaryConfig.ensemble.selectionGroups?.find((group) => group.groupId === "stacking_only");
-    expect(stacking.map((model) => model.modelId)).toEqual(["ternary_stack_logreg_xgb_tabular"]);
+    expect(stacking.map((model) => model.modelId)).toEqual([
+      "ternary_stack_logreg_xgb_tabular",
+      "ternary_stack_logreg_boosted_core",
+      "ternary_stack_logreg_xgb_variants",
+    ]);
+    const baseModelsById = new Map(stacking.map((model) => [model.modelId, model.baseModelIds]));
+    expect(baseModelsById.get("ternary_stack_logreg_xgb_tabular")).toEqual([
+      "ternary_hier_logreg_gate",
+      "ternary_mlp_h128_s42",
+      "ternary_xgb_expanded_pca_s13",
+      "ternary_xgb_tabular_markers_s42",
+    ]);
+    expect(baseModelsById.get("ternary_stack_logreg_boosted_core")).toEqual([
+      "ternary_hier_logreg_gate",
+      "ternary_mlp_h128_s42",
+      "ternary_xgb_expanded_pca_s13",
+      "ternary_xgb_shallow_pca_s99",
+      "ternary_xgb_tabular_markers_s42",
+    ]);
+    expect(baseModelsById.get("ternary_stack_logreg_xgb_variants")).toEqual([
+      "ternary_xgb_embedding_rich_s7",
+      "ternary_xgb_expanded_pca_s13",
+      "ternary_xgb_expanded_pca_s42",
+      "ternary_xgb_shallow_pca_s99",
+    ]);
     for (const model of stacking) {
       expect(model.family).toBe("stacking_logreg");
-      expect(model.baseModelIds).toEqual([
-        "ternary_hier_logreg_gate",
-        "ternary_mlp_h128_s42",
-        "ternary_xgb_expanded_pca_s13",
-        "ternary_xgb_tabular_markers_s42",
-      ]);
       expect(ternaryConfig.models).toContain(model.modelId);
       expect(allModelsGroup?.modelIds).toContain(model.modelId);
       expect(stackingGroup?.modelIds).toContain(model.modelId);

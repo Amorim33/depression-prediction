@@ -74,11 +74,18 @@
     "ternary_extra_trees_evidence",
     "ternary_xgb_tabular_markers_s42",
     "ternary_xgb_expanded_pca_s13",
+    "ternary_xgb_expanded_pca_s42",
+    "ternary_xgb_embedding_rich_s7",
+    "ternary_xgb_shallow_pca_s99",
+    "ternary_hgb_expanded_pca_s42",
+    "ternary_hgb_markers_s13",
     "ternary_mlp_h128_s42",
     "ternary_focal_linear_g1",
     "ternary_hier_logreg_gate",
     "ternary_relevance_baseline",
     "ternary_stack_logreg_xgb_tabular",
+    "ternary_stack_logreg_boosted_core",
+    "ternary_stack_logreg_xgb_variants",
     "ternary_seq_cnn_top128_s42",
     "ternary_seq_cnn_wide_top128_s13",
     "ternary_seq_bilstm_top128_s13",
@@ -129,6 +136,71 @@
         "colsampleBytree": 0.85,
         "regLambda": 3,
         "minChildWeight": 2
+      },
+      {
+        "modelId": "ternary_xgb_expanded_pca_s42",
+        "family": "xgboost",
+        "seed": 42,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "evidence_markers", "rel5_combined", "mean_pca", "rel3_pca"],
+        "pcaComponents": 56,
+        "nEstimators": 300,
+        "maxDepth": 3,
+        "learningRate": 0.04,
+        "subsample": 0.9,
+        "colsampleBytree": 0.8,
+        "regLambda": 4,
+        "minChildWeight": 2
+      },
+      {
+        "modelId": "ternary_xgb_embedding_rich_s7",
+        "family": "xgboost",
+        "seed": 7,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "evidence_markers", "rel5_combined", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 32,
+        "nEstimators": 320,
+        "maxDepth": 2,
+        "learningRate": 0.04,
+        "subsample": 0.8,
+        "colsampleBytree": 0.8,
+        "regLambda": 5,
+        "minChildWeight": 4
+      },
+      {
+        "modelId": "ternary_xgb_shallow_pca_s99",
+        "family": "xgboost",
+        "seed": 99,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "evidence_markers", "rel5_combined", "mean_pca", "rel3_pca"],
+        "pcaComponents": 64,
+        "nEstimators": 420,
+        "maxDepth": 2,
+        "learningRate": 0.035,
+        "subsample": 0.9,
+        "colsampleBytree": 0.75,
+        "regLambda": 6,
+        "minChildWeight": 4
+      },
+      {
+        "modelId": "ternary_hgb_expanded_pca_s42",
+        "family": "hist_gradient_boosting",
+        "seed": 42,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "evidence_markers", "rel5_combined", "mean_pca", "rel3_pca"],
+        "pcaComponents": 40,
+        "maxIter": 220,
+        "maxDepth": 3,
+        "maxLeafNodes": 15,
+        "learningRate": 0.04,
+        "l2Regularization": 0.1
+      },
+      {
+        "modelId": "ternary_hgb_markers_s13",
+        "family": "hist_gradient_boosting",
+        "seed": 13,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "evidence_markers", "rel5_combined"],
+        "maxIter": 260,
+        "maxDepth": 3,
+        "maxLeafNodes": 10,
+        "learningRate": 0.045,
+        "l2Regularization": 0.2
       },
       {
         "modelId": "ternary_mlp_h128_s42",
@@ -220,6 +292,33 @@
         ],
         "c": 1,
         "maxIter": 1000
+      },
+      {
+        "modelId": "ternary_stack_logreg_boosted_core",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": [
+          "ternary_hier_logreg_gate",
+          "ternary_mlp_h128_s42",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_shallow_pca_s99",
+          "ternary_xgb_tabular_markers_s42"
+        ],
+        "c": 0.5,
+        "maxIter": 1000
+      },
+      {
+        "modelId": "ternary_stack_logreg_xgb_variants",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": [
+          "ternary_xgb_embedding_rich_s7",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_expanded_pca_s42",
+          "ternary_xgb_shallow_pca_s99"
+        ],
+        "c": 1,
+        "maxIter": 1000
       }
     ]
   },
@@ -246,11 +345,18 @@
           "ternary_extra_trees_evidence",
           "ternary_xgb_tabular_markers_s42",
           "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_expanded_pca_s42",
+          "ternary_xgb_embedding_rich_s7",
+          "ternary_xgb_shallow_pca_s99",
+          "ternary_hgb_expanded_pca_s42",
+          "ternary_hgb_markers_s13",
           "ternary_mlp_h128_s42",
           "ternary_focal_linear_g1",
           "ternary_hier_logreg_gate",
           "ternary_relevance_baseline",
           "ternary_stack_logreg_xgb_tabular",
+          "ternary_stack_logreg_boosted_core",
+          "ternary_stack_logreg_xgb_variants",
           "ternary_seq_cnn_top128_s42",
           "ternary_seq_cnn_wide_top128_s13",
           "ternary_seq_bilstm_top128_s13",
@@ -265,6 +371,11 @@
           "ternary_extra_trees_evidence",
           "ternary_xgb_tabular_markers_s42",
           "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_expanded_pca_s42",
+          "ternary_xgb_embedding_rich_s7",
+          "ternary_xgb_shallow_pca_s99",
+          "ternary_hgb_expanded_pca_s42",
+          "ternary_hgb_markers_s13",
           "ternary_mlp_h128_s42",
           "ternary_focal_linear_g1",
           "ternary_hier_logreg_gate",
@@ -274,6 +385,38 @@
       {
         "groupId": "tabular_without_relevance_baseline",
         "description": "Tabular models excluding the relevance-only baseline.",
+        "modelIds": [
+          "ternary_logreg_all",
+          "ternary_extra_trees_evidence",
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_expanded_pca_s42",
+          "ternary_xgb_embedding_rich_s7",
+          "ternary_xgb_shallow_pca_s99",
+          "ternary_hgb_expanded_pca_s42",
+          "ternary_hgb_markers_s13",
+          "ternary_mlp_h128_s42",
+          "ternary_focal_linear_g1",
+          "ternary_hier_logreg_gate"
+        ]
+      },
+      {
+        "groupId": "tabular_legacy_all",
+        "description": "Original tabular ternary candidate set before boosted expansion.",
+        "modelIds": [
+          "ternary_logreg_all",
+          "ternary_extra_trees_evidence",
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_mlp_h128_s42",
+          "ternary_focal_linear_g1",
+          "ternary_hier_logreg_gate",
+          "ternary_relevance_baseline"
+        ]
+      },
+      {
+        "groupId": "tabular_legacy_without_relevance_baseline",
+        "description": "Original tabular ternary candidate set excluding the relevance-only baseline.",
         "modelIds": [
           "ternary_logreg_all",
           "ternary_extra_trees_evidence",
@@ -292,6 +435,43 @@
           "ternary_seq_cnn_wide_top128_s13",
           "ternary_seq_bilstm_top128_s13",
           "ternary_seq_transformer_top128_s42"
+        ]
+      },
+      {
+        "groupId": "tabular_boosting",
+        "description": "Tree-boosted tabular candidates over user-level evidence and embedding PCA features.",
+        "modelIds": [
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_expanded_pca_s42",
+          "ternary_xgb_embedding_rich_s7",
+          "ternary_xgb_shallow_pca_s99",
+          "ternary_hgb_expanded_pca_s42",
+          "ternary_hgb_markers_s13"
+        ]
+      },
+      {
+        "groupId": "tabular_core_xgb_s42_shallow",
+        "description": "Prior four-model tabular lock plus the expanded and shallow XGBoost variants.",
+        "modelIds": [
+          "ternary_hier_logreg_gate",
+          "ternary_mlp_h128_s42",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_expanded_pca_s42",
+          "ternary_xgb_shallow_pca_s99"
+        ]
+      },
+      {
+        "groupId": "tabular_core_xgb_s42_rich",
+        "description": "Prior four-model tabular lock plus the expanded and embedding-rich XGBoost variants.",
+        "modelIds": [
+          "ternary_hier_logreg_gate",
+          "ternary_mlp_h128_s42",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_expanded_pca_s42",
+          "ternary_xgb_embedding_rich_s7"
         ]
       },
       {
@@ -318,7 +498,11 @@
       {
         "groupId": "stacking_only",
         "description": "OOF-trained logistic stacking model over the strongest tabular base probabilities.",
-        "modelIds": ["ternary_stack_logreg_xgb_tabular"]
+        "modelIds": [
+          "ternary_stack_logreg_xgb_tabular",
+          "ternary_stack_logreg_boosted_core",
+          "ternary_stack_logreg_xgb_variants"
+        ]
       }
     ]
   },

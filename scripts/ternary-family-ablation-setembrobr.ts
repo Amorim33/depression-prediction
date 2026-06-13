@@ -102,6 +102,7 @@ function groupSpecs(): GroupSpec[] {
   const tabularWithoutBaseline = modelsWhere((metadata) => metadata.source === "tabular" && metadata.family !== "relevance_baseline");
   const sequence = modelsWhere((metadata) => metadata.source === "sequence");
   const stacking = modelsWhere((metadata) => metadata.source === "stacking");
+  const boosting = modelsWhere((metadata) => metadata.source === "tabular" && metadata.family.includes("boost"));
   const cnnSequence = modelsWhere((metadata) => metadata.source === "sequence" && (metadata.family === "cnn" || metadata.family === "cnn_wide"));
   const nonCnnSequence = modelsWhere((metadata) => metadata.source === "sequence" && metadata.family !== "cnn" && metadata.family !== "cnn_wide");
   const evidenceBaseline = modelsWhere((metadata) => metadata.family === "relevance_baseline");
@@ -109,6 +110,7 @@ function groupSpecs(): GroupSpec[] {
     { groupId: "all_models", description: "All pre-registered ternary models.", modelIds: allModelIds },
     { groupId: "tabular_all", description: "All tabular ternary models.", modelIds: tabular },
     { groupId: "tabular_without_relevance_baseline", description: "Tabular models excluding the relevance-only baseline.", modelIds: tabularWithoutBaseline },
+    { groupId: "tabular_boosting", description: "Tree-boosted tabular candidates.", modelIds: boosting },
     { groupId: "sequence_all", description: "All Fedora-trained sequence models.", modelIds: sequence },
     { groupId: "sequence_cnn_family", description: "CNN and wide-CNN sequence models.", modelIds: cnnSequence },
     { groupId: "sequence_bilstm_transformer", description: "BiLSTM and tiny-transformer sequence models.", modelIds: nonCnnSequence },

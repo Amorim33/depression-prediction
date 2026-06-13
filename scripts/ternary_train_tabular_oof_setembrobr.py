@@ -17,7 +17,7 @@ import psycopg2
 import torch
 import torch.nn.functional as F
 from sklearn.decomposition import PCA
-from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import ExtraTreesClassifier, HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
@@ -441,6 +441,18 @@ def fit_predict(candidate, x_train, y_train, binary_train, x_val, x_test):
             random_state=seed,
             n_jobs=-1,
             verbosity=0,
+        )
+        model.fit(x_train, y_train, sample_weight=balanced_sample_weights(y_train))
+        return map_sklearn_probs(model, model.predict_proba(x_val)), map_sklearn_probs(model, model.predict_proba(x_test))
+    if family == "hist_gradient_boosting":
+        model = HistGradientBoostingClassifier(
+            max_iter=int(candidate.get("maxIter", 220)),
+            learning_rate=float(candidate.get("learningRate", 0.04)),
+            max_leaf_nodes=int(candidate.get("maxLeafNodes", 15)),
+            max_depth=int(candidate["maxDepth"]) if candidate.get("maxDepth") is not None else None,
+            l2_regularization=float(candidate.get("l2Regularization", 0.1)),
+            early_stopping=False,
+            random_state=seed,
         )
         model.fit(x_train, y_train, sample_weight=balanced_sample_weights(y_train))
         return map_sklearn_probs(model, model.predict_proba(x_val)), map_sklearn_probs(model, model.predict_proba(x_test))

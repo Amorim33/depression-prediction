@@ -205,6 +205,7 @@ export type TernaryTabularCandidateFamily =
   | "mlp"
   | "extra_trees"
   | "xgboost"
+  | "hist_gradient_boosting"
   | "focal_linear"
   | "hierarchical_logreg"
   | "relevance_baseline";
@@ -221,6 +222,9 @@ export interface TernaryTabularCandidateModel {
   nEstimators?: number;
   maxDepth?: number;
   minSamplesLeaf?: number;
+  maxIter?: number;
+  maxLeafNodes?: number;
+  l2Regularization?: number;
   learningRate?: number;
   subsample?: number;
   colsampleBytree?: number;

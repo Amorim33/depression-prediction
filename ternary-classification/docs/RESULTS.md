@@ -1,8 +1,8 @@
 # SetembroBR Ternary Results
 
 Status: reproduced with the strict-blind ternary workflow. The current train-only lock includes
-post-report XGBoost tabular candidates; a stacking candidate was also tested but was not selected.
-The current lock has not been final-test evaluated.
+post-report boosted tabular candidates and bounded selection groups; stacking candidates were also
+tested but were not selected. The current lock has not been final-test evaluated.
 
 All selection used train OOF probabilities only. For the historical pre-XGBoost run, final test labels were read only by
 `make ternary-evaluate-test-setembrobr` after
@@ -14,27 +14,28 @@ already existed.
 - Label policy: `diag_evidence_q20`
 - Label policy hash: `06ad79f1e2ac608e7ebf87f2d23a8279b57ede196121302d064c87cbbc3098cd`
 - Original split manifest hash: `08ce39f8863fc57165f4b8efe57b4a31b764ab6b974968f0ab0a5e167d44108e`
-- Selection group: `tabular_all`
-- Selection strategy: `ranked-prefix-pruned(top=12,max=8,step=0.05)`
-- Decision rule: `argmax`
-- Models: `ternary_hier_logreg_gate`, `ternary_mlp_h128_s42`, `ternary_xgb_expanded_pca_s13`, `ternary_xgb_tabular_markers_s42`
+- Selection group: `tabular_core_xgb_s42_shallow`
+- Selection strategy: `exhaustive`
+- Decision rule: `diagnosed_margin_005`
+- Models: `ternary_hier_logreg_gate`, `ternary_mlp_h128_s42`, `ternary_xgb_expanded_pca_s13`, `ternary_xgb_shallow_pca_s99`, `ternary_xgb_tabular_markers_s42`
+- Weights: `0.25`, `0.15`, `0.25`, `0.20`, `0.15`
 
 ## Train OOF Selection Table
 
 | Rank | Label policy | Group | Decision rule | Models | Macro F1 | Diagnosed F1 | Diagnosed precision | Accuracy |
 | ---: | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| 1 | `diag_evidence_q20` | `tabular_all` | `argmax` | 4 | `0.796108` | `0.918894` | `0.912168` | `0.843182` |
-| 2 | `diag_evidence_q20` | `tabular_without_relevance_baseline` | `argmax` | 4 | `0.796108` | `0.918894` | `0.912168` | `0.843182` |
-| 3 | `diag_evidence_q20` | `all_models` | `argmax` | 5 | `0.791935` | `0.916705` | `0.911111` | `0.842045` |
-| 4 | `diag_evidence_q10` | `tabular_all` | `argmax` | 4 | `0.777985` | `0.902399` | `0.904643` | `0.832386` |
-| 5 | `diag_evidence_q10` | `tabular_without_relevance_baseline` | `argmax` | 4 | `0.777985` | `0.902399` | `0.904643` | `0.832386` |
+| 1 | `diag_evidence_q20` | `tabular_core_xgb_s42_shallow` | `diagnosed_margin_005` | 5 | `0.804996` | `0.917987` | `0.921422` | `0.846591` |
+| 2 | `diag_evidence_q20` | `tabular_core_xgb_s42_rich` | `diagnosed_margin_005` | 6 | `0.803929` | `0.917096` | `0.925331` | `0.844886` |
+| 3 | `diag_evidence_q20` | `tabular_legacy_without_relevance_baseline` | `argmax` | 4 | `0.796108` | `0.918894` | `0.912168` | `0.843182` |
+| 4 | `diag_evidence_q20` | `tabular_legacy_all` | `argmax` | 4 | `0.796108` | `0.918894` | `0.912168` | `0.843182` |
+| 5 | `diag_evidence_q10` | `tabular_core_xgb_s42_rich` | `argmax` | 6 | `0.793001` | `0.900924` | `0.917094` | `0.836364` |
 
-Rows 1-2 are the same selected model set reached through two tabular model groups.
+Rows 3-4 preserve the previous train-only lock under explicit legacy tabular groups.
 
 ## Historical Final Test Metrics
 
-These metrics belong to the earlier pre-XGBoost lock. They are retained as a historical strict-blind
-report. No final test evaluation has been run for the current XGBoost train-only lock.
+These metrics belong to the earlier pre-boosted-core lock. They are retained as a historical strict-blind
+report. No final test evaluation has been run for the current boosted-core train-only lock.
 
 | Metric | Value |
 | --- | ---: |
@@ -66,12 +67,12 @@ report. No final test evaluation has been run for the current XGBoost train-only
 
 ## Train-Only Diagnostics
 
-- Fold-combination robustness ranked the current train-only lock first with mean Macro F1 `0.795983` and minimum Macro F1 `0.768371`.
-- Group-aware nested OOF split-selection selected `diag_evidence_q20/tabular_all` in all 5 outer folds, with held-out train-fold mean Macro F1 `0.787894` and minimum Macro F1 `0.750277`.
-- OOF probability diagnostics for the current train-only lock reported Brier score `0.244671`, negative log likelihood `0.404696`, and expected calibration error `0.055907`.
-- The train-only single-model leaderboard ranked `diag_evidence_q20/ternary_xgb_expanded_pca_s13` first with OOF Macro F1 `0.787201`.
-- Family ablation selected the same XGBoost-assisted 4-model lock for `diag_evidence_q20/tabular_all` and `tabular_without_relevance_baseline`, with OOF Macro F1 `0.796108`.
-- The stacking candidate reached OOF Macro F1 `0.744805` under `diag_evidence_q20`; it improved nested split-selection mean Macro F1 but was not selected by the current train-OOF lock.
+- Fold-combination robustness ranked the current train-only lock first with mean Macro F1 `0.804956` and minimum Macro F1 `0.767445`.
+- Group-aware nested OOF split-selection reported held-out train-fold mean Macro F1 `0.787314` and minimum Macro F1 `0.760210`.
+- OOF probability diagnostics for the current train-only lock reported Brier score `0.243979`, negative log likelihood `0.403552`, and expected calibration error `0.062549`.
+- The train-only single-model leaderboard ranked `diag_evidence_q20/ternary_xgb_expanded_pca_s42` first with OOF Macro F1 `0.788910`.
+- Family ablation selected `diag_evidence_q20/tabular_core_xgb_s42_shallow` with OOF Macro F1 `0.804996`.
+- The best stacking candidate reached OOF Macro F1 `0.745698` under `diag_evidence_q20`; stacking was not selected by the current train-OOF lock.
 
 ## Artifacts
 
