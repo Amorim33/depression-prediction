@@ -35,8 +35,10 @@ describe("Makefile Fedora targets", () => {
     expect(target).toContain("ternary-audit-oof-setembrobr");
     expect(target).toContain("ternary-select-ensemble-setembrobr");
     expect(target).toContain("ternary-robustness-setembrobr");
+    expect(target).toContain("ternary-nested-oof-selection-setembrobr");
     expect(target).toContain("ternary-evaluate-test-setembrobr");
     expect(target.indexOf("ternary-robustness-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
+    expect(target.indexOf("ternary-nested-oof-selection-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
   });
 
   test("defines train-only ternary robustness before final test evaluation", async () => {
@@ -44,6 +46,15 @@ describe("Makefile Fedora targets", () => {
     const target = extractTarget(makefile, "ternary-robustness-setembrobr");
 
     expect(target).toContain("bun run ternary-robustness-setembrobr");
+    expect(target).not.toContain("ternary-evaluate-test-setembrobr");
+    expect(target).not.toContain("test_score");
+  });
+
+  test("defines train-only nested OOF split selection before final test evaluation", async () => {
+    const makefile = await readFile("Makefile", "utf8");
+    const target = extractTarget(makefile, "ternary-nested-oof-selection-setembrobr");
+
+    expect(target).toContain("bun run ternary-nested-oof-selection-setembrobr");
     expect(target).not.toContain("ternary-evaluate-test-setembrobr");
     expect(target).not.toContain("test_score");
   });

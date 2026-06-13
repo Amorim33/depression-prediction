@@ -123,3 +123,18 @@ mean fold-combination Macro F1, and reports minimum fold-combination Macro F1 as
 The robustness report is diagnostic. It must not read test score files, test labels, final test reports,
 or test prevalence, and it must not be used to change the already-locked champion after final test
 evaluation has run.
+
+## Nested OOF Split-Selection Report
+
+A stricter train-only split-combination check can be generated with:
+
+```bash
+make ternary-nested-oof-selection-setembrobr
+```
+
+For each outer train fold, this report selects the label policy, model set, weights, and decision rule
+using only the other train OOF folds. It then evaluates that inner lock on the held-out train fold's
+OOF rows. This estimates whether the selection procedure is stable under alternate train-only splits.
+
+The nested report must remain train-only: no test score files, test labels, final test reports, or test
+prevalence may be read or used.
