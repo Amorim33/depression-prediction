@@ -39,6 +39,11 @@ def load_manifest(path: Path):
 
 
 def export_split(conn, cfg, manifest_rows, split: str, n_tweets: int, output_dir: Path) -> None:
+    out_path = output_dir / f"{split}_seq.npz"
+    if out_path.exists():
+        print(f"exists {out_path}")
+        return
+
     table = cfg["database"]["tables"][f"{split}Embeddings"]
     split_rows = [r for r in manifest_rows if r["split"] == split]
     user_ids = [r["user_id"] for r in split_rows]
@@ -86,7 +91,6 @@ def export_split(conn, cfg, manifest_rows, split: str, n_tweets: int, output_dir
         slots[uid] = slot + 1
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    out_path = output_dir / f"{split}_seq.npz"
     np.savez_compressed(
         out_path,
         user_ids=np.array(user_ids),
@@ -98,10 +102,53 @@ def export_split(conn, cfg, manifest_rows, split: str, n_tweets: int, output_dir
     print(f"wrote {out_path}")
 
 
+def derive_split_from_larger(seq_root: Path, split: str, n_tweets: int, output_dir: Path) -> bool:
+    out_path = output_dir / f"{split}_seq.npz"
+    if out_path.exists():
+        print(f"exists {out_path}")
+        return True
+
+    sources = []
+    for candidate_dir in seq_root.glob("top*"):
+        if not candidate_dir.is_dir():
+            continue
+        try:
+            source_n = int(candidate_dir.name.removeprefix("top"))
+        except ValueError:
+            continue
+        source_path = candidate_dir / f"{split}_seq.npz"
+        if source_n > n_tweets and source_path.exists():
+            sources.append((source_n, source_path))
+    if not sources:
+        return False
+
+    _source_n, source_path = sorted(sources)[0]
+    data = np.load(source_path, allow_pickle=True)
+    user_ids = data["user_ids"].astype(str)
+    labels = data["labels"].astype(np.int32) if "labels" in data.files else np.full(len(user_ids), -1, dtype=np.int32)
+    if split == "test":
+        labels[:] = -1
+    sequences = data["sequences"][:, :n_tweets, :].astype(data["sequences"].dtype, copy=True)
+    lengths = np.minimum(data["lengths"].astype(np.int32), n_tweets)
+    relevances = data["relevances"][:, :n_tweets].astype(data["relevances"].dtype, copy=True)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(
+        out_path,
+        user_ids=user_ids,
+        labels=labels,
+        sequences=sequences,
+        lengths=lengths,
+        relevances=relevances,
+    )
+    print(f"derived {out_path} from {source_path}")
+    return True
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="configs/setembrobr.seed42.strict-blind.json")
-    parser.add_argument("--n", type=int, nargs="*", default=[128, 256])
+    parser.add_argument("--n", type=int, nargs="*", default=[64, 128, 256])
     args = parser.parse_args()
 
     cfg = json.loads(Path(args.config).read_text())
@@ -112,16 +159,23 @@ def main() -> None:
 
     manifest_path = Path(cfg["outputDir"]) / "manifest" / "split_manifest_seed42.csv"
     manifest_rows = load_manifest(manifest_path)
+    seq_root = Path(cfg["outputDir"]) / "sequences"
+    pending: list[tuple[int, str, Path]] = []
+    for n_tweets in args.n:
+        output_dir = seq_root / f"top{n_tweets}"
+        for split in ("train", "test"):
+            if not derive_split_from_larger(seq_root, split, n_tweets, output_dir):
+                pending.append((n_tweets, split, output_dir))
+    if not pending:
+        return
+
     conn = psycopg2.connect(database_url)
     try:
-        for n_tweets in args.n:
-            output_dir = Path(cfg["outputDir"]) / "sequences" / f"top{n_tweets}"
-            export_split(conn, cfg, manifest_rows, "train", n_tweets, output_dir)
-            export_split(conn, cfg, manifest_rows, "test", n_tweets, output_dir)
+        for n_tweets, split, output_dir in pending:
+            export_split(conn, cfg, manifest_rows, split, n_tweets, output_dir)
     finally:
         conn.close()
 
 
 if __name__ == "__main__":
     main()
-

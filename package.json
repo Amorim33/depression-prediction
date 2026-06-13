@@ -10,7 +10,12 @@
     "manifest-setembrobr": "bun run scripts/manifest-setembrobr.ts",
     "audit-oof-setembrobr": "bun run scripts/audit-oof-setembrobr.ts",
     "select-ensemble-setembrobr": "bun run scripts/select-ensemble-setembrobr.ts",
-    "evaluate-test-setembrobr": "bun run scripts/evaluate-test-setembrobr.ts"
+    "evaluate-test-setembrobr": "bun run scripts/evaluate-test-setembrobr.ts",
+    "ternary-markers-setembrobr": "bun run scripts/ternary-markers-setembrobr.ts",
+    "ternary-manifest-setembrobr": "bun run scripts/ternary-manifest-setembrobr.ts",
+    "ternary-audit-oof-setembrobr": "bun run scripts/ternary-audit-oof-setembrobr.ts",
+    "ternary-select-ensemble-setembrobr": "bun run scripts/ternary-select-ensemble-setembrobr.ts",
+    "ternary-evaluate-test-setembrobr": "bun run scripts/ternary-evaluate-test-setembrobr.ts"
   },
   "dependencies": {
     "postgres": "^3.4.7"
@@ -20,4 +25,3 @@
     "typescript": "^5.9.3"
   }
 }
-

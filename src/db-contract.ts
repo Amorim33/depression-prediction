@@ -1,11 +1,31 @@
 import type { DbTables, ProjectConfig } from "./types.ts";
 import { assertSafeIdentifier, type DatabaseClient } from "./db.ts";
 
-const REQUIRED_COLUMNS: Record<keyof DbTables, string[]> = {
+const BDI_V2_COLUMNS = [
+  "max_sadness",
+  "max_pessimism",
+  "max_failure",
+  "max_anhedonia",
+  "max_guilt",
+  "max_self_dislike",
+  "max_social_withdrawal",
+  "max_fatigue",
+  "max_anxiety",
+  "max_cog_distortion",
+  "max_self_harm_passive",
+  "max_somatic",
+  "total_tweets",
+];
+
+const REQUIRED_COLUMNS: Partial<Record<keyof DbTables, string[]>> = {
   trainUserEmb: ["user_id", "label", "embedding"],
   testUserEmb: ["user_id", "label", "embedding"],
   trainUserEmbRel3: ["user_id", "label", "embedding"],
   testUserEmbRel3: ["user_id", "label", "embedding"],
+  trainUserEmbRel6: ["user_id", "label", "embedding"],
+  testUserEmbRel6: ["user_id", "label", "embedding"],
+  trainUserEmbRel7: ["user_id", "label", "embedding"],
+  testUserEmbRel7: ["user_id", "label", "embedding"],
   trainSubFeatures: [
     "user_id",
     "actual",
@@ -32,6 +52,36 @@ const REQUIRED_COLUMNS: Record<keyof DbTables, string[]> = {
     "max_crying",
     "total_tweets",
   ],
+  trainV2SubFeatures: ["user_id", "actual", ...BDI_V2_COLUMNS],
+  testV2SubFeatures: ["user_id", "actual", ...BDI_V2_COLUMNS],
+  trainRel5CombinedFeatures: [
+    "user_id",
+    "actual",
+    "max_therapy",
+    "max_medication",
+    "max_selfharm",
+    "max_suicidal",
+    "max_emptiness",
+    "max_depr_self",
+    "max_insomnia",
+    "max_crying",
+    ...BDI_V2_COLUMNS,
+    "relevant_tweets",
+  ],
+  testRel5CombinedFeatures: [
+    "user_id",
+    "actual",
+    "max_therapy",
+    "max_medication",
+    "max_selfharm",
+    "max_suicidal",
+    "max_emptiness",
+    "max_depr_self",
+    "max_insomnia",
+    "max_crying",
+    ...BDI_V2_COLUMNS,
+    "relevant_tweets",
+  ],
   trainEmbeddings: ["user_id", "tweet_index", "tweet_text", "embedding", "gpt_3_5_relevance"],
   testEmbeddings: ["user_id", "tweet_index", "tweet_text", "embedding", "gpt_3_5_relevance"],
 };
@@ -51,7 +101,7 @@ export async function validateDbContract(client: DatabaseClient, config: Project
     if (!tableExists) continue;
 
     const columns = await tableColumns(client, tableName);
-    for (const column of REQUIRED_COLUMNS[logicalName]) {
+    for (const column of REQUIRED_COLUMNS[logicalName] ?? []) {
       checks.push({
         name: `column:${logicalName}.${column}`,
         ok: columns.has(column),

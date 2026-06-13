@@ -1,20 +1,19 @@
-import type { BinaryLabel } from "./types.ts";
 import { createSeededRandom, deriveSeed, shuffleInPlace } from "./random.ts";
 
-export function createStratifiedFolds(labels: readonly BinaryLabel[], foldCount: number, seed: number): number[][] {
-  const diagnosed: number[] = [];
-  const control: number[] = [];
+export function createStratifiedFolds(labels: readonly string[], foldCount: number, seed: number): number[][] {
+  const byLabel = new Map<string, number[]>();
   labels.forEach((label, index) => {
-    if (label === "diagnosed") diagnosed.push(index);
-    else control.push(index);
+    const bucket = byLabel.get(label) ?? [];
+    bucket.push(index);
+    byLabel.set(label, bucket);
   });
 
-  shuffleInPlace(diagnosed, createSeededRandom(deriveSeed(seed, 1)));
-  shuffleInPlace(control, createSeededRandom(deriveSeed(seed, 2)));
-
   const folds = Array.from({ length: foldCount }, () => [] as number[]);
-  for (const [index, rowIndex] of diagnosed.entries()) folds[index % foldCount]!.push(rowIndex);
-  for (const [index, rowIndex] of control.entries()) folds[index % foldCount]!.push(rowIndex);
+  for (const [labelIndex, label] of [...byLabel.keys()].sort().entries()) {
+    const indexes = byLabel.get(label)!;
+    shuffleInPlace(indexes, createSeededRandom(deriveSeed(seed, 1 + labelIndex)));
+    for (const [index, rowIndex] of indexes.entries()) folds[index % foldCount]!.push(rowIndex);
+  }
   for (const [index, fold] of folds.entries()) {
     shuffleInPlace(fold, createSeededRandom(deriveSeed(seed, 10 + index)));
   }
@@ -30,4 +29,3 @@ export function buildTrainValidationSplit(folds: readonly number[][], validation
   }
   return { train, validation };
 }
-

@@ -41,3 +41,17 @@ The final test evaluation is only valid after:
 3. `make audit-oof-setembrobr` passes.
 4. The ensemble lock is selected from train OOF scores only.
 
+## Candidate Expansion
+
+Candidate models are pre-registered in `configs/setembrobr.seed42.strict-blind.json`. Run DB-dependent tabular candidates locally and sequence candidates on Fedora's GPU:
+
+```bash
+export DATABASE_URL=postgresql://embeddings:embeddings@localhost:5437/depression_embeddings
+make lint typecheck test db-check-setembrobr
+make manifest-setembrobr export-sequences-setembrobr train-tabular-oof-setembrobr
+make train-candidate-tabular-oof-setembrobr
+make fedora-candidate-seq-oof-setembrobr
+make audit-oof-setembrobr select-ensemble-setembrobr evaluate-test-setembrobr
+```
+
+`make train-candidate-oof-setembrobr` runs the local candidate tabular trainer and then the Fedora sequence candidate target. The standalone `make train-candidate-seq-oof-setembrobr` target is intended for the Fedora checkout/run directory, not the Mac workflow.

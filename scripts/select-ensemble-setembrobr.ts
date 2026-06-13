@@ -29,10 +29,12 @@ const lock = selectEnsemble({
   sourceHashes,
   weightStep: config.ensemble.weightStep,
   command: "make select-ensemble-setembrobr",
+  exhaustiveModelLimit: config.ensemble.exhaustiveModelLimit,
+  candidatePruneTo: config.ensemble.candidatePruneTo,
+  maxModels: config.ensemble.maxModels,
 });
 const outPath = resolveOutputPath(config, "ensemble", "ensemble-lock.json");
 await mkdir(dirname(outPath), { recursive: true });
 await writeJson(outPath, lock);
 console.log(`wrote ${outPath}`);
 console.log(JSON.stringify(lock.oofMetrics, null, 2));
-

@@ -31,5 +31,14 @@ describe("OOF audit", () => {
     const report = auditTestScoreSchema("test_score_m.csv", "user_id,label,score,model_id\nU,control,0.1,m\n");
     expect(report.ok).toBe(false);
   });
-});
 
+  test("rejects non-finite scores", () => {
+    const oofReport = auditOofScores(manifest, new Map([["m", [{ userId: "D1", label: "diagnosed", fold: 1, score: NaN, modelId: "m" }, { userId: "C1", label: "control", fold: 2, score: 0.1, modelId: "m" }]]]));
+    expect(oofReport.ok).toBe(false);
+    expect(oofReport.findings.some((finding) => finding.code === "oof-nonfinite-score")).toBe(true);
+
+    const testReport = auditTestScoreSchema("test_score_m.csv", "user_id,score,model_id\nU,nan,m\n");
+    expect(testReport.ok).toBe(false);
+    expect(testReport.findings.some((finding) => finding.code === "test-score-nonfinite-score")).toBe(true);
+  });
+});

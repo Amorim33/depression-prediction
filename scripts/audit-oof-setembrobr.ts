@@ -36,6 +36,8 @@ for (const entry of modelManifestEntries) {
 const staticReport = await auditStaticGuards([
   "scripts/train_tabular_oof_setembrobr.py",
   "scripts/train_seq_oof_setembrobr.py",
+  "scripts/train_candidate_tabular_oof_setembrobr.py",
+  "scripts/train_candidate_seq_oof_setembrobr.py",
   "scripts/select-ensemble-setembrobr.ts",
 ]);
 
@@ -50,4 +52,3 @@ for (const finding of report.findings) {
   console.log(`${finding.ok ? "ok" : "FAIL"} ${finding.code} ${finding.detail}`);
 }
 if (!report.ok) process.exit(1);
-

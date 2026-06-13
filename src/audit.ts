@@ -35,6 +35,7 @@ export function auditOofScores(manifestRows: readonly ManifestRow[], oofByModel:
         if (row.label !== manifest.label) findings.push(fail("oof-label-mismatch", `${modelId}: ${row.userId}`));
         if (row.fold !== manifest.fold) findings.push(fail("oof-fold-mismatch", `${modelId}: ${row.userId}`));
       }
+      if (!Number.isFinite(row.score)) findings.push(fail("oof-nonfinite-score", `${modelId}: ${row.userId}`));
       if (seen.has(row.userId)) findings.push(fail("oof-duplicate-user", `${modelId}: duplicate ${row.userId}`));
       seen.add(row.userId);
     }
@@ -58,6 +59,10 @@ export function auditTestScoreSchema(fileName: string, csvText: string): AuditRe
   }
   for (const required of ["user_id", "score", "model_id"]) {
     if (!headers.includes(required)) findings.push(fail("test-score-missing-column", `${fileName}: missing ${required}`));
+  }
+  for (const [index, row] of parseCsv(csvText).entries()) {
+    const score = Number(row.score);
+    if (!Number.isFinite(score)) findings.push(fail("test-score-nonfinite-score", `${fileName}: row ${index + 2}`));
   }
   if (findings.length === 0) findings.push(pass("test-score-schema", `${fileName}: label-free schema`));
   return { ok: findings.every((finding) => finding.ok), findings };
@@ -116,4 +121,3 @@ function pass(code: string, detail: string): AuditFinding {
 function fail(code: string, detail: string): AuditFinding {
   return { ok: false, code, detail };
 }
-

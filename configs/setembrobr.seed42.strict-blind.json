@@ -9,8 +9,16 @@
       "testUserEmb": "test_user_emb",
       "trainUserEmbRel3": "train_user_emb_rel3",
       "testUserEmbRel3": "test_user_emb_rel3",
+      "trainUserEmbRel6": "train_user_emb_rel6",
+      "testUserEmbRel6": "test_user_emb_rel6",
+      "trainUserEmbRel7": "train_user_emb_rel7",
+      "testUserEmbRel7": "test_user_emb_rel7",
       "trainSubFeatures": "train_sub_features",
       "testSubFeatures": "test_sub_features",
+      "trainV2SubFeatures": "train_v2_sub_features",
+      "testV2SubFeatures": "test_v2_sub_features",
+      "trainRel5CombinedFeatures": "train_rel5_combined_features",
+      "testRel5CombinedFeatures": "test_rel5_combined_features",
       "trainEmbeddings": "train_embeddings",
       "testEmbeddings": "test_embeddings"
     },
@@ -23,12 +31,514 @@
     "mlp_128_alpha_001",
     "seq_cnn_top128_s42",
     "seq_cnn_top128_s13",
-    "seq_cnn_top256_s13"
+    "seq_cnn_top256_s13",
+    "cand_combined_rel6_logreg",
+    "cand_combined_rel7_logreg",
+    "cand_combined_rel6_rel7_logreg",
+    "cand_v2_rel5_logreg",
+    "cand_focal_g05",
+    "cand_focal_g1",
+    "cand_focal_g2",
+    "cand_focal_g3",
+    "cand_mlp_h64_a001_s7",
+    "cand_mlp_h64_a001_s13",
+    "cand_mlp_h64_a001_s42",
+    "cand_mlp_h64_a005_s7",
+    "cand_mlp_h64_a005_s13",
+    "cand_mlp_h64_a005_s42",
+    "cand_mlp_h64_a01_s7",
+    "cand_mlp_h64_a01_s13",
+    "cand_mlp_h64_a01_s42",
+    "cand_mlp_h128_a001_s7",
+    "cand_mlp_h128_a001_s13",
+    "cand_mlp_h128_a001_s42",
+    "cand_mlp_h128_a005_s7",
+    "cand_mlp_h128_a005_s13",
+    "cand_mlp_h128_a005_s42",
+    "cand_mlp_h128_a01_s7",
+    "cand_mlp_h128_a01_s13",
+    "cand_mlp_h128_a01_s42",
+    "cand_mlp_h192_a001_s7",
+    "cand_mlp_h192_a001_s13",
+    "cand_mlp_h192_a001_s42",
+    "cand_mlp_h192_a005_s7",
+    "cand_mlp_h192_a005_s13",
+    "cand_mlp_h192_a005_s42",
+    "cand_mlp_h192_a01_s7",
+    "cand_mlp_h192_a01_s13",
+    "cand_mlp_h192_a01_s42",
+    "cand_mlp_h256_a001_s7",
+    "cand_mlp_h256_a001_s13",
+    "cand_mlp_h256_a001_s42",
+    "cand_mlp_h256_a005_s7",
+    "cand_mlp_h256_a005_s13",
+    "cand_mlp_h256_a005_s42",
+    "cand_mlp_h256_a01_s7",
+    "cand_mlp_h256_a01_s13",
+    "cand_mlp_h256_a01_s42",
+    "cand_extra_trees_shallow_s42",
+    "cand_seq_cnn_wide_top128_s7",
+    "cand_seq_cnn_top64_s13",
+    "cand_seq_cnn_top256_s7",
+    "cand_seq_bilstm_top128_s13",
+    "cand_seq_transformer_top128_s42"
   ],
+  "candidateModels": {
+    "tabular": [
+      {
+        "modelId": "cand_combined_rel6_logreg",
+        "family": "logreg",
+        "seed": 42,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "cand_combined_rel7_logreg",
+        "family": "logreg",
+        "seed": 42,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "cand_combined_rel6_rel7_logreg",
+        "family": "logreg",
+        "seed": 42,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "cand_v2_rel5_logreg",
+        "family": "logreg",
+        "seed": 42,
+        "featureBlocks": ["rel5_combined", "stylistic", "mean_pca", "rel3_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "cand_focal_g05",
+        "family": "focal_logreg",
+        "seed": 42,
+        "gamma": 0.5,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "cand_focal_g1",
+        "family": "focal_logreg",
+        "seed": 42,
+        "gamma": 1,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "cand_focal_g2",
+        "family": "focal_logreg",
+        "seed": 42,
+        "gamma": 2,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "cand_focal_g3",
+        "family": "focal_logreg",
+        "seed": 42,
+        "gamma": 3,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "cand_extra_trees_shallow_s42",
+        "family": "extra_trees",
+        "seed": 42,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "rel5_combined", "mean_pca", "rel3_pca"],
+        "pcaComponents": 40,
+        "nEstimators": 500,
+        "maxDepth": 4,
+        "minSamplesLeaf": 12
+      },
+      {
+        "modelId": "cand_mlp_h64_a001_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 64,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h64_a001_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 64,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h64_a001_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 64,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h64_a005_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 64,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h64_a005_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 64,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h64_a005_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 64,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h64_a01_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 64,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h64_a01_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 64,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h64_a01_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 64,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a001_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 128,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a001_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 128,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a001_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a005_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 128,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a005_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 128,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a005_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a01_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 128,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a01_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 128,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h128_a01_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a001_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 192,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a001_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 192,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a001_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 192,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a005_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 192,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a005_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 192,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a005_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 192,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a01_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 192,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a01_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 192,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h192_a01_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 192,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a001_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 256,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a001_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 256,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a001_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 256,
+        "alpha": 0.001,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a005_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 256,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a005_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 256,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a005_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 256,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a01_s7",
+        "family": "mlp",
+        "seed": 7,
+        "hiddenSize": 256,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a01_s13",
+        "family": "mlp",
+        "seed": 13,
+        "hiddenSize": 256,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "cand_mlp_h256_a01_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 256,
+        "alpha": 0.01,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      }
+    ],
+    "sequence": [
+      {
+        "modelId": "cand_seq_cnn_wide_top128_s7",
+        "family": "cnn_wide",
+        "seed": 7,
+        "topN": 128,
+        "epochs": 45,
+        "batchSize": 48,
+        "numFilters": 96,
+        "dropout": 0.45
+      },
+      {
+        "modelId": "cand_seq_cnn_top64_s13",
+        "family": "cnn",
+        "seed": 13,
+        "topN": 64,
+        "epochs": 45,
+        "batchSize": 64,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "cand_seq_cnn_top256_s7",
+        "family": "cnn",
+        "seed": 7,
+        "topN": 256,
+        "epochs": 45,
+        "batchSize": 32,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "cand_seq_bilstm_top128_s13",
+        "family": "bilstm",
+        "seed": 13,
+        "topN": 128,
+        "epochs": 45,
+        "batchSize": 48,
+        "hiddenSize": 96,
+        "dropout": 0.35
+      },
+      {
+        "modelId": "cand_seq_transformer_top128_s42",
+        "family": "tiny_transformer",
+        "seed": 42,
+        "topN": 128,
+        "epochs": 45,
+        "batchSize": 32,
+        "hiddenSize": 192,
+        "dropout": 0.25
+      }
+    ]
+  },
   "ensemble": {
     "weightStep": 0.05,
     "primaryMetric": "macroF1",
-    "tieBreakers": ["diagnosedF1", "precision"]
+    "tieBreakers": ["diagnosedF1", "precision"],
+    "exhaustiveModelLimit": 7,
+    "candidatePruneTo": 16,
+    "maxModels": 8
   }
 }
-

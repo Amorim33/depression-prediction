@@ -28,3 +28,15 @@ The existing database is the source of truth. The workflow expects:
 - Tweet-level text, relevance, embedding, and tweet index columns for stylistic features and sequence exports.
 
 No script in this repository should mutate the database.
+
+## Candidate Model Expansion
+
+The candidate workflow is additive. Baseline artifacts remain valid, and candidate artifacts are emitted under the same strict score contract:
+
+- Train OOF files contain `user_id,label,fold,score,model_id`.
+- Test score files contain only `user_id,score,model_id`.
+- Candidate IDs, seeds, feature blocks, and hyperparameters are pre-registered in the config before test evaluation.
+- PCA, scalers, focal losses, neural early stopping, and tree models are fitted inside train folds only.
+- Sequence candidates use exported `.npz` files and should run on Fedora's RTX GPU; local DB reads, OOF audits, ensemble selection, and final evaluation stay on the Mac.
+
+Do not use legacy or current test metrics to prune candidates, tune thresholds, tune ensemble weights, or change calibration.

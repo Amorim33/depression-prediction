@@ -1,0 +1,197 @@
+import { describe, expect, test } from "bun:test";
+import {
+  auditTernaryOofScores,
+  auditTernaryTestScoreSchema,
+  computeTernaryMetrics,
+  deriveTernaryLabel,
+  evaluateTernaryLockedEnsemble,
+  lockTernaryLabelPolicy,
+  selectTernaryEnsemble,
+} from "../src/ternary.ts";
+import type {
+  EvidenceMarker,
+  TernaryLabel,
+  TernaryLabelPolicyConfig,
+  TernaryManifestRow,
+  TernaryProbabilityRow,
+} from "../src/types.ts";
+
+describe("ternary label policies", () => {
+  test("never converts controls to no-evidence and converts diagnosed low evidence users", () => {
+    const policy = lockTernaryLabelPolicy(
+      {
+        policyId: "diag_rel3_zero",
+        kind: "rel_count_zero",
+        relevanceThreshold: 3,
+        description: "test",
+      },
+      [
+        { binaryLabel: "diagnosed", marker: marker({ userId: "D", rel3Count: 0 }) },
+        { binaryLabel: "control", marker: marker({ userId: "C", rel3Count: 0 }) },
+      ],
+      "manifest",
+      42,
+    );
+
+    expect(deriveTernaryLabel("diagnosed", marker({ rel3Count: 0 }), policy)).toBe("no-evidence");
+    expect(deriveTernaryLabel("diagnosed", marker({ rel3Count: 1 }), policy)).toBe("diagnosed");
+    expect(deriveTernaryLabel("control", marker({ rel3Count: 0 }), policy)).toBe("control");
+  });
+
+  test("derives quantile cutoffs from train diagnosed users only", () => {
+    const config = {
+      policyId: "diag_evidence_q50",
+      kind: "evidence_quantile",
+      quantile: 0.5,
+      description: "test",
+    } satisfies TernaryLabelPolicyConfig;
+    const policy = lockTernaryLabelPolicy(
+      config,
+      [
+        { binaryLabel: "diagnosed", marker: marker({ userId: "D1", evidenceScore: 0.1 }) },
+        { binaryLabel: "diagnosed", marker: marker({ userId: "D2", evidenceScore: 0.3 }) },
+        { binaryLabel: "diagnosed", marker: marker({ userId: "D3", evidenceScore: 0.9 }) },
+        { binaryLabel: "control", marker: marker({ userId: "C1", evidenceScore: 0.0 }) },
+      ],
+      "manifest",
+      42,
+    );
+
+    expect(policy.cutoff).toBe(0.3);
+    expect(deriveTernaryLabel("diagnosed", marker({ evidenceScore: 0.2 }), policy)).toBe("no-evidence");
+    expect(deriveTernaryLabel("diagnosed", marker({ evidenceScore: 0.5 }), policy)).toBe("diagnosed");
+  });
+});
+
+describe("ternary metrics and artifacts", () => {
+  test("computes macro and diagnosed metrics", () => {
+    const actual: TernaryLabel[] = ["diagnosed", "control", "no-evidence"];
+    const predicted: TernaryLabel[] = ["diagnosed", "no-evidence", "no-evidence"];
+    const metrics = computeTernaryMetrics(actual, predicted);
+    expect(metrics.diagnosedF1).toBe(1);
+    expect(metrics.perClass.control.f1).toBe(0);
+    expect(metrics.perClass["no-evidence"].f1).toBeCloseTo(2 / 3);
+    expect(metrics.macroF1).toBeCloseTo(5 / 9);
+  });
+
+  test("rejects labels and invalid probabilities in ternary test scores", () => {
+    expect(
+      auditTernaryTestScoreSchema(
+        "test_score_m.csv",
+        "user_id,label,prob_diagnosed,prob_control,prob_no_evidence,model_id,label_policy_id\nU,control,0.2,0.3,0.5,m,p\n",
+      ).ok,
+    ).toBe(false);
+    expect(
+      auditTernaryTestScoreSchema(
+        "test_score_m.csv",
+        "user_id,prob_diagnosed,prob_control,prob_no_evidence,model_id,label_policy_id\nU,0.2,0.3,0.2,m,p\n",
+      ).ok,
+    ).toBe(false);
+  });
+
+  test("audits OOF rows against a ternary train manifest", () => {
+    const manifestRows = ternaryManifest();
+    const rows = ternaryRows("m1");
+    const report = auditTernaryOofScores(manifestRows, new Set(["T"]), new Map([["m1", rows]]), "p");
+    expect(report.ok).toBe(true);
+
+    const badReport = auditTernaryOofScores(
+      manifestRows,
+      new Set(["T"]),
+      new Map([["m1", [{ ...rows[0]!, userId: "T" }, ...rows.slice(1)]]]),
+      "p",
+    );
+    expect(badReport.ok).toBe(false);
+    expect(badReport.findings.some((finding) => finding.code === "ternary-oof-test-user")).toBe(true);
+  });
+});
+
+describe("ternary ensemble selection", () => {
+  test("selects and evaluates a locked ternary ensemble", () => {
+    const oofRows = ternaryRows("m1");
+    const lock = selectTernaryEnsemble({
+      seed: 42,
+      originalManifestHash: "manifest",
+      labelPolicyId: "p",
+      labelPolicyHash: "policy",
+      oofByModel: new Map([["m1", oofRows]]),
+      sourceHashes: { m1: "hash" },
+      weightStep: 0.5,
+      decisionRules: [{ ruleId: "argmax", kind: "argmax" }],
+      command: "test",
+    });
+    const metrics = evaluateTernaryLockedEnsemble(
+      lock,
+      new Map([["m1", oofRows.map(({ userId, probDiagnosed, probControl, probNoEvidence, modelId, labelPolicyId }) => ({ userId, probDiagnosed, probControl, probNoEvidence, modelId, labelPolicyId }))]]),
+      new Map([
+        ["A", "diagnosed"],
+        ["B", "control"],
+        ["C", "no-evidence"],
+      ]),
+    );
+    expect(lock.modelIds).toEqual(["m1"]);
+    expect(metrics.macroF1).toBe(1);
+  });
+});
+
+function ternaryManifest(): TernaryManifestRow[] {
+  return [
+    { dataset: "setembrobr", split: "train", label: "diagnosed", binaryLabel: "diagnosed", userId: "A", rowHash: "a", fold: 1, labelPolicyId: "p" },
+    { dataset: "setembrobr", split: "train", label: "control", binaryLabel: "control", userId: "B", rowHash: "b", fold: 2, labelPolicyId: "p" },
+    { dataset: "setembrobr", split: "train", label: "no-evidence", binaryLabel: "diagnosed", userId: "C", rowHash: "c", fold: 3, labelPolicyId: "p" },
+  ];
+}
+
+function ternaryRows(modelId: string): TernaryProbabilityRow[] {
+  return [
+    {
+      userId: "A",
+      label: "diagnosed",
+      fold: 1,
+      probDiagnosed: 0.8,
+      probControl: 0.1,
+      probNoEvidence: 0.1,
+      modelId,
+      labelPolicyId: "p",
+    },
+    {
+      userId: "B",
+      label: "control",
+      fold: 2,
+      probDiagnosed: 0.1,
+      probControl: 0.8,
+      probNoEvidence: 0.1,
+      modelId,
+      labelPolicyId: "p",
+    },
+    {
+      userId: "C",
+      label: "no-evidence",
+      fold: 3,
+      probDiagnosed: 0.1,
+      probControl: 0.1,
+      probNoEvidence: 0.8,
+      modelId,
+      labelPolicyId: "p",
+    },
+  ];
+}
+
+function marker(overrides: Partial<EvidenceMarker> = {}): EvidenceMarker {
+  return {
+    userId: "U",
+    totalTweets: 10,
+    maxRelevance: 0,
+    rel3Count: 0,
+    rel5Count: 0,
+    rel6Count: 0,
+    rel7Count: 0,
+    rel3Ratio: 0,
+    rel5Ratio: 0,
+    rel6Ratio: 0,
+    rel7Ratio: 0,
+    top10AvgRelevance: 0,
+    evidenceScore: 0,
+    ...overrides,
+  };
+}

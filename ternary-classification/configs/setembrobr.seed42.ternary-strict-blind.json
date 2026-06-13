@@ -1,0 +1,200 @@
+{
+  "dataset": "setembrobr",
+  "seed": 42,
+  "foldCount": 5,
+  "sourceOutputDir": "outputs/setembrobr/seed42_strict_blind",
+  "outputDir": "outputs/setembrobr/seed42_ternary_strict_blind",
+  "database": {
+    "tables": {
+      "trainUserEmb": "train_user_emb",
+      "testUserEmb": "test_user_emb",
+      "trainUserEmbRel3": "train_user_emb_rel3",
+      "testUserEmbRel3": "test_user_emb_rel3",
+      "trainUserEmbRel6": "train_user_emb_rel6",
+      "testUserEmbRel6": "test_user_emb_rel6",
+      "trainUserEmbRel7": "train_user_emb_rel7",
+      "testUserEmbRel7": "test_user_emb_rel7",
+      "trainSubFeatures": "train_sub_features",
+      "testSubFeatures": "test_sub_features",
+      "trainV2SubFeatures": "train_v2_sub_features",
+      "testV2SubFeatures": "test_v2_sub_features",
+      "trainRel5CombinedFeatures": "train_rel5_combined_features",
+      "testRel5CombinedFeatures": "test_rel5_combined_features",
+      "trainEmbeddings": "train_embeddings",
+      "testEmbeddings": "test_embeddings"
+    },
+    "embeddingDimension": 3072
+  },
+  "labelPolicies": [
+    {
+      "policyId": "diag_rel3_zero",
+      "kind": "rel_count_zero",
+      "relevanceThreshold": 3,
+      "description": "Originally diagnosed users with zero tweets at GPT-3.5 relevance >= 3 become no-evidence."
+    },
+    {
+      "policyId": "diag_rel5_zero",
+      "kind": "rel_count_zero",
+      "relevanceThreshold": 5,
+      "description": "Originally diagnosed users with zero tweets at GPT-3.5 relevance >= 5 become no-evidence."
+    },
+    {
+      "policyId": "diag_rel6_zero",
+      "kind": "rel_count_zero",
+      "relevanceThreshold": 6,
+      "description": "Originally diagnosed users with zero tweets at GPT-3.5 relevance >= 6 become no-evidence."
+    },
+    {
+      "policyId": "diag_low_density",
+      "kind": "low_density",
+      "densityThreshold": 0.01,
+      "description": "Originally diagnosed users with rel3 tweet density <= 1% become no-evidence."
+    },
+    {
+      "policyId": "diag_top10_avg_lt3",
+      "kind": "top10_avg_lt",
+      "top10AvgThreshold": 3,
+      "description": "Originally diagnosed users whose ten most relevant tweets average below 3 become no-evidence."
+    },
+    {
+      "policyId": "diag_evidence_q10",
+      "kind": "evidence_quantile",
+      "quantile": 0.1,
+      "description": "Originally diagnosed users in the bottom 10% of train-only deterministic evidence score become no-evidence."
+    },
+    {
+      "policyId": "diag_evidence_q20",
+      "kind": "evidence_quantile",
+      "quantile": 0.2,
+      "description": "Originally diagnosed users in the bottom 20% of train-only deterministic evidence score become no-evidence."
+    }
+  ],
+  "models": [
+    "ternary_logreg_all",
+    "ternary_extra_trees_evidence",
+    "ternary_mlp_h128_s42",
+    "ternary_focal_linear_g1",
+    "ternary_hier_logreg_gate",
+    "ternary_relevance_baseline",
+    "ternary_seq_cnn_top128_s42",
+    "ternary_seq_cnn_wide_top128_s13",
+    "ternary_seq_bilstm_top128_s13",
+    "ternary_seq_transformer_top128_s42"
+  ],
+  "candidateModels": {
+    "tabular": [
+      {
+        "modelId": "ternary_logreg_all",
+        "family": "multinomial_logreg",
+        "seed": 42,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "ternary_extra_trees_evidence",
+        "family": "extra_trees",
+        "seed": 42,
+        "featureBlocks": ["v1", "v2", "stylistic", "relevance_counts", "evidence_markers", "rel5_combined", "mean_pca", "rel3_pca"],
+        "pcaComponents": 40,
+        "nEstimators": 500,
+        "maxDepth": 5,
+        "minSamplesLeaf": 10
+      },
+      {
+        "modelId": "ternary_mlp_h128_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.005,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "ternary_focal_linear_g1",
+        "family": "focal_linear",
+        "seed": 42,
+        "gamma": 1,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "ternary_hier_logreg_gate",
+        "family": "hierarchical_logreg",
+        "seed": 42,
+        "featureBlocks": ["v1", "stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "ternary_relevance_baseline",
+        "family": "relevance_baseline",
+        "seed": 42,
+        "featureBlocks": ["evidence_markers"]
+      }
+    ],
+    "sequence": [
+      {
+        "modelId": "ternary_seq_cnn_top128_s42",
+        "family": "cnn",
+        "seed": 42,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 48,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "ternary_seq_cnn_wide_top128_s13",
+        "family": "cnn_wide",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 48,
+        "numFilters": 96,
+        "dropout": 0.45
+      },
+      {
+        "modelId": "ternary_seq_bilstm_top128_s13",
+        "family": "bilstm",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 40,
+        "hiddenSize": 96,
+        "dropout": 0.35
+      },
+      {
+        "modelId": "ternary_seq_transformer_top128_s42",
+        "family": "tiny_transformer",
+        "seed": 42,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 30,
+        "batchSize": 32,
+        "hiddenSize": 192,
+        "dropout": 0.25
+      }
+    ]
+  },
+  "ensemble": {
+    "weightStep": 0.05,
+    "primaryMetric": "macroF1",
+    "tieBreakers": ["diagnosedF1", "diagnosedPrecision"],
+    "exhaustiveModelLimit": 6,
+    "candidatePruneTo": 16,
+    "maxModels": 8,
+    "decisionRules": [
+      { "ruleId": "argmax", "kind": "argmax" },
+      { "ruleId": "diagnosed_margin_005", "kind": "diagnosed_margin", "diagnosedMargin": 0.05 },
+      { "ruleId": "diagnosed_margin_010", "kind": "diagnosed_margin", "diagnosedMargin": 0.1 },
+      { "ruleId": "no_evidence_gate_045", "kind": "no_evidence_gate", "noEvidenceMin": 0.45 },
+      { "ruleId": "no_evidence_gate_055", "kind": "no_evidence_gate", "noEvidenceMin": 0.55 }
+    ]
+  },
+  "documentation": {
+    "protocolPath": "ternary-classification/docs/TERNARY_PROTOCOL.md",
+    "resultsPath": "ternary-classification/docs/RESULTS.md"
+  }
+}
