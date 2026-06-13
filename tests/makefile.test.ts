@@ -37,10 +37,12 @@ describe("Makefile Fedora targets", () => {
     expect(target).toContain("ternary-robustness-setembrobr");
     expect(target).toContain("ternary-nested-oof-selection-setembrobr");
     expect(target).toContain("ternary-oof-diagnostics-setembrobr");
+    expect(target).toContain("ternary-model-policy-leaderboard-setembrobr");
     expect(target).toContain("ternary-evaluate-test-setembrobr");
     expect(target.indexOf("ternary-robustness-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
     expect(target.indexOf("ternary-nested-oof-selection-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
     expect(target.indexOf("ternary-oof-diagnostics-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
+    expect(target.indexOf("ternary-model-policy-leaderboard-setembrobr")).toBeLessThan(target.indexOf("ternary-evaluate-test-setembrobr"));
   });
 
   test("defines train-only ternary robustness before final test evaluation", async () => {
@@ -66,6 +68,15 @@ describe("Makefile Fedora targets", () => {
     const target = extractTarget(makefile, "ternary-oof-diagnostics-setembrobr");
 
     expect(target).toContain("bun run ternary-oof-diagnostics-setembrobr");
+    expect(target).not.toContain("ternary-evaluate-test-setembrobr");
+    expect(target).not.toContain("test_score");
+  });
+
+  test("defines train-only model policy leaderboard before final test evaluation", async () => {
+    const makefile = await readFile("Makefile", "utf8");
+    const target = extractTarget(makefile, "ternary-model-policy-leaderboard-setembrobr");
+
+    expect(target).toContain("bun run ternary-model-policy-leaderboard-setembrobr");
     expect(target).not.toContain("ternary-evaluate-test-setembrobr");
     expect(target).not.toContain("test_score");
   });

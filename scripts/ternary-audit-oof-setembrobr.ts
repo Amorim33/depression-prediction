@@ -57,6 +57,7 @@ reports.push(
     "scripts/ternary-robustness-setembrobr.ts",
     "scripts/ternary-nested-oof-selection-setembrobr.ts",
     "scripts/ternary-oof-diagnostics-setembrobr.ts",
+    "scripts/ternary-model-policy-leaderboard-setembrobr.ts",
   ]),
 );
 reports.push(
@@ -67,6 +68,7 @@ reports.push(
     "scripts/ternary-robustness-setembrobr.ts",
     "scripts/ternary-nested-oof-selection-setembrobr.ts",
     "scripts/ternary-oof-diagnostics-setembrobr.ts",
+    "scripts/ternary-model-policy-leaderboard-setembrobr.ts",
   ]),
 );
 

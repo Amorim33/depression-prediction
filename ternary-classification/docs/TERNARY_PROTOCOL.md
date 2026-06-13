@@ -153,3 +153,18 @@ train-side overconfidence and class skew before any future pre-registered run.
 
 The diagnostics must not read test score files, test labels, final test reports, or test prevalence,
 and must not alter the locked champion.
+
+## Model And Policy Leaderboard
+
+Single-model policy/rule rankings can be generated from train OOF probabilities:
+
+```bash
+make ternary-model-policy-leaderboard-setembrobr
+```
+
+The leaderboard scores every pre-registered ternary model under every configured label policy and
+decision rule, then summarizes the strongest model/policy/rule combinations by label policy and model
+family. It reads train OOF score files and pre-registered metadata only.
+
+The leaderboard must not read test score files, test labels, final test reports, or test prevalence,
+and must not be used to revise a champion after final test evaluation.
