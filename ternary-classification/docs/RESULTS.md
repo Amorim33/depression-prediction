@@ -4,12 +4,11 @@ Status: reproduced with the strict-blind ternary workflow. The current train-onl
 boosted tabular candidates, bounded selection groups, and pre-registered local weight refinement for
 the strongest boosted-core groups. The current train-only lock adds an HGB candidate and uses the
 embedding-rich XGBoost variant instead of the shallow XGBoost variant. Stacking candidates were also
-tested but were not selected. The current lock has not been final-test evaluated.
+tested but were not selected. The current lock was final-test evaluated after the lock existed.
 
-All selection used train OOF probabilities only. For the historical pre-XGBoost run, final test labels were read only by
-`make ternary-evaluate-test-setembrobr` after
-`outputs/setembrobr/seed42_ternary_strict_blind/ensemble/ensemble-lock.json`
-already existed.
+All selection used train OOF probabilities only. Final test labels were read only by
+`make ternary-evaluate-test-setembrobr` after the locked ensemble already existed at
+`outputs/setembrobr/seed42_ternary_strict_blind/ensemble/ensemble-lock.json`.
 
 ## Current Train-Only Lock
 
@@ -34,26 +33,30 @@ already existed.
 
 Row 5 preserves the previous train-only lock under an explicit legacy tabular group.
 
-## Historical Final Test Metrics
+## Current Final Test Metrics
 
-These metrics belong to the earlier pre-boosted-core lock. They are retained as a historical strict-blind
-report. No final test evaluation has been run for the current refined HGB-rich boosted-core train-only lock.
+These metrics belong to the current HGB-rich boosted-core lock. The train-OOF gain did not generalize
+to the final test set.
 
 | Metric | Value |
 | --- | ---: |
-| Macro F1 | `0.315936` |
-| Diagnosed F1 | `0.312281` |
-| Diagnosed precision | `0.185933` |
-| Diagnosed recall | `0.974453` |
-| Accuracy | `0.387611` |
+| Macro F1 | `0.242820` |
+| Diagnosed F1 | `0.307866` |
+| Diagnosed precision | `0.182184` |
+| Diagnosed recall | `0.992701` |
+| Accuracy | `0.265579` |
 
-## Historical Final Test Confusion Matrix
+## Current Final Test Confusion Matrix
 
 | Actual \ Predicted | diagnosed | control | no-evidence |
 | --- | ---: | ---: | ---: |
-| diagnosed | 267 | 5 | 2 |
-| control | 1157 | 730 | 472 |
-| no-evidence | 12 | 3 | 48 |
+| diagnosed | 272 | 2 | 0 |
+| control | 1221 | 381 | 757 |
+| no-evidence | 0 | 0 | 63 |
+
+The earlier pre-boosted-core final test report had Macro F1 `0.315936`, diagnosed F1 `0.312281`,
+diagnosed precision `0.185933`, diagnosed recall `0.974453`, and accuracy `0.387611`. That historical
+lock remains a prior strict-blind result; it must not be used to reselect or tune the current lock.
 
 ## Label-Policy Evidence Summary
 
@@ -85,7 +88,7 @@ report. No final test evaluation has been run for the current refined HGB-rich b
 - OOF probability diagnostics: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-oof-diagnostics.json`
 - Model/policy leaderboard: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-model-policy-leaderboard.json`
 - Family ablation: `outputs/setembrobr/seed42_ternary_strict_blind/reports/ternary-family-ablation.json`
-- Historical pre-XGBoost final report: `outputs/setembrobr/seed42_ternary_strict_blind/reports/final-test-report.json`
+- Current final test report: `outputs/setembrobr/seed42_ternary_strict_blind/reports/final-test-report.json`
 - GPU run manifest: `outputs/setembrobr/seed42_ternary_strict_blind/gpu-runs/fedora-ternary-seq-oof.json`
 
 Reports are aggregate-only. They contain no raw tweet text.
