@@ -331,7 +331,7 @@
     "maxModels": 8,
     "localRefinement": {
       "policyIds": ["diag_evidence_q20"],
-      "groupIds": ["tabular_core_xgb_s42_shallow", "tabular_core_xgb_s42_rich"],
+      "groupIds": ["tabular_core_xgb_s42_shallow", "tabular_core_xgb_hgb_shallow", "tabular_core_xgb_s42_rich"],
       "weightStep": 0.01,
       "radius": 0.03,
       "maxModels": 6
@@ -467,6 +467,18 @@
           "ternary_xgb_tabular_markers_s42",
           "ternary_xgb_expanded_pca_s42",
           "ternary_xgb_shallow_pca_s99"
+        ]
+      },
+      {
+        "groupId": "tabular_core_xgb_hgb_shallow",
+        "description": "Prior shallow boosted-core lock plus the expanded histogram gradient boosting candidate.",
+        "modelIds": [
+          "ternary_hier_logreg_gate",
+          "ternary_mlp_h128_s42",
+          "ternary_xgb_expanded_pca_s13",
+          "ternary_xgb_tabular_markers_s42",
+          "ternary_xgb_shallow_pca_s99",
+          "ternary_hgb_expanded_pca_s42"
         ]
       },
       {

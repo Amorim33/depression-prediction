@@ -147,9 +147,10 @@ The config may also pre-register bounded local weight refinement for specific la
 group pairs. Local refinement starts from a train-OOF-selected ensemble, keeps only its nonzero model
 weights, enumerates nearby probability-simplex weights with the configured finer step and radius, and
 keeps a replacement only if it improves the official train-OOF objective. The current refinement is
-limited to `diag_evidence_q20` boosted-core groups, uses weight step `0.01`, radius `0.03`, and at most
-six selected models. It must not read test scores, test labels, test prevalence, final test reports, or
-any remote GPU artifacts beyond label-free candidate probabilities.
+limited to `diag_evidence_q20` boosted-core groups, including the HGB-shallow core group, uses weight
+step `0.01`, radius `0.03`, and at most six selected models. It must not read test scores, test labels,
+test prevalence, final test reports, or any remote GPU artifacts beyond label-free candidate
+probabilities.
 
 ## Train-Only Robustness Report
 
