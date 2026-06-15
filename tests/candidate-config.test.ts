@@ -62,7 +62,12 @@ describe("candidate registry", () => {
   test("pre-registers bounded ternary local refinement groups", () => {
     const refinement = ternaryConfig.ensemble.localRefinement;
     expect(refinement?.policyIds).toEqual(["diag_evidence_q20"]);
-    expect(refinement?.groupIds).toEqual(["tabular_core_xgb_s42_shallow", "tabular_core_xgb_hgb_shallow", "tabular_core_xgb_s42_rich"]);
+    expect(refinement?.groupIds).toEqual([
+      "tabular_core_xgb_s42_shallow",
+      "tabular_core_xgb_hgb_shallow",
+      "tabular_core_xgb_hgb_rich",
+      "tabular_core_xgb_s42_rich",
+    ]);
     expect(refinement?.weightStep).toBe(0.01);
     expect(refinement?.radius).toBe(0.03);
     expect(refinement?.maxModels).toBe(6);
