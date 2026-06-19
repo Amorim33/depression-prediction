@@ -1,0 +1,487 @@
+{
+  "dataset": "setembrobr",
+  "seed": 42,
+  "foldCount": 5,
+  "outputDir": "outputs/setembrobr/seed42_temporal_relevance_qwen3_binary",
+  "featureSource": "raw_artifacts",
+  "rawArtifactsDir": "/home/aluisioamorim/codex-runs/depression-prediction-setembrobr-raw-embeddings/artifacts",
+  "sealedTestLabelsPath": "outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/manifest/sealed_test_labels_seed42.csv",
+  "database": {
+    "tables": {
+      "trainUserEmb": "unused_raw_train_user_emb",
+      "testUserEmb": "unused_raw_test_user_emb",
+      "trainUserEmbRel3": "unused_raw_train_user_emb_rel3",
+      "testUserEmbRel3": "unused_raw_test_user_emb_rel3",
+      "trainUserEmbRel6": "unused_raw_train_user_emb_rel6",
+      "testUserEmbRel6": "unused_raw_test_user_emb_rel6",
+      "trainUserEmbRel7": "unused_raw_train_user_emb_rel7",
+      "testUserEmbRel7": "unused_raw_test_user_emb_rel7",
+      "trainSubFeatures": "unused_raw_train_sub_features",
+      "testSubFeatures": "unused_raw_test_sub_features",
+      "trainEmbeddings": "unused_raw_train_embeddings",
+      "testEmbeddings": "unused_raw_test_embeddings"
+    },
+    "embeddingDimension": 2560
+  },
+  "models": [
+    "binary_hgb_expanded_pca_s42",
+    "binary_hier_logreg_gate",
+    "binary_mlp_h128_s42",
+    "binary_xgb_embedding_rich_s7",
+    "binary_xgb_expanded_pca_s13",
+    "binary_xgb_tabular_markers_s42",
+    "binary_xgb_expanded_pca_s42",
+    "binary_xgb_shallow_pca_s99",
+    "binary_hgb_markers_s13",
+    "binary_legacy_logreg_combined_s42",
+    "binary_legacy_focal_combined_g1",
+    "binary_legacy_mlp_combined_h128_a01_s42",
+    "binary_legacy_seq_cnn_top128_s13",
+    "binary_legacy_seq_cnn_top128_s42",
+    "binary_seq_cnn_top128_s42",
+    "binary_seq_cnn_wide_top128_s13",
+    "binary_seq_bilstm_top128_s13",
+    "binary_seq_transformer_top128_s42",
+    "binary_stack_logreg_xgb_tabular",
+    "binary_stack_logreg_boosted_core",
+    "binary_stack_logreg_xgb_variants"
+  ],
+  "candidateModels": {
+    "tabular": [
+      {
+        "modelId": "binary_xgb_tabular_markers_s42",
+        "family": "xgboost",
+        "seed": 42,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "temporal_markers"
+        ],
+        "nEstimators": 220,
+        "maxDepth": 2,
+        "learningRate": 0.05,
+        "subsample": 0.9,
+        "colsampleBytree": 0.9,
+        "regLambda": 4,
+        "minChildWeight": 3
+      },
+      {
+        "modelId": "binary_xgb_expanded_pca_s13",
+        "family": "xgboost",
+        "seed": 13,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "mean_pca",
+          "rel3_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 40,
+        "nEstimators": 260,
+        "maxDepth": 3,
+        "learningRate": 0.05,
+        "subsample": 0.85,
+        "colsampleBytree": 0.85,
+        "regLambda": 3,
+        "minChildWeight": 2
+      },
+      {
+        "modelId": "binary_xgb_expanded_pca_s42",
+        "family": "xgboost",
+        "seed": 42,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "mean_pca",
+          "rel3_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 56,
+        "nEstimators": 300,
+        "maxDepth": 3,
+        "learningRate": 0.04,
+        "subsample": 0.9,
+        "colsampleBytree": 0.8,
+        "regLambda": 4,
+        "minChildWeight": 2
+      },
+      {
+        "modelId": "binary_xgb_embedding_rich_s7",
+        "family": "xgboost",
+        "seed": 7,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "mean_pca",
+          "rel3_pca",
+          "rel6_pca",
+          "rel7_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 32,
+        "nEstimators": 320,
+        "maxDepth": 2,
+        "learningRate": 0.04,
+        "subsample": 0.8,
+        "colsampleBytree": 0.8,
+        "regLambda": 5,
+        "minChildWeight": 4
+      },
+      {
+        "modelId": "binary_xgb_shallow_pca_s99",
+        "family": "xgboost",
+        "seed": 99,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "mean_pca",
+          "rel3_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 64,
+        "nEstimators": 420,
+        "maxDepth": 2,
+        "learningRate": 0.035,
+        "subsample": 0.9,
+        "colsampleBytree": 0.75,
+        "regLambda": 6,
+        "minChildWeight": 4
+      },
+      {
+        "modelId": "binary_hgb_expanded_pca_s42",
+        "family": "hist_gradient_boosting",
+        "seed": 42,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "mean_pca",
+          "rel3_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 40,
+        "maxIter": 220,
+        "maxDepth": 3,
+        "maxLeafNodes": 15,
+        "learningRate": 0.04,
+        "l2Regularization": 0.1
+      },
+      {
+        "modelId": "binary_hgb_markers_s13",
+        "family": "hist_gradient_boosting",
+        "seed": 13,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "temporal_markers"
+        ],
+        "maxIter": 260,
+        "maxDepth": 3,
+        "maxLeafNodes": 10,
+        "learningRate": 0.045,
+        "l2Regularization": 0.2
+      },
+      {
+        "modelId": "binary_mlp_h128_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.005,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "mean_pca",
+          "rel3_pca",
+          "rel6_pca",
+          "rel7_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "binary_hier_logreg_gate",
+        "family": "hierarchical_logreg",
+        "seed": 42,
+        "featureBlocks": [
+          "stylistic",
+          "relevance_counts",
+          "evidence_markers",
+          "mean_pca",
+          "rel3_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "binary_legacy_logreg_combined_s42",
+        "family": "logreg",
+        "seed": 42,
+        "featureBlocks": [
+          "stylistic",
+          "evidence_markers",
+          "relevance_counts",
+          "mean_pca",
+          "rel3_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 100
+      },
+      {
+        "modelId": "binary_legacy_focal_combined_g1",
+        "family": "focal_linear",
+        "seed": 42,
+        "gamma": 1,
+        "featureBlocks": [
+          "stylistic",
+          "evidence_markers",
+          "relevance_counts",
+          "mean_pca",
+          "rel3_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 100
+      },
+      {
+        "modelId": "binary_legacy_mlp_combined_h128_a01_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.01,
+        "featureBlocks": [
+          "stylistic",
+          "evidence_markers",
+          "relevance_counts",
+          "mean_pca",
+          "rel3_pca",
+          "temporal_markers"
+        ],
+        "pcaComponents": 100
+      }
+    ],
+    "sequence": [
+      {
+        "modelId": "binary_legacy_seq_cnn_top128_s13",
+        "family": "cnn",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 25,
+        "batchSize": 64,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "binary_legacy_seq_cnn_top128_s42",
+        "family": "cnn",
+        "seed": 42,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 25,
+        "batchSize": 64,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "binary_seq_cnn_top128_s42",
+        "family": "cnn",
+        "seed": 42,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 48,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "binary_seq_cnn_wide_top128_s13",
+        "family": "cnn_wide",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 48,
+        "numFilters": 96,
+        "dropout": 0.45
+      },
+      {
+        "modelId": "binary_seq_bilstm_top128_s13",
+        "family": "bilstm",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 40,
+        "hiddenSize": 96,
+        "dropout": 0.35
+      },
+      {
+        "modelId": "binary_seq_transformer_top128_s42",
+        "family": "tiny_transformer",
+        "seed": 42,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 30,
+        "batchSize": 32,
+        "hiddenSize": 192,
+        "dropout": 0.25
+      }
+    ],
+    "stacking": [
+      {
+        "modelId": "binary_stack_logreg_xgb_tabular",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": [
+          "binary_hier_logreg_gate",
+          "binary_mlp_h128_s42",
+          "binary_xgb_expanded_pca_s13",
+          "binary_xgb_tabular_markers_s42"
+        ],
+        "c": 1,
+        "maxIter": 1000
+      },
+      {
+        "modelId": "binary_stack_logreg_boosted_core",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": [
+          "binary_hier_logreg_gate",
+          "binary_mlp_h128_s42",
+          "binary_xgb_expanded_pca_s13",
+          "binary_xgb_shallow_pca_s99",
+          "binary_xgb_tabular_markers_s42"
+        ],
+        "c": 0.5,
+        "maxIter": 1000
+      },
+      {
+        "modelId": "binary_stack_logreg_xgb_variants",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": [
+          "binary_xgb_embedding_rich_s7",
+          "binary_xgb_expanded_pca_s13",
+          "binary_xgb_expanded_pca_s42",
+          "binary_xgb_shallow_pca_s99"
+        ],
+        "c": 1,
+        "maxIter": 1000
+      }
+    ]
+  },
+  "ensemble": {
+    "weightStep": 0.05,
+    "primaryMetric": "macroF1",
+    "tieBreakers": [
+      "diagnosedF1",
+      "precision"
+    ],
+    "exhaustiveModelLimit": 5,
+    "candidatePruneTo": 16,
+    "maxModels": 8,
+    "selectionGroups": [
+      {
+        "groupId": "all_models",
+        "description": "All raw binary ports of winning ternary families.",
+        "modelIds": [
+          "binary_hgb_expanded_pca_s42",
+          "binary_hier_logreg_gate",
+          "binary_mlp_h128_s42",
+          "binary_xgb_embedding_rich_s7",
+          "binary_xgb_expanded_pca_s13",
+          "binary_xgb_tabular_markers_s42",
+          "binary_xgb_expanded_pca_s42",
+          "binary_xgb_shallow_pca_s99",
+          "binary_hgb_markers_s13",
+          "binary_legacy_logreg_combined_s42",
+          "binary_legacy_focal_combined_g1",
+          "binary_legacy_mlp_combined_h128_a01_s42",
+          "binary_legacy_seq_cnn_top128_s13",
+          "binary_legacy_seq_cnn_top128_s42",
+          "binary_seq_cnn_top128_s42",
+          "binary_seq_cnn_wide_top128_s13",
+          "binary_seq_bilstm_top128_s13",
+          "binary_seq_transformer_top128_s42",
+          "binary_stack_logreg_xgb_tabular",
+          "binary_stack_logreg_boosted_core",
+          "binary_stack_logreg_xgb_variants"
+        ]
+      },
+      {
+        "groupId": "tabular_core_xgb_hgb_rich",
+        "description": "Binary port of the locked ternary boosted-core winner.",
+        "modelIds": [
+          "binary_hgb_expanded_pca_s42",
+          "binary_hier_logreg_gate",
+          "binary_mlp_h128_s42",
+          "binary_xgb_embedding_rich_s7",
+          "binary_xgb_expanded_pca_s13",
+          "binary_xgb_tabular_markers_s42"
+        ]
+      },
+      {
+        "groupId": "tabular_boosting",
+        "description": "Binary boosted tabular variants.",
+        "modelIds": [
+          "binary_xgb_tabular_markers_s42",
+          "binary_xgb_expanded_pca_s13",
+          "binary_xgb_expanded_pca_s42",
+          "binary_xgb_embedding_rich_s7",
+          "binary_xgb_shallow_pca_s99",
+          "binary_hgb_expanded_pca_s42",
+          "binary_hgb_markers_s13"
+        ]
+      },
+      {
+        "groupId": "legacy_cnn_logreg_mlp",
+        "description": "Binary port of the legacy CNN plus focal/logistic regression plus MLP architecture.",
+        "modelIds": [
+          "binary_legacy_seq_cnn_top128_s13",
+          "binary_legacy_seq_cnn_top128_s42",
+          "binary_legacy_focal_combined_g1",
+          "binary_legacy_logreg_combined_s42",
+          "binary_legacy_mlp_combined_h128_a01_s42"
+        ]
+      },
+      {
+        "groupId": "sequence_all",
+        "description": "All raw binary sequence models.",
+        "modelIds": [
+          "binary_legacy_seq_cnn_top128_s13",
+          "binary_legacy_seq_cnn_top128_s42",
+          "binary_seq_cnn_top128_s42",
+          "binary_seq_cnn_wide_top128_s13",
+          "binary_seq_bilstm_top128_s13",
+          "binary_seq_transformer_top128_s42"
+        ]
+      },
+      {
+        "groupId": "stacking_only",
+        "description": "OOF-trained binary logistic stackers.",
+        "modelIds": [
+          "binary_stack_logreg_xgb_tabular",
+          "binary_stack_logreg_boosted_core",
+          "binary_stack_logreg_xgb_variants"
+        ]
+      }
+    ]
+  },
+  "llmDisambiguator": {
+    "enabled": true,
+    "requestedModel": "claude-sonnet-4-6[1M]",
+    "apiModel": "claude-sonnet-4-6",
+    "maxEvidenceTweets": 256,
+    "concurrency": 2,
+    "maxTokens": 512
+  },
+  "sequenceExport": {
+    "order": "recent_chronological"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "datasetDir": "dataset/depression_tweets",
+  "relevanceDir": "dataset/relevance_score",
+  "outputDir": "outputs/setembrobr/seed42_raw_qwen3_embeddings",
+  "embeddingModelId": "Qwen/Qwen3-Embedding-4B",
+  "embeddingDimension": 2560,
+  "embeddingStorageDtype": "float16",
+  "seed": 42,
+  "batchSize": 16,
+  "shardUsers": 64,
+  "folds": 5
+}

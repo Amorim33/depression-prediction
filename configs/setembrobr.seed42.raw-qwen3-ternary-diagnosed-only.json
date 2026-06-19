@@ -1,0 +1,457 @@
+{
+  "dataset": "setembrobr",
+  "seed": 42,
+  "foldCount": 5,
+  "featureSource": "raw_artifacts",
+  "rawArtifactsDir": "/home/aluisioamorim/codex-runs/depression-prediction-setembrobr-raw-embeddings/artifacts",
+  "sourceOutputDir": "outputs/setembrobr/seed42_raw_qwen3_ternary_diagnosed_only",
+  "outputDir": "outputs/setembrobr/seed42_raw_qwen3_ternary_diagnosed_only",
+  "sealedTestLabelsPath": "outputs/setembrobr/seed42_raw_qwen3_ternary_diagnosed_only/manifest/sealed_test_labels_seed42.csv",
+  "database": {
+    "tables": {
+      "trainUserEmb": "unused_raw_train_user_emb",
+      "testUserEmb": "unused_raw_test_user_emb",
+      "trainUserEmbRel3": "unused_raw_train_user_emb_rel3",
+      "testUserEmbRel3": "unused_raw_test_user_emb_rel3",
+      "trainUserEmbRel6": "unused_raw_train_user_emb_rel6",
+      "testUserEmbRel6": "unused_raw_test_user_emb_rel6",
+      "trainUserEmbRel7": "unused_raw_train_user_emb_rel7",
+      "testUserEmbRel7": "unused_raw_test_user_emb_rel7",
+      "trainSubFeatures": "unused_raw_train_sub_features",
+      "testSubFeatures": "unused_raw_test_sub_features",
+      "trainEmbeddings": "unused_raw_train_embeddings",
+      "testEmbeddings": "unused_raw_test_embeddings"
+    },
+    "embeddingDimension": 2560
+  },
+  "labelPolicies": [
+    {
+      "policyId": "diag_rel3_zero",
+      "kind": "rel_count_zero",
+      "appliesTo": "diagnosed_only",
+      "relevanceThreshold": 3,
+      "description": "Originally diagnosed users with zero tweets at GPT-5 relevance >= 3 become no-evidence."
+    },
+    {
+      "policyId": "diag_rel5_zero",
+      "kind": "rel_count_zero",
+      "appliesTo": "diagnosed_only",
+      "relevanceThreshold": 5,
+      "description": "Originally diagnosed users with zero tweets at GPT-5 relevance >= 5 become no-evidence."
+    },
+    {
+      "policyId": "diag_rel6_zero",
+      "kind": "rel_count_zero",
+      "appliesTo": "diagnosed_only",
+      "relevanceThreshold": 6,
+      "description": "Originally diagnosed users with zero tweets at GPT-5 relevance >= 6 become no-evidence."
+    },
+    {
+      "policyId": "diag_low_density",
+      "kind": "low_density",
+      "appliesTo": "diagnosed_only",
+      "densityThreshold": 0.01,
+      "description": "Originally diagnosed users with rel3 tweet density <= 1% become no-evidence."
+    },
+    {
+      "policyId": "diag_top10_avg_lt3",
+      "kind": "top10_avg_lt",
+      "appliesTo": "diagnosed_only",
+      "top10AvgThreshold": 3,
+      "description": "Originally diagnosed users whose ten most relevant tweets average below 3 become no-evidence."
+    },
+    {
+      "policyId": "diag_evidence_q10",
+      "kind": "evidence_quantile",
+      "appliesTo": "diagnosed_only",
+      "quantileScope": "diagnosed",
+      "quantile": 0.1,
+      "description": "Originally diagnosed users in the bottom 10% of train-only evidence score become no-evidence."
+    },
+    {
+      "policyId": "diag_evidence_q20",
+      "kind": "evidence_quantile",
+      "appliesTo": "diagnosed_only",
+      "quantileScope": "diagnosed",
+      "quantile": 0.2,
+      "description": "Originally diagnosed users in the bottom 20% of train-only evidence score become no-evidence."
+    }
+  ],
+  "models": [
+    "ternary_logreg_all",
+    "ternary_extra_trees_evidence",
+    "ternary_xgb_tabular_markers_s42",
+    "ternary_xgb_expanded_pca_s13",
+    "ternary_xgb_expanded_pca_s42",
+    "ternary_xgb_embedding_rich_s7",
+    "ternary_xgb_shallow_pca_s99",
+    "ternary_hgb_expanded_pca_s42",
+    "ternary_hgb_markers_s13",
+    "ternary_mlp_h128_s42",
+    "ternary_focal_linear_g1",
+    "ternary_hier_logreg_gate",
+    "ternary_relevance_baseline",
+    "ternary_legacy_logreg_combined_s42",
+    "ternary_legacy_focal_combined_g1",
+    "ternary_legacy_mlp_combined_h128_a01_s42",
+    "ternary_stack_logreg_xgb_tabular",
+    "ternary_stack_logreg_boosted_core",
+    "ternary_stack_logreg_xgb_variants",
+    "ternary_legacy_seq_cnn_top128_s13",
+    "ternary_legacy_seq_cnn_top128_s42",
+    "ternary_seq_cnn_top128_s42",
+    "ternary_seq_cnn_wide_top128_s13",
+    "ternary_seq_bilstm_top128_s13",
+    "ternary_seq_transformer_top128_s42"
+  ],
+  "candidateModels": {
+    "tabular": [
+      {
+        "modelId": "ternary_logreg_all",
+        "family": "multinomial_logreg",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "ternary_extra_trees_evidence",
+        "family": "extra_trees",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca"],
+        "pcaComponents": 40,
+        "nEstimators": 500,
+        "maxDepth": 5,
+        "minSamplesLeaf": 10
+      },
+      {
+        "modelId": "ternary_xgb_tabular_markers_s42",
+        "family": "xgboost",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers"],
+        "nEstimators": 220,
+        "maxDepth": 2,
+        "learningRate": 0.05,
+        "subsample": 0.9,
+        "colsampleBytree": 0.9,
+        "regLambda": 4,
+        "minChildWeight": 3
+      },
+      {
+        "modelId": "ternary_xgb_expanded_pca_s13",
+        "family": "xgboost",
+        "seed": 13,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca"],
+        "pcaComponents": 40,
+        "nEstimators": 260,
+        "maxDepth": 3,
+        "learningRate": 0.05,
+        "subsample": 0.85,
+        "colsampleBytree": 0.85,
+        "regLambda": 3,
+        "minChildWeight": 2
+      },
+      {
+        "modelId": "ternary_xgb_expanded_pca_s42",
+        "family": "xgboost",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca"],
+        "pcaComponents": 56,
+        "nEstimators": 300,
+        "maxDepth": 3,
+        "learningRate": 0.04,
+        "subsample": 0.9,
+        "colsampleBytree": 0.8,
+        "regLambda": 4,
+        "minChildWeight": 2
+      },
+      {
+        "modelId": "ternary_xgb_embedding_rich_s7",
+        "family": "xgboost",
+        "seed": 7,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 32,
+        "nEstimators": 320,
+        "maxDepth": 2,
+        "learningRate": 0.04,
+        "subsample": 0.8,
+        "colsampleBytree": 0.8,
+        "regLambda": 5,
+        "minChildWeight": 4
+      },
+      {
+        "modelId": "ternary_xgb_shallow_pca_s99",
+        "family": "xgboost",
+        "seed": 99,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca"],
+        "pcaComponents": 64,
+        "nEstimators": 420,
+        "maxDepth": 2,
+        "learningRate": 0.035,
+        "subsample": 0.9,
+        "colsampleBytree": 0.75,
+        "regLambda": 6,
+        "minChildWeight": 4
+      },
+      {
+        "modelId": "ternary_hgb_expanded_pca_s42",
+        "family": "hist_gradient_boosting",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca"],
+        "pcaComponents": 40,
+        "maxIter": 220,
+        "maxDepth": 3,
+        "maxLeafNodes": 15,
+        "learningRate": 0.04,
+        "l2Regularization": 0.1
+      },
+      {
+        "modelId": "ternary_hgb_markers_s13",
+        "family": "hist_gradient_boosting",
+        "seed": 13,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers"],
+        "maxIter": 260,
+        "maxDepth": 3,
+        "maxLeafNodes": 10,
+        "learningRate": 0.045,
+        "l2Regularization": 0.2
+      },
+      {
+        "modelId": "ternary_mlp_h128_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.005,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "ternary_focal_linear_g1",
+        "family": "focal_linear",
+        "seed": 42,
+        "gamma": 1,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "ternary_hier_logreg_gate",
+        "family": "hierarchical_logreg",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "ternary_relevance_baseline",
+        "family": "relevance_baseline",
+        "seed": 42,
+        "featureBlocks": ["evidence_markers"]
+      },
+      {
+        "modelId": "ternary_legacy_logreg_combined_s42",
+        "family": "multinomial_logreg",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "evidence_markers", "relevance_counts", "mean_pca", "rel3_pca"],
+        "pcaComponents": 100
+      },
+      {
+        "modelId": "ternary_legacy_focal_combined_g1",
+        "family": "focal_linear",
+        "seed": 42,
+        "gamma": 1,
+        "featureBlocks": ["stylistic", "evidence_markers", "relevance_counts", "mean_pca", "rel3_pca"],
+        "pcaComponents": 100
+      },
+      {
+        "modelId": "ternary_legacy_mlp_combined_h128_a01_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.01,
+        "featureBlocks": ["stylistic", "evidence_markers", "relevance_counts", "mean_pca", "rel3_pca"],
+        "pcaComponents": 100
+      }
+    ],
+    "sequence": [
+      {
+        "modelId": "ternary_legacy_seq_cnn_top128_s13",
+        "family": "cnn",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": false,
+        "epochs": 25,
+        "batchSize": 64,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "ternary_legacy_seq_cnn_top128_s42",
+        "family": "cnn",
+        "seed": 42,
+        "topN": 128,
+        "useRelevanceChannel": false,
+        "epochs": 25,
+        "batchSize": 64,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "ternary_seq_cnn_top128_s42",
+        "family": "cnn",
+        "seed": 42,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 48,
+        "numFilters": 64,
+        "dropout": 0.4
+      },
+      {
+        "modelId": "ternary_seq_cnn_wide_top128_s13",
+        "family": "cnn_wide",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 48,
+        "numFilters": 96,
+        "dropout": 0.45
+      },
+      {
+        "modelId": "ternary_seq_bilstm_top128_s13",
+        "family": "bilstm",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 35,
+        "batchSize": 40,
+        "hiddenSize": 96,
+        "dropout": 0.35
+      },
+      {
+        "modelId": "ternary_seq_transformer_top128_s42",
+        "family": "tiny_transformer",
+        "seed": 42,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 30,
+        "batchSize": 32,
+        "hiddenSize": 192,
+        "dropout": 0.25
+      }
+    ],
+    "stacking": [
+      {
+        "modelId": "ternary_stack_logreg_xgb_tabular",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": ["ternary_hier_logreg_gate", "ternary_mlp_h128_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_tabular_markers_s42"],
+        "c": 1,
+        "maxIter": 1000
+      },
+      {
+        "modelId": "ternary_stack_logreg_boosted_core",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": ["ternary_hier_logreg_gate", "ternary_mlp_h128_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_shallow_pca_s99", "ternary_xgb_tabular_markers_s42"],
+        "c": 0.5,
+        "maxIter": 1000
+      },
+      {
+        "modelId": "ternary_stack_logreg_xgb_variants",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": ["ternary_xgb_embedding_rich_s7", "ternary_xgb_expanded_pca_s13", "ternary_xgb_expanded_pca_s42", "ternary_xgb_shallow_pca_s99"],
+        "c": 1,
+        "maxIter": 1000
+      }
+    ]
+  },
+  "ensemble": {
+    "weightStep": 0.05,
+    "primaryMetric": "macroF1",
+    "tieBreakers": ["diagnosedF1", "diagnosedPrecision"],
+    "exhaustiveModelLimit": 5,
+    "candidatePruneTo": 16,
+    "maxModels": 8,
+    "localRefinement": {
+      "policyIds": ["diag_evidence_q20"],
+      "groupIds": ["tabular_core_xgb_s42_shallow", "tabular_core_xgb_hgb_shallow", "tabular_core_xgb_hgb_rich", "tabular_core_xgb_s42_rich"],
+      "weightStep": 0.01,
+      "radius": 0.03,
+      "maxModels": 6
+    },
+    "decisionRules": [
+      { "ruleId": "argmax", "kind": "argmax" },
+      { "ruleId": "diagnosed_margin_005", "kind": "diagnosed_margin", "diagnosedMargin": 0.05 },
+      { "ruleId": "diagnosed_margin_010", "kind": "diagnosed_margin", "diagnosedMargin": 0.1 },
+      { "ruleId": "no_evidence_gate_045", "kind": "no_evidence_gate", "noEvidenceMin": 0.45 },
+      { "ruleId": "no_evidence_gate_055", "kind": "no_evidence_gate", "noEvidenceMin": 0.55 }
+    ],
+    "selectionGroups": [
+      {
+        "groupId": "all_models",
+        "description": "All raw-compatible pre-registered ternary models.",
+        "modelIds": ["ternary_logreg_all", "ternary_extra_trees_evidence", "ternary_xgb_tabular_markers_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_expanded_pca_s42", "ternary_xgb_embedding_rich_s7", "ternary_xgb_shallow_pca_s99", "ternary_hgb_expanded_pca_s42", "ternary_hgb_markers_s13", "ternary_mlp_h128_s42", "ternary_focal_linear_g1", "ternary_hier_logreg_gate", "ternary_relevance_baseline", "ternary_legacy_logreg_combined_s42", "ternary_legacy_focal_combined_g1", "ternary_legacy_mlp_combined_h128_a01_s42", "ternary_stack_logreg_xgb_tabular", "ternary_stack_logreg_boosted_core", "ternary_stack_logreg_xgb_variants", "ternary_legacy_seq_cnn_top128_s13", "ternary_legacy_seq_cnn_top128_s42", "ternary_seq_cnn_top128_s42", "ternary_seq_cnn_wide_top128_s13", "ternary_seq_bilstm_top128_s13", "ternary_seq_transformer_top128_s42"]
+      },
+      {
+        "groupId": "tabular_all",
+        "description": "All raw tabular ternary models.",
+        "modelIds": ["ternary_logreg_all", "ternary_extra_trees_evidence", "ternary_xgb_tabular_markers_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_expanded_pca_s42", "ternary_xgb_embedding_rich_s7", "ternary_xgb_shallow_pca_s99", "ternary_hgb_expanded_pca_s42", "ternary_hgb_markers_s13", "ternary_mlp_h128_s42", "ternary_focal_linear_g1", "ternary_hier_logreg_gate", "ternary_relevance_baseline", "ternary_legacy_logreg_combined_s42", "ternary_legacy_focal_combined_g1", "ternary_legacy_mlp_combined_h128_a01_s42"]
+      },
+      {
+        "groupId": "sequence_all",
+        "description": "All raw sequence models.",
+        "modelIds": ["ternary_legacy_seq_cnn_top128_s13", "ternary_legacy_seq_cnn_top128_s42", "ternary_seq_cnn_top128_s42", "ternary_seq_cnn_wide_top128_s13", "ternary_seq_bilstm_top128_s13", "ternary_seq_transformer_top128_s42"]
+      },
+      {
+        "groupId": "tabular_boosting",
+        "description": "Tree-boosted raw tabular candidates over evidence and Qwen3 PCA features.",
+        "modelIds": ["ternary_xgb_tabular_markers_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_expanded_pca_s42", "ternary_xgb_embedding_rich_s7", "ternary_xgb_shallow_pca_s99", "ternary_hgb_expanded_pca_s42", "ternary_hgb_markers_s13"]
+      },
+      {
+        "groupId": "tabular_core_xgb_s42_shallow",
+        "description": "Prior four-model tabular lock plus expanded and shallow XGBoost variants.",
+        "modelIds": ["ternary_hier_logreg_gate", "ternary_mlp_h128_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_tabular_markers_s42", "ternary_xgb_expanded_pca_s42", "ternary_xgb_shallow_pca_s99"]
+      },
+      {
+        "groupId": "tabular_core_xgb_hgb_shallow",
+        "description": "Shallow boosted core plus histogram gradient boosting.",
+        "modelIds": ["ternary_hier_logreg_gate", "ternary_mlp_h128_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_tabular_markers_s42", "ternary_xgb_shallow_pca_s99", "ternary_hgb_expanded_pca_s42"]
+      },
+      {
+        "groupId": "tabular_core_xgb_hgb_rich",
+        "description": "HGB-augmented boosted core with embedding-rich XGBoost.",
+        "modelIds": ["ternary_hier_logreg_gate", "ternary_mlp_h128_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_tabular_markers_s42", "ternary_xgb_embedding_rich_s7", "ternary_hgb_expanded_pca_s42"]
+      },
+      {
+        "groupId": "tabular_core_xgb_s42_rich",
+        "description": "Prior four-model tabular lock plus expanded and embedding-rich XGBoost variants.",
+        "modelIds": ["ternary_hier_logreg_gate", "ternary_mlp_h128_s42", "ternary_xgb_expanded_pca_s13", "ternary_xgb_tabular_markers_s42", "ternary_xgb_expanded_pca_s42", "ternary_xgb_embedding_rich_s7"]
+      },
+      {
+        "groupId": "sequence_cnn_family",
+        "description": "CNN and wide-CNN sequence models.",
+        "modelIds": ["ternary_legacy_seq_cnn_top128_s13", "ternary_legacy_seq_cnn_top128_s42", "ternary_seq_cnn_top128_s42", "ternary_seq_cnn_wide_top128_s13"]
+      },
+      {
+        "groupId": "legacy_cnn_logreg_mlp",
+        "description": "Port of the depression-nlp CNN plus focal/logistic regression plus MLP architecture, with weights recomputed from train OOF only.",
+        "modelIds": ["ternary_legacy_seq_cnn_top128_s13", "ternary_legacy_seq_cnn_top128_s42", "ternary_legacy_focal_combined_g1", "ternary_legacy_logreg_combined_s42", "ternary_legacy_mlp_combined_h128_a01_s42"]
+      },
+      {
+        "groupId": "sequence_bilstm_transformer",
+        "description": "BiLSTM and tiny-transformer sequence models.",
+        "modelIds": ["ternary_seq_bilstm_top128_s13", "ternary_seq_transformer_top128_s42"]
+      },
+      {
+        "groupId": "relevance_baseline_only",
+        "description": "Relevance-only no-evidence baseline.",
+        "modelIds": ["ternary_relevance_baseline"]
+      },
+      {
+        "groupId": "stacking_only",
+        "description": "OOF-trained logistic stacking models.",
+        "modelIds": ["ternary_stack_logreg_xgb_tabular", "ternary_stack_logreg_boosted_core", "ternary_stack_logreg_xgb_variants"]
+      }
+    ]
+  }
+}

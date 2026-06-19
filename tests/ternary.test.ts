@@ -61,6 +61,55 @@ describe("ternary label policies", () => {
     expect(deriveTernaryLabel("diagnosed", marker({ evidenceScore: 0.2 }), policy)).toBe("no-evidence");
     expect(deriveTernaryLabel("diagnosed", marker({ evidenceScore: 0.5 }), policy)).toBe("diagnosed");
   });
+
+  test("symmetric policies can convert low-evidence controls to no-evidence", () => {
+    const policy = lockTernaryLabelPolicy(
+      {
+        policyId: "sym_rel3_zero",
+        kind: "rel_count_zero",
+        appliesTo: "both_classes",
+        relevanceThreshold: 3,
+        description: "test",
+      },
+      [
+        { binaryLabel: "diagnosed", marker: marker({ userId: "D", rel3Count: 0 }) },
+        { binaryLabel: "control", marker: marker({ userId: "C", rel3Count: 0 }) },
+      ],
+      "manifest",
+      42,
+    );
+
+    expect(deriveTernaryLabel("control", marker({ rel3Count: 0 }), policy)).toBe("no-evidence");
+    expect(deriveTernaryLabel("control", marker({ rel3Count: 1 }), policy)).toBe("control");
+  });
+
+  test("symmetric quantile policies use per-binary-label train cutoffs", () => {
+    const policy = lockTernaryLabelPolicy(
+      {
+        policyId: "sym_evidence_q50",
+        kind: "evidence_quantile",
+        appliesTo: "both_classes",
+        quantileScope: "per_binary_label",
+        quantile: 0.5,
+        description: "test",
+      },
+      [
+        { binaryLabel: "diagnosed", marker: marker({ userId: "D1", evidenceScore: 0.1 }) },
+        { binaryLabel: "diagnosed", marker: marker({ userId: "D2", evidenceScore: 0.5 }) },
+        { binaryLabel: "diagnosed", marker: marker({ userId: "D3", evidenceScore: 0.9 }) },
+        { binaryLabel: "control", marker: marker({ userId: "C1", evidenceScore: 0.2 }) },
+        { binaryLabel: "control", marker: marker({ userId: "C2", evidenceScore: 0.4 }) },
+        { binaryLabel: "control", marker: marker({ userId: "C3", evidenceScore: 0.8 }) },
+      ],
+      "manifest",
+      42,
+    );
+
+    expect(policy.cutoff).toBeUndefined();
+    expect(policy.cutoffByBinaryLabel?.diagnosed).toBe(0.5);
+    expect(policy.cutoffByBinaryLabel?.control).toBe(0.4);
+    expect(deriveTernaryLabel("control", marker({ evidenceScore: 0.3 }), policy)).toBe("no-evidence");
+  });
 });
 
 describe("ternary metrics and artifacts", () => {

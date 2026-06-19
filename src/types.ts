@@ -21,7 +21,16 @@ export interface DbTables {
   testEmbeddings: string;
 }
 
-export type TabularCandidateFamily = "logreg" | "focal_logreg" | "mlp" | "extra_trees";
+export type TabularCandidateFamily =
+  | "logreg"
+  | "focal_logreg"
+  | "focal_linear"
+  | "mlp"
+  | "extra_trees"
+  | "xgboost"
+  | "hist_gradient_boosting"
+  | "hierarchical_logreg"
+  | "relevance_baseline";
 export type SequenceCandidateFamily = "cnn" | "cnn_wide" | "bilstm" | "tiny_transformer";
 
 export interface TabularCandidateModel {
@@ -36,6 +45,14 @@ export interface TabularCandidateModel {
   nEstimators?: number;
   maxDepth?: number;
   minSamplesLeaf?: number;
+  maxIter?: number;
+  maxLeafNodes?: number;
+  l2Regularization?: number;
+  learningRate?: number;
+  subsample?: number;
+  colsampleBytree?: number;
+  regLambda?: number;
+  minChildWeight?: number;
 }
 
 export interface SequenceCandidateModel {
@@ -43,6 +60,7 @@ export interface SequenceCandidateModel {
   family: SequenceCandidateFamily;
   seed: number;
   topN: number;
+  useRelevanceChannel?: boolean;
   epochs?: number;
   batchSize?: number;
   numFilters?: number;
@@ -50,11 +68,43 @@ export interface SequenceCandidateModel {
   dropout?: number;
 }
 
+export interface StackingCandidateModel {
+  modelId: string;
+  family: "stacking_logreg";
+  seed: number;
+  baseModelIds: string[];
+  c?: number;
+  maxIter?: number;
+}
+
+export interface ModelSelectionGroup {
+  groupId: string;
+  description: string;
+  modelIds: string[];
+}
+
+export interface LlmDisambiguatorConfig {
+  enabled: boolean;
+  requestedModel: string;
+  apiModel?: string;
+  maxEvidenceTweets: number;
+  concurrency: number;
+  maxTokens: number;
+}
+
+export interface SequenceExportConfig {
+  order: "relevance_desc" | "recent_chronological";
+}
+
 export interface ProjectConfig {
   dataset: "setembrobr";
   seed: number;
   foldCount: number;
   outputDir: string;
+  featureSource?: "postgres" | "raw_artifacts";
+  rawArtifactsDir?: string;
+  sealedTestLabelsPath?: string;
+  sequenceExport?: SequenceExportConfig;
   database: {
     tables: DbTables;
     embeddingDimension: number;
@@ -63,6 +113,7 @@ export interface ProjectConfig {
   candidateModels?: {
     tabular: TabularCandidateModel[];
     sequence: SequenceCandidateModel[];
+    stacking?: StackingCandidateModel[];
   };
   ensemble: {
     weightStep: number;
@@ -71,7 +122,9 @@ export interface ProjectConfig {
     exhaustiveModelLimit?: number;
     candidatePruneTo?: number;
     maxModels?: number;
+    selectionGroups?: ModelSelectionGroup[];
   };
+  llmDisambiguator?: LlmDisambiguatorConfig;
 }
 
 export interface ManifestRow {
@@ -116,6 +169,14 @@ export interface EnsembleLock {
   createdAt: string;
   command: string;
   selectionStrategy?: string;
+}
+
+export interface BinaryLockedPredictionRow {
+  userId: string;
+  score: number;
+  predicted: BinaryLabel;
+  label?: BinaryLabel;
+  fold?: number;
 }
 
 export interface EvidenceMarker {
@@ -183,6 +244,8 @@ export interface TernaryDecisionRule {
 export interface TernaryLabelPolicyConfig {
   policyId: string;
   kind: "rel_count_zero" | "low_density" | "top10_avg_lt" | "evidence_quantile";
+  appliesTo?: "diagnosed_only" | "both_classes";
+  quantileScope?: "diagnosed" | "per_binary_label";
   relevanceThreshold?: 3 | 5 | 6 | 7;
   densityThreshold?: number;
   top10AvgThreshold?: number;
@@ -196,6 +259,7 @@ export interface TernaryLabelPolicyLock extends TernaryLabelPolicyConfig {
   originalManifestHash: string;
   evidenceFormulaVersion: "v1";
   cutoff?: number;
+  cutoffByBinaryLabel?: Partial<Record<BinaryLabel, number>>;
   policyHash: string;
   createdAt: string;
 }
@@ -274,6 +338,17 @@ export interface TernaryProjectConfig {
   foldCount: number;
   sourceOutputDir: string;
   outputDir: string;
+  featureSource?: "postgres" | "raw_artifacts";
+  rawArtifactsDir?: string;
+  sealedTestLabelsPath?: string;
+  llmDisambiguator?: {
+    enabled: boolean;
+    requestedModel: string;
+    apiModel: string;
+    maxEvidenceTweets: number;
+    concurrency: number;
+    maxTokens: number;
+  };
   database: {
     tables: DbTables;
     embeddingDimension: number;
@@ -319,4 +394,14 @@ export interface TernaryEnsembleLock {
   selectionGroupId?: string;
   selectionGroupDescription?: string;
   candidateModelIds?: string[];
+}
+
+export interface TernaryLockedPredictionRow {
+  userId: string;
+  label?: TernaryLabel;
+  fold?: number;
+  probDiagnosed: number;
+  probControl: number;
+  probNoEvidence: number;
+  predicted: TernaryLabel;
 }

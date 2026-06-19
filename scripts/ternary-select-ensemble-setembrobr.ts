@@ -9,6 +9,8 @@ import type { TernaryEnsembleLock, TernaryLabelPolicyLock, TernaryModelSelection
 const config = await loadTernaryConfig();
 const scoresDir = resolveTernaryOutputPath(config, "scores");
 const candidates: TernaryEnsembleLock[] = [];
+const selectionGroupFilter = process.env.TERNARY_SELECTION_GROUP_ID?.trim();
+const lockBasename = process.env.TERNARY_LOCK_BASENAME?.trim() || "ensemble-lock";
 
 for (const policy of config.labelPolicies) {
   const policyLock = JSON.parse(
@@ -27,9 +29,12 @@ for (const policy of config.labelPolicies) {
     sourceHashes[modelId] = await sha256File(path);
   }
 
-  const groupLocks = selectionGroups([...oofByModel.keys()].sort()).map((group) =>
-    selectForGroup(policyLock, oofByModel, sourceHashes, group),
-  );
+  const groups = selectionGroups([...oofByModel.keys()].sort());
+  const selectedGroups = selectionGroupFilter ? groups.filter((group) => group.groupId === selectionGroupFilter) : groups;
+  if (selectionGroupFilter && selectedGroups.length === 0) {
+    throw new Error(`No available ternary selection group matched ${selectionGroupFilter} for policy ${policy.policyId}`);
+  }
+  const groupLocks = selectedGroups.map((group) => selectForGroup(policyLock, oofByModel, sourceHashes, group));
   candidates.push(...groupLocks);
 }
 
@@ -41,14 +46,16 @@ const best = candidates.sort((left, right) => {
   return `${left.labelPolicyId}:${left.selectionGroupId ?? ""}`.localeCompare(`${right.labelPolicyId}:${right.selectionGroupId ?? ""}`);
 })[0]!;
 
-const outPath = resolveTernaryOutputPath(config, "ensemble", "ensemble-lock.json");
+const outPath = resolveTernaryOutputPath(config, "ensemble", `${lockBasename}.json`);
 await mkdir(dirname(outPath), { recursive: true });
 await writeJson(outPath, best);
-await writeJson(resolveTernaryOutputPath(config, "reports", "ensemble-candidates.json"), {
+const candidatesReportName = lockBasename === "ensemble-lock" ? "ensemble-candidates.json" : `${lockBasename}-candidates.json`;
+await writeJson(resolveTernaryOutputPath(config, "reports", candidatesReportName), {
   dataset: "setembrobr",
   seed: config.seed,
   selectedPolicyId: best.labelPolicyId,
   selectedSelectionGroupId: best.selectionGroupId,
+  selectionGroupFilter: selectionGroupFilter ?? null,
   candidates,
 });
 console.log(`wrote ${outPath}`);

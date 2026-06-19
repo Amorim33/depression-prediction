@@ -1,0 +1,76 @@
+{
+  "extends": "./setembrobr.seed42.raw-qwen3-ternary-diagnosed-only.json",
+  "outputDir": "outputs/setembrobr/seed42_raw_qwen3_ternary_symmetric",
+  "sourceOutputDir": "outputs/setembrobr/seed42_raw_qwen3_ternary_symmetric",
+  "sealedTestLabelsPath": "outputs/setembrobr/seed42_raw_qwen3_ternary_symmetric/manifest/sealed_test_labels_seed42.csv",
+  "llmDisambiguator": {
+    "enabled": true,
+    "requestedModel": "claude-sonnet-4-6[1M]",
+    "apiModel": "claude-sonnet-4-6",
+    "maxEvidenceTweets": 256,
+    "concurrency": 2,
+    "maxTokens": 512
+  },
+  "labelPolicies": [
+    {
+      "policyId": "sym_rel3_zero",
+      "kind": "rel_count_zero",
+      "appliesTo": "both_classes",
+      "relevanceThreshold": 3,
+      "description": "Diagnosed and control users with zero tweets at GPT-5 relevance >= 3 become no-evidence."
+    },
+    {
+      "policyId": "sym_rel5_zero",
+      "kind": "rel_count_zero",
+      "appliesTo": "both_classes",
+      "relevanceThreshold": 5,
+      "description": "Diagnosed and control users with zero tweets at GPT-5 relevance >= 5 become no-evidence."
+    },
+    {
+      "policyId": "sym_rel6_zero",
+      "kind": "rel_count_zero",
+      "appliesTo": "both_classes",
+      "relevanceThreshold": 6,
+      "description": "Diagnosed and control users with zero tweets at GPT-5 relevance >= 6 become no-evidence."
+    },
+    {
+      "policyId": "sym_low_density",
+      "kind": "low_density",
+      "appliesTo": "both_classes",
+      "densityThreshold": 0.01,
+      "description": "Diagnosed and control users with rel3 tweet density <= 1% become no-evidence."
+    },
+    {
+      "policyId": "sym_top10_avg_lt3",
+      "kind": "top10_avg_lt",
+      "appliesTo": "both_classes",
+      "top10AvgThreshold": 3,
+      "description": "Diagnosed and control users whose ten most relevant tweets average below 3 become no-evidence."
+    },
+    {
+      "policyId": "sym_evidence_q10",
+      "kind": "evidence_quantile",
+      "appliesTo": "both_classes",
+      "quantileScope": "per_binary_label",
+      "quantile": 0.1,
+      "description": "Bottom 10% train-only evidence users within each binary class become no-evidence."
+    },
+    {
+      "policyId": "sym_evidence_q20",
+      "kind": "evidence_quantile",
+      "appliesTo": "both_classes",
+      "quantileScope": "per_binary_label",
+      "quantile": 0.2,
+      "description": "Bottom 20% train-only evidence users within each binary class become no-evidence."
+    }
+  ],
+  "ensemble": {
+    "localRefinement": {
+      "policyIds": ["sym_evidence_q20"],
+      "groupIds": ["tabular_core_xgb_s42_shallow", "tabular_core_xgb_hgb_shallow", "tabular_core_xgb_hgb_rich", "tabular_core_xgb_s42_rich"],
+      "weightStep": 0.01,
+      "radius": 0.03,
+      "maxModels": 6
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import type { BinaryLabel, EnsembleLock, Metrics, ScoreRow } from "./types.ts";
+import type { BinaryLabel, BinaryLockedPredictionRow, EnsembleLock, Metrics, ScoreRow } from "./types.ts";
 import { computeMetrics, predictedLabel } from "./metrics.ts";
 
 type ScoreArray = Float64Array<ArrayBufferLike>;
@@ -245,23 +245,43 @@ export function evaluateLockedEnsemble(
   testScoresByModel: ReadonlyMap<string, readonly ScoreRow[]>,
   labelsByUser: ReadonlyMap<string, BinaryLabel>,
 ): Metrics {
-  const users = alignedUsers(testScoresByModel, lock.modelIds);
-  const actual = users.map((userId) => {
-    const label = labelsByUser.get(userId);
-    if (!label) throw new Error(`Missing test label for ${userId}`);
+  const rows = predictLockedEnsembleRows(lock, testScoresByModel);
+  const actual = rows.map((row) => {
+    const label = labelsByUser.get(row.userId);
+    if (!label) throw new Error(`Missing test label for ${row.userId}`);
     return label;
   });
-  const predicted = users.map((userId) => {
+  const predicted = rows.map((row) => row.predicted);
+  return computeMetrics(actual, predicted);
+}
+
+export function predictLockedEnsembleRows(
+  lock: EnsembleLock,
+  scoresByModel: ReadonlyMap<string, readonly ScoreRow[]>,
+): BinaryLockedPredictionRow[] {
+  const users = alignedUsers(scoresByModel, lock.modelIds);
+  const firstRows = scoresByModel.get(lock.modelIds[0]!);
+  if (!firstRows) throw new Error(`Missing scores for ${lock.modelIds[0]}`);
+  const firstByUser = new Map(firstRows.map((row) => [row.userId, row]));
+  return users.map((userId) => {
+    const base = firstByUser.get(userId);
+    if (!base) throw new Error(`Missing base score for ${userId}`);
     const score = lock.modelIds.reduce((sum, modelId) => {
-      const modelRows = testScoresByModel.get(modelId);
-      if (!modelRows) throw new Error(`Missing test scores for ${modelId}`);
+      const modelRows = scoresByModel.get(modelId);
+      if (!modelRows) throw new Error(`Missing scores for ${modelId}`);
       const row = modelRows.find((entry) => entry.userId === userId);
       if (!row) throw new Error(`Missing ${modelId} score for ${userId}`);
       return sum + row.score * (lock.weights[modelId] ?? 0);
     }, 0);
-    return predictedLabel(score, lock.threshold);
+    const prediction: BinaryLockedPredictionRow = {
+      userId,
+      score,
+      predicted: predictedLabel(score, lock.threshold),
+    };
+    if (base.label) prediction.label = base.label;
+    if (base.fold !== undefined) prediction.fold = base.fold;
+    return prediction;
   });
-  return computeMetrics(actual, predicted);
 }
 
 function alignedUsers(scoreMap: ReadonlyMap<string, readonly ScoreRow[]>, modelIds: readonly string[]): string[] {

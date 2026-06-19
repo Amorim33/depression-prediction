@@ -1,0 +1,12 @@
+numpy>=1.26
+pandas>=2.2
+pyarrow>=15
+psycopg2-binary>=2.9
+scikit-learn>=1.4
+torch>=2.2
+transformers>=4.51.0
+sentence-transformers>=2.7.0
+accelerate>=0.30
+safetensors>=0.4
+tqdm>=4.66
+xgboost>=2.1

@@ -96,6 +96,29 @@ EMBEDDING_BLOCKS = {
 }
 
 
+def load_config(path: Path) -> dict:
+    cfg = json.loads(path.read_text())
+    parent_ref = cfg.get("extends")
+    if not isinstance(parent_ref, str):
+        return cfg
+    parent_path = Path(parent_ref).expanduser()
+    if not parent_path.is_absolute():
+        parent_path = (path.parent / parent_path).resolve()
+    child = {key: value for key, value in cfg.items() if key != "extends"}
+    return deep_merge(load_config(parent_path), child)
+
+
+def deep_merge(parent: dict, child: dict) -> dict:
+    merged = dict(parent)
+    for key, value in child.items():
+        parent_value = merged.get(key)
+        if isinstance(parent_value, dict) and isinstance(value, dict):
+            merged[key] = deep_merge(parent_value, value)
+        else:
+            merged[key] = value
+    return merged
+
+
 def load_env() -> dict[str, str]:
     env = dict(os.environ)
     path = Path(".env")
@@ -124,6 +147,10 @@ def read_csv_with_hash(path: Path):
 
 
 def read_source_test_ids(cfg):
+    if cfg.get("featureSource") == "raw_artifacts":
+        path = Path(cfg["outputDir"]) / "manifest" / f"test_inference_manifest_seed{cfg['seed']}.csv"
+        rows, _hash = read_csv_with_hash(path)
+        return [row["user_id"] for row in rows]
     path = Path(cfg["sourceOutputDir"]) / "manifest" / f"split_manifest_seed{cfg['seed']}.csv"
     rows, _hash = read_csv_with_hash(path)
     return [row["user_id"] for row in rows if row["split"] == "test"]
@@ -334,6 +361,63 @@ def load_all_features(conn, cfg, train_manifest_rows, required_blocks: set[str])
         train["blocks"][block_name] = align_block(train_ids, load_embedding_table(conn, tables[train_key]), f"train {block_name}")
         split_test["blocks"][block_name] = align_block(test_ids, load_embedding_table(conn, tables[test_key]), f"test {block_name}")
 
+    return train, split_test
+
+
+def load_raw_feature_npz(path: Path):
+    data = np.load(path, allow_pickle=True)
+    out = {
+        "user_ids": data["user_ids"].astype(str),
+        "labels": data["labels"].astype(np.int64),
+        "true_labels": data["true_labels"].astype(np.int64) if "true_labels" in data.files else data["labels"].astype(np.int64),
+        "folds": data["folds"].astype(np.int32),
+        "blocks": {},
+    }
+    for block in ["evidence_markers", "stylistic", "relevance_counts", "mean", "rel3", "rel6", "rel7"]:
+        if block in data.files:
+            out["blocks"][block] = data[block].astype(np.float32)
+    data.close()
+    return out
+
+
+def reorder_raw_split(split, user_ids: list[str], labels=None, binary_labels=None, folds=None):
+    by_user = {uid: index for index, uid in enumerate(split["user_ids"])}
+    missing = [uid for uid in user_ids if uid not in by_user]
+    if missing:
+        raise RuntimeError(f"raw feature NPZ missing users: {missing[:5]}")
+    indexes = np.asarray([by_user[uid] for uid in user_ids], dtype=np.int64)
+    out = {
+        "user_ids": np.asarray(user_ids),
+        "blocks": {name: values[indexes] for name, values in split["blocks"].items()},
+    }
+    if labels is not None:
+        out["labels"] = np.asarray(labels, dtype=np.int64)
+    if binary_labels is not None:
+        out["binary_labels"] = np.asarray(binary_labels, dtype=np.int64)
+    if folds is not None:
+        out["folds"] = np.asarray(folds, dtype=np.int32)
+    return out
+
+
+def load_all_raw_features(cfg, train_manifest_rows, required_blocks: set[str]):
+    unsupported = sorted(block for block in required_blocks if block not in {"evidence_markers", "stylistic", "relevance_counts", *EMBEDDING_BLOCKS})
+    if unsupported:
+        raise RuntimeError(f"raw_artifacts featureSource does not support DB-only blocks: {unsupported}")
+    required_sources = {EMBEDDING_BLOCKS.get(block, block) for block in required_blocks}
+    feature_dir = Path(cfg["outputDir"]) / "features"
+    raw_train = load_raw_feature_npz(feature_dir / "train_raw_features.npz")
+    raw_test = load_raw_feature_npz(feature_dir / "test_raw_features.npz")
+    train_ids = [row["user_id"] for row in train_manifest_rows]
+    train_labels = [LABEL_TO_CODE[row["label"]] for row in train_manifest_rows]
+    train_binary = [1 if row["binary_label"] == "diagnosed" else 0 for row in train_manifest_rows]
+    train_folds = [int(row["fold"]) for row in train_manifest_rows]
+    test_ids = read_source_test_ids(cfg)
+    train = reorder_raw_split(raw_train, train_ids, train_labels, train_binary, train_folds)
+    split_test = reorder_raw_split(raw_test, test_ids)
+    if required_sources - set(train["blocks"]):
+        raise RuntimeError(f"raw train features missing blocks: {sorted(required_sources - set(train['blocks']))}")
+    if required_sources - set(split_test["blocks"]):
+        raise RuntimeError(f"raw test features missing blocks: {sorted(required_sources - set(split_test['blocks']))}")
     return train, split_test
 
 
@@ -549,6 +633,8 @@ def write_scores(path: Path, rows, include_labels: bool) -> None:
 
 
 def db_tables_for_candidate(cfg, feature_blocks: list[str]) -> dict[str, str]:
+    if cfg.get("featureSource") == "raw_artifacts":
+        return {}
     tables = cfg["database"]["tables"]
     keys: list[str] = []
     for block in feature_blocks:
@@ -629,6 +715,8 @@ def train_candidate(cfg, policy_lock, train_manifest_hash, train_all, split_test
         "trainManifestHash": train_manifest_hash,
         "labelPolicyId": policy_id,
         "labelPolicyHash": policy_lock["policyHash"],
+        "featureSource": cfg.get("featureSource", "postgres"),
+        "rawArtifactsDir": cfg.get("rawArtifactsDir"),
         "dbTables": db_tables_for_candidate(cfg, candidate["featureBlocks"]),
         "featureBlocks": candidate["featureBlocks"],
         "hyperparameters": {key: value for key, value in candidate.items() if key not in {"modelId", "family", "featureBlocks"}},
@@ -649,11 +737,7 @@ def main() -> None:
     parser.add_argument("--policy", nargs="*", default=None)
     parser.add_argument("--only", nargs="*", default=None)
     args = parser.parse_args()
-    cfg = json.loads(Path(args.config).read_text())
-    env = load_env()
-    database_url = env.get("DATABASE_URL")
-    if not database_url:
-        raise SystemExit("DATABASE_URL is required")
+    cfg = load_config(Path(args.config))
 
     candidates = list(cfg.get("candidateModels", {}).get("tabular", []))
     if args.only:
@@ -668,6 +752,23 @@ def main() -> None:
         policies = [policy for policy in policies if policy in wanted_policies]
     if not policies:
         raise SystemExit("No ternary label policies selected")
+
+    if cfg.get("featureSource") == "raw_artifacts":
+        for policy_id in policies:
+            train_manifest_path = Path(cfg["outputDir"]) / "manifest" / f"train_manifest_{policy_id}_seed{cfg['seed']}.csv"
+            train_manifest_rows, train_manifest_hash = read_csv_with_hash(train_manifest_path)
+            policy_lock = json.loads((Path(cfg["outputDir"]) / "label-policies" / f"{policy_id}.json").read_text())
+            required_blocks = {block for candidate in candidates for block in candidate["featureBlocks"]}
+            train_all, split_test = load_all_raw_features(cfg, train_manifest_rows, required_blocks)
+            feature_cache = {}
+            for candidate in candidates:
+                train_candidate(cfg, policy_lock, train_manifest_hash, train_all, split_test, candidate, feature_cache)
+        return
+
+    env = load_env()
+    database_url = env.get("DATABASE_URL")
+    if not database_url:
+        raise SystemExit("DATABASE_URL is required")
 
     conn = psycopg2.connect(database_url)
     try:

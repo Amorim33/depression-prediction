@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { auditStaticGuards, mergeReports, type AuditReport } from "../src/audit.ts";
 import { listCsvFiles } from "../src/artifacts.ts";
 import { manifestHash, readManifest } from "../src/manifest.ts";
+import { isRawTernaryConfig, rawStrictBlindManifestHash, readRawTestUsers } from "../src/raw-ternary.ts";
 import { loadTernaryConfig, resolveSourceOutputPath, resolveTernaryOutputPath } from "../src/ternary-config.ts";
 import {
   auditTernaryOofScores,
@@ -13,9 +14,13 @@ import {
 import type { TernaryLabelPolicyLock } from "../src/types.ts";
 
 const config = await loadTernaryConfig();
-const sourceRows = await readManifest(resolveSourceOutputPath(config, "manifest", `split_manifest_seed${config.seed}.csv`));
-const sourceManifestHash = manifestHash(sourceRows);
-const testUsers = new Set(sourceRows.filter((row) => row.split === "test").map((row) => row.userId));
+const sourceRows = isRawTernaryConfig(config)
+  ? []
+  : await readManifest(resolveSourceOutputPath(config, "manifest", `split_manifest_seed${config.seed}.csv`));
+const sourceManifestHash = isRawTernaryConfig(config) ? await rawStrictBlindManifestHash(config) : manifestHash(sourceRows);
+const testUsers = new Set(
+  isRawTernaryConfig(config) ? await readRawTestUsers(config) : sourceRows.filter((row) => row.split === "test").map((row) => row.userId),
+);
 const reports: AuditReport[] = [];
 const policyLocks = new Map<string, TernaryLabelPolicyLock>();
 
@@ -98,6 +103,7 @@ async function auditTernaryModelManifests(
       labelPolicyId?: string;
       labelPolicyHash?: string;
       dbTables?: Record<string, string>;
+      featureSource?: string;
       usesTestLabelsForTraining?: boolean;
     };
     if (manifest.originalManifestHash !== expectedOriginalManifestHash) {
@@ -111,8 +117,17 @@ async function auditTernaryModelManifests(
     if (manifest.usesTestLabelsForTraining) {
       findings.push(fail("ternary-model-test-labels", `${path}: declares test-label use`));
     }
-    for (const table of Object.values(manifest.dbTables ?? {})) {
-      if (!allowedTables.has(table)) findings.push(fail("ternary-model-table", `${path}: non-config table ${table}`));
+    if (isRawTernaryConfig(config)) {
+      if (manifest.featureSource !== "raw_artifacts") {
+        findings.push(fail("ternary-model-feature-source", `${path}: raw config model manifest must declare raw_artifacts`));
+      }
+      if (Object.keys(manifest.dbTables ?? {}).length > 0) {
+        findings.push(fail("ternary-model-db-table", `${path}: raw config model manifest declares dbTables`));
+      }
+    } else {
+      for (const table of Object.values(manifest.dbTables ?? {})) {
+        if (!allowedTables.has(table)) findings.push(fail("ternary-model-table", `${path}: non-config table ${table}`));
+      }
     }
   }
   if (findings.length === 0) findings.push(pass("ternary-model-manifest", "Ternary model manifests OK"));

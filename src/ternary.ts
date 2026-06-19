@@ -7,6 +7,7 @@ import type {
   EvidenceMarker,
   TernaryDecisionRule,
   TernaryEnsembleLock,
+  TernaryLockedPredictionRow,
   TernaryLabel,
   TernaryLabelPolicyConfig,
   TernaryLabelPolicyLock,
@@ -121,20 +122,38 @@ export function lockTernaryLabelPolicy(
   originalManifestHash: string,
   seed: number,
 ): TernaryLabelPolicyLock {
+  const appliesTo = policy.appliesTo ?? "diagnosed_only";
+  const quantileScope = policy.quantileScope ?? (appliesTo === "both_classes" ? "per_binary_label" : "diagnosed");
   const cutoff =
-    policy.kind === "evidence_quantile"
+    policy.kind === "evidence_quantile" && quantileScope === "diagnosed"
       ? quantile(
           trainRows.filter((row) => row.binaryLabel === "diagnosed").map((row) => row.marker.evidenceScore),
           policy.quantile ?? 0,
         )
       : undefined;
+  const cutoffByBinaryLabel =
+    policy.kind === "evidence_quantile" && quantileScope === "per_binary_label"
+      ? {
+          diagnosed: quantile(
+            trainRows.filter((row) => row.binaryLabel === "diagnosed").map((row) => row.marker.evidenceScore),
+            policy.quantile ?? 0,
+          ),
+          control: quantile(
+            trainRows.filter((row) => row.binaryLabel === "control").map((row) => row.marker.evidenceScore),
+            policy.quantile ?? 0,
+          ),
+        }
+      : undefined;
   const base = {
     ...policy,
+    ...(policy.appliesTo === undefined ? {} : { appliesTo }),
+    ...(policy.kind === "evidence_quantile" || policy.quantileScope !== undefined ? { quantileScope } : {}),
     dataset: "setembrobr" as const,
     seed,
     originalManifestHash,
     evidenceFormulaVersion: EVIDENCE_FORMULA_VERSION as "v1",
     ...(cutoff === undefined ? {} : { cutoff }),
+    ...(cutoffByBinaryLabel === undefined ? {} : { cutoffByBinaryLabel }),
     createdAt: new Date(0).toISOString(),
   };
   return { ...base, policyHash: sha256Text(stableJson(base)) };
@@ -145,17 +164,20 @@ export function deriveTernaryLabel(
   marker: EvidenceMarker,
   policy: TernaryLabelPolicyLock,
 ): TernaryLabel {
-  if (binaryLabel === "control") return "control";
+  const appliesTo = policy.appliesTo ?? "diagnosed_only";
+  if (binaryLabel === "control" && appliesTo !== "both_classes") return "control";
+  const evidenceLabel: TernaryLabel = binaryLabel;
   if (policy.kind === "rel_count_zero") {
-    return relevanceCount(marker, policy.relevanceThreshold ?? 3) === 0 ? "no-evidence" : "diagnosed";
+    return relevanceCount(marker, policy.relevanceThreshold ?? 3) === 0 ? "no-evidence" : evidenceLabel;
   }
   if (policy.kind === "low_density") {
-    return marker.rel3Ratio <= (policy.densityThreshold ?? 0.01) ? "no-evidence" : "diagnosed";
+    return marker.rel3Ratio <= (policy.densityThreshold ?? 0.01) ? "no-evidence" : evidenceLabel;
   }
   if (policy.kind === "top10_avg_lt") {
-    return marker.top10AvgRelevance < (policy.top10AvgThreshold ?? 3) ? "no-evidence" : "diagnosed";
+    return marker.top10AvgRelevance < (policy.top10AvgThreshold ?? 3) ? "no-evidence" : evidenceLabel;
   }
-  return marker.evidenceScore <= (policy.cutoff ?? 0) ? "no-evidence" : "diagnosed";
+  const cutoff = policy.cutoffByBinaryLabel?.[binaryLabel] ?? policy.cutoff ?? 0;
+  return marker.evidenceScore <= cutoff ? "no-evidence" : evidenceLabel;
 }
 
 export function readTernaryManifestText(text: string): TernaryManifestRow[] {
@@ -369,6 +391,30 @@ export function evaluateTernaryLockedEnsemble(
   return computeTernaryMetrics(actual, predicted);
 }
 
+export function predictTernaryLockedEnsembleRows(
+  lock: TernaryEnsembleLock,
+  scoresByModel: ReadonlyMap<string, readonly TernaryProbabilityRow[]>,
+): TernaryLockedPredictionRow[] {
+  const users = alignedUsers(scoresByModel, lock.modelIds);
+  const firstRows = scoresByModel.get(lock.modelIds[0]!);
+  if (!firstRows) throw new Error(`Missing ternary scores for ${lock.modelIds[0]}`);
+  const firstByUser = new Map(firstRows.map((row) => [row.userId, row]));
+  return users.map((userId) => {
+    const base = firstByUser.get(userId);
+    if (!base) throw new Error(`Missing base ternary score for ${userId}`);
+    const probs = weightedUserProbability(userId, lock.modelIds, lock.weights, scoresByModel);
+    return {
+      userId,
+      ...(base.label === undefined ? {} : { label: base.label }),
+      ...(base.fold === undefined ? {} : { fold: base.fold }),
+      probDiagnosed: probs[0],
+      probControl: probs[1],
+      probNoEvidence: probs[2],
+      predicted: predictedTernaryLabel(probs, lock.decisionRule),
+    };
+  });
+}
+
 export function auditTernaryOofScores(
   trainManifestRows: readonly TernaryManifestRow[],
   testUsers: ReadonlySet<string>,
@@ -517,15 +563,109 @@ function evaluateWeightedCandidate(
   weights: readonly number[],
   decisionRules: readonly TernaryDecisionRule[],
 ): { decisionRule: TernaryDecisionRule; metrics: TernaryMetrics } {
-  const probs = weightedProbabilities(probsByModel, weights);
+  if (probsByModel.length !== weights.length) {
+    throw new Error("Model probability blocks and weights must have the same length");
+  }
+  const confusionByRule = decisionRules.map(() => emptyConfusionCounts());
+  for (let userIndex = 0; userIndex < actual.length; userIndex += 1) {
+    let probDiagnosed = 0;
+    let probControl = 0;
+    let probNoEvidence = 0;
+    for (let modelIndex = 0; modelIndex < probsByModel.length; modelIndex += 1) {
+      const weight = weights[modelIndex] ?? 0;
+      if (weight === 0) continue;
+      const modelProb = probsByModel[modelIndex]![userIndex]!;
+      probDiagnosed += modelProb[0] * weight;
+      probControl += modelProb[1] * weight;
+      probNoEvidence += modelProb[2] * weight;
+    }
+    const actualIndex = ternaryLabelIndex(actual[userIndex]!);
+    for (let ruleIndex = 0; ruleIndex < decisionRules.length; ruleIndex += 1) {
+      const predictedIndex = predictedTernaryLabelIndex(
+        probDiagnosed,
+        probControl,
+        probNoEvidence,
+        decisionRules[ruleIndex]!,
+      );
+      const confusion = confusionByRule[ruleIndex]!;
+      const offset = actualIndex * TERNARY_LABELS.length + predictedIndex;
+      confusion[offset] = (confusion[offset] ?? 0) + 1;
+    }
+  }
   let best: { decisionRule: TernaryDecisionRule; metrics: TernaryMetrics } | null = null;
-  for (const decisionRule of decisionRules) {
-    const predicted = probs.map((prob) => predictedTernaryLabel(prob, decisionRule));
-    const metrics = computeTernaryMetrics(actual, predicted);
-    if (!best || compareTernaryMetrics(metrics, best.metrics) > 0) best = { decisionRule, metrics };
+  for (let ruleIndex = 0; ruleIndex < decisionRules.length; ruleIndex += 1) {
+    const metrics = computeTernaryMetricsFromCounts(confusionByRule[ruleIndex]!, actual.length);
+    const decisionRule = decisionRules[ruleIndex]!;
+    if (!best || compareTernaryMetrics(metrics, best.metrics) > 0) {
+      best = { decisionRule, metrics };
+    }
   }
   if (!best) throw new Error("No ternary decision rule selected");
   return best;
+}
+
+function computeTernaryMetricsFromCounts(counts: readonly number[], total: number): TernaryMetrics {
+  const confusion = Object.fromEntries(
+    TERNARY_LABELS.map((actual, actualIndex) => [
+      actual,
+      Object.fromEntries(
+        TERNARY_LABELS.map((predicted, predictedIndex) => [
+          predicted,
+          counts[actualIndex * TERNARY_LABELS.length + predictedIndex] ?? 0,
+        ]),
+      ),
+    ]),
+  ) as TernaryMetrics["confusion"];
+  const perClass = Object.fromEntries(
+    TERNARY_LABELS.map((label, labelIndex) => {
+      const tp = counts[labelIndex * TERNARY_LABELS.length + labelIndex] ?? 0;
+      let fp = 0;
+      let fn = 0;
+      let support = 0;
+      for (let otherIndex = 0; otherIndex < TERNARY_LABELS.length; otherIndex += 1) {
+        if (otherIndex !== labelIndex) {
+          fp += counts[otherIndex * TERNARY_LABELS.length + labelIndex] ?? 0;
+          fn += counts[labelIndex * TERNARY_LABELS.length + otherIndex] ?? 0;
+        }
+        support += counts[labelIndex * TERNARY_LABELS.length + otherIndex] ?? 0;
+      }
+      const precision = tp + fp > 0 ? tp / (tp + fp) : 0;
+      const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
+      const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
+      return [label, { precision, recall, f1, support }];
+    }),
+  ) as TernaryMetrics["perClass"];
+  const correct = TERNARY_LABELS.reduce(
+    (sum, _label, index) => sum + (counts[index * TERNARY_LABELS.length + index] ?? 0),
+    0,
+  );
+  return {
+    macroF1: TERNARY_LABELS.reduce((sum, label) => sum + perClass[label].f1, 0) / TERNARY_LABELS.length,
+    accuracy: total > 0 ? correct / total : 0,
+    diagnosedF1: perClass.diagnosed.f1,
+    diagnosedPrecision: perClass.diagnosed.precision,
+    diagnosedRecall: perClass.diagnosed.recall,
+    perClass,
+    confusion,
+  };
+}
+
+function predictedTernaryLabelIndex(
+  probDiagnosed: number,
+  probControl: number,
+  probNoEvidence: number,
+  rule: TernaryDecisionRule,
+): number {
+  if (rule.kind === "diagnosed_margin") {
+    const margin = rule.diagnosedMargin ?? 0;
+    if (probDiagnosed >= Math.max(probControl, probNoEvidence) + margin) return 0;
+    return probControl >= probNoEvidence ? 1 : 2;
+  }
+  if (rule.kind === "no_evidence_gate") {
+    const min = rule.noEvidenceMin ?? 0.5;
+    if (probNoEvidence >= min && probNoEvidence >= Math.max(probDiagnosed, probControl)) return 2;
+  }
+  return argmaxIndex([probDiagnosed, probControl, probNoEvidence]);
 }
 
 function weightedProbabilities(probsByModel: readonly ProbTriple[][], weights: readonly number[]): ProbTriple[] {
@@ -588,6 +728,10 @@ function emptyConfusion(): TernaryMetrics["confusion"] {
   return Object.fromEntries(
     TERNARY_LABELS.map((actual) => [actual, Object.fromEntries(TERNARY_LABELS.map((predicted) => [predicted, 0]))]),
   ) as TernaryMetrics["confusion"];
+}
+
+function emptyConfusionCounts(): number[] {
+  return Array.from({ length: TERNARY_LABELS.length * TERNARY_LABELS.length }, () => 0);
 }
 
 function enumerateWeights(count: number, step: number): number[][] {
@@ -674,6 +818,12 @@ function argmaxIndex(values: readonly number[]): number {
     }
   }
   return bestIndex;
+}
+
+function ternaryLabelIndex(label: TernaryLabel): number {
+  if (label === "diagnosed") return 0;
+  if (label === "control") return 1;
+  return 2;
 }
 
 function normalizeBinaryLabel(value: unknown): BinaryLabel {

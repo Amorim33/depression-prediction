@@ -1,32 +1,34 @@
 {
-  "name": "depression-prediction",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "lint": "bun run scripts/lint.ts",
-    "typecheck": "tsc --noEmit",
-    "test": "bun test",
-    "db-check-setembrobr": "bun run scripts/db-check-setembrobr.ts",
-    "manifest-setembrobr": "bun run scripts/manifest-setembrobr.ts",
-    "audit-oof-setembrobr": "bun run scripts/audit-oof-setembrobr.ts",
-    "select-ensemble-setembrobr": "bun run scripts/select-ensemble-setembrobr.ts",
-    "evaluate-test-setembrobr": "bun run scripts/evaluate-test-setembrobr.ts",
-    "ternary-markers-setembrobr": "bun run scripts/ternary-markers-setembrobr.ts",
-    "ternary-manifest-setembrobr": "bun run scripts/ternary-manifest-setembrobr.ts",
-    "ternary-audit-oof-setembrobr": "bun run scripts/ternary-audit-oof-setembrobr.ts",
-    "ternary-select-ensemble-setembrobr": "bun run scripts/ternary-select-ensemble-setembrobr.ts",
-    "ternary-robustness-setembrobr": "bun run scripts/ternary-robustness-setembrobr.ts",
-    "ternary-nested-oof-selection-setembrobr": "bun run scripts/ternary-nested-oof-selection-setembrobr.ts",
-    "ternary-oof-diagnostics-setembrobr": "bun run scripts/ternary-oof-diagnostics-setembrobr.ts",
-    "ternary-model-policy-leaderboard-setembrobr": "bun run scripts/ternary-model-policy-leaderboard-setembrobr.ts",
-    "ternary-family-ablation-setembrobr": "bun run scripts/ternary-family-ablation-setembrobr.ts",
-    "ternary-evaluate-test-setembrobr": "bun run scripts/ternary-evaluate-test-setembrobr.ts"
-  },
-  "dependencies": {
-    "postgres": "^3.4.7"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "typescript": "^5.9.3"
-  }
+    "name": "depression-prediction",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "lint": "bun run scripts/lint.ts",
+        "typecheck": "tsc --noEmit",
+        "test": "bun test",
+        "manifest-setembrobr": "bun run scripts/manifest-setembrobr.ts",
+        "audit-oof-setembrobr": "bun run scripts/audit-oof-setembrobr.ts",
+        "select-ensemble-setembrobr": "bun run scripts/select-ensemble-setembrobr.ts",
+        "evaluate-test-setembrobr": "bun run scripts/evaluate-test-setembrobr.ts",
+        "ternary-markers-setembrobr": "bun run scripts/ternary-markers-setembrobr.ts",
+        "ternary-manifest-setembrobr": "bun run scripts/ternary-manifest-setembrobr.ts",
+        "ternary-audit-oof-setembrobr": "bun run scripts/ternary-audit-oof-setembrobr.ts",
+        "ternary-select-ensemble-setembrobr": "bun run scripts/ternary-select-ensemble-setembrobr.ts",
+        "ternary-robustness-setembrobr": "bun run scripts/ternary-robustness-setembrobr.ts",
+        "ternary-nested-oof-selection-setembrobr": "bun run scripts/ternary-nested-oof-selection-setembrobr.ts",
+        "ternary-oof-diagnostics-setembrobr": "bun run scripts/ternary-oof-diagnostics-setembrobr.ts",
+        "ternary-model-policy-leaderboard-setembrobr": "bun run scripts/ternary-model-policy-leaderboard-setembrobr.ts",
+        "ternary-family-ablation-setembrobr": "bun run scripts/ternary-family-ablation-setembrobr.ts",
+        "ternary-evaluate-test-setembrobr": "bun run scripts/ternary-evaluate-test-setembrobr.ts",
+        "raw-ternary-audit-setembrobr": "bun run scripts/raw-ternary-audit-setembrobr.ts",
+        "raw-binary-audit-setembrobr": "bun run scripts/raw-binary-audit-setembrobr.ts",
+        "docs-lock-results-summary": "bun run scripts/render-lock-results-summary.ts"
+    },
+    "dependencies": {
+        "postgres": "^3.4.7"
+    },
+    "devDependencies": {
+        "@types/bun": "latest",
+        "typescript": "^5.9.3"
+    }
 }

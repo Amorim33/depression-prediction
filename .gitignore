@@ -1,4 +1,5 @@
 node_modules/
+.DS_Store
 .env
 outputs/
 *.log
@@ -9,4 +10,4 @@ __pycache__/
 .ruff_cache/
 venv/
 .venv/
-
+dataset/

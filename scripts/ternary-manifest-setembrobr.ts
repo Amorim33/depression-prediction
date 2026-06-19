@@ -4,6 +4,7 @@ import { writeJson } from "../src/artifacts.ts";
 import { createStratifiedFolds } from "../src/folds.ts";
 import { sha256Text } from "../src/hash.ts";
 import { manifestHash, readManifest } from "../src/manifest.ts";
+import { isRawTernaryConfig, rawStrictBlindManifestHash, readRawTrainManifest } from "../src/raw-ternary.ts";
 import { loadTernaryConfig, resolveSourceOutputPath, resolveTernaryOutputPath } from "../src/ternary-config.ts";
 import {
   deriveTernaryLabel,
@@ -14,9 +15,10 @@ import {
 import type { TernaryManifestRow } from "../src/types.ts";
 
 const config = await loadTernaryConfig();
-const sourceManifestPath = resolveSourceOutputPath(config, "manifest", `split_manifest_seed${config.seed}.csv`);
-const sourceRows = await readManifest(sourceManifestPath);
-const sourceManifestHash = manifestHash(sourceRows);
+const sourceRows = isRawTernaryConfig(config)
+  ? await readRawTrainManifest(config)
+  : await readManifest(resolveSourceOutputPath(config, "manifest", `split_manifest_seed${config.seed}.csv`));
+const sourceManifestHash = isRawTernaryConfig(config) ? await rawStrictBlindManifestHash(config) : manifestHash(sourceRows);
 const trainRows = sourceRows.filter((row) => row.split === "train");
 const trainMarkers = await readEvidenceMarkers(resolveTernaryOutputPath(config, "evidence-markers", "train_markers.csv"));
 const markersByUser = new Map(trainMarkers.map((marker) => [marker.userId, marker]));

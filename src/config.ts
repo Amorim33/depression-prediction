@@ -5,7 +5,7 @@ import type { ProjectConfig } from "./types.ts";
 
 export const DEFAULT_CONFIG_PATH = "configs/setembrobr.seed42.strict-blind.json";
 
-export async function loadConfig(path = DEFAULT_CONFIG_PATH, cwd = process.cwd()): Promise<ProjectConfig> {
+export async function loadConfig(path = process.env.CONFIG?.trim() || DEFAULT_CONFIG_PATH, cwd = process.cwd()): Promise<ProjectConfig> {
   const configPath = resolve(cwd, path);
   return JSON.parse(await readFile(configPath, "utf8")) as ProjectConfig;
 }
@@ -46,4 +46,3 @@ function parseEnv(text: string): Record<string, string> {
   }
   return out;
 }
-
