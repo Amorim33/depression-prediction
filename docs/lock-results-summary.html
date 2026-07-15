@@ -574,6 +574,33 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
   <p class="kicker">Alvo independente · 2 classes</p>
   <h2>Resultados de ansiedade <span class="muted">· ansiedade vs controle</span></h2>
   <p class="col">Experimento strict-blind exclusivo de ansiedade. A composição do campeão foi fixada em Focal LogReg, LogReg, CNN e Stacking ×2; somente pesos positivos e o limiar foram ajustados no OOF de treino. O teste selado é documentado sem comparação ou ranking contra depressão.</p>
+  <h3>Geração dos embeddings de ansiedade</h3>
+  <div class="grid two">
+    <div class="scard">
+      <div class="head"><span class="nm">Tempo medido</span><span class="tag">wall-clock</span></div>
+      <p><strong>52h 13min 22s</strong> para gerar todos os embeddings de treino e teste.</p>
+      <ul>
+        <li>Início: <code>2026-07-12 11:39:03 BRT</code></li>
+        <li>Conclusão: <code>2026-07-14 15:52:25 BRT</code></li>
+        <li>Carga: 27.408.040 tweets de 17.752 usuários</li>
+        <li>Modelo: <code>Qwen/Qwen3-Embedding-4B</code>, 2.560 dimensões, <code>float16</code>, batch 16</li>
+      </ul>
+    </div>
+    <div class="scard">
+      <div class="head"><span class="nm">Hardware Fedora</span><span class="tag">CUDA</span></div>
+      <ul>
+        <li>GPU: <strong>NVIDIA GeForce RTX 4070 SUPER</strong> · 12.282 MiB</li>
+        <li>Driver 565.77 · CUDA 12.7</li>
+        <li>CPU: AMD Ryzen 7 7800X3D · 8 cores / 16 threads</li>
+        <li>RAM: 30 GiB</li>
+        <li>Fedora Linux 40 (Workstation Edition) · kernel <code>6.12.9-100.fc40.x86_64</code></li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">
+    <div class="lab">Proveniência da medição</div>
+    <p>Tempo de parede medido no host <code>fedora</code> pelo nascimento do PID da execução até o status concluído com exit code 0. Manifesto bruto <code>c8cd40827f91b298d61a3d2845bb4337c0ae3e8abbc9bf4fdfc552b1aad3c410</code>; revisão Qwen <code>5cf2132abc99cad020ac570b19d031efec650f2b</code>.</p>
+  </div>
   <div class="kpis">
     <div class="kpi"><span>Melhor macro F1 (teste)</span><strong>0.662850</strong><code>Qwen3 bruto binário com relevância temporal — ansiedade</code></div>
     <div class="kpi"><span>Melhor F1 ansiedade</span><strong>0.414163</strong><code>Qwen3 bruto binário com relevância temporal — ansiedade</code></div>
@@ -759,6 +786,10 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
 <li><code>configs/setembrobr.seed42.strict-blind.json</code></li>
 <li><code>configs/setembrobr.seed42.temporal-relevance-qwen3-binary.json</code></li>
 <li><code>ternary-classification/configs/setembrobr.seed42.ternary-strict-blind.json</code></li></ul>
+    </details>
+<details>
+      <summary>Proveniência da geração de embeddings de ansiedade <span class="muted">(1 files)</span></summary>
+      <ul><li><code>docs/anxiety-embedding-generation-provenance.json</code></li></ul>
     </details>
 <details>
       <summary><span class="badge">binário</span> Artefatos de embeddings Qwen3 bruto <span class="muted">(1 files)</span></summary>

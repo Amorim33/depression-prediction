@@ -60,6 +60,44 @@ describe("lock results summary docs", () => {
     expect(html).toContain("Este resultado não participa dos rankings de depressão");
   });
 
+  test("documents measured anxiety embedding time and Fedora hardware provenance", async () => {
+    const html = await readFile("docs/lock-results-summary.html", "utf8");
+    const provenance = JSON.parse(
+      await readFile("docs/anxiety-embedding-generation-provenance.json", "utf8"),
+    ) as {
+      timing: { startedAt: string; completedAt: string; durationSeconds: number };
+      hardware: { cpu: string; gpu: string; gpuMemoryMiB: number; memoryGiB: number; driverVersion: string; cudaVersion: string };
+      workload: { totalTweets: number };
+      sourceEvidence: { rawEmbeddingManifestSha256: string; jobExitCode: number };
+    };
+    const finalReport = JSON.parse(
+      await readFile(
+        "outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/final-test-report.json",
+        "utf8",
+      ),
+    ) as { artifactHashes: { rawEmbeddingManifestSha256: string } };
+
+    const elapsedSeconds = Math.round(
+      (Date.parse(provenance.timing.completedAt) - Date.parse(provenance.timing.startedAt)) / 1000,
+    );
+    expect(provenance.timing.durationSeconds).toBe(elapsedSeconds);
+    expect(provenance.sourceEvidence.rawEmbeddingManifestSha256).toBe(
+      finalReport.artifactHashes.rawEmbeddingManifestSha256,
+    );
+    expect(provenance.sourceEvidence.jobExitCode).toBe(0);
+    expect(provenance.workload.totalTweets).toBe(27_408_040);
+    expect(html).toContain("Geração dos embeddings de ansiedade");
+    expect(html).toContain("52h 13min 22s");
+    expect(html).toContain("2026-07-12 11:39:03 BRT");
+    expect(html).toContain("2026-07-14 15:52:25 BRT");
+    expect(html).toContain(provenance.hardware.gpu);
+    expect(html).toContain(`${provenance.hardware.gpuMemoryMiB.toLocaleString("pt-BR")} MiB`);
+    expect(html).toContain(provenance.hardware.cpu);
+    expect(html).toContain(`${provenance.hardware.memoryGiB} GiB`);
+    expect(html).toContain(`Driver ${provenance.hardware.driverVersion} · CUDA ${provenance.hardware.cudaVersion}`);
+    expect(html).toContain("docs/anxiety-embedding-generation-provenance.json");
+  });
+
   test("includes the temporal FP/FN exploration taxonomy", async () => {
     const html = await readFile("docs/lock-results-summary.html", "utf8");
 

@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 const outputRoot = "outputs/setembrobr";
 const docsPath = "docs/lock-results-summary.html";
 const mirrorPath = "outputs/setembrobr/lock-results-summary.html";
+const anxietyEmbeddingProvenancePath = "docs/anxiety-embedding-generation-provenance.json";
 const rawBinaryBaselineMacro = 0.6987181018176564;
 
 type JsonRecord = Record<string, unknown>;
@@ -66,6 +67,47 @@ interface ArtifactGroup {
   files: string[];
 }
 
+interface EmbeddingGenerationProvenance {
+  timing: {
+    startedAt: string;
+    completedAt: string;
+    durationSeconds: number;
+    timeZone: string;
+    measurement: string;
+  };
+  hardware: {
+    hostname: string;
+    operatingSystem: string;
+    kernel: string;
+    cpu: string;
+    cpuCores: number;
+    cpuThreads: number;
+    memoryGiB: number;
+    gpu: string;
+    gpuMemoryMiB: number;
+    driverVersion: string;
+    cudaVersion: string;
+  };
+  workload: {
+    modelId: string;
+    modelRevision: string;
+    embeddingDimension: number;
+    storageDtype: string;
+    batchSize: number;
+    trainUsers: number;
+    testUsers: number;
+    trainTweets: number;
+    testTweets: number;
+    totalTweets: number;
+  };
+  sourceEvidence: {
+    rawEmbeddingManifestSha256: string;
+    rawValidationReportSha256: string;
+    jobExitCode: number;
+    jobStatus: string;
+  };
+}
+
 const experimentTitles: Record<string, string> = {
   seed42_strict_blind: "Embeddings legados strict-blind (binário)",
   seed42_ternary_strict_blind: "Embeddings legados strict-blind (ternário)",
@@ -126,7 +168,8 @@ const methodIdeas: Array<{ title: string; body: string; signal: string }> = [
 const locks = await collectLocks();
 const results = await collectResults(locks);
 const artifacts = await collectArtifacts();
-const html = renderPage(locks, results, artifacts);
+const anxietyEmbeddingProvenance = await readEmbeddingGenerationProvenance();
+const html = renderPage(locks, results, artifacts, anxietyEmbeddingProvenance);
 await writeFileEnsured(docsPath, html);
 await writeFileEnsured(mirrorPath, html);
 console.log(JSON.stringify({ docsPath, mirrorPath, lockCount: locks.length, resultCount: results.length }, null, 2));
@@ -228,6 +271,11 @@ async function collectArtifacts(): Promise<ArtifactGroup[]> {
       files: files.sort(),
     }))
     .sort((left, right) => left.title.localeCompare(right.title));
+  groups.unshift({
+    experimentId: "setembrobr",
+    title: "Proveniência da geração de embeddings de ansiedade",
+    files: [anxietyEmbeddingProvenancePath],
+  });
   groups.unshift({ experimentId: "configs", title: "Arquivos de configuração", files: configPaths.sort() });
   return groups;
 }
@@ -255,7 +303,12 @@ async function collectFiles(dir: string, predicate: (path: string) => boolean): 
   return out.sort();
 }
 
-function renderPage(lockEntries: readonly LockEntry[], resultEntries: readonly ResultEntry[], artifactGroups: readonly ArtifactGroup[]): string {
+function renderPage(
+  lockEntries: readonly LockEntry[],
+  resultEntries: readonly ResultEntry[],
+  artifactGroups: readonly ArtifactGroup[],
+  anxietyEmbeddingProvenance: EmbeddingGenerationProvenance,
+): string {
   const navLinks: Array<{ id: string; label: string }> = [
     { id: "overview", label: "Visão geral" },
     { id: "architecture", label: "Arquitetura" },
@@ -289,7 +342,7 @@ function renderPage(lockEntries: readonly LockEntry[], resultEntries: readonly R
     ${architectureSection()}
     ${trackSection("binary", lockEntries, resultEntries)}
     ${trackSection("ternary", lockEntries, resultEntries)}
-    ${trackSection("anxiety", lockEntries, resultEntries)}
+    ${trackSection("anxiety", lockEntries, resultEntries, anxietyEmbeddingProvenance)}
     ${renderLlmSection(resultEntries)}
     ${methodSection()}
     ${renderTemporalEvidenceSection()}
@@ -436,7 +489,12 @@ function methodSection(): string {
 </section>`;
 }
 
-function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEntries: readonly ResultEntry[]): string {
+function trackSection(
+  track: Track,
+  lockEntries: readonly LockEntry[],
+  resultEntries: readonly ResultEntry[],
+  embeddingProvenance?: EmbeddingGenerationProvenance,
+): string {
   const finals = resultEntries
     .filter((entry) => entry.track === track && entry.kind !== "cached-llm")
     .sort((left, right) => compareMetric(right.test.macroF1, left.test.macroF1));
@@ -507,7 +565,7 @@ function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEnt
   return `<section id="${track}">
   <p class="kicker">${escapeHtml(heading.kicker)}</p>
   <h2>${escapeHtml(heading.title)} <span class="muted">· ${escapeHtml(heading.classes)}</span></h2>
-  <p class="col">${intro}</p>
+  <p class="col">${intro}</p>${track === "anxiety" && embeddingProvenance ? `\n  ${embeddingGenerationBlock(embeddingProvenance)}` : ""}
   <div class="kpis">
     ${kpi("Melhor macro F1 (teste)", metric(bestMacro?.test.macroF1), bestMacro?.experimentTitle ?? "n/d")}
     ${kpi(`Melhor F1 ${positiveLabel}`, metric(bestDiag?.test.diagnosedF1), bestDiag?.experimentTitle ?? "n/d")}
@@ -526,6 +584,37 @@ function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEnt
     <tbody>${oofRows}</tbody>
   </table>${track === "ternary" ? `\n  ${ternaryCompositionBlock(locks)}` : ""}
 </section>`;
+}
+
+function embeddingGenerationBlock(provenance: EmbeddingGenerationProvenance): string {
+  const { timing, hardware, workload, sourceEvidence } = provenance;
+  return `<h3>Geração dos embeddings de ansiedade</h3>
+  <div class="grid two">
+    <div class="scard">
+      <div class="head"><span class="nm">Tempo medido</span><span class="tag">wall-clock</span></div>
+      <p><strong>${escapeHtml(durationText(timing.durationSeconds))}</strong> para gerar todos os embeddings de treino e teste.</p>
+      <ul>
+        <li>Início: <code>${escapeHtml(localTimestamp(timing.startedAt))}</code></li>
+        <li>Conclusão: <code>${escapeHtml(localTimestamp(timing.completedAt))}</code></li>
+        <li>Carga: ${integer(workload.totalTweets)} tweets de ${integer(workload.trainUsers + workload.testUsers)} usuários</li>
+        <li>Modelo: <code>${escapeHtml(workload.modelId)}</code>, ${integer(workload.embeddingDimension)} dimensões, <code>${escapeHtml(workload.storageDtype)}</code>, batch ${integer(workload.batchSize)}</li>
+      </ul>
+    </div>
+    <div class="scard">
+      <div class="head"><span class="nm">Hardware Fedora</span><span class="tag">CUDA</span></div>
+      <ul>
+        <li>GPU: <strong>${escapeHtml(hardware.gpu)}</strong> · ${integer(hardware.gpuMemoryMiB)} MiB</li>
+        <li>Driver ${escapeHtml(hardware.driverVersion)} · CUDA ${escapeHtml(hardware.cudaVersion)}</li>
+        <li>CPU: ${escapeHtml(hardware.cpu)} · ${integer(hardware.cpuCores)} cores / ${integer(hardware.cpuThreads)} threads</li>
+        <li>RAM: ${integer(hardware.memoryGiB)} GiB</li>
+        <li>${escapeHtml(hardware.operatingSystem)} · kernel <code>${escapeHtml(hardware.kernel)}</code></li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">
+    <div class="lab">Proveniência da medição</div>
+    <p>Tempo de parede medido no host <code>${escapeHtml(hardware.hostname)}</code> pelo nascimento do PID da execução até o status concluído com exit code ${integer(sourceEvidence.jobExitCode)}. Manifesto bruto <code>${escapeHtml(sourceEvidence.rawEmbeddingManifestSha256)}</code>; revisão Qwen <code>${escapeHtml(workload.modelRevision)}</code>.</p>
+  </div>`;
 }
 
 function ternaryCompositionBlock(locks: readonly LockEntry[]): string {
@@ -875,6 +964,35 @@ function confusion(metricsValue: NormalizedMetrics | null | undefined): string {
 
 async function readJson(path: string): Promise<JsonRecord> {
   return JSON.parse(await readFile(path, "utf8")) as JsonRecord;
+}
+
+async function readEmbeddingGenerationProvenance(): Promise<EmbeddingGenerationProvenance> {
+  const provenance = JSON.parse(await readFile(anxietyEmbeddingProvenancePath, "utf8")) as EmbeddingGenerationProvenance;
+  const measuredSeconds = Math.round(
+    (Date.parse(provenance.timing.completedAt) - Date.parse(provenance.timing.startedAt)) / 1000,
+  );
+  if (!Number.isFinite(measuredSeconds) || measuredSeconds !== provenance.timing.durationSeconds) {
+    throw new Error(`Invalid anxiety embedding duration in ${anxietyEmbeddingProvenancePath}`);
+  }
+  if (provenance.workload.trainTweets + provenance.workload.testTweets !== provenance.workload.totalTweets) {
+    throw new Error(`Invalid anxiety embedding tweet count in ${anxietyEmbeddingProvenancePath}`);
+  }
+  return provenance;
+}
+
+function durationText(totalSeconds: number): string {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return `${hours}h ${minutes}min ${seconds}s`;
+}
+
+function localTimestamp(value: string): string {
+  return `${value.slice(0, 10)} ${value.slice(11, 19)} BRT`;
+}
+
+function integer(value: number): string {
+  return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(value);
 }
 
 async function writeFileEnsured(path: string, text: string): Promise<void> {
