@@ -5,6 +5,7 @@ const outputRoot = "outputs/setembrobr";
 const docsPath = "docs/lock-results-summary.html";
 const mirrorPath = "outputs/setembrobr/lock-results-summary.html";
 const anxietyEmbeddingProvenancePath = "docs/anxiety-embedding-generation-provenance.json";
+const anxietyThesisComparisonPath = "docs/anxiety-thesis-comparison.json";
 const rawBinaryBaselineMacro = 0.6987181018176564;
 
 type JsonRecord = Record<string, unknown>;
@@ -12,6 +13,7 @@ type JsonRecord = Record<string, unknown>;
 interface NormalizedMetrics {
   macroF1: number;
   diagnosedF1: number;
+  controlF1: number | null;
   precision: number;
   recall: number;
   accuracy: number;
@@ -108,6 +110,46 @@ interface EmbeddingGenerationProvenance {
   };
 }
 
+interface AnxietyThesisComparison {
+  comparisonId: string;
+  predictionTarget: "anxiety";
+  source: {
+    author: string;
+    title: string;
+    year: number;
+    file: string;
+    sha256: string;
+    table: number;
+    printedPage: number;
+    pdfPage: number;
+    methodPrintedPages: number[];
+    methodPdfPages: number[];
+  };
+  metricDefinitions: {
+    controlF1: string;
+    anxietyF1: string;
+    macroF1: string;
+    macroF1Formula: string;
+    precisionRecall: string;
+  };
+  reportedMethod: {
+    timeline: string;
+    bertInference: string;
+    postTruncationTokens: number;
+    relevance: string;
+    mentionSignal: string;
+  };
+  reportedResults: Array<{
+    model: string;
+    precisionAverage: number;
+    recallAverage: number;
+    controlF1: number;
+    anxietyF1: number;
+    macroF1: number;
+  }>;
+  caveats: string[];
+}
+
 const experimentTitles: Record<string, string> = {
   seed42_strict_blind: "Embeddings legados strict-blind (binário)",
   seed42_ternary_strict_blind: "Embeddings legados strict-blind (ternário)",
@@ -169,7 +211,8 @@ const locks = await collectLocks();
 const results = await collectResults(locks);
 const artifacts = await collectArtifacts();
 const anxietyEmbeddingProvenance = await readEmbeddingGenerationProvenance();
-const html = renderPage(locks, results, artifacts, anxietyEmbeddingProvenance);
+const anxietyThesisComparison = await readAnxietyThesisComparison();
+const html = renderPage(locks, results, artifacts, anxietyEmbeddingProvenance, anxietyThesisComparison);
 await writeFileEnsured(docsPath, html);
 await writeFileEnsured(mirrorPath, html);
 console.log(JSON.stringify({ docsPath, mirrorPath, lockCount: locks.length, resultCount: results.length }, null, 2));
@@ -273,8 +316,8 @@ async function collectArtifacts(): Promise<ArtifactGroup[]> {
     .sort((left, right) => left.title.localeCompare(right.title));
   groups.unshift({
     experimentId: "setembrobr",
-    title: "Proveniência da geração de embeddings de ansiedade",
-    files: [anxietyEmbeddingProvenancePath],
+    title: "Proveniência documental de ansiedade",
+    files: [anxietyEmbeddingProvenancePath, anxietyThesisComparisonPath],
   });
   groups.unshift({ experimentId: "configs", title: "Arquivos de configuração", files: configPaths.sort() });
   return groups;
@@ -308,6 +351,7 @@ function renderPage(
   resultEntries: readonly ResultEntry[],
   artifactGroups: readonly ArtifactGroup[],
   anxietyEmbeddingProvenance: EmbeddingGenerationProvenance,
+  anxietyThesisComparison: AnxietyThesisComparison,
 ): string {
   const navLinks: Array<{ id: string; label: string }> = [
     { id: "overview", label: "Visão geral" },
@@ -342,7 +386,7 @@ function renderPage(
     ${architectureSection()}
     ${trackSection("binary", lockEntries, resultEntries)}
     ${trackSection("ternary", lockEntries, resultEntries)}
-    ${trackSection("anxiety", lockEntries, resultEntries, anxietyEmbeddingProvenance)}
+    ${trackSection("anxiety", lockEntries, resultEntries, anxietyEmbeddingProvenance, anxietyThesisComparison)}
     ${renderLlmSection(resultEntries)}
     ${methodSection()}
     ${renderTemporalEvidenceSection()}
@@ -494,6 +538,7 @@ function trackSection(
   lockEntries: readonly LockEntry[],
   resultEntries: readonly ResultEntry[],
   embeddingProvenance?: EmbeddingGenerationProvenance,
+  thesisComparison?: AnxietyThesisComparison,
 ): string {
   const finals = resultEntries
     .filter((entry) => entry.track === track && entry.kind !== "cached-llm")
@@ -582,8 +627,74 @@ function trackSection(
   <table>
     <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 ${positiveShort}</th><th>Precisão ${positiveShort}</th><th>Recall ${positiveShort}</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
     <tbody>${oofRows}</tbody>
-  </table>${track === "ternary" ? `\n  ${ternaryCompositionBlock(locks)}` : ""}
+  </table>${track === "anxiety" && bestMacro && thesisComparison ? `\n  ${anxietyThesisComparisonBlock(bestMacro, thesisComparison)}` : ""}${track === "ternary" ? `\n  ${ternaryCompositionBlock(locks)}` : ""}
 </section>`;
+}
+
+function anxietyThesisComparisonBlock(
+  champion: ResultEntry,
+  comparison: AnxietyThesisComparison,
+): string {
+  const bestMacro = bestBy(comparison.reportedResults, (entry) => entry.macroF1);
+  const bestAnxiety = bestBy(comparison.reportedResults, (entry) => entry.anxietyF1);
+  const bestControl = bestBy(comparison.reportedResults, (entry) => entry.controlF1);
+  const championControlF1 = champion.test.controlF1;
+  if (!bestMacro || !bestAnxiety || !bestControl || championControlF1 === null) return "";
+  const bestMacroModels = comparison.reportedResults
+    .filter((entry) => entry.macroF1 === bestMacro.macroF1)
+    .map((entry) => entry.model)
+    .join(" / ");
+
+  const highlighted = comparison.reportedResults.filter(
+    (entry) => entry.macroF1 === bestMacro.macroF1 || entry.model === "LSTM.BERT",
+  );
+  const thesisRows = highlighted
+    .map(
+      (entry) => `<tr>
+        <td>${escapeHtml(comparison.source.author)} (2025)</td>
+        <td><code>${escapeHtml(entry.model)}</code></td>
+        <td>${entry.controlF1.toFixed(2)}</td>
+        <td>${entry.anxietyF1.toFixed(2)}</td>
+        <td><strong>${entry.macroF1.toFixed(2)}</strong></td>
+      </tr>`,
+    )
+    .join("\n");
+
+  return `<h3>Comparação com a tese de Santos (2025)</h3>
+  <p class="col">A Tabela ${integer(comparison.source.table)} da tese reporta resultados no mesmo alvo de ansiedade do SetembroBR. As três medidas F1 abaixo têm definições compatíveis: <code>${escapeHtml(comparison.metricDefinitions.controlF1)}</code> é o F1 de controle, <code>${escapeHtml(comparison.metricDefinitions.anxietyF1)}</code> é o F1 da classe diagnosticada/ansiedade e <code>${escapeHtml(comparison.metricDefinitions.macroF1)}</code> é a média aritmética das duas classes.</p>
+  <table>
+    <thead><tr><th>Fonte</th><th>Modelo</th><th>F1 controle</th><th>F1 ansiedade</th><th>Macro F1</th></tr></thead>
+    <tbody><tr>
+        <td><strong>Esta reprodução strict-blind</strong></td>
+        <td><code>ensemble-lock</code></td>
+        <td>${metric(championControlF1)}</td>
+        <td>${metric(champion.test.diagnosedF1)}</td>
+        <td><strong>${metric(champion.test.macroF1)}</strong></td>
+      </tr>
+      ${thesisRows}</tbody>
+  </table>
+  <h4>Diferenças de protocolo</h4>
+  <table>
+    <thead><tr><th>Eixo</th><th>Tese de Santos (2025)</th><th>Esta reprodução strict-blind</th></tr></thead>
+    <tbody>
+      <tr><td>Linha do tempo</td><td>${escapeHtml(comparison.reportedMethod.timeline)}</td><td>Agregados sobre embeddings brutos e sequência cronológica dos 128 tweets mais recentes para a CNN</td></tr>
+      <tr><td>Inferência sequencial</td><td>${escapeHtml(comparison.reportedMethod.bertInference)}; ${integer(comparison.reportedMethod.postTruncationTokens)} tokens por post</td><td>Janela recente-128 determinística, sem amostragem aleatória no teste</td></tr>
+      <tr><td>Relevância</td><td>${escapeHtml(comparison.reportedMethod.relevance)}</td><td>Proxy lexical fixo <code>anxiety-lexical-v1</code>, independente de rótulos</td></tr>
+      <tr><td>Composição</td><td>${escapeHtml(comparison.reportedMethod.mentionSignal)}</td><td>Focal LogReg, LogReg, CNN e Stacking ×2; sem rede de menções</td></tr>
+      <tr><td>Seleção</td><td>Resultados finais publicados na partição de teste do SetembroBR</td><td>Pesos e limiar definidos somente no OOF de treino; teste pontuado sem rótulos e aberto uma vez após a trava</td></tr>
+    </tbody>
+  </table>
+  <div class="kpis">
+    ${kpi("Delta vs melhor macro F1 da tese", signedMetric(champion.test.macroF1 - bestMacro.macroF1), `vs ${bestMacroModels} · valor publicado ${bestMacro.macroF1.toFixed(2)}`)}
+    ${kpi("Delta vs melhor F1 ansiedade da tese", signedMetric(champion.test.diagnosedF1 - bestAnxiety.anxietyF1), `vs ${bestAnxiety.model} · valor publicado ${bestAnxiety.anxietyF1.toFixed(2)}`)}
+    ${kpi("Delta vs melhor F1 controle da tese", signedMetric(championControlF1 - bestControl.controlF1), `vs ${bestControl.model} · valor publicado ${bestControl.controlF1.toFixed(2)}`)}
+  </div>
+  <div class="note">
+    <div class="lab">Leitura correta da comparação</div>
+    <p>Os deltas são pontos estimados: <strong>+3,285 p.p.</strong> em macro F1, <strong>+3,416 p.p.</strong> em F1 de ansiedade e <strong>+2,154 p.p.</strong> em F1 de controle. A tese arredonda a duas casas decimais, usa outra representação e outro procedimento de inferência, e não disponibiliza aqui as predições por usuário necessárias para McNemar ou bootstrap pareado. Portanto, isto não demonstra superioridade estatística.</p>
+    <p><code>P</code> e <code>R</code> da tese são descritos como precisão e revocação médias do modelo, sem convenção de agregação explicitada; eles não são comparados à precisão e ao recall da classe ansiedade desta reprodução.</p>
+    <p>Fonte: <code>${escapeHtml(comparison.source.file)}</code>, Tabela ${integer(comparison.source.table)}, p. ${integer(comparison.source.printedPage)} impressa (p. ${integer(comparison.source.pdfPage)} do PDF), SHA-256 <code>${escapeHtml(comparison.source.sha256)}</code>. Procedimento descrito nas p. ${comparison.source.methodPrintedPages.map(integer).join("–")} impressas.</p>
+  </div>`;
 }
 
 function embeddingGenerationBlock(provenance: EmbeddingGenerationProvenance): string {
@@ -787,12 +898,13 @@ function normalizeMetrics(value: unknown): NormalizedMetrics | null {
   if (!isRecord(value)) return null;
   const macroF1 = numberValue(value, "macroF1");
   const diagnosedF1 = numberValue(value, "diagnosedF1") ?? perClassNumber(value, "f1");
+  const controlF1 = numberValue(value, "controlF1");
   const precision = numberValue(value, "precision") ?? numberValue(value, "diagnosedPrecision") ?? perClassNumber(value, "precision");
   const recall = numberValue(value, "recall") ?? numberValue(value, "diagnosedRecall") ?? perClassNumber(value, "recall");
   const accuracy = numberValue(value, "accuracy");
   if (macroF1 === null || diagnosedF1 === null || precision === null || recall === null || accuracy === null) return null;
   const counts = countsFromMetrics(value);
-  return { macroF1, diagnosedF1, precision, recall, accuracy, ...counts };
+  return { macroF1, diagnosedF1, controlF1, precision, recall, accuracy, ...counts };
 }
 
 function countsFromMetrics(metrics: JsonRecord): { tp: number; fp: number; tn: number; fn: number } {
@@ -978,6 +1090,20 @@ async function readEmbeddingGenerationProvenance(): Promise<EmbeddingGenerationP
     throw new Error(`Invalid anxiety embedding tweet count in ${anxietyEmbeddingProvenancePath}`);
   }
   return provenance;
+}
+
+async function readAnxietyThesisComparison(): Promise<AnxietyThesisComparison> {
+  const comparison = JSON.parse(await readFile(anxietyThesisComparisonPath, "utf8")) as AnxietyThesisComparison;
+  if (comparison.predictionTarget !== "anxiety" || comparison.reportedResults.length === 0) {
+    throw new Error(`Invalid anxiety thesis comparison in ${anxietyThesisComparisonPath}`);
+  }
+  for (const result of comparison.reportedResults) {
+    const recomputedMacro = (result.controlF1 + result.anxietyF1) / 2;
+    if (Math.abs(recomputedMacro - result.macroF1) > 0.005_001) {
+      throw new Error(`Invalid rounded macro F1 for ${result.model} in ${anxietyThesisComparisonPath}`);
+    }
+  }
+  return comparison;
 }
 
 function durationText(totalSeconds: number): string {

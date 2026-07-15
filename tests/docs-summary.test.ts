@@ -98,6 +98,42 @@ describe("lock results summary docs", () => {
     expect(html).toContain("docs/anxiety-embedding-generation-provenance.json");
   });
 
+  test("compares anxiety F1 metrics with the thesis without mixing precision conventions", async () => {
+    const html = await readFile("docs/lock-results-summary.html", "utf8");
+    const comparison = JSON.parse(
+      await readFile(
+        "docs/anxiety-thesis-comparison.json",
+        "utf8",
+      ),
+    ) as {
+      source: { file: string; sha256: string; table: number; printedPage: number };
+      reportedResults: Array<{ model: string; controlF1: number; anxietyF1: number; macroF1: number }>;
+    };
+    const finalReport = JSON.parse(
+      await readFile(
+        "outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/final-test-report.json",
+        "utf8",
+      ),
+    ) as { testMetrics: { controlF1: number; diagnosedF1: number; macroF1: number } };
+
+    const anxietySection = html.slice(html.indexOf('<section id="anxiety">'), html.indexOf('<section id="llm">'));
+    const bestMacro = Math.max(...comparison.reportedResults.map((entry) => entry.macroF1));
+    const bestAnxiety = Math.max(...comparison.reportedResults.map((entry) => entry.anxietyF1));
+    const bestControl = Math.max(...comparison.reportedResults.map((entry) => entry.controlF1));
+
+    expect(anxietySection).toContain("Comparação com a tese de Santos (2025)");
+    expect(anxietySection).toContain((finalReport.testMetrics.macroF1 - bestMacro).toFixed(6));
+    expect(anxietySection).toContain((finalReport.testMetrics.diagnosedF1 - bestAnxiety).toFixed(6));
+    expect(anxietySection).toContain((finalReport.testMetrics.controlF1 - bestControl).toFixed(6));
+    expect(anxietySection).toContain("GPT.AltaBaixaMenções");
+    expect(anxietySection).toContain(comparison.source.file);
+    expect(anxietySection).toContain(comparison.source.sha256);
+    expect(anxietySection).toContain("não são comparados à precisão e ao recall da classe ansiedade");
+    expect(anxietySection).toContain("50 sequências aleatórias de 10 posts consecutivos por usuário");
+    expect(anxietySection).toContain("anxiety-lexical-v1");
+    expect(anxietySection).toContain("teste pontuado sem rótulos e aberto uma vez após a trava");
+  });
+
   test("includes the temporal FP/FN exploration taxonomy", async () => {
     const html = await readFile("docs/lock-results-summary.html", "utf8");
 

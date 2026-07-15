@@ -638,6 +638,68 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
       <td><code>limiar 0.556689</code></td>
     </tr></tbody>
   </table>
+  <h3>Comparação com a tese de Santos (2025)</h3>
+  <p class="col">A Tabela 13 da tese reporta resultados no mesmo alvo de ansiedade do SetembroBR. As três medidas F1 abaixo têm definições compatíveis: <code>cF1</code> é o F1 de controle, <code>dF1</code> é o F1 da classe diagnosticada/ansiedade e <code>mF1</code> é a média aritmética das duas classes.</p>
+  <table>
+    <thead><tr><th>Fonte</th><th>Modelo</th><th>F1 controle</th><th>F1 ansiedade</th><th>Macro F1</th></tr></thead>
+    <tbody><tr>
+        <td><strong>Esta reprodução strict-blind</strong></td>
+        <td><code>ensemble-lock</code></td>
+        <td>0.911536</td>
+        <td>0.414163</td>
+        <td><strong>0.662850</strong></td>
+      </tr>
+      <tr>
+        <td>Wesley Ramos dos Santos (2025)</td>
+        <td><code>LSTM.BERT</code></td>
+        <td>0.89</td>
+        <td>0.33</td>
+        <td><strong>0.61</strong></td>
+      </tr>
+<tr>
+        <td>Wesley Ramos dos Santos (2025)</td>
+        <td><code>GPT.Alta</code></td>
+        <td>0.88</td>
+        <td>0.37</td>
+        <td><strong>0.63</strong></td>
+      </tr>
+<tr>
+        <td>Wesley Ramos dos Santos (2025)</td>
+        <td><code>GPT.AltaBaixa</code></td>
+        <td>0.88</td>
+        <td>0.37</td>
+        <td><strong>0.63</strong></td>
+      </tr>
+<tr>
+        <td>Wesley Ramos dos Santos (2025)</td>
+        <td><code>GPT.AltaBaixaMenções</code></td>
+        <td>0.88</td>
+        <td>0.38</td>
+        <td><strong>0.63</strong></td>
+      </tr></tbody>
+  </table>
+  <h4>Diferenças de protocolo</h4>
+  <table>
+    <thead><tr><th>Eixo</th><th>Tese de Santos (2025)</th><th>Esta reprodução strict-blind</th></tr></thead>
+    <tbody>
+      <tr><td>Linha do tempo</td><td>1.000 posts mais recentes por usuário</td><td>Agregados sobre embeddings brutos e sequência cronológica dos 128 tweets mais recentes para a CNN</td></tr>
+      <tr><td>Inferência sequencial</td><td>50 sequências aleatórias de 10 posts consecutivos por usuário, combinadas por voto majoritário; 30 tokens por post</td><td>Janela recente-128 determinística, sem amostragem aleatória no teste</td></tr>
+      <tr><td>Relevância</td><td>GPT-3.5 rotula uma amostra aleatória de 30.000 posts; T5 propaga os rótulos aos posts restantes</td><td>Proxy lexical fixo <code>anxiety-lexical-v1</code>, independente de rótulos</td></tr>
+      <tr><td>Composição</td><td>GPT.AltaBaixaMenções acrescenta um sinal não textual de menções Bag-of-Users</td><td>Focal LogReg, LogReg, CNN e Stacking ×2; sem rede de menções</td></tr>
+      <tr><td>Seleção</td><td>Resultados finais publicados na partição de teste do SetembroBR</td><td>Pesos e limiar definidos somente no OOF de treino; teste pontuado sem rótulos e aberto uma vez após a trava</td></tr>
+    </tbody>
+  </table>
+  <div class="kpis">
+    <div class="kpi"><span>Delta vs melhor macro F1 da tese</span><strong>+0.032850</strong><code>vs GPT.Alta / GPT.AltaBaixa / GPT.AltaBaixaMenções · valor publicado 0.63</code></div>
+    <div class="kpi"><span>Delta vs melhor F1 ansiedade da tese</span><strong>+0.034163</strong><code>vs GPT.AltaBaixaMenções · valor publicado 0.38</code></div>
+    <div class="kpi"><span>Delta vs melhor F1 controle da tese</span><strong>+0.021536</strong><code>vs LSTM.BERT · valor publicado 0.89</code></div>
+  </div>
+  <div class="note">
+    <div class="lab">Leitura correta da comparação</div>
+    <p>Os deltas são pontos estimados: <strong>+3,285 p.p.</strong> em macro F1, <strong>+3,416 p.p.</strong> em F1 de ansiedade e <strong>+2,154 p.p.</strong> em F1 de controle. A tese arredonda a duas casas decimais, usa outra representação e outro procedimento de inferência, e não disponibiliza aqui as predições por usuário necessárias para McNemar ou bootstrap pareado. Portanto, isto não demonstra superioridade estatística.</p>
+    <p><code>P</code> e <code>R</code> da tese são descritos como precisão e revocação médias do modelo, sem convenção de agregação explicitada; eles não são comparados à precisão e ao recall da classe ansiedade desta reprodução.</p>
+    <p>Fonte: <code>VERSAO_FINAL_Defesa___wesley.pdf</code>, Tabela 13, p. 108 impressa (p. 109 do PDF), SHA-256 <code>c9e075954ee7b22ca81df088843f0fea03f7eba920ae6ac1a0a50c43b60fb2ca</code>. Procedimento descrito nas p. 105–106 impressas.</p>
+  </div>
 </section>
     <section id="llm">
   <p class="kicker">Filtro unidirecional pós-trava</p>
@@ -788,8 +850,9 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
 <li><code>ternary-classification/configs/setembrobr.seed42.ternary-strict-blind.json</code></li></ul>
     </details>
 <details>
-      <summary>Proveniência da geração de embeddings de ansiedade <span class="muted">(1 files)</span></summary>
-      <ul><li><code>docs/anxiety-embedding-generation-provenance.json</code></li></ul>
+      <summary>Proveniência documental de ansiedade <span class="muted">(2 files)</span></summary>
+      <ul><li><code>docs/anxiety-embedding-generation-provenance.json</code></li>
+<li><code>docs/anxiety-thesis-comparison.json</code></li></ul>
     </details>
 <details>
       <summary><span class="badge">binário</span> Artefatos de embeddings Qwen3 bruto <span class="muted">(1 files)</span></summary>
