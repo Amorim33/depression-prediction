@@ -73,6 +73,9 @@ describe("SetembroBR paper documentation", () => {
     expect(markdown).toContain("Strict-blind split protocol");
     expect(markdown).toContain("The comparison group is pseudo-random rather than clinically confirmed negative");
     expect(markdown).toContain("restricted preservation/authorized-transfer archive");
+    expect(markdown).toContain("SanDisk Portable SSD");
+    expect(markdown).toContain("all 1,036 hashes passed");
+    expect(markdown).toContain("Only the external SanDisk device was erased and formatted");
     expect(markdown).toContain("https://docs.x.com/developer-terms/policy");
     expect(html).toContain("docs/setembrobr-dataset-and-splits.md");
     expect(html).toContain("docs/setembrobr-dataset-provenance.json");

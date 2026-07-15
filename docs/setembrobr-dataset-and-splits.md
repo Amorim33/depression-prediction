@@ -153,7 +153,7 @@ Important reporting rules:
 
 ## Fedora preservation archive
 
-On 2026-07-15, the four Fedora source trees containing the depression/anxiety datasets and embedding artifacts were converted into a restricted, resumable preservation archive at `/home/aluisioamorim/codex-runs/setembrobr-v6-restricted-archive`. Files are independent transfer units: 519 compressible CSV, JSON, Pickle, text, and Parquet objects use Zstandard level 10; 517 already-compressed objects such as NPZ files are preserved byte-for-byte. This avoids a single fragile monolithic archive and permits interrupted `rsync` transfers to resume at file boundaries.
+On 2026-07-15, the four Fedora source trees containing the depression/anxiety datasets and embedding artifacts were converted into a restricted, resumable preservation archive. It was created first at `/home/aluisioamorim/codex-runs/setembrobr-v6-restricted-archive` and, after independent verification, moved to the dedicated external SSD volume `SETEMBROBR` at `/setembrobr-v6-restricted-archive`. Files are independent transfer units: 519 compressible CSV, JSON, Pickle, text, and Parquet objects use Zstandard level 10; 517 already-compressed objects such as NPZ files are preserved byte-for-byte. This avoids a single fragile monolithic archive and permits interrupted `rsync` transfers to resume at file boundaries.
 
 | Archive measurement | Bytes | GiB |
 |---|---:|---:|
@@ -161,23 +161,34 @@ On 2026-07-15, the four Fedora source trees containing the depression/anxiety da
 | Archived payloads | 266,318,109,486 | 248.03 |
 | Space saved | 19,433,849,784 | 18.10 |
 | Fedora `/home` free before | 24,374,616,064 | 22.70 |
-| Fedora `/home` free after | 43,807,522,816 | 40.80 |
+| Fedora `/home` free after archive creation | 43,807,522,816 | 40.80 |
+| Fedora `/home` free after external move | 310,130,343,936 | 288.83 |
 
-All 1,036 files have a source SHA-256, archive SHA-256, original and archived byte count, codec, mode, modification time, and original path in the durable JSONL manifest. Each source file was removed only after its archive hash and reconstructed-byte hash passed and its manifest record had been flushed. A later independent pass reread every archived object, decompressed every Zstandard object, and reproduced all 1,036 original SHA-256 values. The original source trees are therefore absent until explicitly restored. The machine-readable archive record is [`fedora-setembrobr-archive.json`](fedora-setembrobr-archive.json).
+All 1,036 files have a source SHA-256, archive SHA-256, original and archived byte count, codec, mode, modification time, and original path in the durable JSONL manifest. Each source file was removed only after its archive hash and reconstructed-byte hash passed and its manifest record had been flushed. A later independent pass reread every archived object, decompressed every Zstandard object, and reproduced all 1,036 original SHA-256 values.
+
+The external move began at 11:07:39 BRT. The 266.32 GB archive copy completed at 13:12:42 with a reported mean of 35.01 MB/s over a USB link negotiated at 480 Mb/s. Fedora then reread every external archive object against `SHA256SUMS`; all 1,036 hashes passed at 14:53:58. Only then was the `/home` copy removed at 14:54:04, and the SSD was safely unmounted at 14:54:17. Total copy-through-unmount time was 3 h 46 min 38 s. The original source trees and the former `/home` archive are therefore absent until explicitly restored. The machine-readable archive record is [`fedora-setembrobr-archive.json`](fedora-setembrobr-archive.json).
+
+The destination is a 1,000,204,886,016-byte SanDisk Portable SSD with one exFAT partition labeled `SETEMBROBR` (filesystem UUID `6A57-8F8E`). exFAT was selected for practical Linux, macOS, and Windows interoperability. It does not provide native Unix permissions or encryption at rest: on Fedora, mount it with `uid=1000,gid=1000,umask=077`, keep physical custody controlled, and use an encrypted transport/container when an authorized recipient requires confidentiality in transit or at rest.
 
 Verification and restoration on Fedora use the bundled tool:
 
 ```bash
-python3 /home/aluisioamorim/codex-runs/setembrobr-v6-restricted-archive/archive_setembrobr_fedora.py \
-  --mode verify \
-  --archive-root /home/aluisioamorim/codex-runs/setembrobr-v6-restricted-archive
+sudo mount -t exfat -o uid=1000,gid=1000,umask=077,noatime \
+  /dev/disk/by-id/usb-SanDisk_Portable_SSD_323534304551343035333837-0:0-part1 \
+  /mnt/setembrobr-archive
 
-python3 /home/aluisioamorim/codex-runs/setembrobr-v6-restricted-archive/archive_setembrobr_fedora.py \
+python3 /mnt/setembrobr-archive/setembrobr-v6-restricted-archive/archive_setembrobr_fedora.py \
+  --mode verify \
+  --archive-root /mnt/setembrobr-archive/setembrobr-v6-restricted-archive
+
+python3 /mnt/setembrobr-archive/setembrobr-v6-restricted-archive/archive_setembrobr_fedora.py \
   --mode restore \
-  --archive-root /home/aluisioamorim/codex-runs/setembrobr-v6-restricted-archive
+  --archive-root /mnt/setembrobr-archive/setembrobr-v6-restricted-archive
+
+sudo umount /mnt/setembrobr-archive
 ```
 
-The separate NTFS partition belongs to Windows. It was not used for storage or archive work and remains unmounted. The archive resides entirely on Fedora's Linux `/home` filesystem.
+The separate internal NTFS partition belongs to Windows. It was never used for storage, formatting, or archive work and remains unmounted. Only the external SanDisk device was erased and formatted.
 
 ## Archive and redistribution policy
 
