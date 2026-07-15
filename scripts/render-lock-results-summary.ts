@@ -6,6 +6,9 @@ const docsPath = "docs/lock-results-summary.html";
 const mirrorPath = "outputs/setembrobr/lock-results-summary.html";
 const anxietyEmbeddingProvenancePath = "docs/anxiety-embedding-generation-provenance.json";
 const anxietyThesisComparisonPath = "docs/anxiety-thesis-comparison.json";
+const datasetDocumentationPath = "docs/setembrobr-dataset-and-splits.md";
+const datasetProvenancePath = "docs/setembrobr-dataset-provenance.json";
+const archiveProvenancePath = "docs/fedora-setembrobr-archive.json";
 const rawBinaryBaselineMacro = 0.6987181018176564;
 
 type JsonRecord = Record<string, unknown>;
@@ -316,8 +319,14 @@ async function collectArtifacts(): Promise<ArtifactGroup[]> {
     .sort((left, right) => left.title.localeCompare(right.title));
   groups.unshift({
     experimentId: "setembrobr",
-    title: "Proveniência documental de ansiedade",
-    files: [anxietyEmbeddingProvenancePath, anxietyThesisComparisonPath],
+    title: "Proveniência documental do SetembroBR",
+    files: [
+      datasetDocumentationPath,
+      datasetProvenancePath,
+      archiveProvenancePath,
+      anxietyEmbeddingProvenancePath,
+      anxietyThesisComparisonPath,
+    ],
   });
   groups.unshift({ experimentId: "configs", title: "Arquivos de configuração", files: configPaths.sort() });
   return groups;
