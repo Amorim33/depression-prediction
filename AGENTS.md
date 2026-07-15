@@ -29,6 +29,12 @@ Current seed-42 raw-binary results from the 2026-06-18 experiment thread:
 
 The full LLM disambiguator point estimate fixed `49` false positives and lost `14` true positives versus the temporal base test report. Treat this as a final-test point estimate; paired bootstrap delta vs temporal base crossed zero: `[-0.004882, +0.018171]`.
 
+Current seed-42 strict-blind anxiety champion results from 2026-07-14:
+
+- Fixed five-member champion OOF lock: Macro F1 `0.6793942873818478`, anxiety F1 `0.44083654375343967`, precision `0.4308768154922001`, recall `0.4512676056338028`.
+- Sealed anxiety test: Macro F1 `0.6628495295102623`, anxiety F1 `0.41416309012875535`, precision `0.39549180327868855`, recall `0.4346846846846847`.
+- The anxiety result is a separate prediction target and must never be ranked against depression results.
+
 Human-readable result summary:
 
 - `docs/lock-results-summary.html`
@@ -95,6 +101,17 @@ make fedora-raw-binary-temporal-relevance-oof-setembrobr
 
 These OOF-only targets must not run final test evaluation, LLM disambiguation, or final test report generation.
 
+Strict-blind anxiety champion stages:
+
+```bash
+make anxiety-champion-oof-setembrobr
+make anxiety-champion-score-test-setembrobr
+make anxiety-champion-evaluate-test-setembrobr
+make fedora-anxiety-champion-oof-setembrobr
+make fedora-anxiety-champion-score-test-setembrobr
+make fedora-anxiety-champion-evaluate-test-setembrobr
+```
+
 ## Reproducibility Rules
 
 - Default seed is `42`.
@@ -104,7 +121,7 @@ These OOF-only targets must not run final test evaluation, LLM disambiguation, o
 - Final test evaluation happens only after an ensemble lock is created from train OOF artifacts.
 - Existing raw embeddings are reused. Do not call embedding APIs and do not regenerate embeddings.
 - Fedora is used for GPU sequence training and full raw-artifact access when local artifacts are incomplete.
-- Local `db-check-setembrobr` can fail if `DATABASE_URL` is not reachable; do not replace the database or regenerate data to work around this.
+- PostgreSQL connectivity can be checked with `make db-check-setembrobr`. It can fail locally if `DATABASE_URL` is not reachable; do not replace the database or regenerate data to work around this.
 
 ## Project Structure
 
@@ -122,6 +139,7 @@ Current raw-binary experiment lanes:
 - `seed42_raw_qwen3_binary`: raw binary baseline.
 - `seed42_relevance_features_qwen3_binary`: OOF-only relevance-channel experiment; all sequence candidates use `useRelevanceChannel: true`.
 - `seed42_temporal_relevance_qwen3_binary`: temporal relevance experiment; sequence export uses `recent_chronological`, all sequence candidates use the relevance channel, and all tabular candidates include `temporal_markers`.
+- `seed42_anxiety_temporal_champion_qwen3_binary`: anxiety-only strict-blind experiment with the fixed Focal LogReg, LogReg, CNN, and Stacking ×2 champion composition. Its stack OOF is nested, test scores are label-free, and its metrics are reported separately from depression.
 
 Key temporal-relevance artifacts:
 
@@ -131,6 +149,14 @@ Key temporal-relevance artifacts:
 - Full LLM final test report: `outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/reports/final-test-report-llm-disambiguated.json`
 - LLM decisions: `outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/llm-disambiguator/test_decisions_ensemble-lock.csv`
 - Temporal OOF diagnostics: `outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/reports/raw_binary_temporal_oof_diagnostics.json`
+
+Key anxiety champion artifacts:
+
+- Config: `configs/setembrobr.seed42.anxiety-temporal-champion-qwen3-binary.json`
+- Lock: `outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/ensemble/ensemble-lock.json`
+- OOF audit: `outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/oof-audit.json`
+- Label-free test-score manifest: `outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/label-free-test-score-manifest.json`
+- Final test report: `outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/final-test-report.json`
 
 ## Git Policy
 

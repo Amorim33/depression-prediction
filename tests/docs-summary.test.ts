@@ -40,6 +40,26 @@ describe("lock results summary docs", () => {
     expect(html).toContain(String(llmReport.llmDisambiguator.switchedToControl));
   });
 
+  test("documents anxiety OOF and sealed-test results without depression ranking", async () => {
+    const html = await readFile("docs/lock-results-summary.html", "utf8");
+    const binarySection = html.slice(html.indexOf('<section id="binary">'), html.indexOf('<section id="ternary">'));
+    const anxietySection = html.slice(html.indexOf('<section id="anxiety">'), html.indexOf('<section id="llm">'));
+
+    expect(anxietySection).toContain("Resultados de ansiedade");
+    expect(anxietySection).toContain("0.679394");
+    expect(anxietySection).toContain("0.662850");
+    expect(anxietySection).toContain("0.414163");
+    expect(anxietySection).toContain("0.395492");
+    expect(anxietySection).toContain("0.434685");
+    expect(anxietySection).toContain("VP 193");
+    expect(anxietySection).toContain("FP 295");
+    expect(anxietySection).toContain("VN 2813");
+    expect(anxietySection).toContain("FN 251");
+    expect(anxietySection).toContain('<span class="chip">Focal LogReg</span><span class="chip">LogReg</span><span class="chip">CNN</span><span class="chip">Stacking ×2</span>');
+    expect(binarySection).not.toContain("— ansiedade");
+    expect(html).toContain("Este resultado não participa dos rankings de depressão");
+  });
+
   test("includes the temporal FP/FN exploration taxonomy", async () => {
     const html = await readFile("docs/lock-results-summary.html", "utf8");
 

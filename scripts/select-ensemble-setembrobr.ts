@@ -15,6 +15,9 @@ const selectionGroup = selectionGroupId
   : undefined;
 if (selectionGroupId && !selectionGroup) throw new Error(`Unknown binary selection group: ${selectionGroupId}`);
 const allowedModelIds = selectionGroup ? new Set(selectionGroup.modelIds) : undefined;
+const fixedModelIds = config.ensemble.selectionMode === "fixed_model_set" ? config.ensemble.requiredModelIds : undefined;
+const requiredModelIds = fixedModelIds ?? selectionGroup?.modelIds;
+const effectiveAllowedModelIds = requiredModelIds ? new Set(requiredModelIds) : allowedModelIds;
 const manifestHashValue = isRawBinaryConfig(config)
   ? await rawBinaryStrictBlindManifestHash(config)
   : manifestHash(await readManifest(resolveOutputPath(config, "manifest", "split_manifest_seed42.csv")));
@@ -28,14 +31,20 @@ for (const path of oofFiles) {
   const rows = await readOofScores(path);
   const modelId = rows[0]?.modelId;
   if (!modelId) throw new Error(`Missing model_id in ${path}`);
-  if (allowedModelIds && !allowedModelIds.has(modelId)) continue;
+  if (effectiveAllowedModelIds && !effectiveAllowedModelIds.has(modelId)) continue;
   oofByModel.set(modelId, rows);
   sourceHashes[modelId] = await sha256File(path);
 }
 if (oofByModel.size === 0) throw new Error(selectionGroupId ? `No OOF files found for group ${selectionGroupId}` : "No OOF files selected");
+if (requiredModelIds) {
+  for (const modelId of requiredModelIds) {
+    if (!oofByModel.has(modelId)) throw new Error(`Missing required OOF model for fixed selection: ${modelId}`);
+  }
+}
 
 const lock = selectEnsemble({
   seed: config.seed,
+  predictionTarget: config.predictionTarget ?? "depression",
   manifestHash: manifestHashValue,
   oofByModel,
   sourceHashes,
@@ -44,10 +53,30 @@ const lock = selectEnsemble({
   exhaustiveModelLimit: config.ensemble.exhaustiveModelLimit,
   candidatePruneTo: config.ensemble.candidatePruneTo,
   maxModels: config.ensemble.maxModels,
+  selectionMode: config.ensemble.selectionMode,
+  requiredModelIds,
+  minimumWeight: config.ensemble.minimumWeight,
 });
-const outValue = selectionGroup
-  ? { ...lock, selectionGroupId: selectionGroup.groupId, selectionGroupDescription: selectionGroup.description, candidateModelIds: selectionGroup.modelIds }
+const proxyDefinitionPath = config.relevanceProxy ? resolveOutputPath(config, "relevance-proxy", "proxy-definition.json") : undefined;
+const enrichedLock = config.relevanceProxy && proxyDefinitionPath
+  ? {
+      ...lock,
+      relevanceProxyProvenance: {
+        kind: config.relevanceProxy.kind,
+        definitionSha256: await sha256File(proxyDefinitionPath),
+        usesLabels: false as const,
+      },
+      artifactHashes: {
+        strictBlindManifestSha256: manifestHashValue,
+        rawEmbeddingManifestSha256: config.rawEmbeddingManifestSha256 ?? "",
+        rawSplitManifestSha256: config.rawSplitManifestSha256 ?? "",
+        relevanceProxyDefinitionSha256: await sha256File(proxyDefinitionPath),
+      },
+    }
   : lock;
+const outValue = selectionGroup
+  ? { ...enrichedLock, selectionGroupId: selectionGroup.groupId, selectionGroupDescription: selectionGroup.description, candidateModelIds: selectionGroup.modelIds }
+  : enrichedLock;
 const outPath = resolveOutputPath(config, "ensemble", `${lockBasename}.json`);
 await mkdir(dirname(outPath), { recursive: true });
 await writeJson(outPath, outValue);

@@ -30,6 +30,23 @@ describe("raw Qwen3 embedding configuration", () => {
     expect(script).not.toContain("sequence_embeddings");
     expect(script).not.toContain("top_items");
   });
+
+  test("defines a raw anxiety lane without synthetic relevance pools", async () => {
+    const config = JSON.parse(
+      await readFile("configs/setembrobr.seed42.raw-qwen3-anxiety-embeddings.json", "utf8"),
+    );
+    const script = await readFile("scripts/raw_qwen3_embeddings_anxiety_setembrobr.py", "utf8");
+
+    expect(config.datasetId).toBe("setembrobr-anxiety");
+    expect(config.expectedUsers).toEqual({ train: 14200, test: 3552 });
+    expect(config.expectedTweets).toEqual({ train: 21769232, test: 5638808 });
+    expect(config.tweetDelimiter).toBe(" # ");
+    expect(config.includeRelevancePools).toBe(false);
+    expect(config.redactTestLabels).toBe(true);
+    expect(config.minFreeGiB).toBe(20);
+    expect(script).toContain('relevance_raw=[None] * tweet_count');
+    expect(script).toContain('"label": "" if redacted else record.label_code');
+  });
 });
 
 describe("raw Qwen3 ternary experiment configuration", () => {

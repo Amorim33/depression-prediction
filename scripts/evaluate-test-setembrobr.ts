@@ -27,6 +27,7 @@ for (const modelId of lock.modelIds) {
 const metrics = evaluateLockedEnsemble(lock, testScoresByModel, labelsByUser);
 const report = {
   dataset: "setembrobr",
+  predictionTarget: config.predictionTarget ?? "depression",
   seed: config.seed,
   manifestHash: lock.manifestHash,
   lock,

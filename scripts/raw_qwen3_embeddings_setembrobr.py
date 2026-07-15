@@ -11,6 +11,7 @@ import os
 import pickle
 import platform
 import random
+import shutil
 import socket
 import subprocess
 import sys
@@ -621,39 +622,49 @@ def save_shard(
     split: str,
     records: list[UserRecord],
     processed: list[dict[str, Any]],
+    include_relevance_pools: bool = True,
+    redact_test_labels: bool = False,
 ) -> None:
     artifact_labels = np.asarray(
         [record.label_code if split == "train" else -1 for record in records],
         dtype=np.int16,
     )
-    np.savez(
-        path,
-        user_ids=np.asarray([record.user_id for record in records], dtype=object),
-        labels=artifact_labels,
-        true_labels=np.asarray([record.label_code for record in records], dtype=np.int16),
-        tweet_counts=np.asarray([item["tweet_count"] for item in processed], dtype=np.int32),
-        mean_embeddings=np.stack([item["mean"] for item in processed]).astype(np.float32),
-        rel3_embeddings=np.stack([item["threshold_embeddings"][3] for item in processed]).astype(np.float32),
-        rel6_embeddings=np.stack([item["threshold_embeddings"][6] for item in processed]).astype(np.float32),
-        rel7_embeddings=np.stack([item["threshold_embeddings"][7] for item in processed]).astype(np.float32),
-        rel3_counts=np.asarray([item["threshold_counts"][3] for item in processed], dtype=np.int32),
-        rel6_counts=np.asarray([item["threshold_counts"][6] for item in processed], dtype=np.int32),
-        rel7_counts=np.asarray([item["threshold_counts"][7] for item in processed], dtype=np.int32),
-    )
+    payload: dict[str, np.ndarray] = {
+        "user_ids": np.asarray([record.user_id for record in records], dtype=object),
+        "labels": artifact_labels,
+        "tweet_counts": np.asarray([item["tweet_count"] for item in processed], dtype=np.int32),
+        "mean_embeddings": np.stack([item["mean"] for item in processed]).astype(np.float32),
+    }
+    if not (redact_test_labels and split == "test"):
+        payload["true_labels"] = np.asarray([record.label_code for record in records], dtype=np.int16)
+    if include_relevance_pools:
+        for threshold in THRESHOLDS:
+            payload[f"rel{threshold}_embeddings"] = np.stack(
+                [item["threshold_embeddings"][threshold] for item in processed]
+            ).astype(np.float32)
+            payload[f"rel{threshold}_counts"] = np.asarray(
+                [item["threshold_counts"][threshold] for item in processed], dtype=np.int32
+            )
+    np.savez(path, **payload)
 
 
-def reduce_split(output_dir: Path, split: str, shard_paths: list[Path]) -> dict[str, Any]:
+def reduce_split(
+    output_dir: Path,
+    split: str,
+    shard_paths: list[Path],
+    include_relevance_pools: bool = True,
+) -> dict[str, Any]:
     shards = [np.load(path, allow_pickle=True) for path in shard_paths]
     user_ids = np.concatenate([shard["user_ids"] for shard in shards])
     labels = np.concatenate([shard["labels"] for shard in shards])
     tweet_counts = np.concatenate([shard["tweet_counts"] for shard in shards])
 
-    pooled_specs = [
-        ("mean", "mean_embeddings", "tweet_counts"),
-        ("rel3", "rel3_embeddings", "rel3_counts"),
-        ("rel6", "rel6_embeddings", "rel6_counts"),
-        ("rel7", "rel7_embeddings", "rel7_counts"),
-    ]
+    pooled_specs = [("mean", "mean_embeddings", "tweet_counts")]
+    if include_relevance_pools:
+        pooled_specs.extend(
+            (f"rel{threshold}", f"rel{threshold}_embeddings", f"rel{threshold}_counts")
+            for threshold in THRESHOLDS
+        )
     for suffix, embedding_key, count_key in pooled_specs:
         embeddings = np.concatenate([shard[embedding_key] for shard in shards]).astype(np.float32)
         counts = np.concatenate([shard[count_key] for shard in shards]).astype(np.int32)
@@ -689,6 +700,9 @@ def generate_embeddings(
     model_id = str(config["embeddingModelId"])
     embedding_dimension = int(config["embeddingDimension"])
     storage_dtype = str(config.get("embeddingStorageDtype", "float16"))
+    include_relevance_pools = bool(config.get("includeRelevancePools", True))
+    redact_test_labels = bool(config.get("redactTestLabels", False))
+    min_free_gib = float(config.get("minFreeGiB", 0))
     device = resolve_device(device_request)
     model = load_embedding_model(model_id, device)
     revision = model_revision(model)
@@ -706,6 +720,12 @@ def generate_embeddings(
             shard_paths.append(shard_path)
             if shard_path.exists() and tweet_path.exists() and not force:
                 continue
+            free_gib = shutil.disk_usage(output_dir).free / (1024**3)
+            if min_free_gib > 0 and free_gib < min_free_gib:
+                raise RuntimeError(
+                    f"refusing to start {split} shard {start}:{end}: "
+                    f"{free_gib:.2f} GiB free is below minFreeGiB={min_free_gib:.2f}"
+                )
             if force:
                 for path in [shard_path, tweet_path]:
                     if path.exists():
@@ -718,8 +738,20 @@ def generate_embeddings(
                 ]
             finally:
                 writer.close()
-            save_shard(shard_path, split, records[start:end], processed)
-        split_summaries[split] = reduce_split(output_dir, split, shard_paths)
+            save_shard(
+                shard_path,
+                split,
+                records[start:end],
+                processed,
+                include_relevance_pools=include_relevance_pools,
+                redact_test_labels=redact_test_labels,
+            )
+        split_summaries[split] = reduce_split(
+            output_dir,
+            split,
+            shard_paths,
+            include_relevance_pools=include_relevance_pools,
+        )
     return {
         "device": device,
         "modelId": model_id,
@@ -728,6 +760,9 @@ def generate_embeddings(
         "embeddingStorageDtype": storage_dtype,
         "batchSize": batch_size,
         "shardUsers": shard_users,
+        "includeRelevancePools": include_relevance_pools,
+        "redactTestLabels": redact_test_labels,
+        "minFreeGiB": min_free_gib,
         "tweetLevelDataset": {
             split: {
                 "path": str(output_dir / "tweet_embeddings" / split),

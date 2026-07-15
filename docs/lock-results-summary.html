@@ -31,6 +31,7 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
         <a href="#architecture">Arquitetura</a>
         <a href="#binary">Trilha binária</a>
         <a href="#ternary">Trilha ternária</a>
+        <a href="#anxiety">Ansiedade</a>
         <a href="#llm">Filtro LLM</a>
         <a href="#methods">Lições</a>
         <a href="#temporal">FP / FN</a>
@@ -42,14 +43,20 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
     <section id="overview">
   <div class="col">
     <p class="kicker">SetembroBR · relatório de travas strict-blind</p>
-    <h1>Resultados travados do SetembroBR, <span class="muted">trilhas binária e ternária reportadas em separado.</span></h1>
-    <p class="lead">Gerado a partir dos artefatos do repositório em <code class="k">outputs/setembrobr</code>. As métricas OOF explicam a seleção de modelos; as métricas de teste selado e desambiguadas por LLM são reportadas separadamente, e as duas trilhas de rótulo nunca são ranqueadas uma contra a outra.</p>
+    <h1>Resultados travados do SetembroBR, <span class="muted">depressão e ansiedade reportadas em separado.</span></h1>
+    <p class="lead">Gerado a partir dos artefatos do repositório em <code class="k">outputs/setembrobr</code>. As métricas OOF explicam a seleção de modelos; as métricas de teste selado são reportadas separadamente, e ansiedade nunca é ranqueada contra as trilhas de depressão.</p>
   </div>
   <div class="meta">
     <div class="row"><span class="lab">Seed</span><span class="val">42</span></div>
     <div class="row"><span class="lab">Fonte</span><span class="val"><code class="k">outputs/setembrobr</code></span></div>
-    <div class="row"><span class="lab">Travas</span><span class="val">9 travas de ensemble · 12 relatórios de teste selado</span></div>
-    <div class="row"><span class="lab">Métrica</span><span class="val">Macro F1 (primária) · F1 diagnosticado / precisão / recall</span></div>
+    <div class="row"><span class="lab">Travas</span><span class="val">10 travas de ensemble · 13 relatórios de teste selado</span></div>
+    <div class="row"><span class="lab">Métrica</span><span class="val">Macro F1 (primária) · F1 / precisão / recall da classe positiva</span></div>
+  </div>
+  <div class="grid two">
+    <div class="scard">
+      <div class="head"><span class="nm">Ansiedade</span><span class="tag">strict-blind independente</span></div>
+      <p>Macro F1 de teste selado <strong>0.662850</strong> — Qwen3 bruto binário com relevância temporal — ansiedade (teste selado). Este resultado não participa dos rankings de depressão.</p>
+    </div>
   </div>
   <div class="grid two">
     <div class="scard">
@@ -64,7 +71,7 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
   <p>A linha binária bruta evoluiu de <code class="k">0.698718</code> para <code class="k">0.713426</code> com as features de relevância temporal (<span class="pos">+0.014708</span>), e depois para <code class="k">0.720327</code> com a desambiguação completa de falsos positivos por LLM (<span class="pos">+0.006901</span>).</p>
   <div class="note">
     <div class="lab">Strict-blind &amp; comparabilidade</div>
-    <p>As linhas desambiguadas por LLM são estimativas pontuais do teste final, não novos sinais de seleção — o LLM apenas troca usuários previstos como diagnosticados para controle. O macro F1 binário é uma média de 2 classes; o macro F1 OOF ternário é uma média de 3 classes sobre diagnosticado / controle / sem-evidência. As duas trilhas usam mecanismos de decisão diferentes e <strong>não são diretamente comparáveis</strong>.</p>
+    <p>As linhas desambiguadas por LLM são estimativas pontuais do teste final, não novos sinais de seleção — o LLM apenas troca usuários previstos como diagnosticados para controle. O macro F1 binário é uma média de 2 classes; o macro F1 OOF ternário é uma média de 3 classes sobre diagnosticado / controle / sem-evidência. Ansiedade usa outro alvo e outra prevalência. Essas trilhas <strong>não são diretamente comparáveis</strong>.</p>
   </div>
 </section>
     <section id="architecture">
@@ -119,12 +126,12 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
   <div class="kpis">
     <div class="kpi"><span>Melhor macro F1 (teste)</span><strong>0.720327</strong><code>Qwen3 bruto binário com relevância temporal</code></div>
     <div class="kpi"><span>Melhor F1 diagnosticado</span><strong>0.503311</strong><code>Qwen3 bruto binário com relevância temporal</code></div>
-    <div class="kpi"><span>Melhor precisão</span><strong>0.569288</strong><code>Qwen3 bruto binário com relevância temporal</code></div>
-    <div class="kpi"><span>Melhor recall</span><strong>0.905045</strong><code>Embeddings legados strict-blind (binário)</code></div>
+    <div class="kpi"><span>Melhor precisão diagnosticado</span><strong>0.569288</strong><code>Qwen3 bruto binário com relevância temporal</code></div>
+    <div class="kpi"><span>Melhor recall diagnosticado</span><strong>0.905045</strong><code>Embeddings legados strict-blind (binário)</code></div>
   </div>
   <h3>Resultados de teste selado (ranqueados)</h3>
   <table>
-    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 diag.</th><th>Precisão</th><th>Recall</th><th>Confusão</th><th>Delta</th></tr></thead>
+    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 diag.</th><th>Precisão diag.</th><th>Recall diag.</th><th>Confusão</th><th>Delta</th></tr></thead>
     <tbody><tr>
         <td>1</td>
         <td><strong>Qwen3 bruto binário com relevância temporal</strong><br><code>ensemble-lock</code><br><span class="chips"><span class="chip">Focal LogReg</span><span class="chip">LogReg</span><span class="chip">CNN</span><span class="chip">Stacking ×2</span></span></td>
@@ -189,7 +196,7 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
   <h3>Resultados OOF travados</h3>
   <p class="muted">Métricas OOF de treino usadas para travar modelo, pesos, limiar ou regra de decisão.</p>
   <table>
-    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 diag.</th><th>Precisão</th><th>Recall</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
+    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 diag.</th><th>Precisão diag.</th><th>Recall diag.</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
     <tbody><tr>
       <td><strong>Embeddings legados strict-blind (binário)</strong><br><code>ensemble-lock</code><br><span class="chips"><span class="chip">MLP ×3</span><span class="chip">BiLSTM</span><span class="chip">CNN ×4</span></span></td>
       <td>0.773542</td>
@@ -231,7 +238,6 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
       <td><code>limiar 0.514690</code></td>
     </tr></tbody>
   </table>
-  
 </section>
     <section id="ternary">
   <p class="kicker">Trilha B · 3 classes</p>
@@ -240,12 +246,12 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
   <div class="kpis">
     <div class="kpi"><span>Melhor macro F1 (teste)</span><strong>0.801483</strong><code>Qwen3 bruto ternário simétrico</code></div>
     <div class="kpi"><span>Melhor F1 diagnosticado</span><strong>0.503247</strong><code>Qwen3 bruto ternário (apenas diagnosticados)</code></div>
-    <div class="kpi"><span>Melhor precisão</span><strong>0.496774</strong><code>Qwen3 bruto ternário simétrico</code></div>
-    <div class="kpi"><span>Melhor recall</span><strong>0.992701</strong><code>Embeddings legados strict-blind (ternário)</code></div>
+    <div class="kpi"><span>Melhor precisão diagnosticado</span><strong>0.496774</strong><code>Qwen3 bruto ternário simétrico</code></div>
+    <div class="kpi"><span>Melhor recall diagnosticado</span><strong>0.992701</strong><code>Embeddings legados strict-blind (ternário)</code></div>
   </div>
   <h3>Resultados de teste selado (ranqueados)</h3>
   <table>
-    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 diag.</th><th>Precisão</th><th>Recall</th><th>Confusão</th><th>Delta</th></tr></thead>
+    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 diag.</th><th>Precisão diag.</th><th>Recall diag.</th><th>Confusão</th><th>Delta</th></tr></thead>
     <tbody><tr>
         <td>1</td>
         <td><strong>Qwen3 bruto ternário simétrico</strong><br><code>legacy-cnn-logreg-mlp-lock</code><br><span class="chips"><span class="chip">Focal LogReg</span><span class="chip">LogReg</span><span class="chip">MLP</span><span class="chip">CNN ×2</span></span></td>
@@ -334,7 +340,7 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
   <h3>Resultados OOF travados</h3>
   <p class="muted">Métricas OOF de treino usadas para travar modelo, pesos, limiar ou regra de decisão.</p>
   <table>
-    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 diag.</th><th>Precisão</th><th>Recall</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
+    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 diag.</th><th>Precisão diag.</th><th>Recall diag.</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
     <tbody><tr>
       <td><strong>Embeddings legados strict-blind (ternário)</strong><br><code>ensemble-lock</code><br><span class="chips"><span class="chip">HistGB</span><span class="chip">LogReg</span><span class="chip">MLP</span><span class="chip">XGBoost ×3</span></span></td>
       <td>0.807566</td>
@@ -564,6 +570,48 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
       </table>
     </div></div>
 </section>
+    <section id="anxiety">
+  <p class="kicker">Alvo independente · 2 classes</p>
+  <h2>Resultados de ansiedade <span class="muted">· ansiedade vs controle</span></h2>
+  <p class="col">Experimento strict-blind exclusivo de ansiedade. A composição do campeão foi fixada em Focal LogReg, LogReg, CNN e Stacking ×2; somente pesos positivos e o limiar foram ajustados no OOF de treino. O teste selado é documentado sem comparação ou ranking contra depressão.</p>
+  <div class="kpis">
+    <div class="kpi"><span>Melhor macro F1 (teste)</span><strong>0.662850</strong><code>Qwen3 bruto binário com relevância temporal — ansiedade</code></div>
+    <div class="kpi"><span>Melhor F1 ansiedade</span><strong>0.414163</strong><code>Qwen3 bruto binário com relevância temporal — ansiedade</code></div>
+    <div class="kpi"><span>Melhor precisão ansiedade</span><strong>0.395492</strong><code>Qwen3 bruto binário com relevância temporal — ansiedade</code></div>
+    <div class="kpi"><span>Melhor recall ansiedade</span><strong>0.434685</strong><code>Qwen3 bruto binário com relevância temporal — ansiedade</code></div>
+  </div>
+  <h3>Resultados de teste selado (ranqueados)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 ansiedade</th><th>Precisão ansiedade</th><th>Recall ansiedade</th><th>Confusão</th><th>Delta</th></tr></thead>
+    <tbody><tr>
+        <td>1</td>
+        <td><strong>Qwen3 bruto binário com relevância temporal — ansiedade</strong><br><code>ensemble-lock</code><br><span class="chips"><span class="chip">Focal LogReg</span><span class="chip">LogReg</span><span class="chip">CNN</span><span class="chip">Stacking ×2</span></span></td>
+        <td>teste selado</td>
+        <td>0.679394</td>
+        <td><strong>0.662850</strong></td>
+        <td>0.414163</td>
+        <td>0.395492</td>
+        <td>0.434685</td>
+        <td><span class="chips"><span class="chip">VP 193</span><span class="chip bad">FP 295</span><span class="chip">VN 2813</span><span class="chip bad">FN 251</span></span></td>
+        <td><span class="muted">n/d</span></td>
+      </tr></tbody>
+  </table>
+  <h3>Resultados OOF travados</h3>
+  <p class="muted">Métricas OOF de treino usadas para travar modelo, pesos, limiar ou regra de decisão.</p>
+  <table>
+    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 ansiedade</th><th>Precisão ansiedade</th><th>Recall ansiedade</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
+    <tbody><tr>
+      <td><strong>Qwen3 bruto binário com relevância temporal — ansiedade</strong><br><code>ensemble-lock</code><br><span class="chips"><span class="chip">Focal LogReg</span><span class="chip">LogReg</span><span class="chip">CNN</span><span class="chip">Stacking ×2</span></span></td>
+      <td>0.679394</td>
+      <td>0.440837</td>
+      <td>0.430877</td>
+      <td>0.451268</td>
+      <td><span class="chips"><span class="chip">VP 801</span><span class="chip bad">FP 1058</span><span class="chip">VN 11367</span><span class="chip bad">FN 974</span></span></td>
+      <td><code>ansiedade-binário</code></td>
+      <td><code>limiar 0.556689</code></td>
+    </tr></tbody>
+  </table>
+</section>
     <section id="llm">
   <p class="kicker">Filtro unidirecional pós-trava</p>
   <h2>Desambiguação de falsos positivos por LLM</h2>
@@ -650,6 +698,11 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
       <p class="muted">Pós-filtro unidirecional de diagnosticado para controle</p>
       <p>O LLM não é um segundo classificador. Ele apenas rejeita usuários previstos como diagnosticados quando a evidência da linha do tempo parece não clínica, de terceiros ou de cunho lexical/fandom.</p>
     </div>
+<div class="scard">
+      <div class="head"><span class="nm">Campeão temporal transferido para ansiedade</span></div>
+      <p class="muted">Mesmas cinco famílias, nova trava treinada apenas no OOF de ansiedade</p>
+      <p>A composição Focal LogReg, LogReg, CNN e dois stackers foi mantida fixa. Pesos e limiar foram selecionados no OOF de treino de ansiedade, com cross-fitting aninhado dos stackers e teste aberto somente após a trava.</p>
+    </div>
   </div>
   <table>
     <thead><tr><th>Eixo do método</th><th>Ideia comparada</th><th>Lição observada</th></tr></thead>
@@ -695,8 +748,10 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
   <h2>Índice de artefatos</h2>
   <p class="col">Travas, relatórios finais, diagnósticos, decisões de LLM e artefatos JSON relevantes descobertos em <code class="k">outputs/setembrobr</code>.</p>
   <details>
-      <summary>Arquivos de configuração <span class="muted">(8 files)</span></summary>
-      <ul><li><code>configs/setembrobr.seed42.raw-qwen3-binary.json</code></li>
+      <summary>Arquivos de configuração <span class="muted">(10 files)</span></summary>
+      <ul><li><code>configs/setembrobr.seed42.anxiety-temporal-champion-qwen3-binary.json</code></li>
+<li><code>configs/setembrobr.seed42.raw-qwen3-anxiety-embeddings.json</code></li>
+<li><code>configs/setembrobr.seed42.raw-qwen3-binary.json</code></li>
 <li><code>configs/setembrobr.seed42.raw-qwen3-embeddings.json</code></li>
 <li><code>configs/setembrobr.seed42.raw-qwen3-ternary-diagnosed-only.json</code></li>
 <li><code>configs/setembrobr.seed42.raw-qwen3-ternary-symmetric.json</code></li>
@@ -786,6 +841,21 @@ footer{padding:36px 0 80px;color:var(--ink-3);font-size:13px}
 <li><code>outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/reports/raw_binary_stack_oof_manifest.json</code></li>
 <li><code>outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/reports/raw_binary_tabular_oof_manifest.json</code></li>
 <li><code>outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/reports/raw_binary_temporal_oof_diagnostics.json</code></li></ul>
+    </details>
+<details>
+      <summary><span class="badge">ansiedade</span> Qwen3 bruto binário com relevância temporal — ansiedade <span class="muted">(12 files)</span></summary>
+      <ul><li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/ensemble/ensemble-lock.json</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/manifest/strict_blind_split_manifest_seed42.csv</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/manifest/test_inference_manifest_seed42.csv</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/manifest/train_binary_manifest_seed42.csv</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/anxiety-manifest-report.json</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/final-test-report.json</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/label-free-test-score-manifest.json</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/nested-stacking-provenance.json</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/oof-audit.json</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/reproduction-manifest.json</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/test-prepare-manifest.json</code></li>
+<li><code>outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/reports/train-prepare-manifest.json</code></li></ul>
     </details>
 <details>
       <summary><span class="badge">ternário</span> Qwen3 bruto ternário (apenas diagnosticados) <span class="muted">(26 files)</span></summary>

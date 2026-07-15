@@ -20,7 +20,7 @@ interface NormalizedMetrics {
   fn: number;
 }
 
-type Track = "binary" | "ternary";
+type Track = "binary" | "ternary" | "anxiety";
 
 interface LockEntry {
   experimentId: string;
@@ -72,6 +72,7 @@ const experimentTitles: Record<string, string> = {
   seed42_raw_qwen3_binary: "Qwen3 bruto binário (baseline)",
   seed42_relevance_features_qwen3_binary: "Qwen3 bruto binário com canal de relevância",
   seed42_temporal_relevance_qwen3_binary: "Qwen3 bruto binário com relevância temporal",
+  seed42_anxiety_temporal_champion_qwen3_binary: "Qwen3 bruto binário com relevância temporal — ansiedade",
   seed42_raw_qwen3_ternary_diagnosed_only: "Qwen3 bruto ternário (apenas diagnosticados)",
   seed42_raw_qwen3_ternary_symmetric: "Qwen3 bruto ternário simétrico",
   seed42_raw_qwen3_embeddings: "Artefatos de embeddings Qwen3 bruto",
@@ -113,6 +114,12 @@ const methodIdeas: Array<{ title: string; body: string; signal: string }> = [
     signal: "Pós-filtro unidirecional de diagnosticado para controle",
     body:
       "O LLM não é um segundo classificador. Ele apenas rejeita usuários previstos como diagnosticados quando a evidência da linha do tempo parece não clínica, de terceiros ou de cunho lexical/fandom.",
+  },
+  {
+    title: "Campeão temporal transferido para ansiedade",
+    signal: "Mesmas cinco famílias, nova trava treinada apenas no OOF de ansiedade",
+    body:
+      "A composição Focal LogReg, LogReg, CNN e dois stackers foi mantida fixa. Pesos e limiar foram selecionados no OOF de treino de ansiedade, com cross-fitting aninhado dos stackers e teste aberto somente após a trava.",
   },
 ];
 
@@ -254,6 +261,7 @@ function renderPage(lockEntries: readonly LockEntry[], resultEntries: readonly R
     { id: "architecture", label: "Arquitetura" },
     { id: "binary", label: "Trilha binária" },
     { id: "ternary", label: "Trilha ternária" },
+    { id: "anxiety", label: "Ansiedade" },
     { id: "llm", label: "Filtro LLM" },
     { id: "methods", label: "Lições" },
     { id: "temporal", label: "FP / FN" },
@@ -281,6 +289,7 @@ function renderPage(lockEntries: readonly LockEntry[], resultEntries: readonly R
     ${architectureSection()}
     ${trackSection("binary", lockEntries, resultEntries)}
     ${trackSection("ternary", lockEntries, resultEntries)}
+    ${trackSection("anxiety", lockEntries, resultEntries)}
     ${renderLlmSection(resultEntries)}
     ${methodSection()}
     ${renderTemporalEvidenceSection()}
@@ -302,6 +311,7 @@ function overviewSection(resultEntries: readonly ResultEntry[], lockEntries: rea
   const finalResults = resultEntries.filter((entry) => entry.kind !== "cached-llm");
   const bestBinary = bestBy(finalResults.filter((entry) => entry.track === "binary"), (entry) => entry.test.macroF1);
   const bestTernary = bestBy(finalResults.filter((entry) => entry.track === "ternary"), (entry) => entry.test.macroF1);
+  const bestAnxiety = bestBy(finalResults.filter((entry) => entry.track === "anxiety"), (entry) => entry.test.macroF1);
   const temporalBase = resultEntries.find(
     (entry) => entry.experimentId === "seed42_temporal_relevance_qwen3_binary" && entry.kind === "test",
   );
@@ -314,14 +324,20 @@ function overviewSection(resultEntries: readonly ResultEntry[], lockEntries: rea
   return `<section id="overview">
   <div class="col">
     <p class="kicker">SetembroBR · relatório de travas strict-blind</p>
-    <h1>Resultados travados do SetembroBR, <span class="muted">trilhas binária e ternária reportadas em separado.</span></h1>
-    <p class="lead">Gerado a partir dos artefatos do repositório em <code class="k">outputs/setembrobr</code>. As métricas OOF explicam a seleção de modelos; as métricas de teste selado e desambiguadas por LLM são reportadas separadamente, e as duas trilhas de rótulo nunca são ranqueadas uma contra a outra.</p>
+    <h1>Resultados travados do SetembroBR, <span class="muted">depressão e ansiedade reportadas em separado.</span></h1>
+    <p class="lead">Gerado a partir dos artefatos do repositório em <code class="k">outputs/setembrobr</code>. As métricas OOF explicam a seleção de modelos; as métricas de teste selado são reportadas separadamente, e ansiedade nunca é ranqueada contra as trilhas de depressão.</p>
   </div>
   <div class="meta">
     <div class="row"><span class="lab">Seed</span><span class="val">42</span></div>
     <div class="row"><span class="lab">Fonte</span><span class="val"><code class="k">outputs/setembrobr</code></span></div>
     <div class="row"><span class="lab">Travas</span><span class="val">${lockEntries.length} travas de ensemble · ${finalResults.length} relatórios de teste selado</span></div>
-    <div class="row"><span class="lab">Métrica</span><span class="val">Macro F1 (primária) · F1 diagnosticado / precisão / recall</span></div>
+    <div class="row"><span class="lab">Métrica</span><span class="val">Macro F1 (primária) · F1 / precisão / recall da classe positiva</span></div>
+  </div>
+  <div class="grid two">
+    <div class="scard">
+      <div class="head"><span class="nm">Ansiedade</span><span class="tag">strict-blind independente</span></div>
+      <p>Macro F1 de teste selado <strong>${metric(bestAnxiety?.test.macroF1)}</strong>${bestAnxiety ? ` — ${escapeHtml(bestAnxiety.experimentTitle)} (${escapeHtml(bestAnxiety.variant)})` : ""}. Este resultado não participa dos rankings de depressão.</p>
+    </div>
   </div>
   <div class="grid two">
     <div class="scard">
@@ -340,7 +356,7 @@ function overviewSection(resultEntries: readonly ResultEntry[], lockEntries: rea
   )}</code> com a desambiguação completa de falsos positivos por LLM (${deltaText(llmLift)}).</p>
   <div class="note">
     <div class="lab">Strict-blind &amp; comparabilidade</div>
-    <p>As linhas desambiguadas por LLM são estimativas pontuais do teste final, não novos sinais de seleção — o LLM apenas troca usuários previstos como diagnosticados para controle. O macro F1 binário é uma média de 2 classes; o macro F1 OOF ternário é uma média de 3 classes sobre diagnosticado / controle / sem-evidência. As duas trilhas usam mecanismos de decisão diferentes e <strong>não são diretamente comparáveis</strong>.</p>
+    <p>As linhas desambiguadas por LLM são estimativas pontuais do teste final, não novos sinais de seleção — o LLM apenas troca usuários previstos como diagnosticados para controle. O macro F1 binário é uma média de 2 classes; o macro F1 OOF ternário é uma média de 3 classes sobre diagnosticado / controle / sem-evidência. Ansiedade usa outro alvo e outra prevalência. Essas trilhas <strong>não são diretamente comparáveis</strong>.</p>
   </div>
 </section>`;
 }
@@ -430,9 +446,11 @@ function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEnt
   const baselineMacro =
     track === "binary"
       ? rawBinaryBaselineMacro
-      : (resultEntries.find(
+      : track === "ternary"
+        ? (resultEntries.find(
           (entry) => entry.experimentId === "seed42_raw_qwen3_ternary_diagnosed_only" && entry.lockBasename === "ensemble-lock",
-        )?.test.macroF1 ?? null);
+        )?.test.macroF1 ?? null)
+        : null;
   const bestMacro = bestBy(finals, (entry) => entry.test.macroF1);
   const bestDiag = bestBy(finals, (entry) => entry.test.diagnosedF1);
   const bestPrecision = bestBy(finals, (entry) => entry.test.precision);
@@ -441,11 +459,17 @@ function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEnt
   const heading =
     track === "binary"
       ? { kicker: "Trilha A · 2 classes", title: "Resultados binários", classes: "diagnosticado vs controle" }
-      : { kicker: "Trilha B · 3 classes", title: "Resultados ternários", classes: "diagnosticado vs controle vs sem-evidência" };
+      : track === "ternary"
+        ? { kicker: "Trilha B · 3 classes", title: "Resultados ternários", classes: "diagnosticado vs controle vs sem-evidência" }
+        : { kicker: "Alvo independente · 2 classes", title: "Resultados de ansiedade", classes: "ansiedade vs controle" };
   const intro =
     track === "binary"
       ? `Diagnosticado-vs-controle com limiar varrido. O delta é contra o macro F1 de teste do baseline Qwen3 bruto binário <code class="k">${metric(rawBinaryBaselineMacro)}</code>.`
-      : `Diagnosticado / controle / sem-evidência com uma política de rótulo (<code class="k">diag_*</code> apenas diagnosticados vs <code class="k">sym_*</code> simétrica) mais uma regra de decisão. O macro F1 OOF é uma média de 3 classes — <strong>não comparável à trilha binária</strong>. O delta é contra o <code class="k">ensemble-lock</code> ternário apenas-diagnosticados.`;
+      : track === "ternary"
+        ? `Diagnosticado / controle / sem-evidência com uma política de rótulo (<code class="k">diag_*</code> apenas diagnosticados vs <code class="k">sym_*</code> simétrica) mais uma regra de decisão. O macro F1 OOF é uma média de 3 classes — <strong>não comparável à trilha binária</strong>. O delta é contra o <code class="k">ensemble-lock</code> ternário apenas-diagnosticados.`
+        : `Experimento strict-blind exclusivo de ansiedade. A composição do campeão foi fixada em Focal LogReg, LogReg, CNN e Stacking ×2; somente pesos positivos e o limiar foram ajustados no OOF de treino. O teste selado é documentado sem comparação ou ranking contra depressão.`;
+  const positiveLabel = track === "anxiety" ? "ansiedade" : "diagnosticado";
+  const positiveShort = track === "anxiety" ? "ansiedade" : "diag.";
 
   const finalRows = finals
     .map((entry, index) => {
@@ -486,22 +510,21 @@ function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEnt
   <p class="col">${intro}</p>
   <div class="kpis">
     ${kpi("Melhor macro F1 (teste)", metric(bestMacro?.test.macroF1), bestMacro?.experimentTitle ?? "n/d")}
-    ${kpi("Melhor F1 diagnosticado", metric(bestDiag?.test.diagnosedF1), bestDiag?.experimentTitle ?? "n/d")}
-    ${kpi("Melhor precisão", metric(bestPrecision?.test.precision), bestPrecision?.experimentTitle ?? "n/d")}
-    ${kpi("Melhor recall", metric(bestRecall?.test.recall), bestRecall?.experimentTitle ?? "n/d")}
+    ${kpi(`Melhor F1 ${positiveLabel}`, metric(bestDiag?.test.diagnosedF1), bestDiag?.experimentTitle ?? "n/d")}
+    ${kpi(`Melhor precisão ${positiveLabel}`, metric(bestPrecision?.test.precision), bestPrecision?.experimentTitle ?? "n/d")}
+    ${kpi(`Melhor recall ${positiveLabel}`, metric(bestRecall?.test.recall), bestRecall?.experimentTitle ?? "n/d")}
   </div>
   <h3>Resultados de teste selado (ranqueados)</h3>
   <table>
-    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 diag.</th><th>Precisão</th><th>Recall</th><th>Confusão</th><th>Delta</th></tr></thead>
+    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 ${positiveShort}</th><th>Precisão ${positiveShort}</th><th>Recall ${positiveShort}</th><th>Confusão</th><th>Delta</th></tr></thead>
     <tbody>${finalRows}</tbody>
   </table>
   <h3>Resultados OOF travados</h3>
   <p class="muted">Métricas OOF de treino usadas para travar modelo, pesos, limiar ou regra de decisão.</p>
   <table>
-    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 diag.</th><th>Precisão</th><th>Recall</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
+    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 ${positiveShort}</th><th>Precisão ${positiveShort}</th><th>Recall ${positiveShort}</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
     <tbody>${oofRows}</tbody>
-  </table>
-  ${track === "ternary" ? ternaryCompositionBlock(locks) : ""}
+  </table>${track === "ternary" ? `\n  ${ternaryCompositionBlock(locks)}` : ""}
 </section>`;
 }
 
@@ -733,10 +756,12 @@ function lockBasenameFromReport(path: string): string {
 }
 
 function binaryPolicy(experimentId: string): string {
+  if (experimentId.includes("anxiety")) return "ansiedade-binário";
   return experimentId.includes("ternary") ? "ternário" : "binário";
 }
 
 function trackFor(experimentId: string): Track {
+  if (experimentId.includes("anxiety")) return "anxiety";
   return experimentId.includes("ternary") ? "ternary" : "binary";
 }
 
@@ -791,6 +816,7 @@ function familyChips(modelIds: readonly string[]): string {
 }
 
 function trackLabel(track: Track): string {
+  if (track === "anxiety") return "ansiedade";
   return track === "ternary" ? "ternário" : "binário";
 }
 
