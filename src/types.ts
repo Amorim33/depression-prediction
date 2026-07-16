@@ -1,6 +1,15 @@
 export type BinaryLabel = "diagnosed" | "control";
 export type TernaryLabel = "diagnosed" | "control" | "no-evidence";
 export type SplitName = "train" | "test";
+export type PredictionTarget = "depression" | "anxiety";
+
+export interface RelevanceProxyConfig {
+  kind: "anxiety-lexical-v1";
+  artifactDir: string;
+  scoreMin: 0;
+  scoreMax: 10;
+  poolThresholds: [3, 6, 7];
+}
 
 export interface DbTables {
   trainUserEmb: string;
@@ -98,11 +107,20 @@ export interface SequenceExportConfig {
 
 export interface ProjectConfig {
   dataset: "setembrobr";
+  predictionTarget?: PredictionTarget;
   seed: number;
   foldCount: number;
   outputDir: string;
+  workDir?: string;
   featureSource?: "postgres" | "raw_artifacts";
   rawArtifactsDir?: string;
+  rawDatasetDir?: string;
+  rawEmbeddingManifestSha256?: string;
+  rawSplitManifestSha256?: string;
+  rawEmbeddingModelRevision?: string;
+  expectedUsers?: { train: number; test: number };
+  rawCsvFiles?: { train: string[]; test: string[] };
+  relevanceProxy?: RelevanceProxyConfig;
   sealedTestLabelsPath?: string;
   sequenceExport?: SequenceExportConfig;
   database: {
@@ -123,6 +141,9 @@ export interface ProjectConfig {
     candidatePruneTo?: number;
     maxModels?: number;
     selectionGroups?: ModelSelectionGroup[];
+    selectionMode?: "free" | "fixed_model_set";
+    requiredModelIds?: string[];
+    minimumWeight?: number;
   };
   llmDisambiguator?: LlmDisambiguatorConfig;
 }
@@ -159,6 +180,7 @@ export interface Metrics {
 
 export interface EnsembleLock {
   dataset: "setembrobr";
+  predictionTarget?: PredictionTarget;
   seed: number;
   manifestHash: string;
   modelIds: string[];
@@ -169,6 +191,37 @@ export interface EnsembleLock {
   createdAt: string;
   command: string;
   selectionStrategy?: string;
+  relevanceProxyProvenance?: {
+    kind: string;
+    definitionSha256: string;
+    usesLabels: false;
+  };
+  artifactHashes?: Record<string, string>;
+}
+
+export interface ModelManifest {
+  modelId: string;
+  predictionTarget?: PredictionTarget;
+  family: string;
+  seed: number;
+  manifestHash: string;
+  relevanceProxyKind?: string;
+  relevanceProxyDefinitionHash?: string;
+  checkpointHashes?: Record<string, string>;
+  artifactHashes?: Record<string, string>;
+  usesTestLabelsForTraining: boolean;
+  usesTestScoresForTraining?: boolean;
+}
+
+export interface FinalTestReport {
+  dataset: "setembrobr";
+  predictionTarget?: PredictionTarget;
+  positiveClass?: "diagnosed" | "anxiety";
+  seed: number;
+  manifestHash: string;
+  lock: EnsembleLock;
+  testMetrics: Metrics;
+  artifactHashes?: Record<string, string>;
 }
 
 export interface BinaryLockedPredictionRow {

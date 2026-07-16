@@ -1,0 +1,272 @@
+{
+  "corpus": {
+    "id": "SetembroBR",
+    "language": "Brazilian Portuguese",
+    "platform": "Twitter/X",
+    "tasks": [
+      "depression versus control",
+      "anxiety versus control"
+    ],
+    "taskRelationship": "The two target-specific user sets are independent but partially overlapping; totals across targets must not be added as unique users.",
+    "canonicalPublication": {
+      "authors": [
+        "Wesley Ramos dos Santos",
+        "Rafael Lage de Oliveira",
+        "Ivandre Paraboni"
+      ],
+      "title": "SetembroBR: a social media corpus for depression and anxiety disorder prediction",
+      "journal": "Language Resources and Evaluation",
+      "volume": 58,
+      "issue": 1,
+      "pages": "273-300",
+      "doi": "10.1007/s10579-022-09633-0"
+    },
+    "thesisSource": {
+      "file": "VERSAO_FINAL_Defesa___wesley.pdf",
+      "sha256": "c9e075954ee7b22ca81df088843f0fea03f7eba920ae6ac1a0a50c43b60fb2ca",
+      "constructionPrintedPages": [78, 79, 80, 81],
+      "descriptiveTable": 2,
+      "descriptiveTablePrintedPage": 81,
+      "descriptiveTablePdfPage": 82
+    },
+    "construction": {
+      "collectionWindow": "2019-09 through 2021-02",
+      "queryStrings": 356,
+      "positiveDefinition": "Manually reviewed self-reports with a clinically plausible diagnosis or treatment event and a definable temporal endpoint.",
+      "timelinePolicy": "Public Portuguese posts written by the user before the self-reported diagnosis/treatment endpoint; reposts/retweets excluded.",
+      "maximumCollectedPostsPerUser": 3200,
+      "minimumUsefulPreEventPosts": 80,
+      "postFilters": [
+        "remove non-Portuguese posts",
+        "remove posts shorter than five characters"
+      ],
+      "positiveUserExclusions": [
+        "vague or temporally distant diagnosis/treatment reports",
+        "comic or doubtful reports",
+        "multiple or recurrent diagnosis/treatment events",
+        "more than 10,000 followers or friends",
+        "no clear clinically related context",
+        "fewer than 80 useful pre-event posts",
+        "reported bipolar disorder, borderline disorder, schizophrenia, or autism"
+      ],
+      "controlPoolUsers": 32000,
+      "controlEligibility": [
+        "at least 1,000 Portuguese posts",
+        "no post matching the diagnosis/treatment queries",
+        "no more than 10,000 followers or friends"
+      ],
+      "matching": {
+        "controlsPerDiagnosedUser": 7,
+        "dimensions": [
+          "gender",
+          "central timeline date",
+          "post count"
+        ],
+        "maximumCentralDateDifferenceMonths": 2,
+        "controlTimelineTruncation": "Control timelines were trimmed to the diagnosed counterpart's time interval and post count."
+      }
+    }
+  },
+  "targets": {
+    "depression": {
+      "fullCorpusReported": {
+        "diagnosedUsers": 1684,
+        "controlUsers": 11788,
+        "allUsers": 13472,
+        "diagnosedPrevalence": 0.125,
+        "controlToDiagnosedRatio": 7,
+        "femalePercent": 76.7,
+        "postsMillions": {
+          "diagnosed": 2.43,
+          "control": 16.99,
+          "all": 19.42
+        },
+        "wordsMillions": {
+          "diagnosed": 29.32,
+          "control": 201.94,
+          "all": 231.26
+        },
+        "postsPerUser": 1441,
+        "wordsPerPost": 11.91,
+        "meanTimelineDays": 546,
+        "maximumTimelineDays": 4165,
+        "meanFriends": 704,
+        "meanFollowers": 924,
+        "meanMentions": 122
+      },
+      "exactV6Split": {
+        "seed": 42,
+        "foldCount": 5,
+        "foldNumbering": "0-4",
+        "train": {
+          "users": 10776,
+          "diagnosed": 1347,
+          "control": 9429,
+          "tweets": 15580064,
+          "minimumTweetsPerUser": 89,
+          "maximumTweetsPerUser": 3200,
+          "meanTweetsPerUser": 1445.81143281366
+        },
+        "test": {
+          "users": 2696,
+          "diagnosed": 337,
+          "control": 2359,
+          "tweets": 3839928,
+          "minimumTweetsPerUser": 83,
+          "maximumTweetsPerUser": 3200,
+          "meanTweetsPerUser": 1424.3056379821958
+        },
+        "total": {
+          "users": 13472,
+          "diagnosed": 1684,
+          "control": 11788,
+          "tweets": 19419992,
+          "meanTweetsPerUser": 1441.5077197149644
+        },
+        "folds": [
+          { "fold": 0, "users": 2156, "diagnosed": 270, "control": 1886 },
+          { "fold": 1, "users": 2156, "diagnosed": 270, "control": 1886 },
+          { "fold": 2, "users": 2155, "diagnosed": 269, "control": 1886 },
+          { "fold": 3, "users": 2155, "diagnosed": 269, "control": 1886 },
+          { "fold": 4, "users": 2154, "diagnosed": 269, "control": 1885 }
+        ],
+        "splitManifestSha256": "ca8188f4d35d8099c4e76dc3a9fa11053bd861d09c573f1076e368caf9eefe5a"
+      },
+      "sourceFiles": {
+        "train/train_D_SetembroBR_v6.csv": "456a526b09e069e2a9a832f8a5636f880ef78371dd76f85dffe6bb583247f2d2",
+        "train/train_D_c_SetembroBR_v6.csv": "0489a4eb52f7a9a9ae37b58b83123edae4dcfc6548ec87fddea8dffbd74d6c59",
+        "test/test_D_SetembroBR_v6.csv": "a8b8ca2486157201beb22753b1f654fa7af49850bb1b1c21fb0fff2f694756c1",
+        "test/test_D_c_SetembroBR_v6.csv": "92ad0abd94d5b597e92cca48cda4b61050d930916cce2930051c2451d2ca4528"
+      },
+      "relevanceFiles": {
+        "train/train_D_relevancia_1to10_all.pkl": "20ae9bb29acf5cc53dddfbcbbba7b87210676e133d5a8f48cbcc5de05d72ea6a",
+        "test/teste_D_relevancia_1to10.pkl": "a9d0ecffab3ce17c08b198bc04c2f2220712219403d9381b209ef382c84668c3"
+      },
+      "relevanceDataQuality": {
+        "trainNonDigitValues": 23382,
+        "trainUsersWithNonDigitValues": 6150,
+        "testNonDigitValues": 6377,
+        "testUsersWithNonDigitValues": 1527,
+        "trainOutOfRangeNumericValues": 18,
+        "trainUsersWithOutOfRangeNumericValues": 14,
+        "testOutOfRangeNumericValues": 19,
+        "testUsersWithOutOfRangeNumericValues": 10
+      },
+      "rawEmbeddingManifestSha256": "6b9486df5b4cba222bcccf6f0376773369de60d6da6d760737e233282b12930d"
+    },
+    "anxiety": {
+      "fullCorpusReported": {
+        "diagnosedUsers": 2219,
+        "controlUsers": 15533,
+        "allUsers": 17752,
+        "diagnosedPrevalence": 0.125,
+        "controlToDiagnosedRatio": 7,
+        "femalePercent": 78.8,
+        "postsMillions": {
+          "diagnosed": 3.43,
+          "control": 23.98,
+          "all": 27.41
+        },
+        "wordsMillions": {
+          "diagnosed": 42.24,
+          "control": 281.51,
+          "all": 323.75
+        },
+        "postsPerUser": 1543,
+        "wordsPerPost": 11.81,
+        "meanTimelineDays": 538,
+        "maximumTimelineDays": 4211,
+        "meanFriends": 722,
+        "meanFollowers": 954,
+        "meanMentions": 114
+      },
+      "exactV6Split": {
+        "seed": 42,
+        "foldCount": 5,
+        "foldNumbering": "1-5",
+        "train": {
+          "users": 14200,
+          "diagnosed": 1775,
+          "control": 12425,
+          "tweets": 21769232,
+          "minimumTweetsPerUser": 87,
+          "maximumTweetsPerUser": 3200,
+          "emptyTweetSegments": 8,
+          "meanTweetsPerUser": 1533.0445070422536
+        },
+        "test": {
+          "users": 3552,
+          "diagnosed": 444,
+          "control": 3108,
+          "tweets": 5638808,
+          "minimumTweetsPerUser": 89,
+          "maximumTweetsPerUser": 3200,
+          "emptyTweetSegments": 2,
+          "meanTweetsPerUser": 1587.5022522522522,
+          "labels": "redacted during preparation and unsealed once after the ensemble lock"
+        },
+        "total": {
+          "users": 17752,
+          "diagnosed": 2219,
+          "control": 15533,
+          "tweets": 27408040,
+          "meanTweetsPerUser": 1543.9409643983777
+        },
+        "folds": [
+          { "fold": 1, "users": 2840, "diagnosed": 355, "control": 2485 },
+          { "fold": 2, "users": 2840, "diagnosed": 355, "control": 2485 },
+          { "fold": 3, "users": 2840, "diagnosed": 355, "control": 2485 },
+          { "fold": 4, "users": 2840, "diagnosed": 355, "control": 2485 },
+          { "fold": 5, "users": 2840, "diagnosed": 355, "control": 2485 }
+        ],
+        "splitManifestSha256": "9457cacad5c1d9e378bfc4aff8c3ac8acdcac5f2eb75ad0926780e7838f6fc61"
+      },
+      "sourceFiles": {
+        "train/train_A_SetembroBR_v6.csv": "eb205b831608a716ddcce256c1431b9df231a0206c438052cd773ba1b920b760",
+        "train/train_A_c_SetembroBR_v6.csv": "07720e53b1f1c1df8399e3eab6ff65e3fe14034ac3604d59c2748dcca42d7578",
+        "test/test_A_SetembroBR_v6.csv": "feab08b69220b1e7d07ffa97734c2933aeb18f3a685c0174d31f3c569b5cef30",
+        "test/test_A_c_SetembroBR_v6.csv": "995a1711987d1c2ba3af34a5ceaf0c8bc1fa48a8e7d15d7a296648ee2cb9328d"
+      },
+      "rawEmbeddingManifestSha256": "c8cd40827f91b298d61a3d2845bb4337c0ae3e8abbc9bf4fdfc552b1aad3c410"
+    }
+  },
+  "embeddingRepresentation": {
+    "modelId": "Qwen/Qwen3-Embedding-4B",
+    "modelRevision": "5cf2132abc99cad020ac570b19d031efec650f2b",
+    "dimension": 2560,
+    "storageDtype": "float16",
+    "batchSize": 16,
+    "usersPerShard": 64,
+    "parquetCompression": "ZSTD",
+    "tweetLevelColumns": [
+      "user_id",
+      "tweet_index",
+      "tweet_text",
+      "gpt5_relevance",
+      "embedding"
+    ],
+    "anxietyRelevanceNote": "The raw anxiety lane has no GPT relevance source; the downstream champion creates an independent anxiety-lexical-v1 proxy without changing the raw Parquet files."
+  },
+  "strictBlindProtocol": {
+    "selectionData": "train OOF only",
+    "testScoreSchema": "user_id,score,model_id",
+    "testLabelUses": [
+      "single post-lock final evaluation"
+    ],
+    "forbiddenTestLabelUses": [
+      "model selection",
+      "ensemble weight selection",
+      "threshold selection",
+      "early stopping",
+      "calibration",
+      "OOF generation"
+    ]
+  },
+  "limitations": [
+    "Positive labels derive from manually reviewed self-reports, not independent clinical assessment.",
+    "Control means a matched pseudo-random comparison group, not clinically confirmed absence of the disorder.",
+    "The 7:1 matched design fixes study prevalence at 12.5%; it is not a population prevalence estimate.",
+    "Depression and anxiety target populations partially overlap and must be analyzed separately.",
+    "Raw social-media text, mental-health labels, and derived embeddings are sensitive research data and are not suitable for unrestricted public redistribution."
+  ]
+}

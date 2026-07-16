@@ -1,10 +1,11 @@
-import type { BinaryLabel, BinaryLockedPredictionRow, EnsembleLock, Metrics, ScoreRow } from "./types.ts";
+import type { BinaryLabel, BinaryLockedPredictionRow, EnsembleLock, Metrics, PredictionTarget, ScoreRow } from "./types.ts";
 import { computeMetrics, predictedLabel } from "./metrics.ts";
 
 type ScoreArray = Float64Array<ArrayBufferLike>;
 
 interface SelectionInput {
   seed: number;
+  predictionTarget?: PredictionTarget;
   manifestHash: string;
   oofByModel: ReadonlyMap<string, readonly ScoreRow[]>;
   sourceHashes: Record<string, string>;
@@ -13,6 +14,9 @@ interface SelectionInput {
   exhaustiveModelLimit?: number | undefined;
   candidatePruneTo?: number | undefined;
   maxModels?: number | undefined;
+  selectionMode?: "free" | "fixed_model_set" | undefined;
+  requiredModelIds?: readonly string[] | undefined;
+  minimumWeight?: number | undefined;
 }
 
 interface SelectionData {
@@ -34,8 +38,9 @@ export function selectEnsemble(input: SelectionInput): EnsembleLock {
   const selectionData = buildSelectionData(input.oofByModel, modelIds);
 
   const exhaustiveLimit = input.exhaustiveModelLimit ?? 7;
-  const result =
-    modelIds.length <= exhaustiveLimit
+  const result = input.selectionMode === "fixed_model_set"
+    ? selectFixedModelSet(selectionData, modelIds, input.weightStep, input.minimumWeight ?? input.weightStep)
+    : modelIds.length <= exhaustiveLimit
       ? selectExhaustive(selectionData, modelIds.map((_modelId, index) => index), input.weightStep, "exhaustive")
       : selectGreedyPruned(selectionData, modelIds, {
           weightStep: input.weightStep,
@@ -46,6 +51,7 @@ export function selectEnsemble(input: SelectionInput): EnsembleLock {
 
   return {
     dataset: "setembrobr",
+    predictionTarget: input.predictionTarget ?? "depression",
     seed: input.seed,
     manifestHash: input.manifestHash,
     modelIds: selected.modelIds,
@@ -56,6 +62,23 @@ export function selectEnsemble(input: SelectionInput): EnsembleLock {
     createdAt: new Date(0).toISOString(),
     command: input.command,
     selectionStrategy: result.strategy,
+  };
+}
+
+function selectFixedModelSet(data: SelectionData, modelIds: readonly string[], step: number, minimumWeight: number): SelectionResult {
+  let best: { weights: number[]; threshold: number; metrics: Metrics } | null = null;
+  for (const weights of enumerateWeights(modelIds.length, step, minimumWeight)) {
+    const scores = weightedScores(data.scoresByModel, weights);
+    const { threshold, metrics } = sweepThresholdFromAligned(scores, data.labelCodes);
+    if (!best || compareForSelection(metrics, best.metrics) > 0) best = { weights, threshold, metrics };
+  }
+  if (!best) throw new Error("No fixed-model-set ensemble candidate selected");
+  return {
+    indexes: modelIds.map((_modelId, index) => index),
+    weights: best.weights,
+    threshold: best.threshold,
+    metrics: best.metrics,
+    strategy: `fixed-model-set(step=${step},min=${minimumWeight})`,
   };
 }
 
@@ -297,15 +320,21 @@ function alignedUsers(scoreMap: ReadonlyMap<string, readonly ScoreRow[]>, modelI
   return users;
 }
 
-function enumerateWeights(count: number, step: number): number[][] {
+function enumerateWeights(count: number, step: number, minimumWeight = 0): number[][] {
   const precision = Math.round(1 / step);
+  const minimumUnits = Math.round(minimumWeight * precision);
+  if (Math.abs(precision * step - 1) > 1e-9) throw new Error(`weightStep must divide 1 exactly: ${step}`);
+  if (minimumUnits * count > precision) throw new Error("minimum ensemble weight is infeasible");
   const out: number[][] = [];
   function recurse(prefix: number[], remaining: number): void {
     if (prefix.length === count - 1) {
-      out.push([...prefix, remaining / precision]);
+      if (remaining >= minimumUnits) out.push([...prefix, remaining / precision]);
       return;
     }
-    for (let units = 0; units <= remaining; units += 1) recurse([...prefix, units / precision], remaining - units);
+    const remainingSlots = count - prefix.length - 1;
+    for (let units = minimumUnits; units <= remaining - remainingSlots * minimumUnits; units += 1) {
+      recurse([...prefix, units / precision], remaining - units);
+    }
   }
   recurse([], precision);
   return out;

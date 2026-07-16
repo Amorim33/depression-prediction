@@ -1,0 +1,199 @@
+{
+  "dataset": "setembrobr",
+  "predictionTarget": "anxiety",
+  "seed": 42,
+  "foldCount": 5,
+  "outputDir": "outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary",
+  "workDir": "outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/work",
+  "featureSource": "raw_artifacts",
+  "rawArtifactsDir": "/home/aluisioamorim/codex-runs/depression-prediction-setembrobr-anxiety-embeddings/artifacts",
+  "rawDatasetDir": "/home/aluisioamorim/codex-runs/depression-prediction-setembrobr-anxiety-embeddings/data/anxiety_tweets",
+  "rawEmbeddingManifestSha256": "c8cd40827f91b298d61a3d2845bb4337c0ae3e8abbc9bf4fdfc552b1aad3c410",
+  "rawSplitManifestSha256": "9457cacad5c1d9e378bfc4aff8c3ac8acdcac5f2eb75ad0926780e7838f6fc61",
+  "rawEmbeddingModelRevision": "5cf2132abc99cad020ac570b19d031efec650f2b",
+  "expectedUsers": {
+    "train": 14200,
+    "test": 3552
+  },
+  "rawCsvFiles": {
+    "train": ["train_A_SetembroBR_v6.csv", "train_A_c_SetembroBR_v6.csv"],
+    "test": ["test_A_SetembroBR_v6.csv", "test_A_c_SetembroBR_v6.csv"]
+  },
+  "sealedTestLabelsPath": "outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/sealed/sealed_test_labels_seed42.csv",
+  "relevanceProxy": {
+    "kind": "anxiety-lexical-v1",
+    "artifactDir": "outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary/relevance-proxy",
+    "scoreMin": 0,
+    "scoreMax": 10,
+    "poolThresholds": [3, 6, 7]
+  },
+  "database": {
+    "tables": {
+      "trainUserEmb": "unused_anxiety_raw_train_user_emb",
+      "testUserEmb": "unused_anxiety_raw_test_user_emb",
+      "trainUserEmbRel3": "unused_anxiety_raw_train_user_emb_rel3",
+      "testUserEmbRel3": "unused_anxiety_raw_test_user_emb_rel3",
+      "trainUserEmbRel6": "unused_anxiety_raw_train_user_emb_rel6",
+      "testUserEmbRel6": "unused_anxiety_raw_test_user_emb_rel6",
+      "trainUserEmbRel7": "unused_anxiety_raw_train_user_emb_rel7",
+      "testUserEmbRel7": "unused_anxiety_raw_test_user_emb_rel7",
+      "trainSubFeatures": "unused_anxiety_raw_train_sub_features",
+      "testSubFeatures": "unused_anxiety_raw_test_sub_features",
+      "trainEmbeddings": "unused_anxiety_raw_train_embeddings",
+      "testEmbeddings": "unused_anxiety_raw_test_embeddings"
+    },
+    "embeddingDimension": 2560
+  },
+  "models": [
+    "binary_hier_logreg_gate",
+    "binary_mlp_h128_s42",
+    "binary_xgb_expanded_pca_s13",
+    "binary_xgb_tabular_markers_s42",
+    "binary_xgb_shallow_pca_s99",
+    "binary_legacy_logreg_combined_s42",
+    "binary_legacy_focal_combined_g1",
+    "binary_legacy_seq_cnn_top128_s13",
+    "binary_stack_logreg_xgb_tabular",
+    "binary_stack_logreg_boosted_core"
+  ],
+  "candidateModels": {
+    "tabular": [
+      {
+        "modelId": "binary_hier_logreg_gate",
+        "family": "hierarchical_logreg",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "binary_mlp_h128_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.005,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca", "temporal_markers"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "binary_xgb_expanded_pca_s13",
+        "family": "xgboost",
+        "seed": 13,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 40,
+        "nEstimators": 260,
+        "maxDepth": 3,
+        "learningRate": 0.05,
+        "subsample": 0.85,
+        "colsampleBytree": 0.85,
+        "regLambda": 3,
+        "minChildWeight": 2
+      },
+      {
+        "modelId": "binary_xgb_tabular_markers_s42",
+        "family": "xgboost",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "temporal_markers"],
+        "nEstimators": 220,
+        "maxDepth": 2,
+        "learningRate": 0.05,
+        "subsample": 0.9,
+        "colsampleBytree": 0.9,
+        "regLambda": 4,
+        "minChildWeight": 3
+      },
+      {
+        "modelId": "binary_xgb_shallow_pca_s99",
+        "family": "xgboost",
+        "seed": 99,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 64,
+        "nEstimators": 420,
+        "maxDepth": 2,
+        "learningRate": 0.035,
+        "subsample": 0.9,
+        "colsampleBytree": 0.75,
+        "regLambda": 6,
+        "minChildWeight": 4
+      },
+      {
+        "modelId": "binary_legacy_logreg_combined_s42",
+        "family": "logreg",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "evidence_markers", "relevance_counts", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 100
+      },
+      {
+        "modelId": "binary_legacy_focal_combined_g1",
+        "family": "focal_linear",
+        "seed": 42,
+        "gamma": 1,
+        "featureBlocks": ["stylistic", "evidence_markers", "relevance_counts", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 100
+      }
+    ],
+    "sequence": [
+      {
+        "modelId": "binary_legacy_seq_cnn_top128_s13",
+        "family": "cnn",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 25,
+        "batchSize": 64,
+        "numFilters": 64,
+        "dropout": 0.4
+      }
+    ],
+    "stacking": [
+      {
+        "modelId": "binary_stack_logreg_xgb_tabular",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": ["binary_hier_logreg_gate", "binary_mlp_h128_s42", "binary_xgb_expanded_pca_s13", "binary_xgb_tabular_markers_s42"],
+        "c": 1,
+        "maxIter": 1000
+      },
+      {
+        "modelId": "binary_stack_logreg_boosted_core",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": ["binary_hier_logreg_gate", "binary_mlp_h128_s42", "binary_xgb_expanded_pca_s13", "binary_xgb_shallow_pca_s99", "binary_xgb_tabular_markers_s42"],
+        "c": 0.5,
+        "maxIter": 1000
+      }
+    ]
+  },
+  "ensemble": {
+    "weightStep": 0.05,
+    "minimumWeight": 0.05,
+    "selectionMode": "fixed_model_set",
+    "requiredModelIds": [
+      "binary_legacy_focal_combined_g1",
+      "binary_legacy_logreg_combined_s42",
+      "binary_legacy_seq_cnn_top128_s13",
+      "binary_stack_logreg_boosted_core",
+      "binary_stack_logreg_xgb_tabular"
+    ],
+    "primaryMetric": "macroF1",
+    "tieBreakers": ["diagnosedF1", "precision"],
+    "exhaustiveModelLimit": 5,
+    "candidatePruneTo": 5,
+    "maxModels": 5,
+    "selectionGroups": [
+      {
+        "groupId": "anxiety_temporal_champion",
+        "description": "Fixed transfer of the temporal-relevance depression champion composition to anxiety.",
+        "modelIds": [
+          "binary_legacy_focal_combined_g1",
+          "binary_legacy_logreg_combined_s42",
+          "binary_legacy_seq_cnn_top128_s13",
+          "binary_stack_logreg_boosted_core",
+          "binary_stack_logreg_xgb_tabular"
+        ]
+      }
+    ]
+  },
+  "sequenceExport": {
+    "order": "recent_chronological"
+  }
+}

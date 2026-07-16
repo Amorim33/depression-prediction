@@ -4,6 +4,11 @@ import { dirname, join } from "node:path";
 const outputRoot = "outputs/setembrobr";
 const docsPath = "docs/lock-results-summary.html";
 const mirrorPath = "outputs/setembrobr/lock-results-summary.html";
+const anxietyEmbeddingProvenancePath = "docs/anxiety-embedding-generation-provenance.json";
+const anxietyThesisComparisonPath = "docs/anxiety-thesis-comparison.json";
+const datasetDocumentationPath = "docs/setembrobr-dataset-and-splits.md";
+const datasetProvenancePath = "docs/setembrobr-dataset-provenance.json";
+const archiveProvenancePath = "docs/fedora-setembrobr-archive.json";
 const rawBinaryBaselineMacro = 0.6987181018176564;
 
 type JsonRecord = Record<string, unknown>;
@@ -11,6 +16,7 @@ type JsonRecord = Record<string, unknown>;
 interface NormalizedMetrics {
   macroF1: number;
   diagnosedF1: number;
+  controlF1: number | null;
   precision: number;
   recall: number;
   accuracy: number;
@@ -20,7 +26,7 @@ interface NormalizedMetrics {
   fn: number;
 }
 
-type Track = "binary" | "ternary";
+type Track = "binary" | "ternary" | "anxiety";
 
 interface LockEntry {
   experimentId: string;
@@ -66,12 +72,94 @@ interface ArtifactGroup {
   files: string[];
 }
 
+interface EmbeddingGenerationProvenance {
+  timing: {
+    startedAt: string;
+    completedAt: string;
+    durationSeconds: number;
+    timeZone: string;
+    measurement: string;
+  };
+  hardware: {
+    hostname: string;
+    operatingSystem: string;
+    kernel: string;
+    cpu: string;
+    cpuCores: number;
+    cpuThreads: number;
+    memoryGiB: number;
+    gpu: string;
+    gpuMemoryMiB: number;
+    driverVersion: string;
+    cudaVersion: string;
+  };
+  workload: {
+    modelId: string;
+    modelRevision: string;
+    embeddingDimension: number;
+    storageDtype: string;
+    batchSize: number;
+    trainUsers: number;
+    testUsers: number;
+    trainTweets: number;
+    testTweets: number;
+    totalTweets: number;
+  };
+  sourceEvidence: {
+    rawEmbeddingManifestSha256: string;
+    rawValidationReportSha256: string;
+    jobExitCode: number;
+    jobStatus: string;
+  };
+}
+
+interface AnxietyThesisComparison {
+  comparisonId: string;
+  predictionTarget: "anxiety";
+  source: {
+    author: string;
+    title: string;
+    year: number;
+    file: string;
+    sha256: string;
+    table: number;
+    printedPage: number;
+    pdfPage: number;
+    methodPrintedPages: number[];
+    methodPdfPages: number[];
+  };
+  metricDefinitions: {
+    controlF1: string;
+    anxietyF1: string;
+    macroF1: string;
+    macroF1Formula: string;
+    precisionRecall: string;
+  };
+  reportedMethod: {
+    timeline: string;
+    bertInference: string;
+    postTruncationTokens: number;
+    relevance: string;
+    mentionSignal: string;
+  };
+  reportedResults: Array<{
+    model: string;
+    precisionAverage: number;
+    recallAverage: number;
+    controlF1: number;
+    anxietyF1: number;
+    macroF1: number;
+  }>;
+  caveats: string[];
+}
+
 const experimentTitles: Record<string, string> = {
   seed42_strict_blind: "Embeddings legados strict-blind (binário)",
   seed42_ternary_strict_blind: "Embeddings legados strict-blind (ternário)",
   seed42_raw_qwen3_binary: "Qwen3 bruto binário (baseline)",
   seed42_relevance_features_qwen3_binary: "Qwen3 bruto binário com canal de relevância",
   seed42_temporal_relevance_qwen3_binary: "Qwen3 bruto binário com relevância temporal",
+  seed42_anxiety_temporal_champion_qwen3_binary: "Qwen3 bruto binário com relevância temporal — ansiedade",
   seed42_raw_qwen3_ternary_diagnosed_only: "Qwen3 bruto ternário (apenas diagnosticados)",
   seed42_raw_qwen3_ternary_symmetric: "Qwen3 bruto ternário simétrico",
   seed42_raw_qwen3_embeddings: "Artefatos de embeddings Qwen3 bruto",
@@ -114,12 +202,20 @@ const methodIdeas: Array<{ title: string; body: string; signal: string }> = [
     body:
       "O LLM não é um segundo classificador. Ele apenas rejeita usuários previstos como diagnosticados quando a evidência da linha do tempo parece não clínica, de terceiros ou de cunho lexical/fandom.",
   },
+  {
+    title: "Campeão temporal transferido para ansiedade",
+    signal: "Mesmas cinco famílias, nova trava treinada apenas no OOF de ansiedade",
+    body:
+      "A composição Focal LogReg, LogReg, CNN e dois stackers foi mantida fixa. Pesos e limiar foram selecionados no OOF de treino de ansiedade, com cross-fitting aninhado dos stackers e teste aberto somente após a trava.",
+  },
 ];
 
 const locks = await collectLocks();
 const results = await collectResults(locks);
 const artifacts = await collectArtifacts();
-const html = renderPage(locks, results, artifacts);
+const anxietyEmbeddingProvenance = await readEmbeddingGenerationProvenance();
+const anxietyThesisComparison = await readAnxietyThesisComparison();
+const html = renderPage(locks, results, artifacts, anxietyEmbeddingProvenance, anxietyThesisComparison);
 await writeFileEnsured(docsPath, html);
 await writeFileEnsured(mirrorPath, html);
 console.log(JSON.stringify({ docsPath, mirrorPath, lockCount: locks.length, resultCount: results.length }, null, 2));
@@ -221,6 +317,17 @@ async function collectArtifacts(): Promise<ArtifactGroup[]> {
       files: files.sort(),
     }))
     .sort((left, right) => left.title.localeCompare(right.title));
+  groups.unshift({
+    experimentId: "setembrobr",
+    title: "Proveniência documental do SetembroBR",
+    files: [
+      datasetDocumentationPath,
+      datasetProvenancePath,
+      archiveProvenancePath,
+      anxietyEmbeddingProvenancePath,
+      anxietyThesisComparisonPath,
+    ],
+  });
   groups.unshift({ experimentId: "configs", title: "Arquivos de configuração", files: configPaths.sort() });
   return groups;
 }
@@ -248,12 +355,19 @@ async function collectFiles(dir: string, predicate: (path: string) => boolean): 
   return out.sort();
 }
 
-function renderPage(lockEntries: readonly LockEntry[], resultEntries: readonly ResultEntry[], artifactGroups: readonly ArtifactGroup[]): string {
+function renderPage(
+  lockEntries: readonly LockEntry[],
+  resultEntries: readonly ResultEntry[],
+  artifactGroups: readonly ArtifactGroup[],
+  anxietyEmbeddingProvenance: EmbeddingGenerationProvenance,
+  anxietyThesisComparison: AnxietyThesisComparison,
+): string {
   const navLinks: Array<{ id: string; label: string }> = [
     { id: "overview", label: "Visão geral" },
     { id: "architecture", label: "Arquitetura" },
     { id: "binary", label: "Trilha binária" },
     { id: "ternary", label: "Trilha ternária" },
+    { id: "anxiety", label: "Ansiedade" },
     { id: "llm", label: "Filtro LLM" },
     { id: "methods", label: "Lições" },
     { id: "temporal", label: "FP / FN" },
@@ -281,6 +395,7 @@ function renderPage(lockEntries: readonly LockEntry[], resultEntries: readonly R
     ${architectureSection()}
     ${trackSection("binary", lockEntries, resultEntries)}
     ${trackSection("ternary", lockEntries, resultEntries)}
+    ${trackSection("anxiety", lockEntries, resultEntries, anxietyEmbeddingProvenance, anxietyThesisComparison)}
     ${renderLlmSection(resultEntries)}
     ${methodSection()}
     ${renderTemporalEvidenceSection()}
@@ -302,6 +417,7 @@ function overviewSection(resultEntries: readonly ResultEntry[], lockEntries: rea
   const finalResults = resultEntries.filter((entry) => entry.kind !== "cached-llm");
   const bestBinary = bestBy(finalResults.filter((entry) => entry.track === "binary"), (entry) => entry.test.macroF1);
   const bestTernary = bestBy(finalResults.filter((entry) => entry.track === "ternary"), (entry) => entry.test.macroF1);
+  const bestAnxiety = bestBy(finalResults.filter((entry) => entry.track === "anxiety"), (entry) => entry.test.macroF1);
   const temporalBase = resultEntries.find(
     (entry) => entry.experimentId === "seed42_temporal_relevance_qwen3_binary" && entry.kind === "test",
   );
@@ -314,14 +430,20 @@ function overviewSection(resultEntries: readonly ResultEntry[], lockEntries: rea
   return `<section id="overview">
   <div class="col">
     <p class="kicker">SetembroBR · relatório de travas strict-blind</p>
-    <h1>Resultados travados do SetembroBR, <span class="muted">trilhas binária e ternária reportadas em separado.</span></h1>
-    <p class="lead">Gerado a partir dos artefatos do repositório em <code class="k">outputs/setembrobr</code>. As métricas OOF explicam a seleção de modelos; as métricas de teste selado e desambiguadas por LLM são reportadas separadamente, e as duas trilhas de rótulo nunca são ranqueadas uma contra a outra.</p>
+    <h1>Resultados travados do SetembroBR, <span class="muted">depressão e ansiedade reportadas em separado.</span></h1>
+    <p class="lead">Gerado a partir dos artefatos do repositório em <code class="k">outputs/setembrobr</code>. As métricas OOF explicam a seleção de modelos; as métricas de teste selado são reportadas separadamente, e ansiedade nunca é ranqueada contra as trilhas de depressão.</p>
   </div>
   <div class="meta">
     <div class="row"><span class="lab">Seed</span><span class="val">42</span></div>
     <div class="row"><span class="lab">Fonte</span><span class="val"><code class="k">outputs/setembrobr</code></span></div>
     <div class="row"><span class="lab">Travas</span><span class="val">${lockEntries.length} travas de ensemble · ${finalResults.length} relatórios de teste selado</span></div>
-    <div class="row"><span class="lab">Métrica</span><span class="val">Macro F1 (primária) · F1 diagnosticado / precisão / recall</span></div>
+    <div class="row"><span class="lab">Métrica</span><span class="val">Macro F1 (primária) · F1 / precisão / recall da classe positiva</span></div>
+  </div>
+  <div class="grid two">
+    <div class="scard">
+      <div class="head"><span class="nm">Ansiedade</span><span class="tag">strict-blind independente</span></div>
+      <p>Macro F1 de teste selado <strong>${metric(bestAnxiety?.test.macroF1)}</strong>${bestAnxiety ? ` — ${escapeHtml(bestAnxiety.experimentTitle)} (${escapeHtml(bestAnxiety.variant)})` : ""}. Este resultado não participa dos rankings de depressão.</p>
+    </div>
   </div>
   <div class="grid two">
     <div class="scard">
@@ -340,7 +462,7 @@ function overviewSection(resultEntries: readonly ResultEntry[], lockEntries: rea
   )}</code> com a desambiguação completa de falsos positivos por LLM (${deltaText(llmLift)}).</p>
   <div class="note">
     <div class="lab">Strict-blind &amp; comparabilidade</div>
-    <p>As linhas desambiguadas por LLM são estimativas pontuais do teste final, não novos sinais de seleção — o LLM apenas troca usuários previstos como diagnosticados para controle. O macro F1 binário é uma média de 2 classes; o macro F1 OOF ternário é uma média de 3 classes sobre diagnosticado / controle / sem-evidência. As duas trilhas usam mecanismos de decisão diferentes e <strong>não são diretamente comparáveis</strong>.</p>
+    <p>As linhas desambiguadas por LLM são estimativas pontuais do teste final, não novos sinais de seleção — o LLM apenas troca usuários previstos como diagnosticados para controle. O macro F1 binário é uma média de 2 classes; o macro F1 OOF ternário é uma média de 3 classes sobre diagnosticado / controle / sem-evidência. Ansiedade usa outro alvo e outra prevalência. Essas trilhas <strong>não são diretamente comparáveis</strong>.</p>
   </div>
 </section>`;
 }
@@ -420,7 +542,13 @@ function methodSection(): string {
 </section>`;
 }
 
-function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEntries: readonly ResultEntry[]): string {
+function trackSection(
+  track: Track,
+  lockEntries: readonly LockEntry[],
+  resultEntries: readonly ResultEntry[],
+  embeddingProvenance?: EmbeddingGenerationProvenance,
+  thesisComparison?: AnxietyThesisComparison,
+): string {
   const finals = resultEntries
     .filter((entry) => entry.track === track && entry.kind !== "cached-llm")
     .sort((left, right) => compareMetric(right.test.macroF1, left.test.macroF1));
@@ -430,9 +558,11 @@ function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEnt
   const baselineMacro =
     track === "binary"
       ? rawBinaryBaselineMacro
-      : (resultEntries.find(
+      : track === "ternary"
+        ? (resultEntries.find(
           (entry) => entry.experimentId === "seed42_raw_qwen3_ternary_diagnosed_only" && entry.lockBasename === "ensemble-lock",
-        )?.test.macroF1 ?? null);
+        )?.test.macroF1 ?? null)
+        : null;
   const bestMacro = bestBy(finals, (entry) => entry.test.macroF1);
   const bestDiag = bestBy(finals, (entry) => entry.test.diagnosedF1);
   const bestPrecision = bestBy(finals, (entry) => entry.test.precision);
@@ -441,11 +571,17 @@ function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEnt
   const heading =
     track === "binary"
       ? { kicker: "Trilha A · 2 classes", title: "Resultados binários", classes: "diagnosticado vs controle" }
-      : { kicker: "Trilha B · 3 classes", title: "Resultados ternários", classes: "diagnosticado vs controle vs sem-evidência" };
+      : track === "ternary"
+        ? { kicker: "Trilha B · 3 classes", title: "Resultados ternários", classes: "diagnosticado vs controle vs sem-evidência" }
+        : { kicker: "Alvo independente · 2 classes", title: "Resultados de ansiedade", classes: "ansiedade vs controle" };
   const intro =
     track === "binary"
       ? `Diagnosticado-vs-controle com limiar varrido. O delta é contra o macro F1 de teste do baseline Qwen3 bruto binário <code class="k">${metric(rawBinaryBaselineMacro)}</code>.`
-      : `Diagnosticado / controle / sem-evidência com uma política de rótulo (<code class="k">diag_*</code> apenas diagnosticados vs <code class="k">sym_*</code> simétrica) mais uma regra de decisão. O macro F1 OOF é uma média de 3 classes — <strong>não comparável à trilha binária</strong>. O delta é contra o <code class="k">ensemble-lock</code> ternário apenas-diagnosticados.`;
+      : track === "ternary"
+        ? `Diagnosticado / controle / sem-evidência com uma política de rótulo (<code class="k">diag_*</code> apenas diagnosticados vs <code class="k">sym_*</code> simétrica) mais uma regra de decisão. O macro F1 OOF é uma média de 3 classes — <strong>não comparável à trilha binária</strong>. O delta é contra o <code class="k">ensemble-lock</code> ternário apenas-diagnosticados.`
+        : `Experimento strict-blind exclusivo de ansiedade. A composição do campeão foi fixada em Focal LogReg, LogReg, CNN e Stacking ×2; somente pesos positivos e o limiar foram ajustados no OOF de treino. O teste selado é documentado sem comparação ou ranking contra depressão.`;
+  const positiveLabel = track === "anxiety" ? "ansiedade" : "diagnosticado";
+  const positiveShort = track === "anxiety" ? "ansiedade" : "diag.";
 
   const finalRows = finals
     .map((entry, index) => {
@@ -483,26 +619,122 @@ function trackSection(track: Track, lockEntries: readonly LockEntry[], resultEnt
   return `<section id="${track}">
   <p class="kicker">${escapeHtml(heading.kicker)}</p>
   <h2>${escapeHtml(heading.title)} <span class="muted">· ${escapeHtml(heading.classes)}</span></h2>
-  <p class="col">${intro}</p>
+  <p class="col">${intro}</p>${track === "anxiety" && embeddingProvenance ? `\n  ${embeddingGenerationBlock(embeddingProvenance)}` : ""}
   <div class="kpis">
     ${kpi("Melhor macro F1 (teste)", metric(bestMacro?.test.macroF1), bestMacro?.experimentTitle ?? "n/d")}
-    ${kpi("Melhor F1 diagnosticado", metric(bestDiag?.test.diagnosedF1), bestDiag?.experimentTitle ?? "n/d")}
-    ${kpi("Melhor precisão", metric(bestPrecision?.test.precision), bestPrecision?.experimentTitle ?? "n/d")}
-    ${kpi("Melhor recall", metric(bestRecall?.test.recall), bestRecall?.experimentTitle ?? "n/d")}
+    ${kpi(`Melhor F1 ${positiveLabel}`, metric(bestDiag?.test.diagnosedF1), bestDiag?.experimentTitle ?? "n/d")}
+    ${kpi(`Melhor precisão ${positiveLabel}`, metric(bestPrecision?.test.precision), bestPrecision?.experimentTitle ?? "n/d")}
+    ${kpi(`Melhor recall ${positiveLabel}`, metric(bestRecall?.test.recall), bestRecall?.experimentTitle ?? "n/d")}
   </div>
   <h3>Resultados de teste selado (ranqueados)</h3>
   <table>
-    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 diag.</th><th>Precisão</th><th>Recall</th><th>Confusão</th><th>Delta</th></tr></thead>
+    <thead><tr><th>#</th><th>Trilha / trava</th><th>Relatório</th><th>Macro OOF</th><th>Macro teste</th><th>F1 ${positiveShort}</th><th>Precisão ${positiveShort}</th><th>Recall ${positiveShort}</th><th>Confusão</th><th>Delta</th></tr></thead>
     <tbody>${finalRows}</tbody>
   </table>
   <h3>Resultados OOF travados</h3>
   <p class="muted">Métricas OOF de treino usadas para travar modelo, pesos, limiar ou regra de decisão.</p>
   <table>
-    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 diag.</th><th>Precisão</th><th>Recall</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
+    <thead><tr><th>Trilha / trava</th><th>Macro OOF</th><th>F1 ${positiveShort}</th><th>Precisão ${positiveShort}</th><th>Recall ${positiveShort}</th><th>Confusão OOF</th><th>Política</th><th>Decisão</th></tr></thead>
     <tbody>${oofRows}</tbody>
-  </table>
-  ${track === "ternary" ? ternaryCompositionBlock(locks) : ""}
+  </table>${track === "anxiety" && bestMacro && thesisComparison ? `\n  ${anxietyThesisComparisonBlock(bestMacro, thesisComparison)}` : ""}${track === "ternary" ? `\n  ${ternaryCompositionBlock(locks)}` : ""}
 </section>`;
+}
+
+function anxietyThesisComparisonBlock(
+  champion: ResultEntry,
+  comparison: AnxietyThesisComparison,
+): string {
+  const bestMacro = bestBy(comparison.reportedResults, (entry) => entry.macroF1);
+  const bestAnxiety = bestBy(comparison.reportedResults, (entry) => entry.anxietyF1);
+  const bestControl = bestBy(comparison.reportedResults, (entry) => entry.controlF1);
+  const championControlF1 = champion.test.controlF1;
+  if (!bestMacro || !bestAnxiety || !bestControl || championControlF1 === null) return "";
+  const bestMacroModels = comparison.reportedResults
+    .filter((entry) => entry.macroF1 === bestMacro.macroF1)
+    .map((entry) => entry.model)
+    .join(" / ");
+
+  const highlighted = comparison.reportedResults.filter(
+    (entry) => entry.macroF1 === bestMacro.macroF1 || entry.model === "LSTM.BERT",
+  );
+  const thesisRows = highlighted
+    .map(
+      (entry) => `<tr>
+        <td>${escapeHtml(comparison.source.author)} (2025)</td>
+        <td><code>${escapeHtml(entry.model)}</code></td>
+        <td>${entry.controlF1.toFixed(2)}</td>
+        <td>${entry.anxietyF1.toFixed(2)}</td>
+        <td><strong>${entry.macroF1.toFixed(2)}</strong></td>
+      </tr>`,
+    )
+    .join("\n");
+
+  return `<h3>Comparação com a tese de Santos (2025)</h3>
+  <p class="col">A Tabela ${integer(comparison.source.table)} da tese reporta resultados no mesmo alvo de ansiedade do SetembroBR. As três medidas F1 abaixo têm definições compatíveis: <code>${escapeHtml(comparison.metricDefinitions.controlF1)}</code> é o F1 de controle, <code>${escapeHtml(comparison.metricDefinitions.anxietyF1)}</code> é o F1 da classe diagnosticada/ansiedade e <code>${escapeHtml(comparison.metricDefinitions.macroF1)}</code> é a média aritmética das duas classes.</p>
+  <table>
+    <thead><tr><th>Fonte</th><th>Modelo</th><th>F1 controle</th><th>F1 ansiedade</th><th>Macro F1</th></tr></thead>
+    <tbody><tr>
+        <td><strong>Esta reprodução strict-blind</strong></td>
+        <td><code>ensemble-lock</code></td>
+        <td>${metric(championControlF1)}</td>
+        <td>${metric(champion.test.diagnosedF1)}</td>
+        <td><strong>${metric(champion.test.macroF1)}</strong></td>
+      </tr>
+      ${thesisRows}</tbody>
+  </table>
+  <h4>Diferenças de protocolo</h4>
+  <table>
+    <thead><tr><th>Eixo</th><th>Tese de Santos (2025)</th><th>Esta reprodução strict-blind</th></tr></thead>
+    <tbody>
+      <tr><td>Linha do tempo</td><td>${escapeHtml(comparison.reportedMethod.timeline)}</td><td>Agregados sobre embeddings brutos e sequência cronológica dos 128 tweets mais recentes para a CNN</td></tr>
+      <tr><td>Inferência sequencial</td><td>${escapeHtml(comparison.reportedMethod.bertInference)}; ${integer(comparison.reportedMethod.postTruncationTokens)} tokens por post</td><td>Janela recente-128 determinística, sem amostragem aleatória no teste</td></tr>
+      <tr><td>Relevância</td><td>${escapeHtml(comparison.reportedMethod.relevance)}</td><td>Proxy lexical fixo <code>anxiety-lexical-v1</code>, independente de rótulos</td></tr>
+      <tr><td>Composição</td><td>${escapeHtml(comparison.reportedMethod.mentionSignal)}</td><td>Focal LogReg, LogReg, CNN e Stacking ×2; sem rede de menções</td></tr>
+      <tr><td>Seleção</td><td>Resultados finais publicados na partição de teste do SetembroBR</td><td>Pesos e limiar definidos somente no OOF de treino; teste pontuado sem rótulos e aberto uma vez após a trava</td></tr>
+    </tbody>
+  </table>
+  <div class="kpis">
+    ${kpi("Delta vs melhor macro F1 da tese", signedMetric(champion.test.macroF1 - bestMacro.macroF1), `vs ${bestMacroModels} · valor publicado ${bestMacro.macroF1.toFixed(2)}`)}
+    ${kpi("Delta vs melhor F1 ansiedade da tese", signedMetric(champion.test.diagnosedF1 - bestAnxiety.anxietyF1), `vs ${bestAnxiety.model} · valor publicado ${bestAnxiety.anxietyF1.toFixed(2)}`)}
+    ${kpi("Delta vs melhor F1 controle da tese", signedMetric(championControlF1 - bestControl.controlF1), `vs ${bestControl.model} · valor publicado ${bestControl.controlF1.toFixed(2)}`)}
+  </div>
+  <div class="note">
+    <div class="lab">Leitura correta da comparação</div>
+    <p>Os deltas são pontos estimados: <strong>+3,285 p.p.</strong> em macro F1, <strong>+3,416 p.p.</strong> em F1 de ansiedade e <strong>+2,154 p.p.</strong> em F1 de controle. A tese arredonda a duas casas decimais, usa outra representação e outro procedimento de inferência, e não disponibiliza aqui as predições por usuário necessárias para McNemar ou bootstrap pareado. Portanto, isto não demonstra superioridade estatística.</p>
+    <p><code>P</code> e <code>R</code> da tese são descritos como precisão e revocação médias do modelo, sem convenção de agregação explicitada; eles não são comparados à precisão e ao recall da classe ansiedade desta reprodução.</p>
+    <p>Fonte: <code>${escapeHtml(comparison.source.file)}</code>, Tabela ${integer(comparison.source.table)}, p. ${integer(comparison.source.printedPage)} impressa (p. ${integer(comparison.source.pdfPage)} do PDF), SHA-256 <code>${escapeHtml(comparison.source.sha256)}</code>. Procedimento descrito nas p. ${comparison.source.methodPrintedPages.map(integer).join("–")} impressas.</p>
+  </div>`;
+}
+
+function embeddingGenerationBlock(provenance: EmbeddingGenerationProvenance): string {
+  const { timing, hardware, workload, sourceEvidence } = provenance;
+  return `<h3>Geração dos embeddings de ansiedade</h3>
+  <div class="grid two">
+    <div class="scard">
+      <div class="head"><span class="nm">Tempo medido</span><span class="tag">wall-clock</span></div>
+      <p><strong>${escapeHtml(durationText(timing.durationSeconds))}</strong> para gerar todos os embeddings de treino e teste.</p>
+      <ul>
+        <li>Início: <code>${escapeHtml(localTimestamp(timing.startedAt))}</code></li>
+        <li>Conclusão: <code>${escapeHtml(localTimestamp(timing.completedAt))}</code></li>
+        <li>Carga: ${integer(workload.totalTweets)} tweets de ${integer(workload.trainUsers + workload.testUsers)} usuários</li>
+        <li>Modelo: <code>${escapeHtml(workload.modelId)}</code>, ${integer(workload.embeddingDimension)} dimensões, <code>${escapeHtml(workload.storageDtype)}</code>, batch ${integer(workload.batchSize)}</li>
+      </ul>
+    </div>
+    <div class="scard">
+      <div class="head"><span class="nm">Hardware Fedora</span><span class="tag">CUDA</span></div>
+      <ul>
+        <li>GPU: <strong>${escapeHtml(hardware.gpu)}</strong> · ${integer(hardware.gpuMemoryMiB)} MiB</li>
+        <li>Driver ${escapeHtml(hardware.driverVersion)} · CUDA ${escapeHtml(hardware.cudaVersion)}</li>
+        <li>CPU: ${escapeHtml(hardware.cpu)} · ${integer(hardware.cpuCores)} cores / ${integer(hardware.cpuThreads)} threads</li>
+        <li>RAM: ${integer(hardware.memoryGiB)} GiB</li>
+        <li>${escapeHtml(hardware.operatingSystem)} · kernel <code>${escapeHtml(hardware.kernel)}</code></li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">
+    <div class="lab">Proveniência da medição</div>
+    <p>Tempo de parede medido no host <code>${escapeHtml(hardware.hostname)}</code> pelo nascimento do PID da execução até o status concluído com exit code ${integer(sourceEvidence.jobExitCode)}. Manifesto bruto <code>${escapeHtml(sourceEvidence.rawEmbeddingManifestSha256)}</code>; revisão Qwen <code>${escapeHtml(workload.modelRevision)}</code>.</p>
+  </div>`;
 }
 
 function ternaryCompositionBlock(locks: readonly LockEntry[]): string {
@@ -675,12 +907,13 @@ function normalizeMetrics(value: unknown): NormalizedMetrics | null {
   if (!isRecord(value)) return null;
   const macroF1 = numberValue(value, "macroF1");
   const diagnosedF1 = numberValue(value, "diagnosedF1") ?? perClassNumber(value, "f1");
+  const controlF1 = numberValue(value, "controlF1");
   const precision = numberValue(value, "precision") ?? numberValue(value, "diagnosedPrecision") ?? perClassNumber(value, "precision");
   const recall = numberValue(value, "recall") ?? numberValue(value, "diagnosedRecall") ?? perClassNumber(value, "recall");
   const accuracy = numberValue(value, "accuracy");
   if (macroF1 === null || diagnosedF1 === null || precision === null || recall === null || accuracy === null) return null;
   const counts = countsFromMetrics(value);
-  return { macroF1, diagnosedF1, precision, recall, accuracy, ...counts };
+  return { macroF1, diagnosedF1, controlF1, precision, recall, accuracy, ...counts };
 }
 
 function countsFromMetrics(metrics: JsonRecord): { tp: number; fp: number; tn: number; fn: number } {
@@ -733,10 +966,12 @@ function lockBasenameFromReport(path: string): string {
 }
 
 function binaryPolicy(experimentId: string): string {
+  if (experimentId.includes("anxiety")) return "ansiedade-binário";
   return experimentId.includes("ternary") ? "ternário" : "binário";
 }
 
 function trackFor(experimentId: string): Track {
+  if (experimentId.includes("anxiety")) return "anxiety";
   return experimentId.includes("ternary") ? "ternary" : "binary";
 }
 
@@ -791,6 +1026,7 @@ function familyChips(modelIds: readonly string[]): string {
 }
 
 function trackLabel(track: Track): string {
+  if (track === "anxiety") return "ansiedade";
   return track === "ternary" ? "ternário" : "binário";
 }
 
@@ -849,6 +1085,49 @@ function confusion(metricsValue: NormalizedMetrics | null | undefined): string {
 
 async function readJson(path: string): Promise<JsonRecord> {
   return JSON.parse(await readFile(path, "utf8")) as JsonRecord;
+}
+
+async function readEmbeddingGenerationProvenance(): Promise<EmbeddingGenerationProvenance> {
+  const provenance = JSON.parse(await readFile(anxietyEmbeddingProvenancePath, "utf8")) as EmbeddingGenerationProvenance;
+  const measuredSeconds = Math.round(
+    (Date.parse(provenance.timing.completedAt) - Date.parse(provenance.timing.startedAt)) / 1000,
+  );
+  if (!Number.isFinite(measuredSeconds) || measuredSeconds !== provenance.timing.durationSeconds) {
+    throw new Error(`Invalid anxiety embedding duration in ${anxietyEmbeddingProvenancePath}`);
+  }
+  if (provenance.workload.trainTweets + provenance.workload.testTweets !== provenance.workload.totalTweets) {
+    throw new Error(`Invalid anxiety embedding tweet count in ${anxietyEmbeddingProvenancePath}`);
+  }
+  return provenance;
+}
+
+async function readAnxietyThesisComparison(): Promise<AnxietyThesisComparison> {
+  const comparison = JSON.parse(await readFile(anxietyThesisComparisonPath, "utf8")) as AnxietyThesisComparison;
+  if (comparison.predictionTarget !== "anxiety" || comparison.reportedResults.length === 0) {
+    throw new Error(`Invalid anxiety thesis comparison in ${anxietyThesisComparisonPath}`);
+  }
+  for (const result of comparison.reportedResults) {
+    const recomputedMacro = (result.controlF1 + result.anxietyF1) / 2;
+    if (Math.abs(recomputedMacro - result.macroF1) > 0.005_001) {
+      throw new Error(`Invalid rounded macro F1 for ${result.model} in ${anxietyThesisComparisonPath}`);
+    }
+  }
+  return comparison;
+}
+
+function durationText(totalSeconds: number): string {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return `${hours}h ${minutes}min ${seconds}s`;
+}
+
+function localTimestamp(value: string): string {
+  return `${value.slice(0, 10)} ${value.slice(11, 19)} BRT`;
+}
+
+function integer(value: number): string {
+  return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(value);
 }
 
 async function writeFileEnsured(path: string, text: string): Promise<void> {

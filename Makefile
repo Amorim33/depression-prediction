@@ -2,12 +2,15 @@ CONFIG ?= configs/setembrobr.seed42.strict-blind.json
 PYTHON ?= python3
 TERNARY_CONFIG ?= ternary-classification/configs/setembrobr.seed42.ternary-strict-blind.json
 RAW_EMBED_CONFIG ?= configs/setembrobr.seed42.raw-qwen3-embeddings.json
+RAW_ANXIETY_EMBED_CONFIG ?= configs/setembrobr.seed42.raw-qwen3-anxiety-embeddings.json
 RAW_BINARY_CONFIG ?= configs/setembrobr.seed42.raw-qwen3-binary.json
 RAW_BINARY_OUTPUT_DIR ?= outputs/setembrobr/seed42_raw_qwen3_binary
 RAW_BINARY_RELEVANCE_CONFIG ?= configs/setembrobr.seed42.relevance-features-qwen3-binary.json
 RAW_BINARY_RELEVANCE_OUTPUT_DIR ?= outputs/setembrobr/seed42_relevance_features_qwen3_binary
 RAW_BINARY_TEMPORAL_CONFIG ?= configs/setembrobr.seed42.temporal-relevance-qwen3-binary.json
 RAW_BINARY_TEMPORAL_OUTPUT_DIR ?= outputs/setembrobr/seed42_temporal_relevance_qwen3_binary
+ANXIETY_CHAMPION_CONFIG ?= configs/setembrobr.seed42.anxiety-temporal-champion-qwen3-binary.json
+ANXIETY_CHAMPION_OUTPUT_DIR ?= outputs/setembrobr/seed42_anxiety_temporal_champion_qwen3_binary
 RAW_BINARY_PREP_STAMP ?= $(RAW_BINARY_OUTPUT_DIR)/reports/raw_binary_prepare_manifest.json
 RAW_BINARY_TABULAR_STAMP ?= $(RAW_BINARY_OUTPUT_DIR)/reports/raw_binary_tabular_oof_manifest.json
 RAW_BINARY_SEQ_STAMP ?= $(RAW_BINARY_OUTPUT_DIR)/reports/raw_binary_seq_oof_manifest.json
@@ -22,11 +25,18 @@ FEDORA_HOST ?= fedora
 FEDORA_RUN_DIR ?= ~/codex-runs/depression-prediction-setembrobr
 FEDORA_TERNARY_RUN_DIR ?= ~/codex-runs/depression-prediction-setembrobr-ternary
 FEDORA_RAW_EMBED_RUN_DIR ?= ~/codex-runs/depression-prediction-setembrobr-raw-embeddings
+FEDORA_RAW_ANXIETY_RUN_DIR ?= /home/aluisioamorim/codex-runs/depression-prediction-setembrobr-anxiety-embeddings
+FEDORA_RAW_EMBED_PYTHON ?= /home/aluisioamorim/codex-runs/depression-prediction-setembrobr-raw-embeddings/.venv/bin/python
+FEDORA_RAW_EMBED_HF_HOME ?= /home/aluisioamorim/codex-runs/depression-prediction-setembrobr-raw-embeddings/models/huggingface
+ANXIETY_ARCHIVE_SHA256 ?= a4c6fa4b486b669559bb5b46f56d9914f9271e2b1dbbb0a0b6c8a9626fb6fca7
 FEDORA_RAW_EXPERIMENT_RUN_DIR ?= ~/codex-runs/depression-prediction-setembrobr-raw-experiments
 FEDORA_RAW_BINARY_RUN_DIR ?= ~/codex-runs/depression-prediction-setembrobr-raw-binary
 FEDORA_RAW_BINARY_PYTHON ?= /home/aluisioamorim/codex-runs/depression-prediction-setembrobr-raw-embeddings/.venv/bin/python
+FEDORA_ANXIETY_CHAMPION_RUN_DIR ?= /home/aluisioamorim/codex-runs/depression-prediction-setembrobr-anxiety-champion
+FEDORA_ANXIETY_CHAMPION_PYTHON ?= /home/aluisioamorim/codex-runs/depression-prediction-setembrobr-raw-embeddings/.venv/bin/python
+FEDORA_ANXIETY_SSH_OPTS ?= -o HostKeyAlias=192.168.15.136
 
-.PHONY: lint typecheck test docs-lock-results-summary db-check-setembrobr manifest-setembrobr export-sequences-setembrobr train-tabular-oof-setembrobr train-seq-oof-setembrobr train-candidate-tabular-oof-setembrobr train-candidate-seq-oof-setembrobr fedora-candidate-seq-oof-setembrobr train-candidate-oof-setembrobr audit-oof-setembrobr select-ensemble-setembrobr evaluate-test-setembrobr reproduce-setembrobr raw-validate-setembrobr fedora-raw-sync-setembrobr fedora-raw-setup-setembrobr fedora-raw-validate-setembrobr fedora-raw-embed-smoke-setembrobr fedora-raw-embed-setembrobr raw-binary-prepare-setembrobr raw-binary-train-tabular-oof-setembrobr raw-binary-train-seq-oof-setembrobr raw-binary-train-stack-oof-setembrobr raw-binary-audit-oof-setembrobr raw-binary-select-ensemble-setembrobr raw-binary-evaluate-test-setembrobr raw-binary-llm-oof-setembrobr raw-binary-llm-test-setembrobr raw-binary-evaluate-llm-setembrobr raw-binary-reproduce-setembrobr raw-binary-reproduce-llm-setembrobr raw-binary-relevance-oof-setembrobr raw-binary-temporal-relevance-oof-setembrobr fedora-raw-binary-sync-setembrobr fedora-raw-binary-reproduce-setembrobr fedora-raw-binary-relevance-oof-setembrobr fedora-raw-binary-temporal-relevance-oof-setembrobr fedora-raw-binary-llm-recompute-setembrobr raw-ternary-prepare-setembrobr raw-ternary-manifest-setembrobr raw-ternary-train-tabular-oof-setembrobr raw-ternary-train-seq-oof-setembrobr raw-ternary-train-stack-oof-setembrobr raw-ternary-train-legacy-tabular-oof-setembrobr raw-ternary-train-legacy-seq-oof-setembrobr raw-ternary-select-legacy-architecture-setembrobr raw-ternary-evaluate-legacy-architecture-setembrobr raw-ternary-legacy-architecture-setembrobr raw-ternary-audit-oof-setembrobr raw-ternary-select-ensemble-setembrobr raw-ternary-robustness-setembrobr raw-ternary-nested-oof-selection-setembrobr raw-ternary-oof-diagnostics-setembrobr raw-ternary-model-policy-leaderboard-setembrobr raw-ternary-family-ablation-setembrobr raw-ternary-evaluate-test-setembrobr raw-ternary-llm-oof-symmetric-setembrobr raw-ternary-llm-test-symmetric-setembrobr raw-ternary-evaluate-llm-symmetric-setembrobr raw-ternary-reproduce-setembrobr raw-ternary-reproduce-diagnosed-setembrobr raw-ternary-reproduce-symmetric-setembrobr fedora-raw-experiments-sync-setembrobr fedora-raw-experiments-setup-setembrobr fedora-raw-experiments-reproduce-setembrobr fedora-raw-legacy-architecture-recompute-setembrobr fedora-raw-symmetric-llm-recompute-setembrobr ternary-markers-setembrobr ternary-manifest-setembrobr ternary-train-tabular-oof-setembrobr ternary-train-seq-oof-setembrobr ternary-train-stack-oof-setembrobr fedora-ternary-train-seq-oof-setembrobr ternary-audit-oof-setembrobr ternary-select-ensemble-setembrobr ternary-robustness-setembrobr ternary-nested-oof-selection-setembrobr ternary-oof-diagnostics-setembrobr ternary-model-policy-leaderboard-setembrobr ternary-family-ablation-setembrobr ternary-evaluate-test-setembrobr reproduce-ternary-setembrobr reproduce-ternary-setembrobr-gpu
+.PHONY: lint typecheck test docs-lock-results-summary db-check-setembrobr manifest-setembrobr export-sequences-setembrobr train-tabular-oof-setembrobr train-seq-oof-setembrobr train-candidate-tabular-oof-setembrobr train-candidate-seq-oof-setembrobr fedora-candidate-seq-oof-setembrobr train-candidate-oof-setembrobr audit-oof-setembrobr select-ensemble-setembrobr evaluate-test-setembrobr reproduce-setembrobr raw-validate-setembrobr fedora-raw-sync-setembrobr fedora-raw-setup-setembrobr fedora-raw-validate-setembrobr fedora-raw-embed-smoke-setembrobr fedora-raw-embed-setembrobr fedora-raw-anxiety-sync-setembrobr fedora-raw-anxiety-extract-setembrobr fedora-raw-anxiety-validate-setembrobr fedora-raw-anxiety-smoke-setembrobr fedora-raw-anxiety-start-setembrobr fedora-raw-anxiety-status-setembrobr anxiety-champion-oof-setembrobr anxiety-champion-score-test-setembrobr anxiety-champion-evaluate-test-setembrobr fedora-anxiety-champion-sync-setembrobr fedora-anxiety-champion-oof-setembrobr fedora-anxiety-champion-score-test-setembrobr fedora-anxiety-champion-evaluate-test-setembrobr _fedora-anxiety-champion-sync-setembrobr _fedora-anxiety-champion-oof-setembrobr _fedora-anxiety-champion-score-test-setembrobr _fedora-anxiety-champion-evaluate-test-setembrobr raw-binary-prepare-setembrobr raw-binary-train-tabular-oof-setembrobr raw-binary-train-seq-oof-setembrobr raw-binary-train-stack-oof-setembrobr raw-binary-audit-oof-setembrobr raw-binary-select-ensemble-setembrobr raw-binary-evaluate-test-setembrobr raw-binary-llm-oof-setembrobr raw-binary-llm-test-setembrobr raw-binary-evaluate-llm-setembrobr raw-binary-reproduce-setembrobr raw-binary-reproduce-llm-setembrobr raw-binary-relevance-oof-setembrobr raw-binary-temporal-relevance-oof-setembrobr fedora-raw-binary-sync-setembrobr fedora-raw-binary-reproduce-setembrobr fedora-raw-binary-relevance-oof-setembrobr fedora-raw-binary-temporal-relevance-oof-setembrobr fedora-raw-binary-llm-recompute-setembrobr raw-ternary-prepare-setembrobr raw-ternary-manifest-setembrobr raw-ternary-train-tabular-oof-setembrobr raw-ternary-train-seq-oof-setembrobr raw-ternary-train-stack-oof-setembrobr raw-ternary-train-legacy-tabular-oof-setembrobr raw-ternary-train-legacy-seq-oof-setembrobr raw-ternary-select-legacy-architecture-setembrobr raw-ternary-evaluate-legacy-architecture-setembrobr raw-ternary-legacy-architecture-setembrobr raw-ternary-audit-oof-setembrobr raw-ternary-select-ensemble-setembrobr raw-ternary-robustness-setembrobr raw-ternary-nested-oof-selection-setembrobr raw-ternary-oof-diagnostics-setembrobr raw-ternary-model-policy-leaderboard-setembrobr raw-ternary-family-ablation-setembrobr raw-ternary-evaluate-test-setembrobr raw-ternary-llm-oof-symmetric-setembrobr raw-ternary-llm-test-symmetric-setembrobr raw-ternary-evaluate-llm-symmetric-setembrobr raw-ternary-reproduce-setembrobr raw-ternary-reproduce-diagnosed-setembrobr raw-ternary-reproduce-symmetric-setembrobr fedora-raw-experiments-sync-setembrobr fedora-raw-experiments-setup-setembrobr fedora-raw-experiments-reproduce-setembrobr fedora-raw-legacy-architecture-recompute-setembrobr fedora-raw-symmetric-llm-recompute-setembrobr ternary-markers-setembrobr ternary-manifest-setembrobr ternary-train-tabular-oof-setembrobr ternary-train-seq-oof-setembrobr ternary-train-stack-oof-setembrobr fedora-ternary-train-seq-oof-setembrobr ternary-audit-oof-setembrobr ternary-select-ensemble-setembrobr ternary-robustness-setembrobr ternary-nested-oof-selection-setembrobr ternary-oof-diagnostics-setembrobr ternary-model-policy-leaderboard-setembrobr ternary-family-ablation-setembrobr ternary-evaluate-test-setembrobr reproduce-ternary-setembrobr reproduce-ternary-setembrobr-gpu
 
 lint:
 	bun run lint
@@ -102,6 +112,93 @@ fedora-raw-embed-smoke-setembrobr: fedora-raw-sync-setembrobr fedora-raw-setup-s
 fedora-raw-embed-setembrobr: fedora-raw-sync-setembrobr fedora-raw-setup-setembrobr
 	ssh $(FEDORA_HOST) 'nvidia-smi'
 	ssh $(FEDORA_HOST) "bash -lc 'cd $(FEDORA_RAW_EMBED_RUN_DIR)/repo && . ../.venv/bin/activate && HF_HOME=../models/huggingface TRANSFORMERS_CACHE=../models/huggingface PYTHONUNBUFFERED=1 python scripts/raw_qwen3_embeddings_setembrobr.py --config $(RAW_EMBED_CONFIG) --mode embed --dataset-dir ../data/depression_tweets --relevance-dir ../data/relevance_score --output-dir ../artifacts --device cuda'"
+
+fedora-raw-anxiety-sync-setembrobr:
+	ssh $(FEDORA_HOST) "mkdir -p $(FEDORA_RAW_ANXIETY_RUN_DIR)/repo/configs $(FEDORA_RAW_ANXIETY_RUN_DIR)/repo/scripts $(FEDORA_RAW_ANXIETY_RUN_DIR)/incoming $(FEDORA_RAW_ANXIETY_RUN_DIR)/data/anxiety_tweets $(FEDORA_RAW_ANXIETY_RUN_DIR)/artifacts $(FEDORA_RAW_ANXIETY_RUN_DIR)/logs"
+	rsync -az requirements-raw-embeddings.txt $(FEDORA_HOST):$(FEDORA_RAW_ANXIETY_RUN_DIR)/repo/
+	rsync -az $(RAW_ANXIETY_EMBED_CONFIG) $(FEDORA_HOST):$(FEDORA_RAW_ANXIETY_RUN_DIR)/repo/configs/
+	rsync -az scripts/raw_qwen3_embeddings_setembrobr.py scripts/raw_qwen3_embeddings_anxiety_setembrobr.py scripts/run_anxiety_embedding_job.sh $(FEDORA_HOST):$(FEDORA_RAW_ANXIETY_RUN_DIR)/repo/scripts/
+	rsync -ah --partial --append --progress dataset/anxiety_tweets.rar $(FEDORA_HOST):$(FEDORA_RAW_ANXIETY_RUN_DIR)/incoming/
+
+fedora-raw-anxiety-extract-setembrobr:
+	ssh $(FEDORA_HOST) "cd $(FEDORA_RAW_ANXIETY_RUN_DIR)/incoming && echo '$(ANXIETY_ARCHIVE_SHA256)  anxiety_tweets.rar' | sha256sum -c -"
+	ssh $(FEDORA_HOST) "podman run --rm -v $(FEDORA_RAW_ANXIETY_RUN_DIR)/incoming:/incoming:Z -v $(FEDORA_RAW_ANXIETY_RUN_DIR)/data/anxiety_tweets:/data:Z fedora:40 bash -lc 'dnf -qy install unar && unar -f -o /data /incoming/anxiety_tweets.rar'"
+	ssh $(FEDORA_HOST) "bash -lc 'if test -d $(FEDORA_RAW_ANXIETY_RUN_DIR)/data/anxiety_tweets/anxiety_tweets; then mv $(FEDORA_RAW_ANXIETY_RUN_DIR)/data/anxiety_tweets/anxiety_tweets/*.csv $(FEDORA_RAW_ANXIETY_RUN_DIR)/data/anxiety_tweets/ && rmdir $(FEDORA_RAW_ANXIETY_RUN_DIR)/data/anxiety_tweets/anxiety_tweets; fi'"
+
+fedora-raw-anxiety-validate-setembrobr:
+	ssh $(FEDORA_HOST) "bash -lc 'cd $(FEDORA_RAW_ANXIETY_RUN_DIR)/repo && $(FEDORA_RAW_EMBED_PYTHON) scripts/raw_qwen3_embeddings_anxiety_setembrobr.py --config $(RAW_ANXIETY_EMBED_CONFIG) --mode validate --dataset-dir ../data/anxiety_tweets --output-dir ../artifacts'"
+
+fedora-raw-anxiety-smoke-setembrobr:
+	ssh $(FEDORA_HOST) 'nvidia-smi'
+	ssh $(FEDORA_HOST) "bash -lc 'cd $(FEDORA_RAW_ANXIETY_RUN_DIR)/repo && HF_HOME=$(FEDORA_RAW_EMBED_HF_HOME) TRANSFORMERS_CACHE=$(FEDORA_RAW_EMBED_HF_HOME) PYTHONUNBUFFERED=1 $(FEDORA_RAW_EMBED_PYTHON) scripts/raw_qwen3_embeddings_anxiety_setembrobr.py --config $(RAW_ANXIETY_EMBED_CONFIG) --mode embed --dataset-dir ../data/anxiety_tweets --output-dir ../artifacts/smoke --smoke-users 2 --batch-size 2 --shard-users 2 --device cuda --force'"
+
+fedora-raw-anxiety-start-setembrobr:
+	ssh $(FEDORA_HOST) "pgrep -f '[r]aw_qwen3_embeddings_anxiety_setembrobr.py.*--mode embed.*--output-dir ../artifacts' >/dev/null && exit 1 || true"
+	ssh $(FEDORA_HOST) "bash -lc 'nohup bash $(FEDORA_RAW_ANXIETY_RUN_DIR)/repo/scripts/run_anxiety_embedding_job.sh $(FEDORA_RAW_ANXIETY_RUN_DIR) $(FEDORA_RAW_EMBED_PYTHON) $(FEDORA_RAW_EMBED_HF_HOME) $(RAW_ANXIETY_EMBED_CONFIG) > $(FEDORA_RAW_ANXIETY_RUN_DIR)/logs/launcher.log 2>&1 < /dev/null & echo \$$! > $(FEDORA_RAW_ANXIETY_RUN_DIR)/logs/full-embed.pid'"
+
+fedora-raw-anxiety-status-setembrobr:
+	ssh $(FEDORA_HOST) "bash -lc 'cat $(FEDORA_RAW_ANXIETY_RUN_DIR)/logs/full-embed.status 2>/dev/null || true; cat $(FEDORA_RAW_ANXIETY_RUN_DIR)/logs/full-embed.exit 2>/dev/null || true; tail -n 20 $(FEDORA_RAW_ANXIETY_RUN_DIR)/logs/full-embed.log 2>/dev/null || true; df -h /home; nvidia-smi --query-gpu=temperature.gpu,utilization.gpu,memory.used,memory.total --format=csv,noheader'"
+
+anxiety-champion-oof-setembrobr: lint typecheck test
+	$(PYTHON) scripts/anxiety_champion_prepare.py --config $(ANXIETY_CHAMPION_CONFIG) --stage manifests
+	$(PYTHON) scripts/anxiety_champion_relevance.py --config $(ANXIETY_CHAMPION_CONFIG) --split train
+	$(PYTHON) scripts/anxiety_champion_prepare.py --config $(ANXIETY_CHAMPION_CONFIG) --stage train
+	$(PYTHON) scripts/anxiety_champion_tabular.py --config $(ANXIETY_CHAMPION_CONFIG) --stage oof
+	$(PYTHON) scripts/anxiety_champion_sequence.py --config $(ANXIETY_CHAMPION_CONFIG) --stage oof
+	$(PYTHON) scripts/anxiety_champion_stack.py --config $(ANXIETY_CHAMPION_CONFIG) --stage oof
+	CONFIG=$(ANXIETY_CHAMPION_CONFIG) bun run scripts/anxiety-champion-audit-setembrobr.ts --mode=oof
+	CONFIG=$(ANXIETY_CHAMPION_CONFIG) bun run select-ensemble-setembrobr
+	@jq -r '"anxiety_champion_oof_macro_f1=\(.oofMetrics.macroF1)"' $(ANXIETY_CHAMPION_OUTPUT_DIR)/ensemble/ensemble-lock.json
+
+anxiety-champion-score-test-setembrobr:
+	CONFIG=$(ANXIETY_CHAMPION_CONFIG) bun run scripts/anxiety-champion-audit-setembrobr.ts --mode=oof
+	$(PYTHON) scripts/anxiety_champion_relevance.py --config $(ANXIETY_CHAMPION_CONFIG) --split test
+	$(PYTHON) scripts/anxiety_champion_prepare.py --config $(ANXIETY_CHAMPION_CONFIG) --stage test
+	$(PYTHON) scripts/anxiety_champion_tabular.py --config $(ANXIETY_CHAMPION_CONFIG) --stage score-test
+	$(PYTHON) scripts/anxiety_champion_sequence.py --config $(ANXIETY_CHAMPION_CONFIG) --stage score-test
+	$(PYTHON) scripts/anxiety_champion_stack.py --config $(ANXIETY_CHAMPION_CONFIG) --stage score-test
+	CONFIG=$(ANXIETY_CHAMPION_CONFIG) bun run scripts/anxiety-champion-audit-setembrobr.ts --mode=test
+	rm -rf $(ANXIETY_CHAMPION_OUTPUT_DIR)/work
+
+anxiety-champion-evaluate-test-setembrobr:
+	$(PYTHON) scripts/anxiety_champion_evaluate.py --config $(ANXIETY_CHAMPION_CONFIG)
+	$(MAKE) docs-lock-results-summary
+
+fedora-anxiety-champion-sync-setembrobr:
+	$(MAKE) FEDORA_HOST=fedora.local _fedora-anxiety-champion-sync-setembrobr
+
+_fedora-anxiety-champion-sync-setembrobr:
+	ssh $(FEDORA_ANXIETY_SSH_OPTS) $(FEDORA_HOST) "mkdir -p $(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo"
+	rsync -azR -e "ssh $(FEDORA_ANXIETY_SSH_OPTS)" AGENTS.md requirements-raw-embeddings.txt package.json bun.lock tsconfig.json Makefile configs scripts src tests docs ternary-classification $(FEDORA_HOST):$(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo/
+	rsync -azR -e "ssh $(FEDORA_ANXIETY_SSH_OPTS)" outputs/setembrobr/lock-results-summary.html outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/ensemble/ensemble-lock.json outputs/setembrobr/seed42_temporal_relevance_qwen3_binary/reports/final-test-report-llm-disambiguated.json $(FEDORA_HOST):$(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo/
+	ssh $(FEDORA_ANXIETY_SSH_OPTS) $(FEDORA_HOST) "bash -lc 'cd $(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo && export PATH=\$$HOME/.bun/bin:\$$PATH && bun install --frozen-lockfile'"
+
+fedora-anxiety-champion-oof-setembrobr:
+	$(MAKE) FEDORA_HOST=fedora.local _fedora-anxiety-champion-oof-setembrobr
+
+_fedora-anxiety-champion-oof-setembrobr: _fedora-anxiety-champion-sync-setembrobr
+	ssh $(FEDORA_ANXIETY_SSH_OPTS) $(FEDORA_HOST) 'nvidia-smi'
+	ssh $(FEDORA_ANXIETY_SSH_OPTS) $(FEDORA_HOST) "bash -lc 'cd $(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo && export PATH=\$$HOME/.bun/bin:\$$PATH && make PYTHON=$(FEDORA_ANXIETY_CHAMPION_PYTHON) anxiety-champion-oof-setembrobr'"
+	mkdir -p $(ANXIETY_CHAMPION_OUTPUT_DIR)
+	rsync -az -e "ssh $(FEDORA_ANXIETY_SSH_OPTS)" --exclude 'work/' --exclude 'checkpoints/' $(FEDORA_HOST):$(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo/$(ANXIETY_CHAMPION_OUTPUT_DIR)/ $(ANXIETY_CHAMPION_OUTPUT_DIR)/
+
+fedora-anxiety-champion-score-test-setembrobr:
+	$(MAKE) FEDORA_HOST=fedora.local _fedora-anxiety-champion-score-test-setembrobr
+
+_fedora-anxiety-champion-score-test-setembrobr: _fedora-anxiety-champion-sync-setembrobr
+	ssh $(FEDORA_ANXIETY_SSH_OPTS) $(FEDORA_HOST) 'nvidia-smi'
+	ssh $(FEDORA_ANXIETY_SSH_OPTS) $(FEDORA_HOST) "bash -lc 'cd $(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo && export PATH=\$$HOME/.bun/bin:\$$PATH && make PYTHON=$(FEDORA_ANXIETY_CHAMPION_PYTHON) anxiety-champion-score-test-setembrobr'"
+	mkdir -p $(ANXIETY_CHAMPION_OUTPUT_DIR)
+	rsync -az -e "ssh $(FEDORA_ANXIETY_SSH_OPTS)" --exclude 'work/' --exclude 'checkpoints/' $(FEDORA_HOST):$(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo/$(ANXIETY_CHAMPION_OUTPUT_DIR)/ $(ANXIETY_CHAMPION_OUTPUT_DIR)/
+
+fedora-anxiety-champion-evaluate-test-setembrobr:
+	$(MAKE) FEDORA_HOST=fedora.local _fedora-anxiety-champion-evaluate-test-setembrobr
+
+_fedora-anxiety-champion-evaluate-test-setembrobr: _fedora-anxiety-champion-sync-setembrobr
+	ssh $(FEDORA_ANXIETY_SSH_OPTS) $(FEDORA_HOST) "bash -lc 'cd $(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo && export PATH=\$$HOME/.bun/bin:\$$PATH && make PYTHON=$(FEDORA_ANXIETY_CHAMPION_PYTHON) anxiety-champion-evaluate-test-setembrobr && rm -rf $(ANXIETY_CHAMPION_OUTPUT_DIR)/checkpoints'"
+	mkdir -p $(ANXIETY_CHAMPION_OUTPUT_DIR)
+	rsync -az -e "ssh $(FEDORA_ANXIETY_SSH_OPTS)" --exclude 'work/' --exclude 'checkpoints/' $(FEDORA_HOST):$(FEDORA_ANXIETY_CHAMPION_RUN_DIR)/repo/$(ANXIETY_CHAMPION_OUTPUT_DIR)/ $(ANXIETY_CHAMPION_OUTPUT_DIR)/
+	$(MAKE) docs-lock-results-summary
 
 raw-binary-prepare-setembrobr: $(RAW_BINARY_PREP_STAMP)
 

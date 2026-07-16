@@ -1,0 +1,94 @@
+{
+  "comparisonId": "santos-2025-setembrobr-anxiety",
+  "predictionTarget": "anxiety",
+  "source": {
+    "author": "Wesley Ramos dos Santos",
+    "title": "Predição de transtornos de saúde mental a partir de dados provenientes de redes sociais",
+    "year": 2025,
+    "file": "VERSAO_FINAL_Defesa___wesley.pdf",
+    "sha256": "c9e075954ee7b22ca81df088843f0fea03f7eba920ae6ac1a0a50c43b60fb2ca",
+    "table": 13,
+    "printedPage": 108,
+    "pdfPage": 109,
+    "methodPrintedPages": [105, 106],
+    "methodPdfPages": [106, 107]
+  },
+  "metricDefinitions": {
+    "controlF1": "cF1",
+    "anxietyF1": "dF1",
+    "macroF1": "mF1",
+    "macroF1Formula": "arithmetic mean of controlF1 and anxietyF1",
+    "precisionRecall": "P and R are described as model-average precision and recall; the aggregation convention is not stated"
+  },
+  "reportedMethod": {
+    "timeline": "1.000 posts mais recentes por usuário",
+    "bertInference": "50 sequências aleatórias de 10 posts consecutivos por usuário, combinadas por voto majoritário",
+    "postTruncationTokens": 30,
+    "relevance": "GPT-3.5 rotula uma amostra aleatória de 30.000 posts; T5 propaga os rótulos aos posts restantes",
+    "mentionSignal": "GPT.AltaBaixaMenções acrescenta um sinal não textual de menções Bag-of-Users"
+  },
+  "reportedResults": [
+    {
+      "model": "LSTM.BERT",
+      "precisionAverage": 0.83,
+      "recallAverage": 0.82,
+      "controlF1": 0.89,
+      "anxietyF1": 0.33,
+      "macroF1": 0.61
+    },
+    {
+      "model": "MoE.BERT",
+      "precisionAverage": 0.83,
+      "recallAverage": 0.8,
+      "controlF1": 0.88,
+      "anxietyF1": 0.33,
+      "macroF1": 0.61
+    },
+    {
+      "model": "Ens.BERT",
+      "precisionAverage": 0.83,
+      "recallAverage": 0.77,
+      "controlF1": 0.86,
+      "anxietyF1": 0.34,
+      "macroF1": 0.6
+    },
+    {
+      "model": "GPT.Baixa",
+      "precisionAverage": 0.84,
+      "recallAverage": 0.76,
+      "controlF1": 0.85,
+      "anxietyF1": 0.37,
+      "macroF1": 0.61
+    },
+    {
+      "model": "GPT.Alta",
+      "precisionAverage": 0.84,
+      "recallAverage": 0.8,
+      "controlF1": 0.88,
+      "anxietyF1": 0.37,
+      "macroF1": 0.63
+    },
+    {
+      "model": "GPT.AltaBaixa",
+      "precisionAverage": 0.84,
+      "recallAverage": 0.8,
+      "controlF1": 0.88,
+      "anxietyF1": 0.37,
+      "macroF1": 0.63
+    },
+    {
+      "model": "GPT.AltaBaixaMenções",
+      "precisionAverage": 0.84,
+      "recallAverage": 0.8,
+      "controlF1": 0.88,
+      "anxietyF1": 0.38,
+      "macroF1": 0.63
+    }
+  ],
+  "caveats": [
+    "The thesis reports metrics rounded to two decimal places.",
+    "P and R are not directly comparable with the champion's anxiety-class precision and recall.",
+    "The point estimates are not a paired significance test because the thesis user-level predictions are unavailable.",
+    "The thesis and champion use different representation, relevance, temporal-window, and ensemble procedures."
+  ]
+}

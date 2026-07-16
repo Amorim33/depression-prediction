@@ -1,0 +1,98 @@
+{
+  "host": "fedora.local",
+  "createdOn": "2026-07-15",
+  "archive": {
+    "format": "setembrobr-file-chunks-v1",
+    "root": "/mnt/setembrobr-archive/setembrobr-v6-restricted-archive",
+    "createdAtRoot": "/home/aluisioamorim/codex-runs/setembrobr-v6-restricted-archive",
+    "startedAt": "2026-07-15T12:55:06.615490+00:00",
+    "completedAt": "2026-07-15T13:17:59.750171+00:00",
+    "fileCount": 1036,
+    "codecCounts": {
+      "zstd": 519,
+      "none": 517
+    },
+    "zstdLevel": 10,
+    "originalBytes": 285751959270,
+    "archivedPayloadBytes": 266318109486,
+    "archiveTreeBytes": 266319069522,
+    "spaceSavedBytes": 19433849784,
+    "archiveRatio": 0.9319904933157871
+  },
+  "storage": {
+    "filesystemAtCreation": "/home",
+    "freeBytesBefore": 24374616064,
+    "freeBytesAfterArchive": 43807522816,
+    "freeBytesAfterIndependentVerification": 43807277056,
+    "freeBytesAfterExternalMove": 310130343936,
+    "windowsNtfsPartitionUsed": false,
+    "windowsNtfsPartitionStateAtCompletion": "unmounted",
+    "note": "The archive was created on Fedora's Linux /home filesystem and then moved to the dedicated external SSD. The separate internal NTFS partition belongs to Windows and was never used.",
+    "externalSsd": {
+      "vendorModel": "SanDisk Portable SSD",
+      "serial": "323534304551343035333837",
+      "diskById": "/dev/disk/by-id/usb-SanDisk_Portable_SSD_323534304551343035333837-0:0",
+      "partitionById": "/dev/disk/by-id/usb-SanDisk_Portable_SSD_323534304551343035333837-0:0-part1",
+      "diskBytes": 1000204886016,
+      "partitionBytes": 1000203091968,
+      "partitionUuid": "d85a1f61-9bfe-4d96-b77f-25a71150f41e",
+      "filesystem": "exfat",
+      "filesystemUuid": "6A57-8F8E",
+      "label": "SETEMBROBR",
+      "mountPoint": "/mnt/setembrobr-archive",
+      "usbDriver": "uas",
+      "negotiatedUsbSpeedMbps": 480,
+      "stateAtCompletion": "verified and unmounted"
+    },
+    "externalMove": {
+      "startedAt": "2026-07-15T11:07:39-03:00",
+      "copyCompletedAt": "2026-07-15T13:12:42-03:00",
+      "hashVerificationCompletedAt": "2026-07-15T14:53:58-03:00",
+      "sourceRemovedAt": "2026-07-15T14:54:04-03:00",
+      "ssdUnmountedAt": "2026-07-15T14:54:17-03:00",
+      "elapsedSeconds": 13598,
+      "copyAverageBytesPerSecond": 35010000,
+      "verifiedFiles": 1036,
+      "verification": "Every archived object was reread from the external SSD and checked against SHA256SUMS before the Fedora /home copy was removed.",
+      "sourceAfterVerification": "removed",
+      "serviceResult": "success",
+      "unmountMonitorResult": "success"
+    }
+  },
+  "sourceRoots": {
+    "depression/artifacts": "/home/aluisioamorim/codex-runs/depression-prediction-setembrobr-raw-embeddings/artifacts",
+    "depression/data": "/home/aluisioamorim/codex-runs/depression-prediction-setembrobr-raw-embeddings/data",
+    "anxiety/artifacts": "/home/aluisioamorim/codex-runs/depression-prediction-setembrobr-anxiety-embeddings/artifacts",
+    "anxiety/data": "/home/aluisioamorim/codex-runs/depression-prediction-setembrobr-anxiety-embeddings/data"
+  },
+  "sourceStateAfterArchive": "All four source roots were removed after per-file verification; restore is explicit and lossless.",
+  "integrity": {
+    "hashAlgorithm": "sha256",
+    "creationPolicy": "Delete each source only after the archive SHA-256 and reconstructed original-byte SHA-256 pass and the JSONL record is fsynced.",
+    "independentFullVerification": {
+      "ok": true,
+      "verifiedFiles": 1036,
+      "recordedAt": "2026-07-15T10:27:30-03:00",
+      "method": "Reread every archived object, verify its archived size and SHA-256, stream-decompress each Zstandard object, and recompute the original payload SHA-256."
+    },
+    "archiveSummarySha256": "01e8bd39a388afb4ed90d9f826139d81dffe5ada8035146a9afe62b403f08be7",
+    "manifestJsonlSha256": "d616e7a622d5bad606eea5a070b3eed46b897d18c3fb4df02c14e41669eeb449",
+    "sha256SumsSha256": "448ff2d060d830a12279726456302767865bfba50a34e7abd96693e3b00e19dd",
+    "readmeSha256": "f3663e2bfc7719cf8d67e4e471ba8c527c400e1cdffb47bdf6529334ad6c554f",
+    "restoreToolSha256": "da2e2c3e327de765174ee91c866e553d29ac433972db69542e2277c1900fb181"
+  },
+  "access": {
+    "archiveDirectoryModeAtCreation": "0700",
+    "externalFilesystemPermissionModel": "exFAT has no native Unix ownership or mode bits; mount with uid=1000,gid=1000,umask=077 and keep the physical SSD access-controlled.",
+    "encryptedAtRest": false,
+    "distribution": "restricted preservation/authorized transfer only",
+    "publicReleaseAllowed": false,
+    "policy": "https://docs.x.com/developer-terms/policy"
+  },
+  "commands": {
+    "mountOnFedora": "sudo mount -t exfat -o uid=1000,gid=1000,umask=077,noatime /dev/disk/by-id/usb-SanDisk_Portable_SSD_323534304551343035333837-0:0-part1 /mnt/setembrobr-archive",
+    "verify": "python3 /mnt/setembrobr-archive/setembrobr-v6-restricted-archive/archive_setembrobr_fedora.py --mode verify --archive-root /mnt/setembrobr-archive/setembrobr-v6-restricted-archive",
+    "restore": "python3 /mnt/setembrobr-archive/setembrobr-v6-restricted-archive/archive_setembrobr_fedora.py --mode restore --archive-root /mnt/setembrobr-archive/setembrobr-v6-restricted-archive",
+    "unmountOnFedora": "sudo umount /mnt/setembrobr-archive"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "experimentId": "seed42_raw_qwen3_anxiety_embeddings",
+  "timing": {
+    "startedAt": "2026-07-12T11:39:03-03:00",
+    "completedAt": "2026-07-14T15:52:25-03:00",
+    "durationSeconds": 188002,
+    "timeZone": "America/Sao_Paulo",
+    "measurement": "Fedora full-embed.pid birth time through the successful full-embed.status completion timestamp"
+  },
+  "hardware": {
+    "hostname": "fedora",
+    "operatingSystem": "Fedora Linux 40 (Workstation Edition)",
+    "kernel": "6.12.9-100.fc40.x86_64",
+    "cpu": "AMD Ryzen 7 7800X3D",
+    "cpuCores": 8,
+    "cpuThreads": 16,
+    "memoryGiB": 30,
+    "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+    "gpuMemoryMiB": 12282,
+    "driverVersion": "565.77",
+    "cudaVersion": "12.7"
+  },
+  "workload": {
+    "modelId": "Qwen/Qwen3-Embedding-4B",
+    "modelRevision": "5cf2132abc99cad020ac570b19d031efec650f2b",
+    "embeddingDimension": 2560,
+    "storageDtype": "float16",
+    "batchSize": 16,
+    "trainUsers": 14200,
+    "testUsers": 3552,
+    "trainTweets": 21769232,
+    "testTweets": 5638808,
+    "totalTweets": 27408040
+  },
+  "sourceEvidence": {
+    "rawEmbeddingManifestSha256": "c8cd40827f91b298d61a3d2845bb4337c0ae3e8abbc9bf4fdfc552b1aad3c410",
+    "rawValidationReportSha256": "28a3003ab5b6ef5bd407d2c4fcadd91c36b16e583beceee94070794faf901850",
+    "jobExitCode": 0,
+    "jobStatus": "completed 2026-07-14T15:52:25-03:00"
+  }
+}

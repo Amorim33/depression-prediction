@@ -1,0 +1,28 @@
+{
+  "datasetId": "setembrobr-anxiety",
+  "datasetDir": "dataset/anxiety_tweets",
+  "outputDir": "outputs/setembrobr/seed42_raw_qwen3_anxiety_embeddings",
+  "rawCsvFiles": {
+    "train": ["train_A_SetembroBR_v6.csv", "train_A_c_SetembroBR_v6.csv"],
+    "test": ["test_A_SetembroBR_v6.csv", "test_A_c_SetembroBR_v6.csv"]
+  },
+  "expectedUsers": {
+    "train": 14200,
+    "test": 3552
+  },
+  "expectedTweets": {
+    "train": 21769232,
+    "test": 5638808
+  },
+  "tweetDelimiter": " # ",
+  "embeddingModelId": "Qwen/Qwen3-Embedding-4B",
+  "embeddingDimension": 2560,
+  "embeddingStorageDtype": "float16",
+  "includeRelevancePools": false,
+  "redactTestLabels": true,
+  "minFreeGiB": 20,
+  "seed": 42,
+  "batchSize": 16,
+  "shardUsers": 64,
+  "folds": 5
+}

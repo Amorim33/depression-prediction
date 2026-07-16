@@ -55,6 +55,26 @@ describe("Makefile Fedora targets", () => {
     expect(syncTarget + smokeTarget + fullTarget).not.toContain("top128");
   });
 
+  test("defines the resumable Fedora anxiety embedding path", async () => {
+    const makefile = await readFile("Makefile", "utf8");
+    const syncTarget = extractTarget(makefile, "fedora-raw-anxiety-sync-setembrobr");
+    const extractTargetText = extractTarget(makefile, "fedora-raw-anxiety-extract-setembrobr");
+    const smokeTarget = extractTarget(makefile, "fedora-raw-anxiety-smoke-setembrobr");
+    const startTarget = extractTarget(makefile, "fedora-raw-anxiety-start-setembrobr");
+
+    expect(makefile).toContain(
+      "RAW_ANXIETY_EMBED_CONFIG ?= configs/setembrobr.seed42.raw-qwen3-anxiety-embeddings.json",
+    );
+    expect(syncTarget).toContain("--partial --append");
+    expect(syncTarget).toContain("dataset/anxiety_tweets.rar");
+    expect(extractTargetText).toContain("sha256sum -c -");
+    expect(extractTargetText).toContain("podman run --rm");
+    expect(smokeTarget).toContain("--smoke-users 2");
+    expect(smokeTarget).toContain("--device cuda");
+    expect(startTarget).toContain("run_anxiety_embedding_job.sh");
+    expect(startTarget).toContain("nohup");
+  });
+
   test("runs local selection and evaluation after Fedora sequence training", async () => {
     const makefile = await readFile("Makefile", "utf8");
     const target = extractTarget(makefile, "reproduce-ternary-setembrobr-gpu");
