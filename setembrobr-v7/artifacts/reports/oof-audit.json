@@ -1,0 +1,17 @@
+{
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "foldCounts": {
+    "0": 1521,
+    "1": 1521,
+    "2": 1520,
+    "3": 1520,
+    "4": 1520
+  },
+  "modelId": "qwen3_mean_logreg_s42",
+  "ok": true,
+  "oofModelManifestSha256": "d919e005d954b63eac8ea9631743795349ec4cfe6e11ddf3f8471514dd928e3c",
+  "oofScoreSha256": "40d374d021b0472d8cac60439dde658a07df1a4d3a69fcdc0107adca9dd62df9",
+  "testUsersExcluded": true,
+  "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+  "users": 7602
+}

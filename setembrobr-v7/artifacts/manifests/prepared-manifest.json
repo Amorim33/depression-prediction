@@ -1,0 +1,23 @@
+{
+  "configSha256": "d53e2522127e450ab690e4c80ee3623b05a84d8548daf9fd176fdf065f78b4d9",
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "foldCounts": {
+    "0": 1521,
+    "1": 1521,
+    "2": 1520,
+    "3": 1520,
+    "4": 1520
+  },
+  "ok": true,
+  "sanitizedTestSha256": "71690b3416132998c69f6da9cdeb0d2e1417180ee12c01f9e8b393f104da16ab",
+  "sanitizedTrainSha256": "2deb3f612c54e46cb6a990959df07460f9cc50178a53c68535de6055461e34f8",
+  "sealedTestLabelsSha256": "a02ae1ee3a490414d094b753b1bf9fdc8d41f80bfb65b21744f69f4d4c74a572",
+  "sourceSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "testInferenceSha256": "2b8fac8bddc838b7b5c25701e25c784fcdc643f996d3996e7a168b1912616020",
+  "testLabelsSealedBeforeTraining": true,
+  "testPosts": 257698,
+  "testUsers": 400,
+  "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+  "trainPosts": 4098614,
+  "trainUsers": 7602
+}

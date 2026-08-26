@@ -1,0 +1,11 @@
+.work/
+__pycache__/
+*.pyc
+artifacts/restricted/
+artifacts/**/*.pkl
+artifacts/**/*.npz
+artifacts/**/*.csv
+artifacts/**/*.joblib
+artifacts/**/*.parquet
+artifacts/**/*.zst
+artifacts/**/*.log

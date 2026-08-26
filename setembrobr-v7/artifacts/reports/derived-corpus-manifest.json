@@ -1,0 +1,24 @@
+{
+  "derivedFilename": "SetembroBR-v7-min-qwen-logreg.pkl",
+  "derivedSha256": "c8ef0ac905b5ece3904b121438474ffe0732c98475dd2d862bd40144f174dbe2",
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "finalTestReportSha256": "6702b24f898e986957c94378d47a265e5c5929df679c11b58da7723ff374c3ef",
+  "predictionColumn": "qwen_logistic_regression_label",
+  "predictionValues": [
+    "no",
+    "yes"
+  ],
+  "rows": 8002,
+  "schema": [
+    "User_ID",
+    "Diagnosed_YN",
+    "TextLists",
+    "Split",
+    "qwen_logistic_regression_label"
+  ],
+  "sourceFilename": "SetembroBR-v7-min.pkl",
+  "sourceSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "testNonNullPredictions": 400,
+  "testScoreSha256": "e246d039b1737defe921617d8194cb56f91889db77df7f7e2e3eee8eae4d4e74",
+  "trainNonNullPredictions": 0
+}

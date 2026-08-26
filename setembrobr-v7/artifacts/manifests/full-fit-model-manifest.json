@@ -1,0 +1,12 @@
+{
+  "configSha256": "d53e2522127e450ab690e4c80ee3623b05a84d8548daf9fd176fdf065f78b4d9",
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "modelId": "qwen3_mean_logreg_s42",
+  "modelLockSha256": "d2b998e3fc131e55dbd7b8dc74b468fa613ba62fb6f3265b0e7ab35cb75f3b83",
+  "modelSha256": "2dc194d2f4bb3d3df4b8af6042cdcf3d8a2bfacb07156cdc021199cff609e36b",
+  "negative": 6829,
+  "positive": 773,
+  "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+  "trainPoolSha256": "5c1b316261462be966534b9e4818a2e402818a99e0ec3d0a5efbf7bb66717175",
+  "users": 7602
+}

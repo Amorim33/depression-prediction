@@ -1,0 +1,68 @@
+{
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "modelId": "qwen3_mean_logreg_s42",
+  "predictionColumn": "qwen_logistic_regression_label",
+  "source": {
+    "filename": "SetembroBR-v7-min.pkl",
+    "sha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+    "schema": [
+      "User_ID",
+      "Diagnosed_YN",
+      "TextLists",
+      "Split"
+    ],
+    "expectedUsers": 8002,
+    "expectedPosts": 4356312,
+    "splits": {
+      "train": {
+        "users": 7602,
+        "positive": 773,
+        "negative": 6829
+      },
+      "test": {
+        "users": 400,
+        "positive": 200,
+        "negative": 200
+      }
+    }
+  },
+  "embeddings": {
+    "archiveSourceId": "depression/artifacts",
+    "archiveStateManifest": ".archive-state/manifest.jsonl",
+    "generationManifest": "payload/depression/artifacts/reports/embedding_generation_manifest.json.zst",
+    "generationManifestArchiveSha256": "4fb3e3d727f4a260c293cff9cb8a5675ccc74f3ee48074a953ef04001fa383d7",
+    "generationManifestSha256": "6b9486df5b4cba222bcccf6f0376773369de60d6da6d760737e233282b12930d",
+    "pooledUserIndex": "payload/depression/artifacts/pooled/train_user_mean.npz",
+    "shardGlob": "payload/depression/artifacts/tweet_embeddings/train/*.parquet.zst",
+    "expectedTrainShards": 169,
+    "sourceUserCount": 10776,
+    "sourceSplit": "train",
+    "sourceSplitManifestSha256": "ca8188f4d35d8099c4e76dc3a9fa11053bd861d09c573f1076e368caf9eefe5a",
+    "modelId": "Qwen/Qwen3-Embedding-4B",
+    "modelRevision": "5cf2132abc99cad020ac570b19d031efec650f2b",
+    "dimension": 2560,
+    "storageDtype": "float16",
+    "pooling": "float64_sum_divide_then_float32",
+    "normalizedPostEmbeddings": true
+  },
+  "validation": {
+    "seed": 42,
+    "foldCount": 5,
+    "thresholdMetric": "macroF1",
+    "thresholdTieBreakers": [
+      "diagnosedF1",
+      "precision",
+      "recall"
+    ],
+    "bootstrapSamples": 2000
+  },
+  "classifier": {
+    "standardScaler": true,
+    "penalty": "l2",
+    "C": 1.0,
+    "solver": "lbfgs",
+    "maxIter": 1000,
+    "classWeight": "balanced",
+    "randomState": 42
+  }
+}

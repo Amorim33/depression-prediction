@@ -1,0 +1,62 @@
+{
+  "bootstrapSamples": 2000,
+  "bootstrapSeed": 42,
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "labelFreeTestScoreManifestSha256": "10da3a00f4e02e258a6577569c3ac90d00c3f16db7456e855067073e11c390b0",
+  "metrics": {
+    "accuracy": 0.6775,
+    "confusionMatrix": {
+      "labels": [
+        "no",
+        "yes"
+      ],
+      "matrix": [
+        [
+          184,
+          16
+        ],
+        [
+          113,
+          87
+        ]
+      ]
+    },
+    "controlF1": 0.7404426559356136,
+    "diagnosedF1": 0.5742574257425743,
+    "fn": 113,
+    "fp": 16,
+    "macroF1": 0.657350040839094,
+    "precision": 0.8446601941747572,
+    "recall": 0.435,
+    "tn": 184,
+    "tp": 87
+  },
+  "modelId": "qwen3_mean_logreg_s42",
+  "modelLockSha256": "d2b998e3fc131e55dbd7b8dc74b468fa613ba62fb6f3265b0e7ab35cb75f3b83",
+  "sealedTestLabelsSha256": "a02ae1ee3a490414d094b753b1bf9fdc8d41f80bfb65b21744f69f4d4c74a572",
+  "split": "test",
+  "stratifiedBootstrap95": {
+    "accuracy": [
+      0.6375,
+      0.7175
+    ],
+    "diagnosedF1": [
+      0.5051177302030544,
+      0.6381783882629896
+    ],
+    "macroF1": [
+      0.6096152303537528,
+      0.7027885568834292
+    ],
+    "precision": [
+      0.7767835471567268,
+      0.9090909090909091
+    ],
+    "recall": [
+      0.365,
+      0.5051249999999993
+    ]
+  },
+  "testScoreSha256": "e246d039b1737defe921617d8194cb56f91889db77df7f7e2e3eee8eae4d4e74",
+  "users": 400
+}
