@@ -1,0 +1,156 @@
+{
+  "experimentId": "seed42_setembrobr_v7_temporal_relevance_champion",
+  "dataset": "SetembroBR-v7",
+  "predictionTarget": "depression",
+  "seed": 42,
+  "foldCount": 5,
+  "sourceConfigSha256": "d53e2522127e450ab690e4c80ee3623b05a84d8548daf9fd176fdf065f78b4d9",
+  "sourcePickleSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "featureHelperSha256": "c7a8199c69a95892d9b357d73d9f45715e023ba9ed3539605ac96c5f6b3a7863",
+  "expected": {
+    "trainUsers": 7602,
+    "testUsers": 400,
+    "allUsers": 8002,
+    "allPosts": 4356312,
+    "embeddingDimension": 2560
+  },
+  "sourceChampion": {
+    "experimentId": "seed42_temporal_relevance_qwen3_binary",
+    "lockSha256": "5c5399e2ae24ff00e4a821ff9b574abdbed1bfc865bd2ccd9e90e05352666a1e",
+    "weights": {
+      "binary_legacy_focal_combined_g1": 0.2,
+      "binary_legacy_logreg_combined_s42": 0.2,
+      "binary_legacy_seq_cnn_top128_s13": 0.2,
+      "binary_stack_logreg_boosted_core": 0.2,
+      "binary_stack_logreg_xgb_tabular": 0.2
+    }
+  },
+  "sequenceExport": {
+    "order": "recent_chronological",
+    "topN": 128,
+    "relevanceChannelDivisor": 7
+  },
+  "candidateModels": {
+    "tabular": [
+      {
+        "modelId": "binary_xgb_tabular_markers_s42",
+        "family": "xgboost",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "temporal_markers"],
+        "nEstimators": 220,
+        "maxDepth": 2,
+        "learningRate": 0.05,
+        "subsample": 0.9,
+        "colsampleBytree": 0.9,
+        "regLambda": 4,
+        "minChildWeight": 3
+      },
+      {
+        "modelId": "binary_xgb_expanded_pca_s13",
+        "family": "xgboost",
+        "seed": 13,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 40,
+        "nEstimators": 260,
+        "maxDepth": 3,
+        "learningRate": 0.05,
+        "subsample": 0.85,
+        "colsampleBytree": 0.85,
+        "regLambda": 3,
+        "minChildWeight": 2
+      },
+      {
+        "modelId": "binary_xgb_shallow_pca_s99",
+        "family": "xgboost",
+        "seed": 99,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 64,
+        "nEstimators": 420,
+        "maxDepth": 2,
+        "learningRate": 0.035,
+        "subsample": 0.9,
+        "colsampleBytree": 0.75,
+        "regLambda": 6,
+        "minChildWeight": 4
+      },
+      {
+        "modelId": "binary_mlp_h128_s42",
+        "family": "mlp",
+        "seed": 42,
+        "hiddenSize": 128,
+        "alpha": 0.005,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "rel6_pca", "rel7_pca", "temporal_markers"],
+        "pcaComponents": 64
+      },
+      {
+        "modelId": "binary_hier_logreg_gate",
+        "family": "hierarchical_logreg",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "relevance_counts", "evidence_markers", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 80
+      },
+      {
+        "modelId": "binary_legacy_logreg_combined_s42",
+        "family": "logreg",
+        "seed": 42,
+        "featureBlocks": ["stylistic", "evidence_markers", "relevance_counts", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 100
+      },
+      {
+        "modelId": "binary_legacy_focal_combined_g1",
+        "family": "focal_linear",
+        "seed": 42,
+        "gamma": 1,
+        "featureBlocks": ["stylistic", "evidence_markers", "relevance_counts", "mean_pca", "rel3_pca", "temporal_markers"],
+        "pcaComponents": 100
+      }
+    ],
+    "sequence": [
+      {
+        "modelId": "binary_legacy_seq_cnn_top128_s13",
+        "family": "cnn",
+        "seed": 13,
+        "topN": 128,
+        "useRelevanceChannel": true,
+        "epochs": 25,
+        "batchSize": 64,
+        "numFilters": 64,
+        "dropout": 0.4
+      }
+    ],
+    "stacking": [
+      {
+        "modelId": "binary_stack_logreg_xgb_tabular",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": ["binary_hier_logreg_gate", "binary_mlp_h128_s42", "binary_xgb_expanded_pca_s13", "binary_xgb_tabular_markers_s42"],
+        "c": 1,
+        "maxIter": 1000
+      },
+      {
+        "modelId": "binary_stack_logreg_boosted_core",
+        "family": "stacking_logreg",
+        "seed": 42,
+        "baseModelIds": ["binary_hier_logreg_gate", "binary_mlp_h128_s42", "binary_xgb_expanded_pca_s13", "binary_xgb_shallow_pca_s99", "binary_xgb_tabular_markers_s42"],
+        "c": 0.5,
+        "maxIter": 1000
+      }
+    ]
+  },
+  "ensemble": {
+    "requiredModelIds": [
+      "binary_legacy_focal_combined_g1",
+      "binary_legacy_logreg_combined_s42",
+      "binary_legacy_seq_cnn_top128_s13",
+      "binary_stack_logreg_boosted_core",
+      "binary_stack_logreg_xgb_tabular"
+    ],
+    "weightStep": 0.05,
+    "minimumWeight": 0.05,
+    "primaryMetric": "macroF1",
+    "tieBreakers": ["diagnosedF1", "precision"]
+  },
+  "evaluation": {
+    "bootstrapSamples": 2000
+  }
+}

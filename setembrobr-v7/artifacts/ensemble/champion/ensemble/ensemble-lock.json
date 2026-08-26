@@ -1,0 +1,83 @@
+{
+  "createdAt": "1970-01-01T00:00:00.000Z",
+  "dataset": "SetembroBR-v7",
+  "evaluatedWeightVectors": 3876,
+  "experimentId": "seed42_setembrobr_v7_temporal_relevance_champion",
+  "modelIds": [
+    "binary_legacy_focal_combined_g1",
+    "binary_legacy_logreg_combined_s42",
+    "binary_legacy_seq_cnn_top128_s13",
+    "binary_stack_logreg_boosted_core",
+    "binary_stack_logreg_xgb_tabular"
+  ],
+  "oofAuditSha256": "70436e49258b67e03520669722306341a2f3d5f419029c3fd60455204147a787",
+  "oofMetrics": {
+    "accuracy": 0.9030518284661931,
+    "confusionMatrix": [
+      [
+        6505,
+        324
+      ],
+      [
+        413,
+        360
+      ]
+    ],
+    "controlF1": 0.9463883029024516,
+    "diagnosedF1": 0.49416609471516815,
+    "fn": 413,
+    "fp": 324,
+    "macroF1": 0.7202771988088099,
+    "precision": 0.5263157894736842,
+    "recall": 0.46571798188874514,
+    "tn": 6505,
+    "tp": 360
+  },
+  "schemaVersion": 1,
+  "selectionDataset": "SetembroBR v7 train OOF only",
+  "sourceChampionLockSha256": "5c5399e2ae24ff00e4a821ff9b574abdbed1bfc865bd2ccd9e90e05352666a1e",
+  "sourceEqualWeightReference": {
+    "oofMetrics": {
+      "accuracy": 0.8923967377006051,
+      "confusionMatrix": [
+        [
+          6396,
+          433
+        ],
+        [
+          385,
+          388
+        ]
+      ],
+      "controlF1": 0.9398971344599558,
+      "diagnosedF1": 0.4868255959849435,
+      "fn": 385,
+      "fp": 433,
+      "macroF1": 0.7133613652224496,
+      "precision": 0.4725943970767357,
+      "recall": 0.5019404915912031,
+      "tn": 6396,
+      "tp": 388
+    },
+    "oofSelectedThreshold": 0.61555762556,
+    "weights": {
+      "binary_legacy_focal_combined_g1": 0.2,
+      "binary_legacy_logreg_combined_s42": 0.2,
+      "binary_legacy_seq_cnn_top128_s13": 0.2,
+      "binary_stack_logreg_boosted_core": 0.2,
+      "binary_stack_logreg_xgb_tabular": 0.2
+    }
+  },
+  "testEmbeddingsRead": false,
+  "testLabelsRead": false,
+  "testScoresRead": false,
+  "threshold": 0.68475236363,
+  "trainUsers": 7602,
+  "weights": {
+    "binary_legacy_focal_combined_g1": 0.35000000000000003,
+    "binary_legacy_logreg_combined_s42": 0.05,
+    "binary_legacy_seq_cnn_top128_s13": 0.1,
+    "binary_stack_logreg_boosted_core": 0.30000000000000004,
+    "binary_stack_logreg_xgb_tabular": 0.2
+  }
+}

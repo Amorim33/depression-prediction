@@ -1,0 +1,18 @@
+{
+  "collapsedPools": [
+    "rel6",
+    "rel7"
+  ],
+  "configSha256": "552605711a7b6780ff0eb12ce199151ca6b671acafe80c754a85ca08bd2b09a9",
+  "diagnosisLabelsRead": false,
+  "maximumRetainedPostRelevance": 3.0,
+  "nonzeroPoolRows": {
+    "mean": 7602,
+    "rel3": 7499,
+    "rel6": 0,
+    "rel7": 0
+  },
+  "ok": true,
+  "split": "train",
+  "users": 7602
+}

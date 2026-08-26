@@ -1,0 +1,15 @@
+{
+  "configSha256": "552605711a7b6780ff0eb12ce199151ca6b671acafe80c754a85ca08bd2b09a9",
+  "featureSha256": "a50d5f3cec3085acb5fc278c12daf5eeb20b9c86a0a85c99594af38a9cc4e778",
+  "labelFree": false,
+  "matchedPosts": 4098614,
+  "ok": true,
+  "sequenceHashes": {
+    "embeddings": "3b8fbc57403765a451dc04ce33c5688cc0c7b5c74e06f6d95c68160683553108",
+    "lengths": "3e3692ae98bb93f1731f69f3b531350882d292671b65226e3224c248f373ab83",
+    "relevances": "0be6860ed685efef8389c2b79942b7e2f5020c3b0e2a8d423a834c8d554ccd94"
+  },
+  "sourcePickleSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "split": "train",
+  "users": 7602
+}

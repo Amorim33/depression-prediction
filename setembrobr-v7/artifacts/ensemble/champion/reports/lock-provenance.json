@@ -1,0 +1,11 @@
+{
+  "lockSha256": "0624db1f25fc8db6a0f019241c5e5c4a0f949e737aec5981d50f120198323ee8",
+  "models": [
+    "binary_legacy_focal_combined_g1",
+    "binary_legacy_logreg_combined_s42",
+    "binary_legacy_seq_cnn_top128_s13",
+    "binary_stack_logreg_boosted_core",
+    "binary_stack_logreg_xgb_tabular"
+  ],
+  "oofAuditSha256": "70436e49258b67e03520669722306341a2f3d5f419029c3fd60455204147a787"
+}

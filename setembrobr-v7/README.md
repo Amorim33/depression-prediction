@@ -82,3 +82,52 @@ Run subproject checks with:
 ```bash
 make test PYTHON=.venv/bin/python
 ```
+
+## Fixed champion architecture transfer
+
+`ensemble-config.json` freezes the repository's five-member depression champion: focal linear,
+logistic regression, the top-128 relevance-channel CNN, and both strictly nested logistic
+stackers. The fitted models are new v7 models; only the architecture and hyperparameters transfer.
+All relevance, temporal, pooled, and sequence inputs are rebuilt from the archived post embeddings
+after exact ordered matching to the posts retained by v7.
+
+The ensemble workflow preserves the same strict-blind boundary as the baseline. It prepares and
+trains on the 7,602 train users, cross-fits the stackers, selects weights and threshold from OOF
+scores, and writes an immutable lock before preparing the 400-user held-out split. Test score files
+are exactly `user_id,score,model_id`; sealed labels are opened only after their audit passes.
+
+Run the GPU workflow on Fedora with:
+
+```bash
+make fedora-ensemble-start
+make fedora-ensemble-status
+make fedora-ensemble-fetch
+```
+
+The job is resumable at verified embedding shards and fitted fold checkpoints. Bulk features,
+sequences, checkpoints, and per-user scores remain ignored on Fedora; the fetch target promotes
+only aggregate reports, the OOF lock, and their hash chain into `artifacts/ensemble/champion/`.
+
+### Completed champion-transfer result
+
+The audited seed-42 Fedora run selected OOF threshold `0.68475236363` and OOF Macro F1
+`0.7202771988088099`. On the 400 held-out users, the locked ensemble achieved:
+
+| Metric | Point estimate | Stratified bootstrap 95% interval |
+| --- | ---: | ---: |
+| Macro F1 | 0.6791358057702077 | [0.6343420526953731, 0.7218082463984103] |
+| Diagnosed F1 | 0.5973154362416107 | [0.5304659498207885, 0.6601957306447598] |
+| Diagnosed precision | 0.9081632653061225 | [0.8484461966604824, 0.9591939806225519] |
+| Diagnosed recall | 0.445 | [0.375, 0.515] |
+| Accuracy | 0.7 | [0.6625, 0.7375] |
+
+The confusion matrix in `[control, diagnosed]` order is `[[191, 9], [111, 89]]`. This is
+`+0.0217857649311137` Macro F1 and nine additional correct users versus the v7 mean-embedding
+logistic baseline. It is one held-out point estimate, not a new model-selection signal.
+
+The label-free feature-support audit found that retained-post relevance is bounded at `3` in v7.
+Consequently, `rel6` and `rel7` pools collapse to zero, while `rel3` is nonzero for 7,499/7,602
+train users and 398/400 test users. The run preserves the frozen champion thresholds rather than
+silently rescaling them; this distribution shift is an important limitation of the architecture
+transfer. See `artifacts/ensemble/champion/reports/final-test-report.json` and
+`artifacts/ensemble/champion/reports/train-feature-support-audit.json`.

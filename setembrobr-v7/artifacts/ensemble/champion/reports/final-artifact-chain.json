@@ -1,0 +1,10 @@
+{
+  "configSha256": "552605711a7b6780ff0eb12ce199151ca6b671acafe80c754a85ca08bd2b09a9",
+  "ensembleLockSha256": "0624db1f25fc8db6a0f019241c5e5c4a0f949e737aec5981d50f120198323ee8",
+  "finalTestReportSha256": "a42221c8a01b119c1a2804c750c7aaaec36f6eac1d233169abbddef864684c5a",
+  "labelFreeTestScoreManifestSha256": "f5c6dc08833a81ee31c277b1dff1f72ebb2590d87c678d802ebe89e2be223fce",
+  "ok": true,
+  "oofAuditSha256": "70436e49258b67e03520669722306341a2f3d5f419029c3fd60455204147a787",
+  "sourceChampionLockSha256": "5c5399e2ae24ff00e4a821ff9b574abdbed1bfc865bd2ccd9e90e05352666a1e",
+  "sourcePickleSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77"
+}

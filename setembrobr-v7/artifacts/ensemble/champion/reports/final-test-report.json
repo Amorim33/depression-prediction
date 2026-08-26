@@ -1,0 +1,98 @@
+{
+  "confidenceIntervals95": {
+    "accuracy": [
+      0.6625,
+      0.7375
+    ],
+    "diagnosedF1": [
+      0.5304659498207885,
+      0.6601957306447598
+    ],
+    "macroF1": [
+      0.6343420526953731,
+      0.7218082463984103
+    ],
+    "method": "deterministic class-stratified percentile bootstrap",
+    "precision": [
+      0.8484461966604824,
+      0.9591939806225519
+    ],
+    "recall": [
+      0.375,
+      0.515
+    ],
+    "samples": 2000,
+    "seed": 42
+  },
+  "dataset": "SetembroBR-v7",
+  "evaluatedOnce": true,
+  "evaluationType": "strict-blind fixed champion architecture retrained on v7 train",
+  "experimentId": "seed42_setembrobr_v7_temporal_relevance_champion",
+  "lockSha256": "0624db1f25fc8db6a0f019241c5e5c4a0f949e737aec5981d50f120198323ee8",
+  "ok": true,
+  "oofMetrics": {
+    "accuracy": 0.9030518284661931,
+    "confusionMatrix": [
+      [
+        6505,
+        324
+      ],
+      [
+        413,
+        360
+      ]
+    ],
+    "controlF1": 0.9463883029024516,
+    "diagnosedF1": 0.49416609471516815,
+    "fn": 413,
+    "fp": 324,
+    "macroF1": 0.7202771988088099,
+    "precision": 0.5263157894736842,
+    "recall": 0.46571798188874514,
+    "tn": 6505,
+    "tp": 360
+  },
+  "predictionTarget": "depression",
+  "runtime": {
+    "device": "NVIDIA GeForce RTX 4070 SUPER",
+    "host": "fedora",
+    "numpy": "2.4.6",
+    "scikitLearn": "1.9.0",
+    "torch": "2.12.0+cu126",
+    "xgboost": "3.2.0"
+  },
+  "scoreManifestSha256": "f5c6dc08833a81ee31c277b1dff1f72ebb2590d87c678d802ebe89e2be223fce",
+  "sealedLabelSha256": "a02ae1ee3a490414d094b753b1bf9fdc8d41f80bfb65b21744f69f4d4c74a572",
+  "sourcePickleSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "testMetrics": {
+    "accuracy": 0.7,
+    "confusionMatrix": [
+      [
+        191,
+        9
+      ],
+      [
+        111,
+        89
+      ]
+    ],
+    "controlF1": 0.7609561752988049,
+    "diagnosedF1": 0.5973154362416107,
+    "fn": 111,
+    "fp": 9,
+    "macroF1": 0.6791358057702077,
+    "precision": 0.9081632653061225,
+    "recall": 0.445,
+    "tn": 191,
+    "tp": 89
+  },
+  "testUsers": 400,
+  "threshold": 0.68475236363,
+  "weights": {
+    "binary_legacy_focal_combined_g1": 0.35000000000000003,
+    "binary_legacy_logreg_combined_s42": 0.05,
+    "binary_legacy_seq_cnn_top128_s13": 0.1,
+    "binary_stack_logreg_boosted_core": 0.30000000000000004,
+    "binary_stack_logreg_xgb_tabular": 0.2
+  }
+}
