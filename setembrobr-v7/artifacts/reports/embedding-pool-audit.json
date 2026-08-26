@@ -1,0 +1,1709 @@
+{
+  "configSha256": "d53e2522127e450ab690e4c80ee3623b05a84d8548daf9fd176fdf065f78b4d9",
+  "dimension": 2560,
+  "embeddingGenerationManifestSha256": "6b9486df5b4cba222bcccf6f0376773369de60d6da6d760737e233282b12930d",
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "matchedPosts": 4356312,
+  "modelId": "Qwen/Qwen3-Embedding-4B",
+  "modelRevision": "5cf2132abc99cad020ac570b19d031efec650f2b",
+  "ok": true,
+  "pooling": "float64_sum_divide_then_float32",
+  "resumedShardCount": 0,
+  "shards": [
+    {
+      "matchedPosts": 19412,
+      "poolShardSha256": "ac59d3f8df87d5a63ad7e5c7a3f43ec42dd0e2f08f563219e4c8bdf996efd81b",
+      "resumed": false,
+      "source": "part-000000-000064.parquet.zst",
+      "sourceArchiveSha256": "8dcb4b8ab7e92c818ad25c84ce8877073bb950781a806108e3ac26c1244fc34e",
+      "sourceOriginalSha256": "81cfbd02ae9e9e72f2e9fea675524fedac32a92ab6bf1439a784d0508ce2cf2e",
+      "targetAlignmentSha256": "23a7860c0c24e394c2fee3a9b56726c0c40760b93246573d925107aece60af32",
+      "users": 51
+    },
+    {
+      "matchedPosts": 29226,
+      "poolShardSha256": "a9f297149e01fc19ac832169d3387ec82020253aaf02bfc3fe52151059363d64",
+      "resumed": false,
+      "source": "part-000064-000128.parquet.zst",
+      "sourceArchiveSha256": "20c183809150f3a6fbdab96e3bd1d26658ec760a755df2783bc166a448db7e49",
+      "sourceOriginalSha256": "29d0677c2130a6003e399c8c70f86f82e2d71e4634b831083aac136fa2044b03",
+      "targetAlignmentSha256": "1cfea5aaf7b8abb3de9c07c14c34cbf3165b36bae0384f0e5a119ef20fd07040",
+      "users": 52
+    },
+    {
+      "matchedPosts": 36738,
+      "poolShardSha256": "eb880f6b7e83830b9a3351adf88c0010a3f1faeb1f9329b9949a367950c14607",
+      "resumed": false,
+      "source": "part-000128-000192.parquet.zst",
+      "sourceArchiveSha256": "a94680690620386abf7332d4bf60471fd7892bc09e2bbab73ae2339b7ffc92d3",
+      "sourceOriginalSha256": "a5c1cb0b15aeb17ea75dcf44091c57e2f288728ed7e6eab1ae4fd134b7b4cd37",
+      "targetAlignmentSha256": "38e044638f55b3858689a6f73681eacebb20d4f995b3c3031a4cf6d2a08e073e",
+      "users": 48
+    },
+    {
+      "matchedPosts": 26380,
+      "poolShardSha256": "e7d1d663b4f6b94176d4291fb9eea3356d32a35383e2076e93888ff758d9fcdc",
+      "resumed": false,
+      "source": "part-000192-000256.parquet.zst",
+      "sourceArchiveSha256": "87cb7cb395989af359ea39d3b13e3c3d057d9d16778587730ca0f076e2cbc46b",
+      "sourceOriginalSha256": "1ace94fd8de6a3431dcabc16bb054eed7280e4cac9161249d0fcf8d096922716",
+      "targetAlignmentSha256": "00bf62aaadcae48c5d2663f1ae229ce95f43894bf280d5ccdc8e1eafcb5cf7e3",
+      "users": 47
+    },
+    {
+      "matchedPosts": 26639,
+      "poolShardSha256": "4ba8c3b39e393dc959eaf775358191652c0dcbfa922942ca1e8d6fb86d2f2155",
+      "resumed": false,
+      "source": "part-000256-000320.parquet.zst",
+      "sourceArchiveSha256": "8bcfc2b64750286c1a568935643602c0e2946bb9222797b94819799c7c27b0b4",
+      "sourceOriginalSha256": "2c9dbc3e5a613d110638bccda46c3b82ae21c2b2c370f7d6a3f84d9c22b79424",
+      "targetAlignmentSha256": "857495480ab7f970c3ac7729958b481a06906fd3571a48fcb2362586a2d9ca38",
+      "users": 50
+    },
+    {
+      "matchedPosts": 37644,
+      "poolShardSha256": "94822cdad68640ce89ecee247bd31469beaaae81635f15848e479379d12abbd1",
+      "resumed": false,
+      "source": "part-000320-000384.parquet.zst",
+      "sourceArchiveSha256": "b5643501d2015866ec766c04c5b1a4859b8f17c81f9a44aa426356cd0cbfb7dd",
+      "sourceOriginalSha256": "ddcd668b013b44f2d8033a5a0592ea5379b88a5e17b9f9cf55b7720cf21425b5",
+      "targetAlignmentSha256": "e0bbfa7eead5045bb8ebb36d8c0df3d7d059ded7f83a26763fb58a91353f3d97",
+      "users": 46
+    },
+    {
+      "matchedPosts": 20421,
+      "poolShardSha256": "6bc72501480a76c18f7e1f1ef1dcab04ac98ba3387c3c382d00b59d5d7f9b046",
+      "resumed": false,
+      "source": "part-000384-000448.parquet.zst",
+      "sourceArchiveSha256": "ccf8340a2e916bf76016e06f07e71110ad8d2ada5ccecef1e5e57fd7658ca63f",
+      "sourceOriginalSha256": "0f99e7e9c07c141fa6d8ae2c1eb409011c117874a3118aa2915ada49c785bbf4",
+      "targetAlignmentSha256": "30a14b608a73fb8a2256256739c264f3790a8d0340758c7d84ddf6bd6add8c65",
+      "users": 54
+    },
+    {
+      "matchedPosts": 41832,
+      "poolShardSha256": "b921e491572e82a34df8b58d72027fce0293efe593fbcb2d9014a37e730300b7",
+      "resumed": false,
+      "source": "part-000448-000512.parquet.zst",
+      "sourceArchiveSha256": "7882b8451a75f8c23273080ecb41f7a4bf61ba061da7b707dcc6f84737bb7f6b",
+      "sourceOriginalSha256": "48277e72d0451f6b0fbedd770efc0df6f15e78929100bd7e9dbc259d06c28a7d",
+      "targetAlignmentSha256": "34102af160d32643b01ffab37cfb6b85e1a4530372d324d7b96f9bd49e9bfd79",
+      "users": 47
+    },
+    {
+      "matchedPosts": 25549,
+      "poolShardSha256": "fb660d1cdaa2f13c914b03645decd5aabfc761cfcd60ecb41a3f35b35e5704ad",
+      "resumed": false,
+      "source": "part-000512-000576.parquet.zst",
+      "sourceArchiveSha256": "458e95448e8af8296d8d0a26c0e94ac89cc78052a9f377dc7f3cc4ba8269f844",
+      "sourceOriginalSha256": "d264b33742f0f6f8aabad61348b3904613ae319aca54b9f505085ef58cb96b68",
+      "targetAlignmentSha256": "28f85057021f0bd9e05fa475e0e4c6d1e7e9c2dfe6ecd80c82864aedb66b4584",
+      "users": 55
+    },
+    {
+      "matchedPosts": 29252,
+      "poolShardSha256": "19c9c4327b3981a39023d7b18dab864d98e924b66097a15c37a32ab0799d063b",
+      "resumed": false,
+      "source": "part-000576-000640.parquet.zst",
+      "sourceArchiveSha256": "8450e1bad93e235325545abce461e7de270f96ddf3ad2ddfdb48bbdbca01dac4",
+      "sourceOriginalSha256": "6fcfa5bf179307606f4fa214b397acb81cb1c892600c5aeb58a5c38a8d3089f2",
+      "targetAlignmentSha256": "b781d70a6b0a699fdca38d212561108aa04e5edd4c826625ac14525dcfabc78c",
+      "users": 47
+    },
+    {
+      "matchedPosts": 28767,
+      "poolShardSha256": "338c5126afb78b173d85b99df9d30f4ec9e7fbc758bea1b48ff5d5f5ca99d971",
+      "resumed": false,
+      "source": "part-000640-000704.parquet.zst",
+      "sourceArchiveSha256": "406ec86dc907309db5869f5053cbf96a066428c899c55c3bb5f937ce1296a1a1",
+      "sourceOriginalSha256": "73d18f90a3cc10a7f66641594db09f0a0a51e1a0e4a0f5ed752dd82ff5d236b9",
+      "targetAlignmentSha256": "f1583a55b636b05f0a679935b8c6ea242fcfe3e92ce6f4cdbda68d1f3ecfcdf2",
+      "users": 46
+    },
+    {
+      "matchedPosts": 29650,
+      "poolShardSha256": "e0f481f40d3107985f1f06535171c80d49f49e8fea1cdcebd817057e83a78e47",
+      "resumed": false,
+      "source": "part-000704-000768.parquet.zst",
+      "sourceArchiveSha256": "131596858cc9913f00a6e2374c5ba68eb4cec057e117b9cc354d516e41d1a973",
+      "sourceOriginalSha256": "577b7f0fc29a79ac89ea63e40f6133199919a181c64525c3d0a6ff87c585a0b0",
+      "targetAlignmentSha256": "6deba17c4679cfe8f4c9313a2fbaf478e1e0af15862e6e4ad78b88b781db7c8e",
+      "users": 45
+    },
+    {
+      "matchedPosts": 23481,
+      "poolShardSha256": "601c6627804554ede531521a25c2a44b52c775dcb2f3bb2333ac333b000f1929",
+      "resumed": false,
+      "source": "part-000768-000832.parquet.zst",
+      "sourceArchiveSha256": "a2559659e5ca9bc2210baf2178205d820e58b0daf36aae86a50e85dc74394914",
+      "sourceOriginalSha256": "d596dec8bd4999e13c1ef2eaf843ae845cca3d152409edbf1631eda26151b88d",
+      "targetAlignmentSha256": "b46cb50f9703d233b81accf08f4c8aac9b942eb70ee53fdc0797e48635bf4083",
+      "users": 42
+    },
+    {
+      "matchedPosts": 37446,
+      "poolShardSha256": "b7bfca2503fd8568bd1094c032867643b5b30bf6d55505aea15a799393e2d2ab",
+      "resumed": false,
+      "source": "part-000832-000896.parquet.zst",
+      "sourceArchiveSha256": "18c31578e41d3c7baf141fe752f73072f9ecfa392b19a0ed16721794e333e629",
+      "sourceOriginalSha256": "1499ea5787a4b50be97502c3621e5d091708da51e4a0e92d4577dc574432e1a2",
+      "targetAlignmentSha256": "3286a4f5009cc4a3d9d77ae924389b441bd27eebb1ca8f724895d7fca44156a9",
+      "users": 50
+    },
+    {
+      "matchedPosts": 33017,
+      "poolShardSha256": "c0d6551d161d90e04a42683c187af4e103bd711123acbcd1795b29ed14e163c4",
+      "resumed": false,
+      "source": "part-000896-000960.parquet.zst",
+      "sourceArchiveSha256": "4b2d49f2560a920fc640955afdc004e29b22ac4ff63d9e439c63ad16ca08aca8",
+      "sourceOriginalSha256": "02070b9e9065c7d11a8fc5e75c706ef54201bf6f2f901545d8bb2a7fef6c0d78",
+      "targetAlignmentSha256": "1214eb71189f6306290ec5b13e9b85b13a204f351be7b924aa905d167658a6f1",
+      "users": 47
+    },
+    {
+      "matchedPosts": 19885,
+      "poolShardSha256": "fba0ab00820587d39d2dea9b80e81dcab46a2d7f1176e1c456f67d50e06fff0c",
+      "resumed": false,
+      "source": "part-000960-001024.parquet.zst",
+      "sourceArchiveSha256": "d8fa0af6b96a62d1f43b10cd1f544abee29364dd4662e40ee099afcd61e5b619",
+      "sourceOriginalSha256": "989c7ef2ce8787d58dcddafbd435dd87402a8790a82a2b8a8d4e43e690fffa6a",
+      "targetAlignmentSha256": "d0e5673adda128b5b25419de864b615d49907917bf5d922b1da7daf60acab583",
+      "users": 47
+    },
+    {
+      "matchedPosts": 23177,
+      "poolShardSha256": "2a66c84e688d30ca3f3522d1c123bee59131b27e43ea286b0a262e299124697b",
+      "resumed": false,
+      "source": "part-001024-001088.parquet.zst",
+      "sourceArchiveSha256": "33261df71cf2ae315ff6305c4357e2c2411e6ce353da62dba335244579b38b1d",
+      "sourceOriginalSha256": "71b60b4ab2d5b3c7df9ea39227f72f10106f9e04c260b884ff9a53c70c6a105e",
+      "targetAlignmentSha256": "05494c7e993be610174b2cc9ad3593c25612d4773988b8028f64173c96a5057a",
+      "users": 48
+    },
+    {
+      "matchedPosts": 36331,
+      "poolShardSha256": "97c6fc35d8d1c701ec07103ccaf2dad1eb8d169c6ef06efe8b4e6494abb28be2",
+      "resumed": false,
+      "source": "part-001088-001152.parquet.zst",
+      "sourceArchiveSha256": "7edb9788df0bdc65cb9c85cbc4d6ec3201bfe3cd9a29ba7c6f14cfd96269aa1c",
+      "sourceOriginalSha256": "c193fedd17c9682e710d4226b56bcc2fa61fabf519b03c3e296bebd47b701249",
+      "targetAlignmentSha256": "b87d48731eca3386feef37ba5fa1b192fd304b44094a79d295ca48b57cb081f7",
+      "users": 38
+    },
+    {
+      "matchedPosts": 17834,
+      "poolShardSha256": "b9f86b3af33d1c6d721d494f3390e5b6e082acceda7627a4a04905965e67104b",
+      "resumed": false,
+      "source": "part-001152-001216.parquet.zst",
+      "sourceArchiveSha256": "f9fb03d6dbe89259ed9ef2990d1405a132b92c48da1ecacf2e4b57a9c0d1864d",
+      "sourceOriginalSha256": "173a8b9ca4787791b80c2c8c46ec7a2085655a7ab8649812fc7fc38fc414f560",
+      "targetAlignmentSha256": "cf4fcb5fdd4558a25918b23714f4001e147acfd8e3e6d67528a1d36aa9a5946d",
+      "users": 48
+    },
+    {
+      "matchedPosts": 15096,
+      "poolShardSha256": "32ef78772a496bda41b286503f09a1793483300df6bd40a77debbbecd0d3bd05",
+      "resumed": false,
+      "source": "part-001216-001280.parquet.zst",
+      "sourceArchiveSha256": "c26129103eee5589381b583aba246a9c396f55c2df163740f7e4fd0a4ce2c49d",
+      "sourceOriginalSha256": "4d0c4db2ba70da1dc81b874f7e28b6ef6249d2d43b2ebce699bca34651ead99c",
+      "targetAlignmentSha256": "08a8f50a36e1defe987e3ffccc4b3be1be017eb951ad7f7a1d83dd89133333d3",
+      "users": 38
+    },
+    {
+      "matchedPosts": 28671,
+      "poolShardSha256": "0a9de8b842a24118d46bf86c4a4cdc6f84b6a7a0fbce01a52771408c7734f305",
+      "resumed": false,
+      "source": "part-001280-001344.parquet.zst",
+      "sourceArchiveSha256": "c689ba28fa0786d8293b96ed9279dd64ee1b49ac18734a64804d7f2d8d0036bd",
+      "sourceOriginalSha256": "da9d2f58fcef2202b6c9cd2ab7f3e6ec511778a870fa1ff69847fe26495af8a6",
+      "targetAlignmentSha256": "0705ac383eb4358b3fc999d8a12351952c5c11e212c3ed445bffd8e5595ff209",
+      "users": 54
+    },
+    {
+      "matchedPosts": 27215,
+      "poolShardSha256": "58a336cae58fce5913f0bf12d4f9b115e3534df327560bc6306f551766be4a46",
+      "resumed": false,
+      "source": "part-001344-001408.parquet.zst",
+      "sourceArchiveSha256": "9168480b5d41a009d11d5e191fb633e242c46d85c03ab4163671e23c5b626aa2",
+      "sourceOriginalSha256": "b1e2569aa209235239e84d3d36afd5906bf85139a80ed82e66c3eec4172d307d",
+      "targetAlignmentSha256": "a5c0b722c66b2e071ead8683cf643f8fa91c15f081b17f25a1c7b4d5d073f932",
+      "users": 50
+    },
+    {
+      "matchedPosts": 23205,
+      "poolShardSha256": "3d6477ea28f4612aa9f34a6bd037a81a8ec30bf1ffb43aed8518c9993daf0cc1",
+      "resumed": false,
+      "source": "part-001408-001472.parquet.zst",
+      "sourceArchiveSha256": "5761f8c352bb24cb5c0dd46afa68a2f3a7a696b112da3e1a6d3749f32a00d8c5",
+      "sourceOriginalSha256": "212e97e8756f04194bfb2a2a25b4c3ee6f690652a93fa8894dd466158c4aabb6",
+      "targetAlignmentSha256": "00fce22d64a6097516b23272f008d224f35e8e3f97d55fb33ea2636b478bd145",
+      "users": 43
+    },
+    {
+      "matchedPosts": 26042,
+      "poolShardSha256": "2a7b7b1e317d9559494d14f0aff7e9b25a1083896d01d7434d9635b9ca35f7f4",
+      "resumed": false,
+      "source": "part-001472-001536.parquet.zst",
+      "sourceArchiveSha256": "454d49a58a2451ebe92b38460c4917eb1200a8604553b2a376e39aca6f5d73db",
+      "sourceOriginalSha256": "ed62a0e9207ed093d7fd437eee4947710f456e761ff7822acae9a590f0f53f07",
+      "targetAlignmentSha256": "a21f5f628afdeff0c81c91f847469b6b76d20fb758b65e2701ae9c0b4e3ba4e3",
+      "users": 56
+    },
+    {
+      "matchedPosts": 42610,
+      "poolShardSha256": "ced75c1efa8d16fb8d2a3e482ec001ea5e805412ec07a88787bf22dde63b6ef3",
+      "resumed": false,
+      "source": "part-001536-001600.parquet.zst",
+      "sourceArchiveSha256": "b7882d48f296f85a2af85f13cc8bb6112845caeadb8b14a561730555cb496ceb",
+      "sourceOriginalSha256": "75a745a578b09a7adfe69ad6748de60bb645df2e24bc58914fb53acb0d7515f2",
+      "targetAlignmentSha256": "49681d8a192f7c8a2e449287963b8853398a40e02b16596f115a2eb341778ec9",
+      "users": 56
+    },
+    {
+      "matchedPosts": 15521,
+      "poolShardSha256": "cc98c1b3e0da619aba9fc279531c52ed5e715436187a3063122d9d47b6f5aed8",
+      "resumed": false,
+      "source": "part-001600-001664.parquet.zst",
+      "sourceArchiveSha256": "f8a5910a342f2b434ca4f493fa6e5793f60e15f0bd479d219d4d406200802c78",
+      "sourceOriginalSha256": "9cb9bfe104b94b12bd7b0761b249aeb9253e2dbf8a1c62efbc35e7b536243ddc",
+      "targetAlignmentSha256": "22d86831afb8430e3a1d6cf9f80260a16c97d3ba5b1ddcf0fa00996c861d12d2",
+      "users": 49
+    },
+    {
+      "matchedPosts": 30085,
+      "poolShardSha256": "8257e68a42acfcfdcdd8f8a50ee3346814508af58c10d7fe1bc82896fe9dd276",
+      "resumed": false,
+      "source": "part-001664-001728.parquet.zst",
+      "sourceArchiveSha256": "c9ef7d08fc0626274bde1d5aec182a9aa3186efa85cf2b675296ed3d9430760f",
+      "sourceOriginalSha256": "ca048aa588d23aa4d1c3c5bf728fb74148f820fe350241ff3c61a0b175f61b33",
+      "targetAlignmentSha256": "bbd8127f06336942dd4f555b662b503a91277658bcc13f6158fe330e077d0784",
+      "users": 48
+    },
+    {
+      "matchedPosts": 37215,
+      "poolShardSha256": "5383677f7523bcb4625293cc1d578daf301a9071f5cee82fc49aeebece8a7656",
+      "resumed": false,
+      "source": "part-001728-001792.parquet.zst",
+      "sourceArchiveSha256": "a9b624451fe0d7c66a7d99753a521f90745be3bbc5bc027ba03544dd66e0eb7f",
+      "sourceOriginalSha256": "b4ca564991ebaf34eaccfb10731b176b649c0355b5aa7ca2da64ad3ea76d2ac1",
+      "targetAlignmentSha256": "4f22dbc1b3a8b8f2d131211ad33203a5b5bfb3be5ec524e02f5cc20c482b8174",
+      "users": 48
+    },
+    {
+      "matchedPosts": 34439,
+      "poolShardSha256": "87d647a0f0e9a2b14ae199ae20fcee3f67b1a9789b7971aab7d793aee56b569f",
+      "resumed": false,
+      "source": "part-001792-001856.parquet.zst",
+      "sourceArchiveSha256": "f4c36847c998ae9ffbc6d1701b289a11ccdceec0aa3c5f1fef1414fe256cfc60",
+      "sourceOriginalSha256": "25fae5ec285e426bc4e41af32f6f2b90aecb6956ec07b38956104e4d7dfac032",
+      "targetAlignmentSha256": "378b31b65007f9c22d4de788551a7f68b3e0be5cda312113efee9ad5f7e4ee1c",
+      "users": 47
+    },
+    {
+      "matchedPosts": 15071,
+      "poolShardSha256": "46fb2bd578297a1575b6917e416fcfbe3afdf2354796e71f3c2d692d9bc869f2",
+      "resumed": false,
+      "source": "part-001856-001920.parquet.zst",
+      "sourceArchiveSha256": "78e7d50f8f4be3017cc49acbab1ae3f64d98db3cca4800c96310998fb2bf75c5",
+      "sourceOriginalSha256": "d92974108f5a89d1a0d83a93fe7c0b9d8eaaf015247509945891714e1020c781",
+      "targetAlignmentSha256": "11d3a1e7a219a807abbe1b37d17cc873f561059adef139b795492d2b0b8decb6",
+      "users": 36
+    },
+    {
+      "matchedPosts": 30736,
+      "poolShardSha256": "70cec18c49ccd311b056b56a2d3a683edc4f02992055553701bcdc23d3c86312",
+      "resumed": false,
+      "source": "part-001920-001984.parquet.zst",
+      "sourceArchiveSha256": "a686ca33d867ca7a35af49c759ee94898ec2f6350151e993a8bb7d9a2bfd63c5",
+      "sourceOriginalSha256": "eb3a3c84962b0a2ef56e443f4523f5ade1a4e9e5739c6f802b1eb102b691f332",
+      "targetAlignmentSha256": "b5c2d17d9c83c8f08baea422733f782f451e2e31f5525152d5de93c34f3af867",
+      "users": 42
+    },
+    {
+      "matchedPosts": 35853,
+      "poolShardSha256": "55c340b945740d6116b1d775fa10348b2353f3ec42e03d374564481551f72da6",
+      "resumed": false,
+      "source": "part-001984-002048.parquet.zst",
+      "sourceArchiveSha256": "c97860811f4d02328e69f5e79b7f8b7f1316a11292fc08fb75cde46ca5856f21",
+      "sourceOriginalSha256": "0911f25b6406bb9d4ddaa5086c18d4af4e7ed0cec55c96fd6fb7113b5c1b67ce",
+      "targetAlignmentSha256": "6f88375c1cf947f74ed7d7d41cf3b23d022b41d4336b7887a5b580fea6d44ff7",
+      "users": 48
+    },
+    {
+      "matchedPosts": 28485,
+      "poolShardSha256": "9c2f04c05c0a638a62fee595dcd176198e17c6723b4ca0476165c630db7ff143",
+      "resumed": false,
+      "source": "part-002048-002112.parquet.zst",
+      "sourceArchiveSha256": "c977df8405d63dce6169f784cb83b0e0984b16526fbf9d32cb6ec65c3f2cf85c",
+      "sourceOriginalSha256": "e1a55fd3b05cc08ca7d200bb9e04e9a1c31af7a6065c4fdbec6f7385e4a689b4",
+      "targetAlignmentSha256": "7cc492780e05d33e70c97868414ba3ce6a633eb85f284775167d052550ab16a0",
+      "users": 42
+    },
+    {
+      "matchedPosts": 30435,
+      "poolShardSha256": "2730b9d9c95ec7ea9b66b0134df720ecacda3e17ae43349eb65b957d1a66dbdb",
+      "resumed": false,
+      "source": "part-002112-002176.parquet.zst",
+      "sourceArchiveSha256": "1ddf5931b535b1deeec2c0b18c3b72bcfc65d16bc307d8c0778334f1e1b8697b",
+      "sourceOriginalSha256": "318c3bc12f515a08d485198a59410393f3380c824ae1beb91fec1241b9d37358",
+      "targetAlignmentSha256": "5ca3d58b08d27b717b10eee8d2f164c716fcc4b722d44f8fc1b7d378fc724128",
+      "users": 45
+    },
+    {
+      "matchedPosts": 32348,
+      "poolShardSha256": "43a2e6d999b85eac0ea4ffb7d224a1e85eb3106c6c3f1c39db395da2e237f5c9",
+      "resumed": false,
+      "source": "part-002176-002240.parquet.zst",
+      "sourceArchiveSha256": "4d04634a4d968b528fd11d23a4ca02a70a66de33c3ac5d13f8f5c127430eee54",
+      "sourceOriginalSha256": "7f6fe814c7432f4934aef2cd36dc1476c34bb33caf1af06be2a8f6921fff293e",
+      "targetAlignmentSha256": "123338f4cde68e8563f41a91257846dc60b2d38a2cfb18bb4db5999f8e3919a5",
+      "users": 52
+    },
+    {
+      "matchedPosts": 18959,
+      "poolShardSha256": "98b909335f2b02e20be4d7eb142d4b92a486f3cccbd9c336b69c00183835c678",
+      "resumed": false,
+      "source": "part-002240-002304.parquet.zst",
+      "sourceArchiveSha256": "fdb63ec4034a62e9d991efbc0e15eb01c25c51e48fa87abaa53b0d3ba202269d",
+      "sourceOriginalSha256": "b4c1c09d1a4aa0c07feec960cfea088fc63a8415242393c24e2d05da04dee7a4",
+      "targetAlignmentSha256": "7c02bcb1e622f01536c8444926593a64edcc8d87b0c8c3279d5a643fb2fc75ae",
+      "users": 40
+    },
+    {
+      "matchedPosts": 20315,
+      "poolShardSha256": "ba8335efa0e3920e961bcc91d2881a1c70c299c431ff7b6963fe531366fad7a5",
+      "resumed": false,
+      "source": "part-002304-002368.parquet.zst",
+      "sourceArchiveSha256": "afd7e3e91153f9eadea1cb6c9a502ae67e5cc7d7a557226b14888a164f29d847",
+      "sourceOriginalSha256": "c1846cf332b114104eefe5e683dfb642d36fa6e7db4ba416e29c30dd655ff877",
+      "targetAlignmentSha256": "023d505f0e36d6c9bee4e649e6e82490384f2acf27372edbda3c6a18a899c618",
+      "users": 45
+    },
+    {
+      "matchedPosts": 22770,
+      "poolShardSha256": "09f0e0d3f0b7db4b1da1d342d6cfc97d19c3f4455fcadeb5faacc85eae0c5b9b",
+      "resumed": false,
+      "source": "part-002368-002432.parquet.zst",
+      "sourceArchiveSha256": "4d9228998ea3ccbf4cecd046ad0492e4a9f0962825c6d9c017664a2b3ab35d40",
+      "sourceOriginalSha256": "83bba11dba18074172a03ce61e08d5d106020f8f9495e8afcf782c05422a5aef",
+      "targetAlignmentSha256": "9e719772c5e015881c7d7e177a54017850ff1aa1dc1995e64c3504fe9f6950ec",
+      "users": 37
+    },
+    {
+      "matchedPosts": 32699,
+      "poolShardSha256": "1f0b44bc81ae513c1d084d10cc48339b21119ce1f7907a773a4704a68dc14224",
+      "resumed": false,
+      "source": "part-002432-002496.parquet.zst",
+      "sourceArchiveSha256": "f1e7088284c35948ad8416c96362c45a0b81710c61d423558937257d76266dd2",
+      "sourceOriginalSha256": "550576efac11bc456f77f0ab30d04be5e9b727b7ba6959789cf6af009cb3ed1e",
+      "targetAlignmentSha256": "5f5e6c7c531abce7d6396d5b6c94e2ea6d72b10442adc580159a351af3f69a74",
+      "users": 43
+    },
+    {
+      "matchedPosts": 22503,
+      "poolShardSha256": "7de41706c73586a9843a32ba4c6f270cce2ac763aa3067ac9fc3e4881c8ef00b",
+      "resumed": false,
+      "source": "part-002496-002560.parquet.zst",
+      "sourceArchiveSha256": "991d95c3af87f4776cb4aea26b5b305252e811ab360661daddf40c0e4902e715",
+      "sourceOriginalSha256": "bcc381e950c8dc0502cc70fb04a5075f986f0b25c18a42f3b134774b0e86e9bd",
+      "targetAlignmentSha256": "8e878d931c438433cbf572d05bf0da2abaafb5881b1386f51c161704c5d55a61",
+      "users": 47
+    },
+    {
+      "matchedPosts": 27155,
+      "poolShardSha256": "d9e445fdb19f27d6daf5b00fed929f9c1f67e48ab0066198c9ccc2d6eb93e7e3",
+      "resumed": false,
+      "source": "part-002560-002624.parquet.zst",
+      "sourceArchiveSha256": "54c944e6400f025155fd5cf7650cf98d199141e4351653a10bb445cace33650f",
+      "sourceOriginalSha256": "069308be3d9abc2b7ee2b90f60ef155fb3cee2085dbfb4b259f2ecf80bc03634",
+      "targetAlignmentSha256": "1f8d97a91996e1a1613cdd78274d604832e58d8091e097c7dd8e73a8a3c41782",
+      "users": 51
+    },
+    {
+      "matchedPosts": 25939,
+      "poolShardSha256": "1ceff915a1d30ad66d817e7551902f3cfe10ba44b3444b476d24a5c57c5c03e4",
+      "resumed": false,
+      "source": "part-002624-002688.parquet.zst",
+      "sourceArchiveSha256": "6f5321ff2aed07a8858f1374e376d89bab0d13fcb9a8b04e58ba13d1096f5fa6",
+      "sourceOriginalSha256": "ba43917f644b31913e0fc4c373ea2278bdb9fc3d1b6a1dbe35b5a329c61c7d7e",
+      "targetAlignmentSha256": "cb75489dfed895e75db73c0288563e09cfb9d3bd85b946213eb2acd01672873a",
+      "users": 46
+    },
+    {
+      "matchedPosts": 19178,
+      "poolShardSha256": "93cb008797a3d502ee09b8d9a8b0e21f280828a739cbfca3a23290982cc780e5",
+      "resumed": false,
+      "source": "part-002688-002752.parquet.zst",
+      "sourceArchiveSha256": "264432c1f1d6072916862355b96b7d8eee504cda581c041cf9e0cd8791074456",
+      "sourceOriginalSha256": "83088341889251e55d2f5625bc42f9b74aee1d00d0fdb2ccf0601de0ef40fe9a",
+      "targetAlignmentSha256": "1234b6f93d69d568841ee0eaab42c2b9144fc23c100e3ba090c6834480aadf51",
+      "users": 52
+    },
+    {
+      "matchedPosts": 12268,
+      "poolShardSha256": "c9039eaa4d0755819ba6989e00495391afc28d534f5f0f155c3affdd301d7679",
+      "resumed": false,
+      "source": "part-002752-002816.parquet.zst",
+      "sourceArchiveSha256": "e0cbfdf9735949a63a50e70bb938884b3b051dbeb5398a64afd8ca8bab4b4abc",
+      "sourceOriginalSha256": "3aff0614ce4f3a9d768393a1d974ba314cf2750634f4b9e5939884aaba5bec60",
+      "targetAlignmentSha256": "526b6999d3126eb5bd90439903f1c16f5484f2e3446970edfe5164945d787b82",
+      "users": 44
+    },
+    {
+      "matchedPosts": 49036,
+      "poolShardSha256": "3ac51c87e0382a2b82f0518d2dcd55df6495261fb49464e298405dee20c3cf63",
+      "resumed": false,
+      "source": "part-002816-002880.parquet.zst",
+      "sourceArchiveSha256": "c4db370bf871d44cd65adfe288f77cbca3fe1a41d109b2eb693f52bda96da569",
+      "sourceOriginalSha256": "65ac10a26151a65bc054490dcfa71173f4b7eba541d8b4a4823842c408fd04b1",
+      "targetAlignmentSha256": "5fff8bd4f4008e4d88fe551d9d8f6176e98f4955a934f29a17a4cdbf76dbfa34",
+      "users": 53
+    },
+    {
+      "matchedPosts": 24429,
+      "poolShardSha256": "31eb4168df9d1c14b39b963729342a4c15e834838110dbfd17bdeba9b9cc6ffe",
+      "resumed": false,
+      "source": "part-002880-002944.parquet.zst",
+      "sourceArchiveSha256": "8da161351c5eeea06669e405c6105b6d3e98324f292a563901890c684bba83f7",
+      "sourceOriginalSha256": "d349aeee7eab9c4f268e1c28218e0eeea63e336ed9c3b578afd69eb061f99def",
+      "targetAlignmentSha256": "d51c3bed4fff91f214c3d1e1551c5a35ad1dea3ad8de339d15e42a41a221202d",
+      "users": 52
+    },
+    {
+      "matchedPosts": 34943,
+      "poolShardSha256": "0c08813121c080d135593d343e3b9e73ba1356eeb88657ec1f95890145d6e0a2",
+      "resumed": false,
+      "source": "part-002944-003008.parquet.zst",
+      "sourceArchiveSha256": "37aba05a2082e6987e9d7f50c028b9f0861a6576cb72985c37c152029f2384af",
+      "sourceOriginalSha256": "06e53d0a74943e675800990e287817ad8d93b40883964599b78330dcf2cf759c",
+      "targetAlignmentSha256": "29108e013483c5ac2a1ceaff94a6fecd7fca20c580799b82605b941534ccd0b0",
+      "users": 47
+    },
+    {
+      "matchedPosts": 25322,
+      "poolShardSha256": "b6dbc7bfb4629dfcb1fa6e170bf8219054b26ae4356cc92050b7b34edf3ce282",
+      "resumed": false,
+      "source": "part-003008-003072.parquet.zst",
+      "sourceArchiveSha256": "bc8b86e39305ac026e2b892d12dfc3567bd4fe027ad3e756dd46c990d209b8f1",
+      "sourceOriginalSha256": "7847e1c7707cc1b40d165f645faf413583c75f2526bcd113b19a7c530fcef7ec",
+      "targetAlignmentSha256": "0d28fa479ccc59d4b05b4598f044f76bf402cfc98f2d86b3ce8bfe01dc5e0b0c",
+      "users": 47
+    },
+    {
+      "matchedPosts": 27198,
+      "poolShardSha256": "bf9dc7d9997eedf96ddf873022a3bf6ef6f63008ac960af3962d7090c5d126b1",
+      "resumed": false,
+      "source": "part-003072-003136.parquet.zst",
+      "sourceArchiveSha256": "cd7f4eed43e52c89bd225b29f21611d955cf02f36c03ed13abcbaaa90a30a1e8",
+      "sourceOriginalSha256": "1760cbf1396841efdb76ea585ee42cc1ffe1847a095e3a9d3f37faa9a95b99d6",
+      "targetAlignmentSha256": "1c1988670c454e27d63db940311ef56b50b57ac366477a8e92c067987f6ad4bc",
+      "users": 51
+    },
+    {
+      "matchedPosts": 29762,
+      "poolShardSha256": "321587fc40c1b9be593d1ebba422b28a0a0883b6716224131ed81945ba70922a",
+      "resumed": false,
+      "source": "part-003136-003200.parquet.zst",
+      "sourceArchiveSha256": "cd0dff2168b1dbce6a51e94d61d3f252e37aea9839e249ca561853dba27b498b",
+      "sourceOriginalSha256": "0902ed060d9335ab272e55045156ab1ed449629c52fa6c402d59483aa2961444",
+      "targetAlignmentSha256": "6c1adfc419b5bb355f40952ec0d7f9b856dc64c7674ae132cf36694c54475bf4",
+      "users": 49
+    },
+    {
+      "matchedPosts": 15113,
+      "poolShardSha256": "7960d6bf4994e7facb237747c5a2134aa7d321b3a3b234dc1ae9d0d2710d111a",
+      "resumed": false,
+      "source": "part-003200-003264.parquet.zst",
+      "sourceArchiveSha256": "fd944f184c16e58f815ac5f9037f4f3f73a1ec0ed5c31352e40c68063658bd54",
+      "sourceOriginalSha256": "fea9f3a23b399177ccddfd9aba61f7d87dab0ecfb80b290d99fe739e937a918e",
+      "targetAlignmentSha256": "01eb95a02fada788fc5256f0284f2b9c88684ae3d354280d9d30f9771d52a212",
+      "users": 45
+    },
+    {
+      "matchedPosts": 16713,
+      "poolShardSha256": "55ee54d3dc272765155637c35ee64093ada19ae41b9e45d333476af84fe258ba",
+      "resumed": false,
+      "source": "part-003264-003328.parquet.zst",
+      "sourceArchiveSha256": "3d6f5d6b346b51b42457afdc068e9204e0ed661f1eb634deee66638a42b42698",
+      "sourceOriginalSha256": "e944ed5d48a45d1d37d976de422b1ffd3612d896ebf8d0998fd4c639e9059263",
+      "targetAlignmentSha256": "eed914e0dde26faf6012ccb107e246c63fef0ccee69486b0e8bc3452d77fbe2f",
+      "users": 43
+    },
+    {
+      "matchedPosts": 36055,
+      "poolShardSha256": "f20ec629b8d82e4e67e2198a4d8567725cd1cd84879c76b36dfc5714474ad375",
+      "resumed": false,
+      "source": "part-003328-003392.parquet.zst",
+      "sourceArchiveSha256": "5022dce1f501c1fc843b4c34bf770729c8c2e6f10429dd23371c0eb8685b33e4",
+      "sourceOriginalSha256": "defb74ef326e72daaea34dd8466f651ccd6585c133a1b67b76256158ca4d7eda",
+      "targetAlignmentSha256": "ede03d4e1f28a88cb5332e0c7ac1912a81a61e3568ca7714681ea734f9c596c3",
+      "users": 55
+    },
+    {
+      "matchedPosts": 20620,
+      "poolShardSha256": "cc0760dab92a4d2e6ce37091a3d0cc847649a7f1c2a98a30f9bc4c1482a7ad94",
+      "resumed": false,
+      "source": "part-003392-003456.parquet.zst",
+      "sourceArchiveSha256": "670dfe01a4e2cfcfec1cd4b93ec2b50600d2d27a11ad3d22f6adb9eab2b470d5",
+      "sourceOriginalSha256": "123290813bfe796dc01173f541032f0dc1238d2ca4a98036786f20021daafcc9",
+      "targetAlignmentSha256": "4fb8193bd25e7620374e1664c69fdf112c561e31c09c09984c0abf9619686e51",
+      "users": 50
+    },
+    {
+      "matchedPosts": 32866,
+      "poolShardSha256": "949b266e0604159bf6a2c8a5e243fef42a39a76a3f25754a67688e29003840a3",
+      "resumed": false,
+      "source": "part-003456-003520.parquet.zst",
+      "sourceArchiveSha256": "087fa13daa05648c11a8c7ae30ad1c0a8c1cd5a1adec78e9defaff90a3871348",
+      "sourceOriginalSha256": "65b86506d20d8ddb2f82537867296fcb54b84356d7a634a400bdd755b771346d",
+      "targetAlignmentSha256": "d41a4771b0883e2819b751e8aaf6c1f07795fb9e956e11c28676cec48a846a73",
+      "users": 59
+    },
+    {
+      "matchedPosts": 16749,
+      "poolShardSha256": "2f25bbaf87d68bd4231529466e10726f73db80f7c44a592fcb16ad1082230eb8",
+      "resumed": false,
+      "source": "part-003520-003584.parquet.zst",
+      "sourceArchiveSha256": "20db682fe3232f2e13159694341b9e7955026def47fa9ae4d5d89dbbd4a69eaf",
+      "sourceOriginalSha256": "2d1d1e206f0d2dc0991e9c802c147e931661786e5b653e00e18309d12cfdf6f3",
+      "targetAlignmentSha256": "234019a161c9ee2c21ed4f13661cdf3f62ac11421b17a7f270a04d64fcc61443",
+      "users": 50
+    },
+    {
+      "matchedPosts": 23089,
+      "poolShardSha256": "fa37d3f64079432838cc000d31dd735af91933e52a9088311fc2e92e0a865922",
+      "resumed": false,
+      "source": "part-003584-003648.parquet.zst",
+      "sourceArchiveSha256": "ac2d2fa8d5a159d5410d2509defe1bb0e9753ae1e65bfda16d14254c38ad3baa",
+      "sourceOriginalSha256": "d09166a56eae87d692c266804fe30e2a13f47423838e0f1c5b0d4ead2a17fa3f",
+      "targetAlignmentSha256": "4a5cb922acb0abb058e6755157b6a8e8a39e925c585ea9c726d7719bad70035c",
+      "users": 51
+    },
+    {
+      "matchedPosts": 29207,
+      "poolShardSha256": "a0244f581f1bc68ab6b154616f3237c1aad7b5b8e5bb6ad613b3a03741b3b58a",
+      "resumed": false,
+      "source": "part-003648-003712.parquet.zst",
+      "sourceArchiveSha256": "28add97ac0e9fb4afe3a61f9a793e8d9adc45973e81682530158cd8a7e335daf",
+      "sourceOriginalSha256": "ed4cfc90177599f056fc63938248a6c3a4dd73b4975f166db4bd1d7d35db99f1",
+      "targetAlignmentSha256": "5ffdf7c16998af53903ee9a0d61f175b23871252a666a7849ee99e61b13e838b",
+      "users": 50
+    },
+    {
+      "matchedPosts": 29406,
+      "poolShardSha256": "cea543b0e05bfa2ddd8b7c2effa787038dd7d81b4fd6029f72c07bda1acde222",
+      "resumed": false,
+      "source": "part-003712-003776.parquet.zst",
+      "sourceArchiveSha256": "662b6d55c72b18287898f0f5faabc55ed2093c73888f2cd5819aacc1f7827db8",
+      "sourceOriginalSha256": "3cf23af297b6ac30c5b727b0afd5d0a1bd125032dd3a5ae4b1937ea1737c78ba",
+      "targetAlignmentSha256": "2861c56312f0b6591ff24d96e8b0339b7bb8ca5e817710a750c20b2839401d90",
+      "users": 49
+    },
+    {
+      "matchedPosts": 35535,
+      "poolShardSha256": "00069ecec0e350f88e72eebaf5fb488dc460543481aa9048fd0bd519c5df8206",
+      "resumed": false,
+      "source": "part-003776-003840.parquet.zst",
+      "sourceArchiveSha256": "e2bb8e572d60b3ec61675a79d553ffb6adf32d0251d012958b005e42b1f37cda",
+      "sourceOriginalSha256": "5785ecf7e7e974755826b766eca80b9c2d20fbe663a2f6060702384de1ea1454",
+      "targetAlignmentSha256": "842218425e06099971408fb21ba745d5db34539d846b4c686a02207b112fb6e7",
+      "users": 54
+    },
+    {
+      "matchedPosts": 17365,
+      "poolShardSha256": "69b153617943790d888562b9e42ca52ad1ebd1ba29cf80ec2a76e9fb8857fdb8",
+      "resumed": false,
+      "source": "part-003840-003904.parquet.zst",
+      "sourceArchiveSha256": "5e2a00da4e86eaa7fb8fef7905274e228f221506152fd49b1a3182c49894a7e4",
+      "sourceOriginalSha256": "2443f84fc23645e0330aa685de48803a598e54667fd883006959b02df1cfef82",
+      "targetAlignmentSha256": "a0a5da86dc71d98ac0e43bc782299ca0a3d8fd2dde67fb583fef0c794faed387",
+      "users": 49
+    },
+    {
+      "matchedPosts": 28643,
+      "poolShardSha256": "9847f40f339cd91a1335654827b31402f60e56efe02db2dbf974860128d3168e",
+      "resumed": false,
+      "source": "part-003904-003968.parquet.zst",
+      "sourceArchiveSha256": "64cce6c48299dd5bb88160cbf05410838646a962bb55d8c6fc10cdf80adcbad6",
+      "sourceOriginalSha256": "21303a45a44ab33ccf0da5125aec644a857fbedf1d57fcb25010a7445e8437fb",
+      "targetAlignmentSha256": "9e01bfed587767a5eef54c4addfd0005271c48c5a689d29b13bc9279eb1d5678",
+      "users": 49
+    },
+    {
+      "matchedPosts": 20762,
+      "poolShardSha256": "8c75a356f116ed92241b50be984a93949d24f1effb36b78496d496d62324d142",
+      "resumed": false,
+      "source": "part-003968-004032.parquet.zst",
+      "sourceArchiveSha256": "350ddff453f5de5138f18bc74d185c8d85bce09117a8e9f8ef2baa8dda88fc76",
+      "sourceOriginalSha256": "860c712db574d87360c7488e748e2493f9940539aa3d1391ce2fbee91053e13b",
+      "targetAlignmentSha256": "b741ce41d021aec21b2ee5aaf4a844a3c7a1fa678731434d94f0b81106eca96f",
+      "users": 51
+    },
+    {
+      "matchedPosts": 30438,
+      "poolShardSha256": "5d6a6caeb3830f832f222d40b7c4fa32d84fd6796fc87e7ad817926c1dacf962",
+      "resumed": false,
+      "source": "part-004032-004096.parquet.zst",
+      "sourceArchiveSha256": "878025b5422a97ebe70dcd4cfcd3e7c41e265c1e5fbbeb614488879b845efa8b",
+      "sourceOriginalSha256": "e61769376130fe2200fedbe6348f8b634089d67249477278b0f8015db4c23fb3",
+      "targetAlignmentSha256": "cbc8fa5758ea7c7142567ff6c15d810357e432a961f9fec917196629a430c43f",
+      "users": 45
+    },
+    {
+      "matchedPosts": 14196,
+      "poolShardSha256": "02e41ab93ff2ccd07294606f5d309c039b8c0420a985d20e1f9c7e5926c48488",
+      "resumed": false,
+      "source": "part-004096-004160.parquet.zst",
+      "sourceArchiveSha256": "b3742417880413cbfcaefc0c7844d852280582bd48430015343e5f9ed3787d61",
+      "sourceOriginalSha256": "32af4a95397ead93728900958a6d0f7e7e18698f9e4decca88e7a62c2f8c2196",
+      "targetAlignmentSha256": "ff5772cf1aa93ed78a494c1845c7a050e3a3f01503d072ba3acc5f2f65c39ec3",
+      "users": 42
+    },
+    {
+      "matchedPosts": 9321,
+      "poolShardSha256": "6c0e4e518ef0c403dced552de4bac89b9cb43152e578a222be43c9868723fa0d",
+      "resumed": false,
+      "source": "part-004160-004224.parquet.zst",
+      "sourceArchiveSha256": "38fdc88a986b2f44a9de739b8b52060c33e56b5a4c4b3482570c44e878b43440",
+      "sourceOriginalSha256": "34f2d4f2abc24d0ea8ec62445f70da5b624cfd0a56afaf2cb22b140cd076908d",
+      "targetAlignmentSha256": "09ebcefbdeafeb1e4146d16d78c49c6112be023dd6117803245c45f89c46c2cc",
+      "users": 41
+    },
+    {
+      "matchedPosts": 17996,
+      "poolShardSha256": "2f8a1a820174aa9b6a2bed066513cd58cac02abec63812906af6c7912cace85c",
+      "resumed": false,
+      "source": "part-004224-004288.parquet.zst",
+      "sourceArchiveSha256": "00d8c0b451b2bad44deb249ccc85c171bfee10be6f975e094e6867a7f6af90be",
+      "sourceOriginalSha256": "dd387f7910c26c7e38b6de4fc0feb5031ca499d71a11dca8db30a2a8255b0761",
+      "targetAlignmentSha256": "4d6ce83255d27b6b7e8bb4d51813bd274387599d417542dd9b302ace7ea0990d",
+      "users": 41
+    },
+    {
+      "matchedPosts": 16500,
+      "poolShardSha256": "146fae57d447eaff5f0790d9372e861377ba4a598b6f3c111a6b79d292083cf6",
+      "resumed": false,
+      "source": "part-004288-004352.parquet.zst",
+      "sourceArchiveSha256": "2370b80f0a6e2b450c1eedf4119830ee4be1745ff4ef9dcd77d2893db1fe240b",
+      "sourceOriginalSha256": "9a3cb10dc7057538586fc2d344651b7e61e76804985fa63ff81511062ea4b682",
+      "targetAlignmentSha256": "512f01cfb21cc97d9ada5a32d12971fb063ee9c3d09f903ef8306481190706a7",
+      "users": 43
+    },
+    {
+      "matchedPosts": 33279,
+      "poolShardSha256": "4fc7410586ad2fbdc4f8d779e3436dc501f6cf00acb9dae05523e245bfde066c",
+      "resumed": false,
+      "source": "part-004352-004416.parquet.zst",
+      "sourceArchiveSha256": "9154a980a379b258d2bf907bfcb0c308c251a915eae97e1219ae507df1e6085e",
+      "sourceOriginalSha256": "cc92b8be8f676c006464eb9231c05920ce942f9eb13fa6b92dc26cd052f3ff5b",
+      "targetAlignmentSha256": "b15339f96e28ce08fd767d01b178feb4031f86c7a78a1a7154bc11d16031342e",
+      "users": 54
+    },
+    {
+      "matchedPosts": 25193,
+      "poolShardSha256": "5ac904f7576d90c05af6d4b53eca83a9b54b83260c739939098b6baa1374046b",
+      "resumed": false,
+      "source": "part-004416-004480.parquet.zst",
+      "sourceArchiveSha256": "271db874eebaf1348b7d26b623a2c075ccd4268f26a09df0531bb52d6fd030f1",
+      "sourceOriginalSha256": "109c43f184e78b13262500db3e9da7782b0f682a2fba0fa0ef1f412544c0a95f",
+      "targetAlignmentSha256": "5fc3b0c8bf0fc88e1ba1deaef12d07c9973a4b9142053de143f4d87e16dfb538",
+      "users": 49
+    },
+    {
+      "matchedPosts": 28394,
+      "poolShardSha256": "7355fb9fee792c71482623b214f12368724ec3785e2d261fab1013180bdf9e1c",
+      "resumed": false,
+      "source": "part-004480-004544.parquet.zst",
+      "sourceArchiveSha256": "4c7b6b55c21b00b81e219faf02fb293d67be010673af9132aed958099f9287a5",
+      "sourceOriginalSha256": "59178660ba4c41d08efce55299011e954fcc89060fa2533c0889560afa439f36",
+      "targetAlignmentSha256": "9f9eb81742458981da30eb5cbf822d31e324e4a89038715784908827c8da073f",
+      "users": 48
+    },
+    {
+      "matchedPosts": 24053,
+      "poolShardSha256": "a38e1ae850e7ffac86bf25babe61d9944098487b02f0f4a5b4d39318da13835a",
+      "resumed": false,
+      "source": "part-004544-004608.parquet.zst",
+      "sourceArchiveSha256": "f852787dd2e1f3ca04d6d4988cf84b11634e0b6fda1ddc480bf4eba04ecbcbf5",
+      "sourceOriginalSha256": "b9edbb6c08fbd352eef473f695800e709b0f118d44fd62901ebe25bc46fbfa77",
+      "targetAlignmentSha256": "e3042e591ed648279bef3d0dbb8c1ae13a3f379c43d038cdebf9841ce1d3a31b",
+      "users": 45
+    },
+    {
+      "matchedPosts": 15054,
+      "poolShardSha256": "031b71f672f89a32624eeb4add7f5aaeeedc0a1d0acaddd93030483a7843b69a",
+      "resumed": false,
+      "source": "part-004608-004672.parquet.zst",
+      "sourceArchiveSha256": "bcaa8247c81f62b3a73d22ef7b93751b33930fa8e97043797d93a52c7b09858f",
+      "sourceOriginalSha256": "221eb0b46dcf8ce34fbf85c38c93ef8946f4f33148bf1be335b162ad105f5d22",
+      "targetAlignmentSha256": "c57a774cc2063aa56c5769ad7b49c5696d2e4485edb69a15cf0c49c09137ecf9",
+      "users": 42
+    },
+    {
+      "matchedPosts": 37083,
+      "poolShardSha256": "f9bab48487ff8ca04a423eec3cf0349c769819d1d339c7557a7f492fd10a351d",
+      "resumed": false,
+      "source": "part-004672-004736.parquet.zst",
+      "sourceArchiveSha256": "143e5488fd0f3a473f19bd9ab43bf6050831075165f46551d3c12d0f5216e610",
+      "sourceOriginalSha256": "f58bf42676d7f0c8afbb5833c2680bbf2bcbcdff8f924189cc1b64adb836432f",
+      "targetAlignmentSha256": "41dd4839fcfe631b6d75ab715b5bfdcfb77272549b98d7543494147edfadb7a1",
+      "users": 49
+    },
+    {
+      "matchedPosts": 17520,
+      "poolShardSha256": "f2884fde4b7f636d23cf6c1e128bc9adc45c409cccad1d1322c7a8cfe6033f47",
+      "resumed": false,
+      "source": "part-004736-004800.parquet.zst",
+      "sourceArchiveSha256": "c493ff56038618fe796b8e1d181e1650e0c3e791a68a4957366e289bacd73abc",
+      "sourceOriginalSha256": "809b5862de757802265f91a2b680aa9c43e29b1cffdf64f16f29a906a29d8879",
+      "targetAlignmentSha256": "3de188ec9bb6d5d17754a4aa8b7bca2cad270967cd46504ed1bec2f032c90602",
+      "users": 43
+    },
+    {
+      "matchedPosts": 20141,
+      "poolShardSha256": "d9694d47d6e5952d3bef4eb0f3351b33adfc1971e8f86359c186d8e8f05ebe18",
+      "resumed": false,
+      "source": "part-004800-004864.parquet.zst",
+      "sourceArchiveSha256": "e9da4539c33ad7018f771a6142359c15a5a7bb8aa701922bf7ebd625e9c37f40",
+      "sourceOriginalSha256": "d19b61c705f9f9594207499c7dc6aa937f28d90b7f13b4a37291144b34ecf51f",
+      "targetAlignmentSha256": "04ea59fcfc8a9048e8b81e1d33feb2fdbeb10c68e8726dcf6e93a8269a154cfe",
+      "users": 42
+    },
+    {
+      "matchedPosts": 32125,
+      "poolShardSha256": "2491b6f0786399b640793b00361c34396a1ec28b44782b15714804889e9a2780",
+      "resumed": false,
+      "source": "part-004864-004928.parquet.zst",
+      "sourceArchiveSha256": "2e9babc2c340fadb79d21e389120b04f63584cb4b2e16e863933ccdb18cbae21",
+      "sourceOriginalSha256": "ef3e2998036e519f994d0b182400d89b7d886f085c98afb02cfd58c06561d347",
+      "targetAlignmentSha256": "d9b287da863fe1f323f615a472c0e03801a776977f3fd686e05c02addf9b6735",
+      "users": 55
+    },
+    {
+      "matchedPosts": 11530,
+      "poolShardSha256": "3fd2ea7791ed83a13c0b2d17870ee3701eeab81a875daa9b6fb9d936e36dbdca",
+      "resumed": false,
+      "source": "part-004928-004992.parquet.zst",
+      "sourceArchiveSha256": "6f9e546d339f7b5bcd7001cde4105da5e3616ae9d731e39081df368a4b1ecfbc",
+      "sourceOriginalSha256": "db2bd3ad60cf283ea99f04d4c89783e9fece7bf3a87cb6aebee4a8b6eda8de55",
+      "targetAlignmentSha256": "4e88251225c4b1ae3186ff54e0af1afe23302272b78d775db4450948e8eeecfd",
+      "users": 42
+    },
+    {
+      "matchedPosts": 19262,
+      "poolShardSha256": "d6215c6a3a04328fc9ff1ba95389ee289aee0d323d466d4dacb97d08606b6e9d",
+      "resumed": false,
+      "source": "part-004992-005056.parquet.zst",
+      "sourceArchiveSha256": "efc45fe846e6c8c7b982cd632c9ff782d939d01958073537832ea62ce9178b6c",
+      "sourceOriginalSha256": "77f04deea7d6810614a54285e6e6a8d80ec1ca66bb49b32541993bf41990d208",
+      "targetAlignmentSha256": "29f2c4675e293565c94186bf1e4d952111b5c9a7209454ada66d45028fb1b970",
+      "users": 45
+    },
+    {
+      "matchedPosts": 14682,
+      "poolShardSha256": "4fa06444318fcf92a1fbeff35f91c4c07c5747ab0f3622e72c4aff3fe15dfccd",
+      "resumed": false,
+      "source": "part-005056-005120.parquet.zst",
+      "sourceArchiveSha256": "99e908e34800140861df4c398a00c9bb5a94e129251c342d40632372a8b9e039",
+      "sourceOriginalSha256": "5c384a08280ce2ad2a65aea2dca8fae909dce3a161b20528cd93ad0e526860fc",
+      "targetAlignmentSha256": "0dc910901122fa9bbc2fe484b3a0f87c1bc88615dfb9d98f6ce7143172b787be",
+      "users": 43
+    },
+    {
+      "matchedPosts": 20676,
+      "poolShardSha256": "bbc2f7efaca6d62c2a548d5579fe3c7f7016bc555d45af1883ed29fab64301ba",
+      "resumed": false,
+      "source": "part-005120-005184.parquet.zst",
+      "sourceArchiveSha256": "fb461977072c2ba0260c33fded1fb47bb2219b69754611c859cf4d9ed94a2801",
+      "sourceOriginalSha256": "cd6e8f1bda38763a6c4c1cec60b2df8268efd7fa4bd39a4d19ab0b610503865e",
+      "targetAlignmentSha256": "932466882df2e538b527f07fd0d4e86849541f42f824e504b9d9db87cb214d0c",
+      "users": 48
+    },
+    {
+      "matchedPosts": 18276,
+      "poolShardSha256": "1d657c48459b21a6f09962fe4f775e4f2a45b000930534ee8d828b9fd12659e6",
+      "resumed": false,
+      "source": "part-005184-005248.parquet.zst",
+      "sourceArchiveSha256": "8bf94f23218eea1da5ac832ff5ee8ac4675daf2649646724726bed465fb05145",
+      "sourceOriginalSha256": "199ad1e57df62530d4f748d6d5bbe2468c8b7c9f75ecc2794edd5824357e8daa",
+      "targetAlignmentSha256": "98cd5eca3e7efc293eeb11b43e4c0ec02496ab15374f7cacdbc75fcaf5f6c841",
+      "users": 35
+    },
+    {
+      "matchedPosts": 39840,
+      "poolShardSha256": "a0870b5528bfa63e52fe4c0f9584e027876881548cf1087a67bb2ce121e6afb9",
+      "resumed": false,
+      "source": "part-005248-005312.parquet.zst",
+      "sourceArchiveSha256": "9f6f3bdd46ad1974aa27cfe42daef1f25099ee5ae66cb98542b192f86d6777e8",
+      "sourceOriginalSha256": "dd0ad8b3046e506848038b1cbee0ad8a8cbbae01af592951a3cbd634032a7ac7",
+      "targetAlignmentSha256": "e0a0ba4e54b33c5467fbb3236028e857d542c4929233add48cf9e28373b389c9",
+      "users": 57
+    },
+    {
+      "matchedPosts": 37755,
+      "poolShardSha256": "994acfc797cb4c86c75c18420a83c900d0e8a5c4b3a97a8b8f62ddcb54a02d4b",
+      "resumed": false,
+      "source": "part-005312-005376.parquet.zst",
+      "sourceArchiveSha256": "1f93940c859bbc99c1a385cf67f7c7747f7da6aa78417b2ac7e54cd6753a30e7",
+      "sourceOriginalSha256": "fca58736ccb0c4cbfce6f9d9fc114b37403de7e32a5c9b09a76d7c10096fad41",
+      "targetAlignmentSha256": "1dc557d0aeff4af4493455d8b82ca80f0773da9d5068661fff60dd38dd951349",
+      "users": 48
+    },
+    {
+      "matchedPosts": 15012,
+      "poolShardSha256": "064d28f5806193b75725085973c2cf0131894820aaea4e556f2fdef39855b53d",
+      "resumed": false,
+      "source": "part-005376-005440.parquet.zst",
+      "sourceArchiveSha256": "3a18990a318b00c2500d66054ecf78406a33794c3617aa9bf7c7b3837f481fc9",
+      "sourceOriginalSha256": "780b514f2cc20a110025731ee11aebf6cc485fb86055222328f5292e5381da47",
+      "targetAlignmentSha256": "3abb891c61cff10666351469684711110787d7baacb8d9f0e51be18a8b2da249",
+      "users": 43
+    },
+    {
+      "matchedPosts": 18369,
+      "poolShardSha256": "515315da9187dae7188b286a6716da9ed7aa7d9d8e35f6a99ef15e2470189794",
+      "resumed": false,
+      "source": "part-005440-005504.parquet.zst",
+      "sourceArchiveSha256": "6678386c30c544c821b5124066ff441679149f5ef0dae954e13c98d080981202",
+      "sourceOriginalSha256": "2079e309179e10c4f917e4300eeaa0e641e92058f6c146a2493a33090a6b9f0d",
+      "targetAlignmentSha256": "38c920681e1b455973ccc31cc22528fe5a27e5c160c35d49473b15c53564bd39",
+      "users": 52
+    },
+    {
+      "matchedPosts": 32782,
+      "poolShardSha256": "2bca22c032bbf1b594c658567b2378ae2baad507a3a25ceb69ca9b28588d7c1a",
+      "resumed": false,
+      "source": "part-005504-005568.parquet.zst",
+      "sourceArchiveSha256": "01b72917991273c3928407e9c903b83062a5494e40d8de56558349a77a718601",
+      "sourceOriginalSha256": "98d631a38cbcd622b27f6ccde041e1d24d2c7667695cd935aaedb301b625fc9f",
+      "targetAlignmentSha256": "90b60471fe1c7761e0fbd1bcaf4b3be0f40753052f653f09f2f72d7f1ff82e98",
+      "users": 51
+    },
+    {
+      "matchedPosts": 18029,
+      "poolShardSha256": "a3ce18187116bf3ee4aae6011076fb54b62d0204375e9bb4b41905f245e57611",
+      "resumed": false,
+      "source": "part-005568-005632.parquet.zst",
+      "sourceArchiveSha256": "ecb89c9a7e3fcc8d67a3090fe6fc9f4c61fc8af7ce5943f78c7284abe4f60be5",
+      "sourceOriginalSha256": "992811b28ce760d40a67bd649d650574f7026d1b99c2dfb5e24dcae14c13f308",
+      "targetAlignmentSha256": "bca5e1d607c9d9c705129da45a7ba268fb9258b52449ba7e1f1346d1e02a0008",
+      "users": 50
+    },
+    {
+      "matchedPosts": 22213,
+      "poolShardSha256": "1ed366586848ca33cfa4ac93e9b95b7a0d22116df082b56b52771abbe56a6b84",
+      "resumed": false,
+      "source": "part-005632-005696.parquet.zst",
+      "sourceArchiveSha256": "ee1831e48f828993b0e609ef6cb8820d122b134ff992430196e7c692ef975a7c",
+      "sourceOriginalSha256": "7c147e46db44a3522e3b925d17970a4bc3a0cf9b9af3667955be5d8b74b965b7",
+      "targetAlignmentSha256": "2362000593814da4f06c7fcd9385f811c9bbc27fab249743d68b7c34cf9006c2",
+      "users": 46
+    },
+    {
+      "matchedPosts": 19646,
+      "poolShardSha256": "9bda0df1644498104263e1049d49b2ac3d534eac73e246f4c432630360f9f44d",
+      "resumed": false,
+      "source": "part-005696-005760.parquet.zst",
+      "sourceArchiveSha256": "4c0920cedcec57a905c0b568a39d365becb32876f35875098846bd2025a9c4c7",
+      "sourceOriginalSha256": "43f02bd3e0c8bc10d64d581d50bbfb547d0f56e21ce5331412bf0f3b42e047da",
+      "targetAlignmentSha256": "f17d0d83fc56d4f339c4e260772ecb216d76e8e5a787f8a32fb10e256a4505c4",
+      "users": 49
+    },
+    {
+      "matchedPosts": 38210,
+      "poolShardSha256": "31207ccd983da8d28b007634bfd088e54202481519eba1284fbf095d9a1fdccf",
+      "resumed": false,
+      "source": "part-005760-005824.parquet.zst",
+      "sourceArchiveSha256": "c9dd20230a095c05bd267d6b8f95c07b1a0dc649bdc057ab8f7e4ea42bb263c1",
+      "sourceOriginalSha256": "922dd3519d7da637cf649d255cd3b0b5fa331f25217dd39c1912c5a47f2a449c",
+      "targetAlignmentSha256": "f20dca57c92ce0a87a4a8a15e14868ab78b8b39d3923a68fb50bbcd83dcb2253",
+      "users": 50
+    },
+    {
+      "matchedPosts": 20960,
+      "poolShardSha256": "fdefacad4460077611a909e1c67c00a228a20cf0af083def9f2d22aa1dad05a1",
+      "resumed": false,
+      "source": "part-005824-005888.parquet.zst",
+      "sourceArchiveSha256": "0e4f4df0d231011c070aa3ab47f83ea66844668a5f321a98d92fbb21498720b2",
+      "sourceOriginalSha256": "cd8969c48e79d46de8520b98451d51259a3c6dd63c298db24485e4970aa54ec7",
+      "targetAlignmentSha256": "e033bd7ceaeb87c1a021e2ed61bc3ac5c6e501f3c95d5ec8cfbb0bcae7cf8927",
+      "users": 41
+    },
+    {
+      "matchedPosts": 24973,
+      "poolShardSha256": "d3293f7849471d5757aa0c280a1d2e4eea2178e062b589ac5b00c5b3fdf96030",
+      "resumed": false,
+      "source": "part-005888-005952.parquet.zst",
+      "sourceArchiveSha256": "d18f955a1db3d115b519dace361f89ab81212a33d484c9d37fbffefe51c25d5a",
+      "sourceOriginalSha256": "a37d28af238bfa800b5dc04bd9e9bae56b30fd7b470c3a1a68c22f089c6929de",
+      "targetAlignmentSha256": "fec9d6a57fc01067abe3dfbf0a98246cd070217179f609a361a8ea205cc2826d",
+      "users": 45
+    },
+    {
+      "matchedPosts": 28076,
+      "poolShardSha256": "7153843c7cbe363d200e19545f303c3cd3d9bb54a466aa19cb71e0a2a18bcb4d",
+      "resumed": false,
+      "source": "part-005952-006016.parquet.zst",
+      "sourceArchiveSha256": "b873f3d1b2196bc907d845c748eb3e8fad4022ec8067b90b6a1e6e6276e3b559",
+      "sourceOriginalSha256": "23290639afe3cbddc05c67052e4c9a8f2276c1a1a9c74d9f9d169369582034a5",
+      "targetAlignmentSha256": "c2d195985204f3b33c6037ec47e176a880336c976d68e5b6d464551646273785",
+      "users": 52
+    },
+    {
+      "matchedPosts": 20775,
+      "poolShardSha256": "0c38d39f601532eb6fcecb61ea4562e69779474176b2fdb11b7f2a5b4b6690ff",
+      "resumed": false,
+      "source": "part-006016-006080.parquet.zst",
+      "sourceArchiveSha256": "02ce976bd34ab0bcdeb0bf714c5ff8eb95c3cbdb91c404275079fde81861a8c2",
+      "sourceOriginalSha256": "81c5b84d1f4311be9c2b07dcf9a08fd4e92c73fdd43483ad715515ed935b5788",
+      "targetAlignmentSha256": "2cc2bb4bc06cd2726e337e766043bc8115dce82706dd58c9df3129c935a6035a",
+      "users": 46
+    },
+    {
+      "matchedPosts": 21290,
+      "poolShardSha256": "9471803009298c1c5184a0a6c8a95cbb15d19ca3e9f84848589469cfe60421f7",
+      "resumed": false,
+      "source": "part-006080-006144.parquet.zst",
+      "sourceArchiveSha256": "89f902914d992fb6460fe024f1063909845a763757d5fec380e2782b1b68704f",
+      "sourceOriginalSha256": "841d2e4e2d0db358a590a76edc9af304f8f6be58e3596b17a2964e88ec226f32",
+      "targetAlignmentSha256": "c2e8e334a62f236f3064aeafc79fef4308a26c10cc9db2939ba13b442f6ad1ff",
+      "users": 50
+    },
+    {
+      "matchedPosts": 32028,
+      "poolShardSha256": "cd8bef667edbf1d05ffa7d2d0e52f62dc67674064485abdcbbe5ab0497e75327",
+      "resumed": false,
+      "source": "part-006144-006208.parquet.zst",
+      "sourceArchiveSha256": "57f327b19bd91504496bafeedde091f817445a5b6295f1756bf0b71c834b8a2b",
+      "sourceOriginalSha256": "91c88afd9f447f711b79b6ec59fcec0e8acd477db402419f014e1a22575c9101",
+      "targetAlignmentSha256": "492ab63158e85d0c12e73833a85a6698cad421b5255e88592a9db241857d9121",
+      "users": 49
+    },
+    {
+      "matchedPosts": 33392,
+      "poolShardSha256": "35dd3abd82b8bf1f5128f92551868ced1ec2536be8a0564fc3d18b62925fba33",
+      "resumed": false,
+      "source": "part-006208-006272.parquet.zst",
+      "sourceArchiveSha256": "58c9f4180d85dc140815af7a8d92a8010502e8a0ed8a22f4e21346c1cc562dda",
+      "sourceOriginalSha256": "83d424398d49851e34f0f0b73ba0d8f09d540ca9bf5b56971d6e5bd74a84e26f",
+      "targetAlignmentSha256": "054b6f8a109a7e1c40a781ab3ae3c14385f86f7024199ebcd2f418fbbe57a62b",
+      "users": 41
+    },
+    {
+      "matchedPosts": 17532,
+      "poolShardSha256": "76096d37db8a1ed129b853884db2d25ebba4d72f2637a382867d3a008ec11040",
+      "resumed": false,
+      "source": "part-006272-006336.parquet.zst",
+      "sourceArchiveSha256": "16e775d386c65b4ea5f679fc190e1049d7283aa6b9283cbb212df9e2f6e5520a",
+      "sourceOriginalSha256": "7227b33f2452cec54fe602eb6a1ba9b9897957e88bfd7ba9d1627df04158a8e9",
+      "targetAlignmentSha256": "e575c75be4167a406a9c5cf38fc921cc73075cbd3ad35eaa5d76605297925b57",
+      "users": 48
+    },
+    {
+      "matchedPosts": 18851,
+      "poolShardSha256": "bcf8fe0ad025be061293f57e93582dedcb96fc3eff12bc7c4438037ece4a48b9",
+      "resumed": false,
+      "source": "part-006336-006400.parquet.zst",
+      "sourceArchiveSha256": "b337755467d721ebe5b6831084729e75998194a777206bfc468e50f7f0c2fcb7",
+      "sourceOriginalSha256": "872fedcc9618015a6f2a9d1ba6c53d8e485fd0911ca1e2f75da2e25531943142",
+      "targetAlignmentSha256": "228a6225f52840fd1f83e94edee8970693d959b9cba9afe861c0c2e07f4a6332",
+      "users": 45
+    },
+    {
+      "matchedPosts": 28305,
+      "poolShardSha256": "b7506c34814737d2ac316d0a91c4aca70a128c24d8b5bb7e4937fdd55a06e312",
+      "resumed": false,
+      "source": "part-006400-006464.parquet.zst",
+      "sourceArchiveSha256": "2b06aa1ecf3e244b3377c73bfadc9f3ec2f21eee404e7bb0973ba28abd22ffe8",
+      "sourceOriginalSha256": "a252a429fe213bd9cee20e5f9c6404e0b58cb0e99685f56ef5e0dee5e327ac39",
+      "targetAlignmentSha256": "7e068f169d1236cfab7b18059d386c8f32aabfc59b62bf54c667ffe16115d2af",
+      "users": 51
+    },
+    {
+      "matchedPosts": 19080,
+      "poolShardSha256": "f05e02ffc0f1f5bf07f9d7ab5856865cd72bb4d94ed70a7680ce601e9c75cc57",
+      "resumed": false,
+      "source": "part-006464-006528.parquet.zst",
+      "sourceArchiveSha256": "9e605e0881723701ca1f9eaa034c916b9a6603959aa748f194c8fc2da2ccc681",
+      "sourceOriginalSha256": "f00605fb6f89df81f692ff2bba3a9b21d968d41dfc09d7ecacf041633386ab3d",
+      "targetAlignmentSha256": "d7a308a47f5641a0e29fbb9f9096853d0963fe281da86a5a395290fbf2c27351",
+      "users": 46
+    },
+    {
+      "matchedPosts": 15620,
+      "poolShardSha256": "b35f548c0560cb79dbce3735b20a4e0ff09559d4eee35fbb36367eb4058a1355",
+      "resumed": false,
+      "source": "part-006528-006592.parquet.zst",
+      "sourceArchiveSha256": "b11fad910245b15227f5c117f0593ea642eadf152c4e4a5007bcbe9cfc24a215",
+      "sourceOriginalSha256": "2264190bf0c5ab275e290a6f8832c2ebfd8481b19b0004e198980ab9ccbd4038",
+      "targetAlignmentSha256": "d2830eec6cac0aa24e1453330097f213c0c01c3cc981b1df506bbb72dd4bcb21",
+      "users": 54
+    },
+    {
+      "matchedPosts": 16171,
+      "poolShardSha256": "aa8f4771778365c170ce2996cd170ac8651acc11cddab1e5f6e89c3adb1cb158",
+      "resumed": false,
+      "source": "part-006592-006656.parquet.zst",
+      "sourceArchiveSha256": "6f1966f5d388afc61e470ef5df691cb3eda8d9767d1a8fffbcc6a90d5d5c07f9",
+      "sourceOriginalSha256": "5448330dd194ed99f23b3b2363516049868e73723638f38f2da40b574296560b",
+      "targetAlignmentSha256": "060b03e81f6bb47fd868930029cb84f048e2e0aa591c01c75c48d8271ce5a319",
+      "users": 47
+    },
+    {
+      "matchedPosts": 19264,
+      "poolShardSha256": "8e14681de60ebb39f5eb515505e73585d568836de70fa6ab21d844710976955e",
+      "resumed": false,
+      "source": "part-006656-006720.parquet.zst",
+      "sourceArchiveSha256": "35659d70497e7d82b22d5c4c5bab89ed865d39c1dc3651e8a2b8903c47addfaf",
+      "sourceOriginalSha256": "a37b357f0318dee3c07735a90158d45029b072b6f48b0249a6bf15a3c45529d9",
+      "targetAlignmentSha256": "8fa305aafa558ec0c74efd1fdbe7945f98113037189026db45a6bca3564e41d5",
+      "users": 45
+    },
+    {
+      "matchedPosts": 15881,
+      "poolShardSha256": "eefbb582ec5b2e364e547d2bec919799b8c032ed89bf62c000d1e46beb36eb3e",
+      "resumed": false,
+      "source": "part-006720-006784.parquet.zst",
+      "sourceArchiveSha256": "3fa04f7ff2cb92731a5db50e482d0626115a0779a99e7dfa6ca2f243a0c45d6b",
+      "sourceOriginalSha256": "c3a49c2994db9931de6a86e82baf66ff3c11c69b954d2d9b01bc92390aa842ba",
+      "targetAlignmentSha256": "012bab56e8ccd622302d70f43b6791e784b7b9dfc5c76b202b8eb3271ae3cfb0",
+      "users": 48
+    },
+    {
+      "matchedPosts": 27189,
+      "poolShardSha256": "dbb568e11921ee5c5e50a1d195bb1de9e6650de21a562faa9ef5fb2e49472f08",
+      "resumed": false,
+      "source": "part-006784-006848.parquet.zst",
+      "sourceArchiveSha256": "6001a5c5bb97fced4ea3875bcdf349222de21803abeacc4ef0ab0b79a62db4b8",
+      "sourceOriginalSha256": "62e8966932780c5e1a5049bbc3f7443e19cf8f930e29fc9580c1885c13ab3044",
+      "targetAlignmentSha256": "1aadf964605f0cb01c2f46b8fd50402e652098ac5cfb601f6c444e87d6b7987e",
+      "users": 48
+    },
+    {
+      "matchedPosts": 37633,
+      "poolShardSha256": "37ff81ad84d389b523f8015f2267272aa2922be1c1a2c63b747a893b45975e6a",
+      "resumed": false,
+      "source": "part-006848-006912.parquet.zst",
+      "sourceArchiveSha256": "867ac9cfa8f6747852370a6f2610573dc8458cf955aa7e690541b004a356f289",
+      "sourceOriginalSha256": "46e6f33332ed3ba7a543dde4c04569c0f1fab6cc591f410ad488d15ed8d542a6",
+      "targetAlignmentSha256": "f18777b92497f06b1214b185b72c796b41f7a32b146df2715d32f8cd2512d31b",
+      "users": 49
+    },
+    {
+      "matchedPosts": 26300,
+      "poolShardSha256": "f1dbc50cd46d4833cc5f56831831c69edf4f9f6055112fa213d77bd33ccdf112",
+      "resumed": false,
+      "source": "part-006912-006976.parquet.zst",
+      "sourceArchiveSha256": "1240349c88747546ad558d690fd01864e277450dccdc2efe1db0d94a020a8f91",
+      "sourceOriginalSha256": "62e4e6b7ef0378d924ea5e6f0754c931bae604c2da26a8301ed5b273c83ed3fe",
+      "targetAlignmentSha256": "019c30f53319af953f6810a3592c383c5f9493360a8dbaedcce028dfb8cfb5a4",
+      "users": 50
+    },
+    {
+      "matchedPosts": 14000,
+      "poolShardSha256": "e34e1a588f4fd6507033891315a01e5d7adc5b86f0ab476ebd6c6bd3a4765ea6",
+      "resumed": false,
+      "source": "part-006976-007040.parquet.zst",
+      "sourceArchiveSha256": "ab8645300dba8a3ea172ab547eb250bcc7f8dc7cb9e976d1fb2068a3befebaa3",
+      "sourceOriginalSha256": "a041f7211e1b088ddb86cb816bbde941023d11ee6b5a1798e6c94a98cf253941",
+      "targetAlignmentSha256": "a966963024da8a56f3687df768ee32c7849a7c07f6e3d8a222f246eef819328a",
+      "users": 49
+    },
+    {
+      "matchedPosts": 20324,
+      "poolShardSha256": "5ddea5d8357b531e6bac40a868b3b601e2b7bc8c4dca8face1bd66849934e4d8",
+      "resumed": false,
+      "source": "part-007040-007104.parquet.zst",
+      "sourceArchiveSha256": "cc361e64d50d5f1f2ec73f15d3598b35456e4dae891b0168f8cf22356d8e4393",
+      "sourceOriginalSha256": "4f13735c254a424ff1fcd4795bfbc274f20b840e182cdab9de7db6c0b41bbc67",
+      "targetAlignmentSha256": "819e5a0bc6f158dfca14f702b43bd690301d8aafc0a730ade2dd4aed97a31442",
+      "users": 39
+    },
+    {
+      "matchedPosts": 20475,
+      "poolShardSha256": "f29c029a9e15e8532ddaaf39706fe8ba53ae60162f52d07f09b37cbd77c1a973",
+      "resumed": false,
+      "source": "part-007104-007168.parquet.zst",
+      "sourceArchiveSha256": "5aa1286795e55558b56ec126be725d6b84a3b3a0c6e708fbae7a67a52bf2de58",
+      "sourceOriginalSha256": "9c37a35c8521b6dee574515ac6023c2f90fcf33577b16c9878e558fced21d065",
+      "targetAlignmentSha256": "b9366c0cf4606a9560771c0bee7e79a7f75ddf740ecbb971caeea2aea70b33c8",
+      "users": 45
+    },
+    {
+      "matchedPosts": 33740,
+      "poolShardSha256": "1082e78015dd47d865999ba82a7664db5ad8322667d87b579da14ae7d39799c5",
+      "resumed": false,
+      "source": "part-007168-007232.parquet.zst",
+      "sourceArchiveSha256": "de89e942945ca9a05c8f15962aaa3770a9782ece747c38a8c37c2d0dd94529d6",
+      "sourceOriginalSha256": "0854de68a0879cd2bebe1078dad54910985fe8ae6f4be45ffaddaee5b3348e25",
+      "targetAlignmentSha256": "994406f307831c2d5832156f552fb068203ce1827f2fc9793e807aae46642b68",
+      "users": 48
+    },
+    {
+      "matchedPosts": 24981,
+      "poolShardSha256": "38fcaaf508e38f2ce6d2a0e1a549c80f12ad352557c32a22280251c485706b78",
+      "resumed": false,
+      "source": "part-007232-007296.parquet.zst",
+      "sourceArchiveSha256": "82d2356325b1f74b3dc407ec2d313744ef800009d360e1b0db3f8b0cd6419ba7",
+      "sourceOriginalSha256": "b16802d817cd8b509f61d4a076d61d2a2910917ae06616bc45eb6f801499ccb9",
+      "targetAlignmentSha256": "7f6af8e46bf997faeff469846df9d2966d2082b185697685ce0f05c4f9d3450d",
+      "users": 46
+    },
+    {
+      "matchedPosts": 30089,
+      "poolShardSha256": "0086ff3f95ed3d2fd146c34353c99a7274d1450094b3530a53f9083ee26f71e9",
+      "resumed": false,
+      "source": "part-007296-007360.parquet.zst",
+      "sourceArchiveSha256": "0067ba82c56ee076019276ade9f8ef71046a1612b5ecfd5114489b9409868c1f",
+      "sourceOriginalSha256": "0c40a4ef06968b217254abef37fc48eaea51072715895b17811ac2a20cd20772",
+      "targetAlignmentSha256": "261b8c0fefc1f394d90963abfce5ad9ca904e36f25421d0f5e7dcdb5fc276935",
+      "users": 50
+    },
+    {
+      "matchedPosts": 19868,
+      "poolShardSha256": "490a508cf57366f511c541d4b76dd61acac1bf35ba5c2149296b31aca7926899",
+      "resumed": false,
+      "source": "part-007360-007424.parquet.zst",
+      "sourceArchiveSha256": "f71322bef4bdee977aa30aa24cd2a47c1a3869c247d5ac4af8f359f83b1a03cd",
+      "sourceOriginalSha256": "6ecb5354b1b87938391718f8c2b5b8a6c6a0c11c091755d21c431a3317626358",
+      "targetAlignmentSha256": "dd2babc498e254f38e6168d45656ada2ecbcabcd8cc2db18ab27438b05fb599a",
+      "users": 48
+    },
+    {
+      "matchedPosts": 19808,
+      "poolShardSha256": "344867a98e20c37b0b8a09fae6df24d5961be1942b174e9f54554d1a21f5cc80",
+      "resumed": false,
+      "source": "part-007424-007488.parquet.zst",
+      "sourceArchiveSha256": "6ebd53f23a7dd30b25fe3daea01793407719378a86dd9ca972786e8943b05265",
+      "sourceOriginalSha256": "cbf4a32f16b008461560295eaa3ce26a41178c9b17f8127c3749d27eadd7e889",
+      "targetAlignmentSha256": "c04067802a15e1cc56a6123d0327349e43a3e80d9062ff894cd8c8359ce6b6d8",
+      "users": 47
+    },
+    {
+      "matchedPosts": 25119,
+      "poolShardSha256": "a001debcc777d2869af3d8788edb53e6df080ed43d643989baa591480d95fbf1",
+      "resumed": false,
+      "source": "part-007488-007552.parquet.zst",
+      "sourceArchiveSha256": "4f6d36aa2944646c228ee82389e31d827b689f5d9cf9a8140d23010e77d07544",
+      "sourceOriginalSha256": "9540adb75808a72c7837dadc4d54efb99bedd866c2da12157de579660dfdf943",
+      "targetAlignmentSha256": "e196482a858b2b4b48a4866e01ba0503789157861a8f471bcf9846001711d740",
+      "users": 51
+    },
+    {
+      "matchedPosts": 14635,
+      "poolShardSha256": "4076cd9998bb457714c12124763420fb7c0d94d5406d3ed2d6ff862dcc22cc54",
+      "resumed": false,
+      "source": "part-007552-007616.parquet.zst",
+      "sourceArchiveSha256": "11c9d7fe3b4c3dcbf59e4b46198cb7ddfc8fbf59b9fc3b1a49dc760afe457615",
+      "sourceOriginalSha256": "b85b30ef4c4cc4bdb12f36ad5347f5bc0d495d72a489643f8522a7768f611e3e",
+      "targetAlignmentSha256": "498a06b16fccb6e64b87714ed1375044ff1c1aca5f37bf1c6903c6ac649c7581",
+      "users": 45
+    },
+    {
+      "matchedPosts": 26818,
+      "poolShardSha256": "0b9ce70b4061bd142975cb8ea7ca8616f40164adcf85130fc849488f7a93f6ba",
+      "resumed": false,
+      "source": "part-007616-007680.parquet.zst",
+      "sourceArchiveSha256": "e3b631121afc8fc0fc4996785088a72a5a0ffdc78da27b76926ca20e7d6529c0",
+      "sourceOriginalSha256": "6a0752cf9d0a2621d00f45e84a9f0542ac174fefee2e0cd13ead5a6011f221f9",
+      "targetAlignmentSha256": "2c8893bbe4d7361530a8990e46d01632d0106ba43e54a1a144b45368a1f2f99a",
+      "users": 46
+    },
+    {
+      "matchedPosts": 26908,
+      "poolShardSha256": "1304e9d092e95d04bee20732b69e88d3c1f1af07b36108656fc0da01840b0fbb",
+      "resumed": false,
+      "source": "part-007680-007744.parquet.zst",
+      "sourceArchiveSha256": "4cae1ba59130297b54c3880426c21b4b016dc91b9a537acc489ee06b5681af85",
+      "sourceOriginalSha256": "3827906117cc058269aff77fc38f9919c7eee7c366867db0b7c925d65569eea7",
+      "targetAlignmentSha256": "81ee5565641ff735aeb41c71c2935190098bdd6cd018bda84a08afee9426985c",
+      "users": 48
+    },
+    {
+      "matchedPosts": 40549,
+      "poolShardSha256": "79c16c3c9303ace99af3212fca40e48b495f38b6f48d026ff9cf65eb30685a82",
+      "resumed": false,
+      "source": "part-007744-007808.parquet.zst",
+      "sourceArchiveSha256": "902329db4b83f14179ef4b1a213fc11b1d258fda12545a2b55fd1b0d29a7143b",
+      "sourceOriginalSha256": "76fa7a5233401a9d23943386ad069e0d1351cce5a675bd707f3b21014fcfc3de",
+      "targetAlignmentSha256": "9bf24c5ef45b86876ad4c87934d6854aff5806bf509d7c8a34a15e39f9583cb2",
+      "users": 56
+    },
+    {
+      "matchedPosts": 32956,
+      "poolShardSha256": "f0741850913a7e7721bc6fa702c19bed5afd55f1a7d191857f945dd2e881fcb6",
+      "resumed": false,
+      "source": "part-007808-007872.parquet.zst",
+      "sourceArchiveSha256": "23ac2519ef6a714003d8098ebcddc04c681324ac3c425ed2cafc7557c3a1ad51",
+      "sourceOriginalSha256": "5e483890b90243d57a13b9926fd9f546a362a8348003df694575bd741f08ca5c",
+      "targetAlignmentSha256": "f127f648a5a305ceb2a8149b3541ff953c847b788c54e18b9a512351e67212d0",
+      "users": 52
+    },
+    {
+      "matchedPosts": 18633,
+      "poolShardSha256": "26efa592523f29feccba5000ce00116b51c73ac4b1a5defd116b27462075eb3f",
+      "resumed": false,
+      "source": "part-007872-007936.parquet.zst",
+      "sourceArchiveSha256": "d1af4ba08f89f1afe3391390e15e097a095a30d2dc106a6a7ba76ce9c5c3b1d3",
+      "sourceOriginalSha256": "73d37f22191b450c4e1a66d5b754ef8f33d19ad163333d8ff49a61155152ec37",
+      "targetAlignmentSha256": "35a27a7128ff93f6d978e21cf535a39d0cc4b93c08a01e6272c979bd0bb2e74b",
+      "users": 48
+    },
+    {
+      "matchedPosts": 27007,
+      "poolShardSha256": "5941ba65ce7f8f737f046e419033d76a6694d21b34d56052778928ee93777742",
+      "resumed": false,
+      "source": "part-007936-008000.parquet.zst",
+      "sourceArchiveSha256": "3f2e24efdef1be9168a8e0e612ba613eccbb13fe5109b80e74de8d456d0d01d6",
+      "sourceOriginalSha256": "984b32d66ec92f0010260449b6c1d6de28d99a26544edb9f750a3fc6a6a74b40",
+      "targetAlignmentSha256": "1fe9ff026408fa44e673155e475d239a9608ae1c95104f65ca77cf6950a1d017",
+      "users": 48
+    },
+    {
+      "matchedPosts": 30650,
+      "poolShardSha256": "2da004fafbfe0c152694846f5ff5dce27aed8d87c4e049d9c6ca87afd2ff6b52",
+      "resumed": false,
+      "source": "part-008000-008064.parquet.zst",
+      "sourceArchiveSha256": "9315577424f9e4592061013cc96ade63ee7a8a6bb5c52364fec0c1894d189453",
+      "sourceOriginalSha256": "56dcd5a261c80cf86e754ef157e8eb4b1128efcb855aba9ff409a46a48576960",
+      "targetAlignmentSha256": "8ddc1c41833a79501ca79f295fde248a86ba735703605745c21c9e9124d5ac17",
+      "users": 52
+    },
+    {
+      "matchedPosts": 24668,
+      "poolShardSha256": "04e8dfffbd77ddbe5400cd33e849524c07ff3520934f9ab1e1a9aff4ad7c217c",
+      "resumed": false,
+      "source": "part-008064-008128.parquet.zst",
+      "sourceArchiveSha256": "5f7800873c84401ae1173be337b1cc3b7ae96e1b8f7f7a167e4244031e63a9aa",
+      "sourceOriginalSha256": "4ffba3fe617887c57e5b5b5b01e5da81527893acb4cf271f3f9abe4326a309f9",
+      "targetAlignmentSha256": "1189eeae40b1f31e20cd01846b5b7d08ca7ab2154e0581966d441b3bc661efc3",
+      "users": 54
+    },
+    {
+      "matchedPosts": 22772,
+      "poolShardSha256": "602b86f084a4c5a7826fe56de1c63e3b707ede6c15ba90ec57335a040f031509",
+      "resumed": false,
+      "source": "part-008128-008192.parquet.zst",
+      "sourceArchiveSha256": "3b98df5cd39a2af6f59704c3636523a22106adeb520ee49317502adb60fdb3ed",
+      "sourceOriginalSha256": "2689ba26cf0780cd9504349387c427793580dacaa044f6a799cb2d40806837a2",
+      "targetAlignmentSha256": "85587ecac231c92fdd695c8914cedc3b82d3f3d677346daf40cc9bff57f80bcb",
+      "users": 48
+    },
+    {
+      "matchedPosts": 29615,
+      "poolShardSha256": "0af4bd86fef7dcf2bb946d664f1239cff3cbb3058990bdc3df94ee19ca682fa2",
+      "resumed": false,
+      "source": "part-008192-008256.parquet.zst",
+      "sourceArchiveSha256": "399ab1d3a7597d2a1ecb598e495f9ccbb5d081b09e0dcc32d01978670c4521d4",
+      "sourceOriginalSha256": "c1d09aafefe9ea210a93608edf151227db038b81bb5f445c8151608087364bde",
+      "targetAlignmentSha256": "081da9947f561f645f45bf5a849b64727f2a0f177a442870b4b9fe6b5af48cdb",
+      "users": 51
+    },
+    {
+      "matchedPosts": 30105,
+      "poolShardSha256": "8c646f0169ca70a9444595696b5c96af4e3c0418c017fb3a562ddc6a585ddcf1",
+      "resumed": false,
+      "source": "part-008256-008320.parquet.zst",
+      "sourceArchiveSha256": "468c8462db2a782881c53a779df3902d7ffff1521c0211c9c230ae61a8e1553d",
+      "sourceOriginalSha256": "639439bade51469ae1ab1dfdf2acc16913f4d433574b03763087ec0d8f55d795",
+      "targetAlignmentSha256": "767e27275e8bfe9bd21426ddbe57a6de28352665acaef531fb80daba17b3e03a",
+      "users": 47
+    },
+    {
+      "matchedPosts": 30238,
+      "poolShardSha256": "43b68587cbd541a7f181a32a182eea57ee05c61f252e571b0416091c0070c70b",
+      "resumed": false,
+      "source": "part-008320-008384.parquet.zst",
+      "sourceArchiveSha256": "5b6c3ba24ac986400a1707d4e4f8f50f24ef9abb08e96b83ab84b2f1fd50fca2",
+      "sourceOriginalSha256": "7bbdba88cded240cb46762f9d7c9e26c1aa98c3c7ddcef50a2aee5b42fe3b848",
+      "targetAlignmentSha256": "7c8b5fdc213898f6963e4314445ff06729b7dccd814d46d79618e1fde0f8bf3b",
+      "users": 48
+    },
+    {
+      "matchedPosts": 37409,
+      "poolShardSha256": "c340704b2fd7b5813188fae9514af1b255ca35d91ef9d7c7a8d7bd74b6e5658a",
+      "resumed": false,
+      "source": "part-008384-008448.parquet.zst",
+      "sourceArchiveSha256": "dcaaa9bf1fa3722868afed4dd91484375a29a1ff966353d20360ad93ed225aae",
+      "sourceOriginalSha256": "7b603322b41a6e89f740490bb2bfe9abeabe594afcd045fc90ee5b7f5da4dd34",
+      "targetAlignmentSha256": "566e7f6a4d2f4b902abd77fd134f8fe2a727f7140f66658f3276057b7e68dd56",
+      "users": 55
+    },
+    {
+      "matchedPosts": 10027,
+      "poolShardSha256": "9d76723ac9d8476e5510c25acebedcb19816234041c14abb4b6c14b42fce9c9f",
+      "resumed": false,
+      "source": "part-008448-008512.parquet.zst",
+      "sourceArchiveSha256": "f79d52c05a90e502dfc92f993814f65cf843575b05d6b2b64c2374ac811e4a35",
+      "sourceOriginalSha256": "d8c8ae8b4fb645e6400ea09d158df92d48b135d66a18de7a8cbea98e91d6f3d0",
+      "targetAlignmentSha256": "a1c67c8032127fd7ac01e7fadbc03c1b9c318edd6c8b76abfb0b7d3abd3664ca",
+      "users": 48
+    },
+    {
+      "matchedPosts": 29822,
+      "poolShardSha256": "00b12936c7cf2010f7298a670d7f244378f0fec78fb72c49d387fff1f0a500a0",
+      "resumed": false,
+      "source": "part-008512-008576.parquet.zst",
+      "sourceArchiveSha256": "c2c867f72c9c29238a61d6e4b262e627a2b924da3c2babc0e46f0c17e28a2e11",
+      "sourceOriginalSha256": "7617cd82d6b6ff0682b0113fd9e824bfb5799afb79eca3dae12129f27fbb8e78",
+      "targetAlignmentSha256": "00c387c73d6aecdd4071b631bf58444161bf9dae66876cb85a63e713e0076e16",
+      "users": 52
+    },
+    {
+      "matchedPosts": 27177,
+      "poolShardSha256": "d3d50f6c1c0f81c3a058385143cedbde9c84f821ad1ee218bfcb35a1719d225c",
+      "resumed": false,
+      "source": "part-008576-008640.parquet.zst",
+      "sourceArchiveSha256": "3339584e3fdae391d403f5e87f5f119a80ca7e7a07e933eaa85bfcc2e0d5f9ca",
+      "sourceOriginalSha256": "3167e70749806ef3c88fd2ab46b60ff1f6373936f56e0932368c5ac406bcc316",
+      "targetAlignmentSha256": "86cd5f0e1f4f7eaa8b891f6998f37883b3953588847e1ba3c9daae9e1600d547",
+      "users": 54
+    },
+    {
+      "matchedPosts": 11616,
+      "poolShardSha256": "244cb219b553b544e15599749943a06d7f35fe2dd218d990b039a839f20a9c41",
+      "resumed": false,
+      "source": "part-008640-008704.parquet.zst",
+      "sourceArchiveSha256": "00c1cc7fbcf8b6729381bad295c221a578c523f8251419603871c902d7130bf8",
+      "sourceOriginalSha256": "3a619c6b736737fa90de944674e2ec4dc959eccbbbe8285a511a21f7456704c3",
+      "targetAlignmentSha256": "35abd2e7b185c66d13b24b66aeee7898d92da119955dc4c178df211d2d68f44d",
+      "users": 43
+    },
+    {
+      "matchedPosts": 22140,
+      "poolShardSha256": "00717b16641e446269814214c44599a97485b8c21d9bd26f4b8e5d0219c8b2f9",
+      "resumed": false,
+      "source": "part-008704-008768.parquet.zst",
+      "sourceArchiveSha256": "ce9e4c41d757aed4a20ff3eb4b97051112ea76f1662f9ab52818f7c7daaec878",
+      "sourceOriginalSha256": "d7d5a04cb833a1211c927002808cdc01bf4330f8ea0b73ef9359533a1dbef92f",
+      "targetAlignmentSha256": "6c368b03dd2fbee186c34037c635101e2b81c58a5c6c5c05183330c44c0ab967",
+      "users": 51
+    },
+    {
+      "matchedPosts": 24610,
+      "poolShardSha256": "9196f5c71bcfa9d0636eb304bc12d07b47c2ee6eb084e62a1970f8150d299ec3",
+      "resumed": false,
+      "source": "part-008768-008832.parquet.zst",
+      "sourceArchiveSha256": "46f9a096a9adf04f96a3cebeea25fc9e8e01987bb7e1582ea684edf2009fc373",
+      "sourceOriginalSha256": "deaf67165ad80276fa147cbd3f4ac51914c03f92c2384f320f2b8a7ffff49057",
+      "targetAlignmentSha256": "8caff43bf0dbc518e84d3b21c67b00ab2ce2f46db22e3c78b4a849d20c719699",
+      "users": 46
+    },
+    {
+      "matchedPosts": 30820,
+      "poolShardSha256": "512bc0c45109f17673b409cb2af2903f4b4b2a560b935e7379f8998fd9228d4e",
+      "resumed": false,
+      "source": "part-008832-008896.parquet.zst",
+      "sourceArchiveSha256": "5f3c8241ccb1785388ddfd3649860a4f6466b5c9adfb309c295c0be9269a29ef",
+      "sourceOriginalSha256": "b8eafaea12893688c9e763d2a002014ec526d7d98e347bafe7e2b97af5a3ed2f",
+      "targetAlignmentSha256": "5b2113755a43532c1e8598ef15fd2ec09f4d1c86fabaade4cc527d9df0811ce6",
+      "users": 42
+    },
+    {
+      "matchedPosts": 47802,
+      "poolShardSha256": "cb657b84baa92e2e4e29bbc86b27b86b299269f63ddde6693c4f61f4dfd205ca",
+      "resumed": false,
+      "source": "part-008896-008960.parquet.zst",
+      "sourceArchiveSha256": "889f105767a1df29ef35b07956f30273d5dd91624011748f8ff7a4901d227035",
+      "sourceOriginalSha256": "63e8cd4ce99afafe187f7f3a42d048b7b41882ac5c415cca3f402dd7ee0d1e4a",
+      "targetAlignmentSha256": "2a3254432c0f80e7c04fe768319650985e575250f47ecc64023cf8d879bd4476",
+      "users": 44
+    },
+    {
+      "matchedPosts": 41839,
+      "poolShardSha256": "f843f18b98db2cda7cec3cfbe20c802c1cafadaa746bc1329d92172be9368e28",
+      "resumed": false,
+      "source": "part-008960-009024.parquet.zst",
+      "sourceArchiveSha256": "e4fa605ec199f077c5785f6bcb9b02c91b549fdb5e8410debd5d91b0b010cf3a",
+      "sourceOriginalSha256": "7e8327e3bf4d34ad834d05e55892a65dc41c16fa5acee6579e9dd8dd5e65fa09",
+      "targetAlignmentSha256": "390d692da02d050562263178ee23ce1f57c61943948da7a6062e490b89568822",
+      "users": 50
+    },
+    {
+      "matchedPosts": 18100,
+      "poolShardSha256": "c0a9d2ed0ca3c6f6b7922bf203ceef47c08ba749bbdea599057b8d1b4c62c267",
+      "resumed": false,
+      "source": "part-009024-009088.parquet.zst",
+      "sourceArchiveSha256": "0ca0f1dce66d54752eecd300be76e3386a87146e1a5421f01b2397da5e16bd3d",
+      "sourceOriginalSha256": "db683a5b62e9cbfd3c9ae7277ce3676a18b94a79be7c38f4f0f1f031c5f5f2e5",
+      "targetAlignmentSha256": "1e8e1b03bdcd51fe2e073f175aea8cfc53da5afa5f1a2c29b3fa27188afd2f93",
+      "users": 51
+    },
+    {
+      "matchedPosts": 11549,
+      "poolShardSha256": "b32d757cdd459139d6a14870e879052e54b9e347b751f7ce2e0c0d3790b40439",
+      "resumed": false,
+      "source": "part-009088-009152.parquet.zst",
+      "sourceArchiveSha256": "e2b5e8d305f0b46f97a473f063114b2cd4a5eb115af9026ec56aee739387ccb6",
+      "sourceOriginalSha256": "c60e6bf12f563598280fa89bc86b73870d146bb2fad3555a8deb580e534dcbff",
+      "targetAlignmentSha256": "b3c6e99069e8e90816b7fd3a9d4d84640af3c57ac692e1cc62c54835402a8390",
+      "users": 43
+    },
+    {
+      "matchedPosts": 23514,
+      "poolShardSha256": "fc3570ba283cbb8b0454c70a066fd9004ba9ba9bc6f6483bb668ce551b773fc8",
+      "resumed": false,
+      "source": "part-009152-009216.parquet.zst",
+      "sourceArchiveSha256": "bf3c2d40b36022ad1c3923dd803856f33b00b74d0c27fb54cff620970531467a",
+      "sourceOriginalSha256": "2cda1919d51671444c38dfbdc3c57e245d799ffb9de2460ed44f9b8451e6263d",
+      "targetAlignmentSha256": "a3d2cb21fbb3e00ca95d27ad1c50c22c3c91c0038eaf9b86c40a0b7fceb13a6a",
+      "users": 51
+    },
+    {
+      "matchedPosts": 17995,
+      "poolShardSha256": "3efd2b03fe2e3b906e41f292136ae6ec43f4ad39e7b3c7e5238bd86621a49e9f",
+      "resumed": false,
+      "source": "part-009216-009280.parquet.zst",
+      "sourceArchiveSha256": "74e7f154846089bf47d2d858b050a0980b6ed9f17fc3132a84c27d9a18c48084",
+      "sourceOriginalSha256": "63627c4fde72c54783917ae497c185a1697304c2830381b571c980b8129c45b0",
+      "targetAlignmentSha256": "c43a10e777c841519247178311091b59473b89b8a969b61ffba3c413e5ba86c2",
+      "users": 45
+    },
+    {
+      "matchedPosts": 13287,
+      "poolShardSha256": "bfa0e49f03b51b49d179aec1ff37c52fd61cd2a766969ddbc7015144e6d22bbc",
+      "resumed": false,
+      "source": "part-009280-009344.parquet.zst",
+      "sourceArchiveSha256": "3681bb69e190559b7c67ce0781f7b576ddfc687ba1b4ccf0c6717a8b0e46bc7e",
+      "sourceOriginalSha256": "52ecc5be6b4b86fd10ab551093d36ff0c0fcec8f63cd9e15a9c31e8967f15438",
+      "targetAlignmentSha256": "17d386a519e000e80a4383ee7f3b8da4f2a4f1b2f1cab8f3e1ae72d0e65a8400",
+      "users": 46
+    },
+    {
+      "matchedPosts": 20292,
+      "poolShardSha256": "2978512f25a05868710eb9404d996479c1f68253dac36ce3dc5d2e235d41b586",
+      "resumed": false,
+      "source": "part-009344-009408.parquet.zst",
+      "sourceArchiveSha256": "e76fc2ed3431b5bcb5ef2c3c6d5bfcf2c5b5b9ea699cb1005e23cde3b3de2009",
+      "sourceOriginalSha256": "cfce27cfa6090e89d1f0b04291d4fbbbe6cb8aaf5c0968426f9e28bbeac3a243",
+      "targetAlignmentSha256": "90a68cfbe4a241a800e5721e0bfc482ee6637cc01fd40597a87dfc1b07acd970",
+      "users": 50
+    },
+    {
+      "matchedPosts": 34609,
+      "poolShardSha256": "7d51f99148900f1a9ce22bf5f30765f178fa52d97ecf0430c094e329e9700117",
+      "resumed": false,
+      "source": "part-009408-009472.parquet.zst",
+      "sourceArchiveSha256": "341184bdf15f969b6e94f881a4a9a4869ad1d73664b833630634103ab6d19bfd",
+      "sourceOriginalSha256": "0e004f82e30dd77230c7b003af4bc32680587e2f526f8253634ff7caec1342f7",
+      "targetAlignmentSha256": "434cbee01344ebd628f65c186a3d2cf733467ecaa35deb4caaef6903ddd330de",
+      "users": 53
+    },
+    {
+      "matchedPosts": 32258,
+      "poolShardSha256": "f696625eb9ee4ea7a825669dd649eb9cfb46756772b2375932ce3aee292febb5",
+      "resumed": false,
+      "source": "part-009472-009536.parquet.zst",
+      "sourceArchiveSha256": "ffba199d6d51a7951280bd1c42dc598fcd65ff2a97a9acde59f3ea91fffe117a",
+      "sourceOriginalSha256": "d224c7e2ed24813bdec48e235ed2db3882a438cca9c690137e2f42cd59d964a3",
+      "targetAlignmentSha256": "c862114d67bf3c96e3ab682ff5e2617359e83b37cf9a776dfeefb58453d6efb5",
+      "users": 46
+    },
+    {
+      "matchedPosts": 28842,
+      "poolShardSha256": "a3b8232bac136114a8af2ae7be7cabc08b00a58cf28e854945309b4fefa9ce2a",
+      "resumed": false,
+      "source": "part-009536-009600.parquet.zst",
+      "sourceArchiveSha256": "f61725cfef5db1c3e223c1ea5b6e8899f30810613ac68204b807775a7814fa5e",
+      "sourceOriginalSha256": "624516d5bde27ee95d9f4483582cb449aa54cb1e1924aa3ef4324a8f15290e65",
+      "targetAlignmentSha256": "8b79b8757dfa8e45c85ef4ba02b4e2a724f6e1e02891637da520e5334a624c36",
+      "users": 42
+    },
+    {
+      "matchedPosts": 26239,
+      "poolShardSha256": "da3ee8567c3775383e6f84e17738bb77027a0a9ccd4641458f990ae5cceafb8e",
+      "resumed": false,
+      "source": "part-009600-009664.parquet.zst",
+      "sourceArchiveSha256": "26d9ea085ea6abc5a58de738f355a0b6bc95823b6cce3f0f37f87a5d99961804",
+      "sourceOriginalSha256": "f0d9c710c264d977a1089570637490ccada7ecaefad00ef9459183f949eee3a8",
+      "targetAlignmentSha256": "cece2e744e1d1aac5b810aad1bc63add23cb7df897776e2b044d8910960f4daa",
+      "users": 48
+    },
+    {
+      "matchedPosts": 30807,
+      "poolShardSha256": "8eb4d0c799b0a606d0ab70355d397aa31c3b33a5be31f6a0fa97684a3525d815",
+      "resumed": false,
+      "source": "part-009664-009728.parquet.zst",
+      "sourceArchiveSha256": "1e41f658213bc372f9bdf6c89a9ee6e21efd7c1f695e99b40a7212a16b8d4188",
+      "sourceOriginalSha256": "d02c1ea8ddf78068ec73f35779464a8d8820dcb6e0a76aacd2f32180a88b67d9",
+      "targetAlignmentSha256": "67837ba4bd5d5ec520dcef7a50686757c783daab85a94cebfe7a3683d35ae588",
+      "users": 43
+    },
+    {
+      "matchedPosts": 27796,
+      "poolShardSha256": "7e556bf68b55157a4e5e7dd02d9ac4844dbe2de330b70781b5dfdb38f8cd38aa",
+      "resumed": false,
+      "source": "part-009728-009792.parquet.zst",
+      "sourceArchiveSha256": "3e82bb47354574557f20ecdd7df6119e2621f6b10c62da0d01b12d19f0aeef8d",
+      "sourceOriginalSha256": "5afe7c97d0ddfe80eeb26d0d2fc1353126e6b6facfcd400ed1dddec1a523e2e7",
+      "targetAlignmentSha256": "28243d725adb0cb8652648b4a6c10891487dc71fe3d02f794c96021f74f2be75",
+      "users": 45
+    },
+    {
+      "matchedPosts": 33599,
+      "poolShardSha256": "3d55816083a0b933ed06fd53a64f3d718568e5678a07f37f3d28884c6b3d531e",
+      "resumed": false,
+      "source": "part-009792-009856.parquet.zst",
+      "sourceArchiveSha256": "e965e2e97c6a3f808a3cddcff87a0155a479da4f4da7f96adb1936637785e0ef",
+      "sourceOriginalSha256": "96b2068cd09ebe3a6ccf94d20709d26743255ef0b81cbc778532de2c026a9d71",
+      "targetAlignmentSha256": "d46ef3f111164b19bb86d92893a92b659e391565017736f97a66346e0e75169f",
+      "users": 48
+    },
+    {
+      "matchedPosts": 30077,
+      "poolShardSha256": "08615b6ed157e265278fa057545157608027f9828ceb6d087bf0358de7824ca7",
+      "resumed": false,
+      "source": "part-009856-009920.parquet.zst",
+      "sourceArchiveSha256": "1da00c8e6847310a65f74399be094a17ba0e1885faddb014f5cf394d9d755214",
+      "sourceOriginalSha256": "066dffca170710638cf40c056a28d4350ea932b717ebcc9482acd451a943c1e1",
+      "targetAlignmentSha256": "6f0a3581151e5c0ca25a1ed98725dbb32613adce8cbce7cc2bf956093e51b9c1",
+      "users": 46
+    },
+    {
+      "matchedPosts": 31609,
+      "poolShardSha256": "04b0734711d7fea044e9b7f65cca288aecd9449432ebe74d88158a707b5e57c3",
+      "resumed": false,
+      "source": "part-009920-009984.parquet.zst",
+      "sourceArchiveSha256": "93ea0fea13f7f6f89f04a2ba6c56b3fa35d8bfa6ef42a45aeca1bc5626762bfa",
+      "sourceOriginalSha256": "aa665a693ae37576d61372953d008d02a69cce57f1a2c4fcd767ea2f58b03d03",
+      "targetAlignmentSha256": "53a05b64e8c817659c46f9fee979f2fc55fad0c33c53e100430779e65f922946",
+      "users": 53
+    },
+    {
+      "matchedPosts": 24996,
+      "poolShardSha256": "4467953009745e8ebda146d25705920a6c4f0349fb2444da1bd44d5c4f3b3a08",
+      "resumed": false,
+      "source": "part-009984-010048.parquet.zst",
+      "sourceArchiveSha256": "bc90e8e6c815dfef9ca4ed83eb1dfefb5dffaafe31551252459eb0a1cb362070",
+      "sourceOriginalSha256": "c860275bc3bb15653cbd434e66bb4798b16d376c8167a8b770c0d6b2ca7b0d1b",
+      "targetAlignmentSha256": "6fc44f0098b591510dc764eb4752160a1257e7523611e565a85a720fa586c3d6",
+      "users": 41
+    },
+    {
+      "matchedPosts": 25114,
+      "poolShardSha256": "0f5b8365023755c6711b21c55279c4865c194d240a4193074c53535fbd523e4c",
+      "resumed": false,
+      "source": "part-010048-010112.parquet.zst",
+      "sourceArchiveSha256": "3119bc9c322398857083726d5bbb64c1aa896107f4ca15e8c03c15e69f370b93",
+      "sourceOriginalSha256": "d80acab1fc821b77a0bb0a637be20c657b532b307050aaa154b0fec27e878971",
+      "targetAlignmentSha256": "d3701df73b7fc88552b5b7fee464d5099106c2d43c44dbd1c9661fb2497191d4",
+      "users": 42
+    },
+    {
+      "matchedPosts": 23429,
+      "poolShardSha256": "5c562b2b7feebf2298fbfc115b42290b54ed2be8d5f80d5ef8ebb2521266dd15",
+      "resumed": false,
+      "source": "part-010112-010176.parquet.zst",
+      "sourceArchiveSha256": "d6f58756e4112ea23b75d1898c914f652d8dfc01427797e75f5e67b388efec4e",
+      "sourceOriginalSha256": "f42f97ac98f59bce467e9dfc63f88cea85a2f61546553b26f3a204dbf4707145",
+      "targetAlignmentSha256": "fe555253d990c2bdc4877ec9e057e682d4eb825a1f55a098933df820227ece40",
+      "users": 46
+    },
+    {
+      "matchedPosts": 28892,
+      "poolShardSha256": "59f9b67e095310a013b2128f50036adb59c2dc2cc276ef07e9693a36fe38acfb",
+      "resumed": false,
+      "source": "part-010176-010240.parquet.zst",
+      "sourceArchiveSha256": "626a45dbda288145793b5d6eae9bd6868d5a18ec11a291066d0be3a35d3108fe",
+      "sourceOriginalSha256": "c6044575ef17370a3ee1b25dbb39402c9d7f3f0d4cccd8258a3774c469414290",
+      "targetAlignmentSha256": "a6e8d1bb03626840f7d0e1695b367e8206977d4d1c4f69f917495bf4f47094d0",
+      "users": 45
+    },
+    {
+      "matchedPosts": 26462,
+      "poolShardSha256": "adfbb5b5908c0cd37b5468516e75697dc26428031544c65b342ac77bc3b95d67",
+      "resumed": false,
+      "source": "part-010240-010304.parquet.zst",
+      "sourceArchiveSha256": "fa60959145466dcf10788f8897492d2a8baa1a9d948e0fda6d2e464852b571f9",
+      "sourceOriginalSha256": "afad8e7ef0cfe777ba70cf55cf47cbb93a5f2fc930068c2f74c0b44b4bb8d9bc",
+      "targetAlignmentSha256": "136bd2f5e9324fc99282b4eb1462d6870640ebc7818cd8f5ee8adb2ca8b080ed",
+      "users": 47
+    },
+    {
+      "matchedPosts": 26304,
+      "poolShardSha256": "475d8e832ab8ef19743c76949953db255cbb2d3cb4e382ad4f73ca00de6a4e0c",
+      "resumed": false,
+      "source": "part-010304-010368.parquet.zst",
+      "sourceArchiveSha256": "d4f5f49a26b17475a3a9df88a8c4732d284567513fcca99a2d9cd16e744fbf40",
+      "sourceOriginalSha256": "cf6bc3ee1de85f9bf002e11905251b65f110dadb436f9b11f7ec373e89207f2a",
+      "targetAlignmentSha256": "5e6a43cb36248a3913c834706fc5f58fff2d97d65478f0cf9423df31722d0e2e",
+      "users": 42
+    },
+    {
+      "matchedPosts": 31362,
+      "poolShardSha256": "4b1731bc2b29abbd46b3525fe166b11e8881c223b52d67d46332d49c28af8a41",
+      "resumed": false,
+      "source": "part-010368-010432.parquet.zst",
+      "sourceArchiveSha256": "a491b0664779436094d9e158141aca2244f7d76182c85a8323bcabc2c0019f67",
+      "sourceOriginalSha256": "fbb2c58498b38723900b463f2a69ebab0aee87c258aa217e123ca1d787f98ec4",
+      "targetAlignmentSha256": "ad8bff190397c623b3017ed91b560f0c72ee5f62bddc5f76b61aadafe9364825",
+      "users": 46
+    },
+    {
+      "matchedPosts": 35428,
+      "poolShardSha256": "dc3861fffd1782980536bdd3556c78a404bef3dc182da07bb72edb873ee840a8",
+      "resumed": false,
+      "source": "part-010432-010496.parquet.zst",
+      "sourceArchiveSha256": "b806cfa99eaf9199d383d2d650684557ff892cb8c72fdefcdfc20293e8a5bb82",
+      "sourceOriginalSha256": "d3194f69a30297ea9f47a0bcd3edddba97ec2afd3ef50d16a87ca48921fe34e6",
+      "targetAlignmentSha256": "f58fcb9d3e9b52eb419248ca792a5f1efef312d500750097e0ba5d2dba81e2ca",
+      "users": 52
+    },
+    {
+      "matchedPosts": 28705,
+      "poolShardSha256": "861dc4231e2d0b8df9f93eeb482ec329b926dff00a111e107c3ab01c3bf739c5",
+      "resumed": false,
+      "source": "part-010496-010560.parquet.zst",
+      "sourceArchiveSha256": "46ff9b0438a491c08aafc6a208e94416974749888164f8caa6f64e2107bf6b62",
+      "sourceOriginalSha256": "9eecd406a4fd124b1391708499012f978a208f1fb290d950ef08efd01be0b09b",
+      "targetAlignmentSha256": "be55ebec053405a6d817304ddcec16e1742dcb7b301e5fc1358d53abf1df1aaf",
+      "users": 49
+    },
+    {
+      "matchedPosts": 27539,
+      "poolShardSha256": "31d4f7bb60574f1236ea9743ff996fa725f96d7da9e341a70fb0d0bbedc8b8e3",
+      "resumed": false,
+      "source": "part-010560-010624.parquet.zst",
+      "sourceArchiveSha256": "f866f0f654624954e011d1bdd913dc398f8dc683ecd4f93fdcd62faf0ee580d0",
+      "sourceOriginalSha256": "af9d144ca528a9694708f68b393a1f31e93b309e76ace4834838fa6a00824b76",
+      "targetAlignmentSha256": "8caf789eca6d12169baf61e7df68d72c02003781c31a3b79aef2d2d3d7a27c29",
+      "users": 49
+    },
+    {
+      "matchedPosts": 26976,
+      "poolShardSha256": "3448a90cfc54d81d8d6ae652db435826611a5dd70eee31801f47795ca1c552ff",
+      "resumed": false,
+      "source": "part-010624-010688.parquet.zst",
+      "sourceArchiveSha256": "63a6bd3a3cf990dd4df57981d8ba603d2cb917a9102197ec6fbd191040f407f1",
+      "sourceOriginalSha256": "92834b41fd5afeb759f021cfaa88785db6ca518a474ba3f32ad003440f1c30d1",
+      "targetAlignmentSha256": "ab52221f872b9d4bc353422042c09eee43729f3438165bef9343f68c7d852f2d",
+      "users": 45
+    },
+    {
+      "matchedPosts": 32326,
+      "poolShardSha256": "fcc6c128cf32fe851ffba8c0c322d65557a10316460c6b59433f9b258f5a7053",
+      "resumed": false,
+      "source": "part-010688-010752.parquet.zst",
+      "sourceArchiveSha256": "3921a91edff24d78751ada504a2ecb650cd136e755644f4babfbca488dbe0af5",
+      "sourceOriginalSha256": "4c13c208c52c0c35a367e308cc498a256c2e07dbe5380270e11703e9be1b18c4",
+      "targetAlignmentSha256": "12250d552cea67b08226efb015c4a46ecbeba6b24e45aa9e0cdf49f9d2158895",
+      "users": 47
+    },
+    {
+      "matchedPosts": 9784,
+      "poolShardSha256": "8b9dbf9bf8d90d2e18b8f44c35511d9c34711a8e5674ab4a9ecd75420cd4c566",
+      "resumed": false,
+      "source": "part-010752-010776.parquet.zst",
+      "sourceArchiveSha256": "84d21bc91c0b1bff9de2f49565055f3bb51a50ebe431a50a98f3c3b99eb48f91",
+      "sourceOriginalSha256": "017f7219b64fb95534783d5f02d148118a930f688da1726fa24c6e91eb28e37e",
+      "targetAlignmentSha256": "3e9a59dd5f58ea1c8daeac8b457ad94dd5872bc6641dd2a4ccd6e540b147f3b4",
+      "users": 16
+    }
+  ],
+  "sourceCorpusSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "sourceShardCount": 169,
+  "testPoolSha256": "3b445f60e2b2e1d5646fa1c97996c0b0900fc818b1a72f5132a87a43ef76f39b",
+  "trainPoolSha256": "5c1b316261462be966534b9e4818a2e402818a99e0ec3d0a5efbf7bb66717175",
+  "users": 8002
+}

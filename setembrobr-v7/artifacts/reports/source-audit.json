@@ -1,0 +1,28 @@
+{
+  "archive": {
+    "archiveStateManifestSha256": "d616e7a622d5bad606eea5a070b3eed46b897d18c3fb4df02c14e41669eeb449",
+    "path": "/run/media/aluisioamorim/SETEMBROBR/setembrobr-v6-restricted-archive",
+    "sourceUsers": 10776,
+    "trainShardCount": 169
+  },
+  "configSha256": "d53e2522127e450ab690e4c80ee3623b05a84d8548daf9fd176fdf065f78b4d9",
+  "embeddingProvenance": {
+    "embeddingDimension": 2560,
+    "embeddingStorageDtype": "float16",
+    "generationManifestArchiveSha256": "4fb3e3d727f4a260c293cff9cb8a5675ccc74f3ee48074a953ef04001fa383d7",
+    "generationManifestSha256": "6b9486df5b4cba222bcccf6f0376773369de60d6da6d760737e233282b12930d",
+    "modelId": "Qwen/Qwen3-Embedding-4B",
+    "modelRevision": "5cf2132abc99cad020ac570b19d031efec650f2b",
+    "sourceSplitManifestSha256": "ca8188f4d35d8099c4e76dc3a9fa11053bd861d09c573f1076e368caf9eefe5a"
+  },
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "ok": true,
+  "source": {
+    "path": "/home/aluisioamorim/setembro_br_v7/SetembroBR-v7-min.pkl",
+    "posts": 4356312,
+    "sha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+    "testUsers": 400,
+    "trainUsers": 7602,
+    "users": 8002
+  }
+}

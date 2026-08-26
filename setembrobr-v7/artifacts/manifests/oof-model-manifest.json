@@ -1,0 +1,40 @@
+{
+  "configSha256": "d53e2522127e450ab690e4c80ee3623b05a84d8548daf9fd176fdf065f78b4d9",
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "folds": [
+    {
+      "fold": 0,
+      "modelSha256": "df5c83817c632b335b6ad55c9c93779f0ab65f57842bb9fae8cba8b48c2023a4",
+      "trainUsers": 6081,
+      "validationUsers": 1521
+    },
+    {
+      "fold": 1,
+      "modelSha256": "ed272c4a14adf216d36f45a1ac4bab2e229d071b8cd21688b22db58c3c29e562",
+      "trainUsers": 6081,
+      "validationUsers": 1521
+    },
+    {
+      "fold": 2,
+      "modelSha256": "3e2699cf2ac66063b2ed571ae8e30ae8cf16ad92de5a89054b8943b90178a93c",
+      "trainUsers": 6082,
+      "validationUsers": 1520
+    },
+    {
+      "fold": 3,
+      "modelSha256": "d210d8e2e37be5aea42090cb3ef66121b994f11288b4b957f6fc121c24b83a3b",
+      "trainUsers": 6082,
+      "validationUsers": 1520
+    },
+    {
+      "fold": 4,
+      "modelSha256": "4c95589f13775166639e594e6b5f152bf0e25fc513f57e7429f8bdb6dcf53838",
+      "trainUsers": 6082,
+      "validationUsers": 1520
+    }
+  ],
+  "modelId": "qwen3_mean_logreg_s42",
+  "scoreSha256": "40d374d021b0472d8cac60439dde658a07df1a4d3a69fcdc0107adca9dd62df9",
+  "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+  "trainPoolSha256": "5c1b316261462be966534b9e4818a2e402818a99e0ec3d0a5efbf7bb66717175"
+}

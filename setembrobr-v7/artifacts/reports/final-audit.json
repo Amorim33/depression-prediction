@@ -1,0 +1,26 @@
+{
+  "derivedCorpusSha256": "c8ef0ac905b5ece3904b121438474ffe0732c98475dd2d862bd40144f174dbe2",
+  "embeddingRegenerationPerformed": false,
+  "expectedPosts": 4356312,
+  "expectedUsers": 8002,
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg",
+  "hashChain": {
+    "derivedCorpusManifestSha256": "de4b78307aba532b36b33a65ae1be4030306c34bf8fdf30e20e6522b9597025a",
+    "embeddingPoolAuditSha256": "f45dfd372e9437abfaf6e5e2684f98c6e3624bd83a5b4fa34eb975e102316f99",
+    "finalTestReportSha256": "6702b24f898e986957c94378d47a265e5c5929df679c11b58da7723ff374c3ef",
+    "fullFitModelManifestSha256": "5c5586ff5e2ee69516cccb1b7af0772b35710244ced6391c6e576353e4fd0969",
+    "labelFreeTestScoreManifestSha256": "10da3a00f4e02e258a6577569c3ac90d00c3f16db7456e855067073e11c390b0",
+    "modelLockSha256": "d2b998e3fc131e55dbd7b8dc74b468fa613ba62fb6f3265b0e7ab35cb75f3b83",
+    "oofAuditSha256": "998f4c43663bd5696d3c892404dd6f2ba4b514b4a96fa93b90eb834f698b62e7",
+    "oofModelManifestSha256": "d919e005d954b63eac8ea9631743795349ec4cfe6e11ddf3f8471514dd928e3c",
+    "preparedManifestSha256": "8805f723d933700931e9b134309277bb3997a456740c960dd90d4ef673ef59cf",
+    "sourceAuditSha256": "c7641d4c3b554d3b0faa9b66e3701101ff784ad2d0820e7eca9a23f75af55355"
+  },
+  "modelId": "qwen3_mean_logreg_s42",
+  "ok": true,
+  "oofUsers": 7602,
+  "sourceCorpusSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "sourceCorpusUnchanged": true,
+  "testPredictionsOnly": true,
+  "testUsers": 400
+}
