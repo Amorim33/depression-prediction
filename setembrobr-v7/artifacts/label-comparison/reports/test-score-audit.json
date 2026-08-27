@@ -1,0 +1,29 @@
+{
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg_label_comparison",
+  "forbiddenFieldsAbsent": [
+    "Diagnosed_YN",
+    "fold",
+    "label",
+    "true_label"
+  ],
+  "ok": true,
+  "schema": [
+    "user_id",
+    "score",
+    "model_id"
+  ],
+  "targets": {
+    "original_diagnosis": {
+      "lockSha256": "28021979fae65b50b3cf5cfa5bd8aa12e5a6fb2d548b9d7e00f31a84a4d97474",
+      "testScoreSha256": "8fd385926802e82cbb7667300e302d3ed5a4a23b0d6452bcbd8e30e5b3bfa54e"
+    },
+    "specialist_signal": {
+      "lockSha256": "4a11e863807a4e5e2ead4b2cf9de9ba179253b815cc4188654695b30de58cad0",
+      "testScoreSha256": "51cb33771fb73d1ba391aa556bdfdba7a140a51c1c53cf9b4152d48543f965dd"
+    }
+  },
+  "testInferenceSha256": "2b8fac8bddc838b7b5c25701e25c784fcdc643f996d3996e7a168b1912616020",
+  "testLabelsRead": false,
+  "testPoolSha256": "3b445f60e2b2e1d5646fa1c97996c0b0900fc818b1a72f5132a87a43ef76f39b",
+  "users": 400
+}

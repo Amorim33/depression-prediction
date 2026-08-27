@@ -1,0 +1,71 @@
+{
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg_label_comparison",
+  "source": {
+    "filename": "SetembroBR-v7-min.pkl",
+    "sha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+    "expectedUsers": 8002,
+    "trainUsers": 7602,
+    "testUsers": 400
+  },
+  "specialistLabels": {
+    "filename": "corpus.csv",
+    "sha256": "d41ddef6ee9458defa5f15337091bdd77a7947ab99d90c66881e8e44636302ef",
+    "userColumn": "user_id",
+    "labelColumn": "label",
+    "expectedRows": 10776,
+    "expectedSignal": 2283,
+    "expectedNoSignal": 8493
+  },
+  "baselineArtifacts": {
+    "preparedManifestSha256": "8805f723d933700931e9b134309277bb3997a456740c960dd90d4ef673ef59cf",
+    "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+    "testInferenceSha256": "2b8fac8bddc838b7b5c25701e25c784fcdc643f996d3996e7a168b1912616020",
+    "trainPoolSha256": "5c1b316261462be966534b9e4818a2e402818a99e0ec3d0a5efbf7bb66717175",
+    "testPoolSha256": "3b445f60e2b2e1d5646fa1c97996c0b0900fc818b1a72f5132a87a43ef76f39b",
+    "originalLockSha256": "d2b998e3fc131e55dbd7b8dc74b468fa613ba62fb6f3265b0e7ab35cb75f3b83",
+    "originalTestScoreSha256": "e246d039b1737defe921617d8194cb56f91889db77df7f7e2e3eee8eae4d4e74",
+    "originalFinalReportSha256": "6702b24f898e986957c94378d47a265e5c5929df679c11b58da7723ff374c3ef"
+  },
+  "expectedTargets": {
+    "original_diagnosis": {
+      "positiveName": "diagnosed",
+      "trainPositive": 773,
+      "trainNegative": 6829,
+      "testPositive": 200,
+      "testNegative": 200
+    },
+    "specialist_signal": {
+      "positiveName": "signal",
+      "trainPositive": 377,
+      "trainNegative": 7225,
+      "testPositive": 86,
+      "testNegative": 314
+    }
+  },
+  "validation": {
+    "seed": 42,
+    "foldCount": 5,
+    "thresholdMetric": "macroF1",
+    "thresholdTieBreakers": [
+      "positiveF1",
+      "precision",
+      "recall"
+    ],
+    "bootstrapSamples": 2000
+  },
+  "classifier": {
+    "standardScaler": true,
+    "penalty": "l2",
+    "C": 1.0,
+    "solver": "lbfgs",
+    "maxIter": 1000,
+    "classWeight": "balanced",
+    "randomState": 42
+  },
+  "embedding": {
+    "modelId": "Qwen/Qwen3-Embedding-4B",
+    "modelRevision": "5cf2132abc99cad020ac570b19d031efec650f2b",
+    "dimension": 2560,
+    "pooling": "float64_sum_divide_then_float32"
+  }
+}

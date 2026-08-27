@@ -1,0 +1,23 @@
+{
+  "embeddingRegenerationPerformed": false,
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg_label_comparison",
+  "hashChain": {
+    "finalComparisonReportSha256": "6ba2bf95124934fd3795f29b94ef0ae0d34ea03510f511dff0df8d58c242c613",
+    "fullFitModelManifestSha256": "cf679c9da52f514af26254bc9e6b7473060eeaadb981e6ed31eea0f83418a8ff",
+    "oofAuditSha256": "06866f011b24daf06d8819b483545f94bc4e87c195ff4a5f43a0450b9bf7fd48",
+    "oofModelManifestSha256": "772ed7c395ec6e15f5703251d6697f1ce8c2e8da57882d7e53c5c5a45923c8c2",
+    "oofReportSha256": "b6e7b19947578e970fb8200454c1cc804c6807977cdec3eb2b13ce64da103b90",
+    "original_diagnosisLockSha256": "28021979fae65b50b3cf5cfa5bd8aa12e5a6fb2d548b9d7e00f31a84a4d97474",
+    "prepareReportSha256": "a2f7909bedbb5b89a45167e723e28a00616de9bbeadf07a9a33507e6f32d5b79",
+    "specialist_signalLockSha256": "4a11e863807a4e5e2ead4b2cf9de9ba179253b815cc4188654695b30de58cad0",
+    "testScoreAuditSha256": "31706cbff039d9c51c40de8a420a9e539f05ca7b74ba50eaaea065fa9272f400"
+  },
+  "ok": true,
+  "onlyTargetLabelsDiffer": true,
+  "sameUsersTimelinesSplitFoldsFeaturesClassifier": true,
+  "sourceCorpusSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "sourceCorpusUnchanged": true,
+  "specialistCorpusSha256": "d41ddef6ee9458defa5f15337091bdd77a7947ab99d90c66881e8e44636302ef",
+  "specialistCorpusUnchanged": true,
+  "testScoresLabelFree": true
+}

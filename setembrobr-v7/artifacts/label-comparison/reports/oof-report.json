@@ -1,0 +1,73 @@
+{
+  "comparison": "identical features, users, folds, and classifier; target-specific OOF thresholds",
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg_label_comparison",
+  "macroF1DeltaSpecialistMinusOriginal": 0.03863954925962354,
+  "targets": {
+    "original_diagnosis": {
+      "lockSha256": "28021979fae65b50b3cf5cfa5bd8aa12e5a6fb2d548b9d7e00f31a84a4d97474",
+      "metrics": {
+        "accuracy": 0.8626677190213102,
+        "confusionMatrix": {
+          "labels": [
+            "not_diagnosed",
+            "diagnosed"
+          ],
+          "matrix": [
+            [
+              6249,
+              580
+            ],
+            [
+              464,
+              309
+            ]
+          ]
+        },
+        "controlF1": 0.9229065130704475,
+        "fn": 464,
+        "fp": 580,
+        "macroF1": 0.6473738341525522,
+        "positiveF1": 0.37184115523465705,
+        "positiveLabel": "diagnosed",
+        "precision": 0.34758155230596177,
+        "recall": 0.3997412677878396,
+        "tn": 6249,
+        "tp": 309
+      },
+      "threshold": 0.7850921027953022
+    },
+    "specialist_signal": {
+      "lockSha256": "4a11e863807a4e5e2ead4b2cf9de9ba179253b815cc4188654695b30de58cad0",
+      "metrics": {
+        "accuracy": 0.9268613522757169,
+        "confusionMatrix": {
+          "labels": [
+            "not_signal",
+            "signal"
+          ],
+          "matrix": [
+            [
+              6852,
+              373
+            ],
+            [
+              183,
+              194
+            ]
+          ]
+        },
+        "controlF1": 0.9610098176718093,
+        "fn": 183,
+        "fp": 373,
+        "macroF1": 0.6860133834121758,
+        "positiveF1": 0.4110169491525424,
+        "positiveLabel": "signal",
+        "precision": 0.3421516754850088,
+        "recall": 0.5145888594164456,
+        "tn": 6852,
+        "tp": 194
+      },
+      "threshold": 0.5484129601755665
+    }
+  }
+}

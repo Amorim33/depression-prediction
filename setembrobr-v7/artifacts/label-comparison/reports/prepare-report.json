@@ -1,0 +1,95 @@
+{
+  "baselineArtifactHashes": {
+    "preparedManifestSha256": "8805f723d933700931e9b134309277bb3997a456740c960dd90d4ef673ef59cf",
+    "testInferenceSha256": "2b8fac8bddc838b7b5c25701e25c784fcdc643f996d3996e7a168b1912616020",
+    "testPoolSha256": "3b445f60e2b2e1d5646fa1c97996c0b0900fc818b1a72f5132a87a43ef76f39b",
+    "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+    "trainPoolSha256": "5c1b316261462be966534b9e4818a2e402818a99e0ec3d0a5efbf7bb66717175"
+  },
+  "comparisonDesign": "same users, v7 timelines, split, folds, pooled vectors, and classifier; target labels differ",
+  "configSha256": "654bef65c41eb7d0e99ffb2fe8750f975102f75dda1d6837e3ca2fe64f8ce260",
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg_label_comparison",
+  "foldCounts": {
+    "original_diagnosis": {
+      "0": {
+        "negative": 1366,
+        "positive": 155,
+        "users": 1521
+      },
+      "1": {
+        "negative": 1366,
+        "positive": 155,
+        "users": 1521
+      },
+      "2": {
+        "negative": 1366,
+        "positive": 154,
+        "users": 1520
+      },
+      "3": {
+        "negative": 1366,
+        "positive": 154,
+        "users": 1520
+      },
+      "4": {
+        "negative": 1365,
+        "positive": 155,
+        "users": 1520
+      }
+    },
+    "specialist_signal": {
+      "0": {
+        "negative": 1452,
+        "positive": 69,
+        "users": 1521
+      },
+      "1": {
+        "negative": 1443,
+        "positive": 78,
+        "users": 1521
+      },
+      "2": {
+        "negative": 1444,
+        "positive": 76,
+        "users": 1520
+      },
+      "3": {
+        "negative": 1442,
+        "positive": 78,
+        "users": 1520
+      },
+      "4": {
+        "negative": 1444,
+        "positive": 76,
+        "users": 1520
+      }
+    }
+  },
+  "labelPairCounts": {
+    "test": {
+      "original_no__specialist_no": 200,
+      "original_no__specialist_yes": 0,
+      "original_yes__specialist_no": 114,
+      "original_yes__specialist_yes": 86
+    },
+    "train": {
+      "original_no__specialist_no": 6829,
+      "original_no__specialist_yes": 0,
+      "original_yes__specialist_no": 396,
+      "original_yes__specialist_yes": 377
+    }
+  },
+  "ok": true,
+  "sealedTestLabelHashes": {
+    "original_diagnosis": "a02ae1ee3a490414d094b753b1bf9fdc8d41f80bfb65b21744f69f4d4c74a572",
+    "specialist_signal": "60bf4e1c9029989bfd9ad7a925273ebdfb658b5e74a5deb058fa9223e00c88f1"
+  },
+  "sourceCorpusSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "specialistCorpusSha256": "d41ddef6ee9458defa5f15337091bdd77a7947ab99d90c66881e8e44636302ef",
+  "testInferenceSha256": "2b8fac8bddc838b7b5c25701e25c784fcdc643f996d3996e7a168b1912616020",
+  "testLabelsSealedBeforeTraining": true,
+  "trainManifestHashes": {
+    "original_diagnosis": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+    "specialist_signal": "cbbfea7561a36772a2af457a4673678678da3d8af4e4ee474fef9820ba6907dd"
+  }
+}

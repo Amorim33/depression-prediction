@@ -1,0 +1,160 @@
+{
+  "changedFactor": "training and evaluation target labels only",
+  "comparison": {
+    "bootstrapSamples": 2000,
+    "bootstrapSeed": 42,
+    "labelPairCounts": {
+      "original_no__specialist_no": 200,
+      "original_no__specialist_yes": 0,
+      "original_yes__specialist_no": 114,
+      "original_yes__specialist_yes": 86
+    },
+    "macroF1DeltaSpecialistMinusOriginal": 0.053797387992953416,
+    "pairedJointStratifiedBootstrap95": [
+      -0.0077521950582907975,
+      0.11779639201419309
+    ]
+  },
+  "controlledFactors": [
+    "v7 user set",
+    "v7 retained TextLists",
+    "v7 train/test assignment",
+    "original baseline fold assignment",
+    "Qwen3 mean pooled vectors",
+    "StandardScaler plus balanced L2 LogisticRegression",
+    "seed 42",
+    "OOF-only target-specific threshold selection"
+  ],
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg_label_comparison",
+  "interpretationLimit": "The v7 cohort was curated using the specialist criterion and its test split was balanced on original diagnosis, so this measures target difficulty inside v7 rather than population-level label quality.",
+  "ok": true,
+  "originalBaselineReproduction": {
+    "baselineFinalReportSha256": "6702b24f898e986957c94378d47a265e5c5929df679c11b58da7723ff374c3ef",
+    "baselineLockSha256": "d2b998e3fc131e55dbd7b8dc74b468fa613ba62fb6f3265b0e7ab35cb75f3b83",
+    "baselineTestScoreSha256": "e246d039b1737defe921617d8194cb56f91889db77df7f7e2e3eee8eae4d4e74",
+    "macroF1": 0.657350040839094,
+    "maximumAbsoluteTestScoreDelta": 0.0,
+    "ok": true,
+    "threshold": 0.7850921027953022
+  },
+  "question": "On identical v7 users and timelines, are specialist-signal labels easier or harder than original diagnosis labels for the same Qwen-mean LogReg?",
+  "targets": {
+    "original_diagnosis": {
+      "lockSha256": "28021979fae65b50b3cf5cfa5bd8aa12e5a6fb2d548b9d7e00f31a84a4d97474",
+      "metrics": {
+        "accuracy": 0.6775,
+        "confusionMatrix": {
+          "labels": [
+            "not_diagnosed",
+            "diagnosed"
+          ],
+          "matrix": [
+            [
+              184,
+              16
+            ],
+            [
+              113,
+              87
+            ]
+          ]
+        },
+        "controlF1": 0.7404426559356136,
+        "fn": 113,
+        "fp": 16,
+        "macroF1": 0.657350040839094,
+        "positiveF1": 0.5742574257425743,
+        "positiveLabel": "diagnosed",
+        "precision": 0.8446601941747572,
+        "recall": 0.435,
+        "tn": 184,
+        "tp": 87
+      },
+      "positiveLabel": "diagnosed",
+      "sealedTestLabelsSha256": "a02ae1ee3a490414d094b753b1bf9fdc8d41f80bfb65b21744f69f4d4c74a572",
+      "stratifiedBootstrap95": {
+        "accuracy": [
+          0.6375,
+          0.7175
+        ],
+        "macroF1": [
+          0.6096152303537528,
+          0.7027885568834292
+        ],
+        "positiveF1": [
+          0.5051177302030544,
+          0.6381783882629896
+        ],
+        "precision": [
+          0.7767835471567268,
+          0.9090909090909091
+        ],
+        "recall": [
+          0.365,
+          0.5051249999999993
+        ]
+      },
+      "testScoreSha256": "8fd385926802e82cbb7667300e302d3ed5a4a23b0d6452bcbd8e30e5b3bfa54e",
+      "threshold": 0.7850921027953022
+    },
+    "specialist_signal": {
+      "lockSha256": "4a11e863807a4e5e2ead4b2cf9de9ba179253b815cc4188654695b30de58cad0",
+      "metrics": {
+        "accuracy": 0.81,
+        "confusionMatrix": {
+          "labels": [
+            "not_signal",
+            "signal"
+          ],
+          "matrix": [
+            [
+              279,
+              35
+            ],
+            [
+              41,
+              45
+            ]
+          ]
+        },
+        "controlF1": 0.8801261829652997,
+        "fn": 41,
+        "fp": 35,
+        "macroF1": 0.7111474288320474,
+        "positiveF1": 0.5421686746987951,
+        "positiveLabel": "signal",
+        "precision": 0.5625,
+        "recall": 0.5232558139534884,
+        "tn": 279,
+        "tp": 45
+      },
+      "positiveLabel": "signal",
+      "sealedTestLabelsSha256": "60bf4e1c9029989bfd9ad7a925273ebdfb658b5e74a5deb058fa9223e00c88f1",
+      "stratifiedBootstrap95": {
+        "accuracy": [
+          0.775,
+          0.845
+        ],
+        "macroF1": [
+          0.655664973370794,
+          0.7643593695247877
+        ],
+        "positiveF1": [
+          0.45283018867924524,
+          0.627906976744186
+        ],
+        "precision": [
+          0.47435897435897434,
+          0.6571428571428571
+        ],
+        "recall": [
+          0.4186046511627907,
+          0.627906976744186
+        ]
+      },
+      "testScoreSha256": "51cb33771fb73d1ba391aa556bdfdba7a140a51c1c53cf9b4152d48543f965dd",
+      "threshold": 0.5484129601755665
+    }
+  },
+  "testScoreAuditSha256": "31706cbff039d9c51c40de8a420a9e539f05ca7b74ba50eaaea065fa9272f400"
+}

@@ -1,0 +1,26 @@
+{
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg_label_comparison",
+  "ok": true,
+  "oofModelManifestSha256": "772ed7c395ec6e15f5703251d6697f1ce8c2e8da57882d7e53c5c5a45923c8c2",
+  "prepareReportSha256": "a2f7909bedbb5b89a45167e723e28a00616de9bbeadf07a9a33507e6f32d5b79",
+  "sameUsersOrderAndFolds": true,
+  "sealedLabelHashes": {
+    "original_diagnosis": "a02ae1ee3a490414d094b753b1bf9fdc8d41f80bfb65b21744f69f4d4c74a572",
+    "specialist_signal": "60bf4e1c9029989bfd9ad7a925273ebdfb658b5e74a5deb058fa9223e00c88f1"
+  },
+  "targets": {
+    "original_diagnosis": {
+      "oofScoreSha256": "464278e34bb235edd24486a5b85adeba5aef4e7615ad7b9f1908ef37dd31ddab",
+      "testUsersExcluded": true,
+      "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+      "users": 7602
+    },
+    "specialist_signal": {
+      "oofScoreSha256": "104d7ce60e27a3a08d62858c3a6cc61db5dee55356b470970799bd4efe8a5357",
+      "testUsersExcluded": true,
+      "trainManifestSha256": "cbbfea7561a36772a2af457a4673678678da3d8af4e4ee474fef9820ba6907dd",
+      "users": 7602
+    }
+  },
+  "testLabelsRead": false
+}

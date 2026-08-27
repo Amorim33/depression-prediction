@@ -28,6 +28,15 @@ ENSEMBLE_PIPELINE = $(PYTHON) scripts/setembrobr_v7_ensemble.py --config $(ENSEM
 	--baseline-config $(CONFIG) --baseline-output $(OUTPUT_DIR) --output-dir $(ENSEMBLE_OUTPUT_DIR) \
 	--feature-helper $(FEATURE_HELPER)
 
+LABEL_COMPARISON_CONFIG ?= label-comparison-config.json
+LABEL_COMPARISON_OUTPUT_DIR ?= .work/label-comparison
+SPECIALIST_LABELS ?= ../specialist-student-corpus/.work/fedora-results-v3/relabels/corpus.csv
+FEDORA_SPECIALIST_LABELS ?= /home/aluisioamorim/codex-runs/depression-prediction-setembrobr-specialist-student-corpus-v3/output/relabels/corpus.csv
+FEDORA_LABEL_COMPARISON_OUTPUT_DIR ?= $(FEDORA_PROJECT_DIR)/.work/label-comparison
+LABEL_COMPARISON = $(PYTHON) scripts/setembrobr_v7_label_comparison.py \
+	--config $(LABEL_COMPARISON_CONFIG) --baseline-output $(OUTPUT_DIR) \
+	--output-dir $(LABEL_COMPARISON_OUTPUT_DIR)
+
 .PHONY: help setup lint test validate seal pool-embeddings train-oof audit-oof lock-threshold \
 	fit-full score-test audit-test evaluate-test materialize-corpus audit-final run \
 	promote-reports fedora-sync fedora-setup fedora-run fedora-start fedora-status fedora-fetch
@@ -37,6 +46,11 @@ ENSEMBLE_PIPELINE = $(PYTHON) scripts/setembrobr_v7_ensemble.py --config $(ENSEM
 	ensemble-audit-feature-support \
 	fedora-ensemble-sync fedora-ensemble-setup fedora-ensemble-start fedora-ensemble-status \
 	fedora-ensemble-fetch
+.PHONY: label-comparison-prepare label-comparison-train-oof label-comparison-audit-oof \
+	label-comparison-lock label-comparison-fit-full label-comparison-score-test \
+	label-comparison-audit-test label-comparison-evaluate label-comparison-audit-final \
+	label-comparison-run promote-label-comparison-reports fedora-label-comparison-run \
+	fedora-label-comparison-fetch
 
 help:
 	@$(PYTHON) scripts/setembrobr_v7_qwen_logreg.py --help
@@ -46,11 +60,15 @@ setup:
 
 lint:
 	$(PYTHON) -m py_compile scripts/setembrobr_v7_qwen_logreg.py scripts/setembrobr_v7_ensemble.py \
-		scripts/promote_reports.py scripts/promote_ensemble_reports.py \
-		tests/test_setembrobr_v7_qwen_logreg.py tests/test_setembrobr_v7_ensemble_contract.py
+		scripts/setembrobr_v7_label_comparison.py scripts/promote_reports.py \
+		scripts/promote_ensemble_reports.py scripts/promote_label_comparison_reports.py \
+		tests/test_setembrobr_v7_qwen_logreg.py tests/test_setembrobr_v7_ensemble_contract.py \
+		tests/test_setembrobr_v7_label_comparison.py
 	$(PYTHON) -m ruff check scripts/setembrobr_v7_qwen_logreg.py scripts/setembrobr_v7_ensemble.py \
-		scripts/promote_reports.py scripts/promote_ensemble_reports.py \
-		tests/test_setembrobr_v7_qwen_logreg.py tests/test_setembrobr_v7_ensemble_contract.py
+		scripts/setembrobr_v7_label_comparison.py scripts/promote_reports.py \
+		scripts/promote_ensemble_reports.py scripts/promote_label_comparison_reports.py \
+		tests/test_setembrobr_v7_qwen_logreg.py tests/test_setembrobr_v7_ensemble_contract.py \
+		tests/test_setembrobr_v7_label_comparison.py
 
 test: lint
 	$(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v
@@ -181,3 +199,49 @@ fedora-ensemble-fetch:
 	rsync -az -e "ssh $(FEDORA_ENSEMBLE_SSH_OPTS)" $(FEDORA_ENSEMBLE_HOST):$(FEDORA_ENSEMBLE_OUTPUT_DIR)/reports/ $(ENSEMBLE_OUTPUT_DIR)/reports/
 	rsync -az -e "ssh $(FEDORA_ENSEMBLE_SSH_OPTS)" $(FEDORA_ENSEMBLE_HOST):$(FEDORA_ENSEMBLE_OUTPUT_DIR)/ensemble/ $(ENSEMBLE_OUTPUT_DIR)/ensemble/
 	$(PYTHON) scripts/promote_ensemble_reports.py --output-dir $(ENSEMBLE_OUTPUT_DIR) --artifacts-dir artifacts/ensemble
+
+label-comparison-prepare:
+	$(LABEL_COMPARISON) prepare --source-pkl $(SOURCE_PKL) --specialist-labels $(SPECIALIST_LABELS)
+
+label-comparison-train-oof: label-comparison-prepare
+	$(LABEL_COMPARISON) train-oof
+
+label-comparison-audit-oof: label-comparison-train-oof
+	$(LABEL_COMPARISON) audit-oof
+
+label-comparison-lock: label-comparison-audit-oof
+	$(LABEL_COMPARISON) lock
+
+label-comparison-fit-full: label-comparison-lock
+	$(LABEL_COMPARISON) fit-full
+
+label-comparison-score-test: label-comparison-fit-full
+	$(LABEL_COMPARISON) score-test
+
+label-comparison-audit-test: label-comparison-score-test
+	$(LABEL_COMPARISON) audit-test
+
+label-comparison-evaluate: label-comparison-audit-test
+	$(LABEL_COMPARISON) evaluate
+
+label-comparison-audit-final: label-comparison-evaluate
+	$(LABEL_COMPARISON) audit-final --source-pkl $(SOURCE_PKL) --specialist-labels $(SPECIALIST_LABELS)
+
+label-comparison-run: label-comparison-audit-final
+
+promote-label-comparison-reports: label-comparison-audit-final
+	$(PYTHON) scripts/promote_label_comparison_reports.py \
+		--output-dir $(LABEL_COMPARISON_OUTPUT_DIR) --artifacts-dir artifacts/label-comparison
+
+fedora-label-comparison-run: fedora-sync
+	ssh $(FEDORA_HOST) 'test -f $(FEDORA_SPECIALIST_LABELS)'
+	ssh $(FEDORA_HOST) 'cd $(FEDORA_PROJECT_DIR) && scripts/run_fedora_label_comparison.sh \
+		$(FEDORA_PROJECT_DIR)/.venv/bin/python $(FEDORA_SOURCE_PKL) $(FEDORA_SPECIALIST_LABELS) \
+		$(FEDORA_OUTPUT_DIR) $(FEDORA_LABEL_COMPARISON_OUTPUT_DIR)'
+
+fedora-label-comparison-fetch:
+	mkdir -p $(LABEL_COMPARISON_OUTPUT_DIR)/reports $(LABEL_COMPARISON_OUTPUT_DIR)/locks
+	rsync -az $(FEDORA_HOST):$(FEDORA_LABEL_COMPARISON_OUTPUT_DIR)/reports/ $(LABEL_COMPARISON_OUTPUT_DIR)/reports/
+	rsync -az $(FEDORA_HOST):$(FEDORA_LABEL_COMPARISON_OUTPUT_DIR)/locks/ $(LABEL_COMPARISON_OUTPUT_DIR)/locks/
+	$(PYTHON) scripts/promote_label_comparison_reports.py \
+		--output-dir $(LABEL_COMPARISON_OUTPUT_DIR) --artifacts-dir artifacts/label-comparison

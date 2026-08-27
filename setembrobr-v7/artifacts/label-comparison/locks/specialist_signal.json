@@ -1,0 +1,59 @@
+{
+  "classifier": {
+    "C": 1.0,
+    "classWeight": "balanced",
+    "maxIter": 1000,
+    "penalty": "l2",
+    "randomState": 42,
+    "solver": "lbfgs",
+    "standardScaler": true
+  },
+  "embedding": {
+    "dimension": 2560,
+    "modelId": "Qwen/Qwen3-Embedding-4B",
+    "modelRevision": "5cf2132abc99cad020ac570b19d031efec650f2b",
+    "pooling": "float64_sum_divide_then_float32"
+  },
+  "experimentId": "seed42_setembrobr_v7_qwen3_mean_logreg_label_comparison",
+  "hashChain": {
+    "configSha256": "654bef65c41eb7d0e99ffb2fe8750f975102f75dda1d6837e3ca2fe64f8ce260",
+    "oofAuditSha256": "06866f011b24daf06d8819b483545f94bc4e87c195ff4a5f43a0450b9bf7fd48",
+    "oofScoreSha256": "104d7ce60e27a3a08d62858c3a6cc61db5dee55356b470970799bd4efe8a5357",
+    "trainManifestSha256": "cbbfea7561a36772a2af457a4673678678da3d8af4e4ee474fef9820ba6907dd"
+  },
+  "modelId": "qwen3_mean_logreg_s42_specialist_signal",
+  "oofMetrics": {
+    "accuracy": 0.9268613522757169,
+    "confusionMatrix": {
+      "labels": [
+        "not_signal",
+        "signal"
+      ],
+      "matrix": [
+        [
+          6852,
+          373
+        ],
+        [
+          183,
+          194
+        ]
+      ]
+    },
+    "controlF1": 0.9610098176718093,
+    "fn": 183,
+    "fp": 373,
+    "macroF1": 0.6860133834121758,
+    "positiveF1": 0.4110169491525424,
+    "positiveLabel": "signal",
+    "precision": 0.3421516754850088,
+    "recall": 0.5145888594164456,
+    "tn": 6852,
+    "tp": 194
+  },
+  "positiveLabel": "signal",
+  "selectionSource": "same fixed v7 train folds; this target's OOF scores only",
+  "target": "specialist_signal",
+  "threshold": 0.5484129601755665,
+  "thresholdRule": "score >= threshold"
+}

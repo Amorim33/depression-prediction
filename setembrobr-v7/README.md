@@ -131,3 +131,57 @@ train users and 398/400 test users. The run preserves the frozen champion thresh
 silently rescaling them; this distribution shift is an important limitation of the architecture
 transfer. See `artifacts/ensemble/champion/reports/final-test-report.json` and
 `artifacts/ensemble/champion/reports/train-feature-support-audit.json`.
+
+## Original-diagnosis versus specialist-signal label comparison
+
+`label-comparison-config.json` defines a paired target-only experiment. Both arms use the exact
+same 8,002 v7 users, retained `TextLists`, 7,602/400 split, original baseline fold assignment,
+Qwen3 mean vectors, scaler, balanced L2 logistic regression, and seed. The existing v7 arm uses
+`Diagnosed_YN`; the specialist arm joins the canonical relabeled corpus's `label` column by
+`User_ID`, mapping `signal/no_signal` to the positive/negative classifier codes. Each arm selects
+its own threshold from its own train OOF scores.
+
+The preparation stage seals both test label vectors. Training, locking, fitting, test scoring, and
+test-score auditing run successfully when those sealed files are physically absent. Evaluation
+opens them only after both 400-row score files pass the label-free schema audit. The original arm
+must reproduce the completed baseline's test probabilities, threshold, and Macro F1 exactly.
+
+Run locally when the restricted pooled vectors are available under `.work/output`:
+
+```bash
+make label-comparison-run PYTHON=.venv/bin/python
+make promote-label-comparison-reports PYTHON=.venv/bin/python
+```
+
+Or reuse the preserved Fedora vectors and canonical specialist relabel artifact:
+
+```bash
+make fedora-label-comparison-run
+make fedora-label-comparison-fetch PYTHON=.venv/bin/python
+```
+
+Only aggregate reports and hash-only locks are promoted to `artifacts/label-comparison/`. Per-user
+manifests, sealed labels, OOF/test scores, and fitted models remain ignored restricted artifacts.
+
+### Completed label-comparison result
+
+The audited seed-42 Fedora run reproduced the original-label baseline exactly, including every
+test probability (`maximumAbsoluteTestScoreDelta = 0`), its OOF-selected threshold, and its test
+Macro F1. On the identical 400 held-out users, the paired results were:
+
+| Target labels | OOF Macro F1 | Test Macro F1 | Test 95% interval | Positive F1 | Precision | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Original diagnosis (`Diagnosed_YN`) | 0.6473738341525522 | 0.657350040839094 | [0.6096152303537528, 0.7027885568834292] | 0.5742574257425743 | 0.8446601941747572 | 0.435 |
+| Specialist signal (`label`) | 0.6860133834121758 | 0.7111474288320474 | [0.655664973370794, 0.7643593695247877] | 0.5421686746987951 | 0.5625 | 0.5232558139534884 |
+
+The specialist-minus-original test Macro F1 difference is `+0.053797387992953416`. Its paired,
+joint-label-stratified bootstrap 95% interval is `[-0.0077521950582907975,
+0.11779639201419309]`, so the point estimate says the specialist target is easier for this model
+inside v7, but the experiment does not establish a nonzero difference at the 95% level.
+
+The targets disagree for 114 test users: all are originally diagnosed users labeled
+`no_signal` by specialists. This is an intentionally narrow difficulty comparison, not evidence
+that either label definition is intrinsically better. The v7 cohort was curated using the
+specialist criterion, while its held-out split was balanced on original diagnosis. See
+`artifacts/label-comparison/reports/final-comparison-report.json` and
+`artifacts/label-comparison/reports/final-audit.json` for the locked result and audit chain.
