@@ -1,0 +1,56 @@
+{
+  "experimentId": "seed42_setembrobr_v7_gpt56_prompt_oof",
+  "source": {
+    "filename": "SetembroBR-v7-min.pkl",
+    "sha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+    "schema": [
+      "User_ID",
+      "Diagnosed_YN",
+      "TextLists",
+      "Split"
+    ],
+    "trainUsers": 7602,
+    "trainPositive": 773,
+    "trainNegative": 6829,
+    "trainPosts": 4098614
+  },
+  "validation": {
+    "seed": 42,
+    "foldCount": 5,
+    "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+    "predictionThreshold": 0.5
+  },
+  "analysis": {
+    "model": "gpt-5.6-luna",
+    "reasoningEffort": "xhigh",
+    "maxOutputTokens": 32768,
+    "maxToolCalls": 24,
+    "containerMemory": "16g",
+    "roles": [
+      "bdi_symptoms",
+      "psycholinguistics",
+      "lexical_syntax",
+      "semantics_topics",
+      "statistical_robustness",
+      "adversarial_confounds"
+    ]
+  },
+  "classification": {
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "contextWindowTokens": 1050000,
+    "inputTokenSafetyMargin": 8192,
+    "truncation": "disabled"
+  },
+  "batch": {
+    "completionWindow": "24h",
+    "maxFileBytes": 190000000,
+    "maxRequestsPerFile": 50000,
+    "outputExpiresAfterSeconds": 604800
+  },
+  "privacy": {
+    "verbatimShingleWords": 12,
+    "minimumUserIdLengthToScan": 8
+  }
+}

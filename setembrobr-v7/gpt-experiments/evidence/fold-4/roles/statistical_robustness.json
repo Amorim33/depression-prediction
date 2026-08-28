@@ -1,0 +1,293 @@
+{
+  "confounds": [
+    "The classes are imbalanced: 618 diagnosed users versus 5,464 controls; pooled raw post totals are therefore misleading. Headline rates above are per-user post shares plus user prevalence.",
+    "Diagnosed timelines averaged about 630 posts versus 528 for controls, so any-user prevalence remains exposure-sensitive even after rate normalization.",
+    "Explicit mental-health and treatment vocabulary may encode self-report, medication access, therapy participation, community membership, or annotation leakage rather than depression causality.",
+    "Quotation, lyric, joke, news, advocacy, and third-person detection used lexical heuristics and will leave residual context errors.",
+    "Demographic, age, occupation, topic, platform, engagement, reply/mention, and collection-time differences can explain activity, punctuation, family, and positive-affect effects.",
+    "Feature redundancy is substantial: first-person post/token shares rho 0.791; mental-health/treatment rho 0.702; mental-health/anxiety rho 0.659. Do not treat correlated lexical families as independent evidence."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "First-person language can occur in quotations, roleplay, replies, or ordinary autobiographical posting.",
+        "The two measurements are redundant; their Spearman correlation was 0.791."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The strongest generic signal was elevated first-person usage, surviving both post-share and token-share normalization.",
+      "id": "first_person_self_focus",
+      "prompt_guidance": "Use as a weak contextual feature, not as a diagnostic marker; combine with content and context filters.",
+      "quantitative_support": [
+        {
+          "control": "31.21% mean and 32.33% median; 99.7% had at least one.",
+          "diagnosed": "40.18% mean and 40.62% median of posts; 100.0% had at least one.",
+          "effect": "+8.97 percentage points; AUC 0.712; positive in all four folds.",
+          "measure": "Per-user fraction of posts containing first-person singular markers."
+        },
+        {
+          "control": "2.97% mean and 3.09% median of tokens.",
+          "diagnosed": "3.92% mean and 3.93% median of tokens.",
+          "effect": "+0.95 percentage points; AUC 0.692; positive in all four folds.",
+          "measure": "Per-user token share of eu/me/mim."
+        }
+      ],
+      "signal": "First-person singular self-focus"
+    },
+    {
+      "caveats": [
+        "Context filtering was heuristic rather than manually annotated.",
+        "This may reflect self-report or annotation leakage rather than depression itself."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Mental-health vocabulary is substantially more discriminative when it co-occurs with first-person language, and the gap remains after simple context filtering.",
+      "id": "first_person_mental_health",
+      "prompt_guidance": "Prefer contextualized self-disclosure features over isolated keywords; require persistence or corroboration.",
+      "quantitative_support": [
+        {
+          "control": "0.176% mean and 0% median; 41.1% had at least one.",
+          "diagnosed": "0.438% mean and 0.287% median of posts; 68.8% had at least one.",
+          "effect": "+0.262 percentage points; AUC 0.678; positive in all four folds.",
+          "measure": "First-person mental-health post share after excluding simple quotation/lyric and laughter/hyperbole markers."
+        },
+        {
+          "control": "0.21% mean and 0% median; 44.7% had at least one.",
+          "diagnosed": "0.53% mean and 0.37% median; 72.8% had at least one.",
+          "effect": "+0.32 percentage points; AUC 0.690; positive in all four folds.",
+          "measure": "Unfiltered first-person co-occurrence with mental-health vocabulary."
+        }
+      ],
+      "signal": "First-person mental-health co-occurrence"
+    },
+    {
+      "caveats": [
+        "Mental-health and treatment rates were correlated (Spearman rho 0.702); avoid double-counting them.",
+        "Terms are highly topic- and self-report-dependent."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both broad mental-health terms and treatment/contact terms show stable user-level elevation, with treatment terms somewhat more specific.",
+      "id": "mental_health_treatment_vocabulary",
+      "prompt_guidance": "Separate self-disclosure from advice, advocacy, third-person discussion, and topical media; do not interpret treatment mentions causally.",
+      "quantitative_support": [
+        {
+          "control": "0.51% mean and 0.35% median; 67.3% had at least one.",
+          "diagnosed": "0.99% mean and 0.77% median of posts; 86.1% had at least one.",
+          "effect": "+0.48 percentage points; AUC 0.685; positive in all four folds.",
+          "measure": "Broad mental-health vocabulary post share."
+        },
+        {
+          "control": "0.24% mean and 0% median; 47.3% had at least one.",
+          "diagnosed": "0.56% mean and 0.35% median; 71.5% had at least one.",
+          "effect": "+0.32 percentage points; AUC 0.668; positive in all four folds.",
+          "measure": "Treatment/contact vocabulary including therapy, psychiatric care, medication, and diagnosis terms."
+        }
+      ],
+      "signal": "Explicit mental-health and treatment vocabulary"
+    },
+    {
+      "caveats": [
+        "The lexicon contains broad words such as acho, preciso, and não sei.",
+        "Effects may reflect verbosity, conversation structure, or reply behavior rather than affect."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Uncertainty markers were a stronger additional signal than question punctuation, but both showed stable diagnosed-direction differences.",
+      "id": "uncertainty_question_style",
+      "prompt_guidance": "Use as supplementary interactional-style evidence, preferably normalized within topic and activity strata.",
+      "quantitative_support": [
+        {
+          "control": "3.57% mean and 3.30% median; 96.0% had at least one.",
+          "diagnosed": "4.58% mean and 4.37% median of posts; 99.4% had at least one.",
+          "effect": "+1.00 percentage point; AUC 0.651; positive in all four folds.",
+          "measure": "User-level uncertainty/indecision post share."
+        },
+        {
+          "control": "8.90% mean and 7.83% median.",
+          "diagnosed": "9.98% mean and 9.57% median.",
+          "effect": "+1.08 percentage points; AUC 0.585; positive in all four folds.",
+          "measure": "Question-mark post rate."
+        }
+      ],
+      "signal": "Uncertainty and question-oriented interactional style"
+    },
+    {
+      "caveats": [
+        "Common distress, illness, relationship, and everyday complaint language creates substantial false positives.",
+        "Anhedonia, sleep, and somatic terms overlap heavily with ordinary fatigue or physical illness."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Several BDI-like lexical domains were consistently higher, but the absolute rate gaps were small and user prevalence was already high in controls.",
+      "id": "modest_bdi_like_language",
+      "prompt_guidance": "Use only as weak corroborative features and prioritize combinations, persistence, and first-person context.",
+      "quantitative_support": [
+        {
+          "control": "3.63% mean and 3.48% median; 96.8% had at least one.",
+          "diagnosed": "4.16% mean and 3.91% median; 99.5% had at least one.",
+          "effect": "+0.53 percentage points; AUC 0.580; positive in all four folds.",
+          "measure": "Negative-affect post share."
+        },
+        {
+          "control": "0.71% mean and 0.55% median; 76.9% had at least one.",
+          "diagnosed": "0.83% mean and 0.71% median; 85.4% had at least one.",
+          "effect": "+0.12 percentage points; AUC 0.568; positive in all four folds.",
+          "measure": "Anhedonia/low-energy post share."
+        },
+        {
+          "control": "1.05% mean and 0.90% median; 83.5% had at least one.",
+          "diagnosed": "1.17% mean and 1.01% median; 91.8% had at least one.",
+          "effect": "+0.12 percentage points; AUC 0.549; positive in all four folds.",
+          "measure": "Social-withdrawal/loneliness post share."
+        }
+      ],
+      "signal": "Negative affect, low-energy, withdrawal, and somatic language"
+    },
+    {
+      "caveats": [
+        "Lyrics, fiction, insults, jokes, and hyperbole remain false-positive sources.",
+        "The broad lexicon includes many non-clinical uses."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Broad death-related terms were modestly elevated, but the signal is context-sensitive and not equivalent to suicidal intent.",
+      "id": "death_related_language",
+      "prompt_guidance": "Require first-person, non-quoted context and corroboration; never use broad death language as a standalone risk inference.",
+      "quantitative_support": [
+        {
+          "control": "0.78% mean and 0.63% median; 77.9% had at least one.",
+          "diagnosed": "0.92% mean and 0.78% median; 86.3% had at least one.",
+          "effect": "+0.14 percentage points; AUC 0.568; positive in all four folds.",
+          "measure": "Broad death-related post share."
+        }
+      ],
+      "signal": "Death-related language"
+    },
+    {
+      "caveats": [
+        "One fold had a slightly lower diagnosed mean rate.",
+        "No lexical pattern establishes intent, imminence, or clinical severity."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Specific patterns were rare and weakly discriminative; prevalence was more stable than frequency rate.",
+      "id": "self_harm_specific_patterns",
+      "prompt_guidance": "Treat as a rare corroborative feature only, with manual/contextual review in any safety-sensitive use.",
+      "quantitative_support": [
+        {
+          "control": "0.03% mean and 0% median; 13.4% had at least one.",
+          "diagnosed": "0.05% mean and 0% median of posts; 22.7% had at least one.",
+          "effect": "AUC 0.546; user prevalence higher in every fold, but normalized-rate direction was +,−,+,+.",
+          "measure": "High-precision self-harm-specific phrase rate."
+        }
+      ],
+      "signal": "Self-harm-specific phrases"
+    },
+    {
+      "caveats": [
+        "Positive words may reflect compensatory posting, family or entertainment topics, or cohort differences.",
+        "This result is not evidence against depression in an individual."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users were not globally less positive; positive-affect language was actually higher, contradicting a simple negative-valence model.",
+      "id": "positive_affect_counterevidence",
+      "prompt_guidance": "Do not impose a monotonic negative-emotion prior; retain positive language as a possible interaction or confound feature.",
+      "quantitative_support": [
+        {
+          "control": "12.23% mean and 11.42% median; 99.0% had at least one.",
+          "diagnosed": "13.82% mean and 13.12% median; 100% had at least one.",
+          "effect": "+1.59 percentage points; AUC 0.596; positive in all four folds.",
+          "measure": "Positive-affect post share."
+        }
+      ],
+      "signal": "Positive-affect language as counterevidence"
+    },
+    {
+      "caveats": [
+        "Likely reflects age, occupation, platform behavior, topic, and engagement differences.",
+        "Diagnosed users had slightly longer timelines and posts, so exposure and collection effects remain plausible."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "control",
+      "evidence_summary": "Controls showed more activity vocabulary and expressive punctuation, a stable corpus divergence but not a depression-specific signal.",
+      "id": "activity_and_punctuation_covariates",
+      "prompt_guidance": "Use primarily for nuisance adjustment or within-stratum comparisons, not as evidence of symptom absence.",
+      "quantitative_support": [
+        {
+          "control": "5.00% mean and 4.03% median.",
+          "diagnosed": "4.55% mean and 3.81% median.",
+          "effect": "Control-direction gap of 0.45 percentage points; AUC 0.469; control higher in all four folds.",
+          "measure": "Activity/work/study/exercise/travel post share."
+        },
+        {
+          "control": "Higher expressive-punctuation rates.",
+          "diagnosed": "Lower expressive-punctuation rates.",
+          "effect": "Control-direction differences were stable: exclamation rate 5.13% vs 7.12%, ellipsis rate 6.20% vs 8.41%.",
+          "measure": "Expressive punctuation style."
+        }
+      ],
+      "signal": "Activity and expressive-punctuation style"
+    }
+  ],
+  "negative_results": [
+    "Sleep-related vocabulary was not robust: mean post share was 2.56% diagnosed vs 2.51% control, with fold directions +,−,+,−.",
+    "Self-worth/denigration was near-null: 1.47% vs 1.39% mean post share, AUC 0.535, and one fold reversal.",
+    "Collective-pronoun and token-level negation contrasts were weak or unstable.",
+    "Self-harm-specific patterns were sparse; normalized-rate direction reversed in one fold despite higher user prevalence."
+  ],
+  "role": "statistical_robustness",
+  "source_folds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "users_analyzed": 6082
+}

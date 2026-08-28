@@ -1,0 +1,368 @@
+{
+  "confounds": [
+    "The diagnosed/control classes are highly imbalanced: 618 diagnosed versus 5,463 controls; rare-event estimates are noisy.",
+    "Diagnosed users have longer retained timelines on average, making user prevalence and per-timeline rates essential.",
+    "Fandom, queer-identity, pronoun, and entertainment signals may primarily reflect age, gender, sexuality, platform subculture, or sampling composition.",
+    "Self-disclosure of treatment or diagnosis may be related to annotation or recruitment pathways rather than latent depression itself.",
+    "Portuguese slang, spelling variation, replies, quotations, lyrics, memes, advocacy, news, and third-person discussion create substantial semantic-role ambiguity.",
+    "Politics, sports, COVID, and other event-driven topics may reflect collection windows, prolific retweeting, or temporal shocks.",
+    "Access to psychotherapy, psychiatry, medication, school, and work varies with socioeconomic status and demographic composition.",
+    "Lexical heuristics for first-person experience are imperfect and should not be treated as clinical classifiers. "
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Treatment access and self-disclosure may reflect collection or socioeconomic differences rather than symptom severity.",
+        "Medication and consultation words are ambiguous unless paired with possessive or first-person action cues."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Personal framing sharply improved the signal: care references occurred in 49.8% of diagnosed users versus 20.9% of controls, with higher normalized post frequency and consistent fold direction.",
+      "id": "self_experienced_mental_health_care",
+      "prompt_guidance": "Upweight persistent self-reports involving one's therapist, psychiatrist, treatment, or medication; downweight generic advice, physical-health medication, quotations, and discussion of someone else.",
+      "quantitative_support": [
+        {
+          "control": "20.9% (1,142/5,463)",
+          "diagnosed": "49.8% (308/618)",
+          "effect": "2.38x",
+          "measure": "users with at least one first-person, non-obviously quoted mental-health-care post"
+        },
+        {
+          "control": "0.07 per 100 (1,961 posts)",
+          "diagnosed": "0.20 per 100 timeline posts (786 posts)",
+          "effect": "2.99x",
+          "measure": "first-person mental-health-care post frequency"
+        },
+        {
+          "control": "5.5%",
+          "diagnosed": "21.0%",
+          "effect": "3.8x",
+          "measure": "specific personal therapy/psychiatry markers"
+        }
+      ],
+      "signal": "First-person psychotherapy, psychiatric-care, or psychotropic-medication narratives."
+    },
+    {
+      "caveats": [
+        "A diagnostic word may refer to another person, a disease such as COVID, advocacy, stigma discussion, or a joke.",
+        "This is observable self-disclosure, not independent confirmation of diagnosis."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Self-framed diagnostic language was about twice as prevalent among diagnosed users; unqualified mentions of depression were substantially noisier than personal formulations.",
+      "id": "self_framed_diagnosis_language",
+      "prompt_guidance": "Treat self-attribution, personal diagnosis, laudo, or disorder descriptions as stronger than generic mentions; require first-person context and corroboration across posts.",
+      "quantitative_support": [
+        {
+          "control": "7.3% (396/5,463)",
+          "diagnosed": "15.9% (98/618)",
+          "effect": "2.19x",
+          "measure": "users with self-framed diagnosis/depression/disorder vocabulary"
+        },
+        {
+          "control": "0.020 per 100 (589 posts)",
+          "diagnosed": "0.044 per 100 timeline posts (171 posts)",
+          "effect": "2.17x",
+          "measure": "self-framed diagnostic-language post frequency"
+        }
+      ],
+      "signal": "Explicit self-labeling or diagnostic language, including depression or disorder terms, when clearly about the user."
+    },
+    {
+      "caveats": [
+        "The self/other and quote filter is heuristic and cannot fully remove lyrics, memes, or temporary situational complaints.",
+        "Isolation can coexist with substantial online friendship, fandom, and relationship discussion."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Self-framed distress and isolation were both more common and more repeated among diagnosed users. However, active relationship and social-participation language remained common in both groups.",
+      "id": "persistent_self_framed_distress_and_isolation",
+      "prompt_guidance": "Prefer repeated, self-experienced distress plus isolation patterns over isolated negative words; do not require complete social inactivity.",
+      "quantitative_support": [
+        {
+          "control": "71.7% (3,919/5,463)",
+          "diagnosed": "86.1% (532/618)",
+          "effect": "1.20x",
+          "measure": "users with first-person distress/symptom narratives"
+        },
+        {
+          "control": "0.55 per 100 (15,983 posts)",
+          "diagnosed": "0.80 per 100 timeline posts (3,108 posts)",
+          "effect": "1.45x",
+          "measure": "first-person distress-post frequency"
+        },
+        {
+          "control": "18.0% (982/5,463)",
+          "diagnosed": "32.5% (201/618)",
+          "effect": "1.81x",
+          "measure": "users with at least two self-framed isolation/withdrawal posts"
+        }
+      ],
+      "signal": "Persistent first-person distress combined with loneliness, withdrawal, or being socially cut off."
+    },
+    {
+      "caveats": [
+        "Lyrics, dark humor, advocacy, quotations, and discussion of someone else remain plausible false positives.",
+        "This corpus signal is not a clinical or safety assessment."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Strong self-framed risk expressions were uncommon but over twice as prevalent in diagnosed users, with the same direction in every development fold.",
+      "id": "self_harm_and_acute_risk_language",
+      "prompt_guidance": "Use only as a high-salience, low-recall feature when self-reference and contextual persistence are present; never infer imminent risk from a keyword alone.",
+      "quantitative_support": [
+        {
+          "control": "5.9% (323/5,463)",
+          "diagnosed": "13.8% (85/618)",
+          "effect": "2.33x",
+          "measure": "users with first-person self-harm or severe death-ideation expressions"
+        },
+        {
+          "control": "0.013 per 100 (364 posts)",
+          "diagnosed": "0.030 per 100 timeline posts (116 posts)",
+          "effect": "2.37x",
+          "measure": "self-framed risk-language post frequency"
+        }
+      ],
+      "signal": "Rare first-person self-harm, suicide, or not-wanting-to-live language."
+    },
+    {
+      "caveats": [
+        "Some markers may reflect ordinary deadlines, illness, or educational circumstances.",
+        "Posting and age differences may affect the opportunity to mention school or employment."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Narrow impairment markers separated labels consistently, while broad work/study vocabulary was nearly universal and uninformative.",
+      "id": "functional_impairment_in_work_or_study",
+      "prompt_guidance": "Look for first-person inability, absence, dropout, procrastination, or loss of motivation tied to work or study; ignore ordinary work, class, or exam discussion alone.",
+      "quantitative_support": [
+        {
+          "control": "8.7% (477/5,463)",
+          "diagnosed": "15.9% (98/618)",
+          "effect": "1.82x",
+          "measure": "users with explicit self-framed work/study impairment markers"
+        },
+        {
+          "control": "0.019 per 100 (554 posts)",
+          "diagnosed": "0.032 per 100 timeline posts (123 posts)",
+          "effect": "1.66x",
+          "measure": "self-framed impairment-post frequency"
+        },
+        {
+          "control": "96.5%",
+          "diagnosed": "98.1%",
+          "effect": "near-null",
+          "measure": "users mentioning work or study topics in any context"
+        }
+      ],
+      "signal": "Specific personal difficulty attending, completing, or sustaining work or study, rather than generic topic mentions."
+    },
+    {
+      "caveats": [
+        "Future language is context-sensitive and may concern short-lived events, finances, relationships, or jokes.",
+        "The simultaneous presence of positive plans is common and should be treated as counterevidence against a simplistic binary interpretation."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Negative-future language was more prevalent and more persistent in diagnosed users, but positive future and planning language was not absent from their timelines.",
+      "id": "negative_future_orientation",
+      "prompt_guidance": "Model negative future statements as one component of a broader pattern; do not equate ordinary uncertainty or delayed plans with hopelessness.",
+      "quantitative_support": [
+        {
+          "control": "21.8% (1,190/5,463)",
+          "diagnosed": "32.4% (200/618)",
+          "effect": "1.49x",
+          "measure": "users with first-person negative-future or hopelessness language"
+        },
+        {
+          "control": "0.058 per 100 (1,692 posts)",
+          "diagnosed": "0.086 per 100 timeline posts (332 posts)",
+          "effect": "1.35x",
+          "measure": "negative-future post frequency"
+        },
+        {
+          "control": "6.3% (346/5,463)",
+          "diagnosed": "12.8% (79/618)",
+          "effect": "2.02x",
+          "measure": "users with at least two negative-future posts"
+        }
+      ],
+      "signal": "Self-framed hopelessness, lack of plans, or expectations that circumstances will not improve."
+    },
+    {
+      "caveats": [
+        "The broad lexical category includes common non-psychiatric complaints and demographic topics.",
+        "No claim of clinical specificity or causal relation is supported."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Self-framed physical-symptom language was modestly higher among diagnosed users in every fold, but the category had high prevalence and broad coverage.",
+      "id": "physical_symptom_self_reports",
+      "prompt_guidance": "Use physical symptoms only as supportive evidence when persistent and linked to personal distress or impairment; do not use isolated fever, menstrual, diet, or routine illness mentions.",
+      "quantitative_support": [
+        {
+          "control": "82.0% (4,482/5,463)",
+          "diagnosed": "93.0% (575/618)",
+          "effect": "1.13x",
+          "measure": "users with first-person physical, sleep, energy, or pain complaints"
+        },
+        {
+          "control": "1.08 per 100 (31,176 posts)",
+          "diagnosed": "1.43 per 100 timeline posts (5,524 posts)",
+          "effect": "1.32x",
+          "measure": "first-person physical-symptom post frequency"
+        }
+      ],
+      "signal": "Repeated self-reported bodily discomfort, sleep/energy problems, or somatic complaints."
+    },
+    {
+      "caveats": [
+        "This pattern is highly vulnerable to age, gender, sexuality, platform-community, and sampling confounds.",
+        "Entertainment and identity terms can occur in quotations, news, lyrics, or discussion of others."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Fandom and queer/gender identity terms were consistently more common and more intensive in diagnosed timelines, representing a useful contextual signal beyond symptom words.",
+      "id": "fandom_and_identity_context",
+      "prompt_guidance": "Use these topics as cohort/context variables or interactions with self-experienced distress, not as standalone clinical evidence; distinguish self-identity from advocacy or third-person discussion.",
+      "quantitative_support": [
+        {
+          "control": "89.6%; 13.09 posts/user",
+          "diagnosed": "94.7% of users; 22.64 matched posts/user",
+          "effect": "1.06x user prevalence; 1.73x intensity",
+          "measure": "fandom and entertainment engagement"
+        },
+        {
+          "control": "63.2%; 3.46 posts/user",
+          "diagnosed": "78.2% of users; 6.42 matched posts/user",
+          "effect": "1.24x user prevalence; 1.86x intensity",
+          "measure": "queer, gender, or pronoun identity vocabulary"
+        },
+        {
+          "control": "2.47 per 100",
+          "diagnosed": "3.61 per 100 timeline posts",
+          "effect": "1.46x",
+          "measure": "fandom/entertainment post frequency"
+        }
+      ],
+      "signal": "Higher engagement with fandom/entertainment communities and identity-related vocabulary."
+    },
+    {
+      "caveats": [
+        "This may reflect collection period, political events, retweeting habits, age, or demographic composition.",
+        "Topic presence alone is weak; the distinction is mainly intensity after separating users from raw posts."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "control",
+      "evidence_summary": "User presence was similar, but controls produced substantially more politics/news posts per user and per timeline post, with the intensity direction stable across folds.",
+      "id": "politics_news_posting_intensity",
+      "prompt_guidance": "Treat repeated public-affairs/news engagement as a control-leaning activity or collection-context feature, not as evidence of better mental health.",
+      "quantitative_support": [
+        {
+          "control": "80.5%; 12.33 posts/user",
+          "diagnosed": "83.3% of users; 7.36 matched posts/user",
+          "effect": "0.60x intensity",
+          "measure": "politics/current-events/news posting"
+        },
+        {
+          "control": "2.33 per 100 (67,349 posts)",
+          "diagnosed": "1.17 per 100 timeline posts (4,546 posts)",
+          "effect": "0.50x normalized rate",
+          "measure": "politics/current-events/news post frequency"
+        }
+      ],
+      "signal": "Higher-intensity public-current-events, politics, and news discussion in controls."
+    },
+    {
+      "caveats": [
+        "The fold inconsistency indicates limited robustness.",
+        "Football-club and event-specific collection effects may dominate this signal."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Sports topic prevalence was identical by user, while controls generally posted more sports content; the direction weakened and slightly reversed in one fold.",
+      "id": "sports_posting_intensity",
+      "prompt_guidance": "Use sports intensity only as a weak contextual feature and combine it with other evidence; do not interpret sports absence as a symptom.",
+      "quantitative_support": [
+        {
+          "control": "74.8%; 12.01 posts/user",
+          "diagnosed": "74.8% of users; 7.32 matched posts/user",
+          "effect": "0.61x intensity",
+          "measure": "sports-posting intensity"
+        },
+        {
+          "control": "2.27 per 100 (65,602 posts)",
+          "diagnosed": "1.17 per 100 timeline posts (4,526 posts)",
+          "effect": "0.52x normalized rate",
+          "measure": "sports post frequency"
+        }
+      ],
+      "signal": "Control-leaning sports discussion intensity, with weak user-level separation."
+    }
+  ],
+  "negative_results": [
+    "Positive future/planning vocabulary was not reduced: at least one positive-future cue appeared for 99.8% of diagnosed users versus 99.0% of controls.",
+    "Generic work/study, relationship, and social-participation topics were near-universal; simple absence of these topics is unsupported.",
+    "Humor markers had very high prevalence in both groups and an unstable intensity difference, so laughter tokens alone are weak evidence.",
+    "Sports topic presence was virtually identical by user; only posting intensity leaned controlward, with one fold reversing slightly.",
+    "Diagnosed users had longer timelines on average (about 627 versus 530 posts), so raw topic counts without user-level prevalence or timeline normalization are misleading."
+  ],
+  "role": "semantics_topics",
+  "source_folds": [
+    0,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}

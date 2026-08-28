@@ -1,0 +1,381 @@
+{
+  "confounds": [
+    "Diagnosed users have higher retained activity: approximately 620 versus 531 posts per user on average and 391 versus 334 at the median; word-normalized and per-user statistics reduce but do not eliminate exposure bias.",
+    "Mental-health care and treatment vocabulary may represent label leakage, treatment access, self-selection, or annotation practices rather than latent depression.",
+    "Rule-based context filtering cannot reliably separate first-person experience from replies, quotations, lyrics, jokes, news, advocacy, fiction, or discussion of another person.",
+    "Differences may reflect demographic and community composition, including topic mixtures such as fandom, sports, politics, work, and health discourse; no demographic covariates were available.",
+    "The diagnosed class is much smaller than the control class, so rare-template estimates have limited precision despite fold-level direction checks.",
+    "No timestamps or external clinical ground truth were available; timeline-level recurrence should not be interpreted as temporal persistence, episode duration, causality, or diagnosis."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Activity may reflect collection, platform use, demographics, or label-selection differences.",
+        "All users were retained above a minimum timeline length, which may induce selection effects."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users had more retained posts and words in every development fold, so any-per-user prevalence is exposure-sensitive.",
+      "id": "retained_activity_exposure",
+      "prompt_guidance": "Adjust or normalize for activity before interpreting linguistic differences; do not treat activity itself as a symptom.",
+      "quantitative_support": [
+        {
+          "control": "530.5 mean; 334 median",
+          "diagnosed": "619.9 mean; 391 median",
+          "effect": "Mean +89 posts; median +57 posts",
+          "measure": "Retained posts per user"
+        },
+        {
+          "control": "5434 mean; 3142 median",
+          "diagnosed": "6292 mean; 4093 median",
+          "effect": "Mean +858 words; median +951 words",
+          "measure": "Retained words per user"
+        }
+      ],
+      "signal": "Higher retained activity and lexical exposure"
+    },
+    {
+      "caveats": [
+        "First-person forms occur in ordinary replies, fandom, jokes, and descriptions of nonclinical experiences.",
+        "This feature is partially redundant with all first-person-filtered symptom categories."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The difference survived user-level aggregation and appeared in all four folds, indicating a stable self-disclosure/style correlate rather than a raw-post artifact.",
+      "id": "first_person_self_focus",
+      "prompt_guidance": "Use as a context/style covariate and combine only with self-oriented symptom signals; do not interpret self-focus as depression by itself.",
+      "quantitative_support": [
+        {
+          "control": "38.9% mean; 40.3% median",
+          "diagnosed": "47.9% mean; 48.2% median",
+          "effect": "Mean +9.0 percentage points; median +7.9 points",
+          "measure": "Per-user share of posts containing first-person self-reference markers"
+        }
+      ],
+      "signal": "Greater first-person self-reference"
+    },
+    {
+      "caveats": [
+        "Lexical matching remains imperfect for irony, metaphor, and quoted speech.",
+        "The effect is modest after word normalization despite the large any-user difference."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Negative-affect language was nearly universal, but first-person and context filtering plus word normalization revealed a consistent diagnosed-group elevation.",
+      "id": "self_oriented_negative_affect",
+      "prompt_guidance": "Prefer recurrence and normalized rates over isolated affect words; require self-experience cues and exclude obvious quotation, lyric, news, joke, and third-person contexts.",
+      "quantitative_support": [
+        {
+          "control": "4851/5463 (88.8%)",
+          "diagnosed": "603/619 (97.4%)",
+          "effect": "Risk difference +8.6 percentage points; continuity-corrected OR 4.62",
+          "measure": "Users with at least one context-filtered, first-person negative-affect post"
+        },
+        {
+          "control": "1.87 mean; 1.63 median",
+          "diagnosed": "2.34 mean; 2.09 median",
+          "effect": "Mean +0.47 matches per 1000 words; median +0.47",
+          "measure": "Context-filtered negative-affect rate per 1000 words"
+        }
+      ],
+      "signal": "More recurring self-oriented negative affect"
+    },
+    {
+      "caveats": [
+        "May reflect treatment access, self-disclosure, annotation rules, or selection into the corpus.",
+        "Care vocabulary can refer to other people, professional roles, news, or general discussion."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This was the largest high-specificity user-level difference and was stable across all folds, including after word normalization.",
+      "id": "mental_health_care_treatment",
+      "prompt_guidance": "Treat as a strong behavioral correlate or possible label-leakage feature, not as evidence of symptom severity or causality.",
+      "quantitative_support": [
+        {
+          "control": "1759/5463 (32.2%)",
+          "diagnosed": "367/619 (59.3%)",
+          "effect": "Risk difference +27.1 percentage points; continuity-corrected OR 3.06",
+          "measure": "Users with at least one self-referential mental-health-care or treatment post"
+        },
+        {
+          "control": "0.122 mean; 0.000 median",
+          "diagnosed": "0.299 mean; 0.155 median",
+          "effect": "Mean 0.299 versus 0.122 matches per 1000 words; median 0.155 versus 0.000",
+          "measure": "Self-referential care/treatment rate per 1000 words"
+        }
+      ],
+      "signal": "Mental-health care, treatment, and diagnostic vocabulary"
+    },
+    {
+      "caveats": [
+        "Food, dieting, body image, and routine eating are common nonclinical topics.",
+        "The category conflates appetite, weight, and general food references."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The difference was positive in every fold and persisted under word normalization, but the category is broader than a clinical appetite-change construct.",
+      "id": "self_oriented_appetite_weight",
+      "prompt_guidance": "Use only as one component of a multi-domain bundle and favor specific change/problem patterns over ordinary food talk.",
+      "quantitative_support": [
+        {
+          "control": "3006/5463 (55.0%)",
+          "diagnosed": "440/619 (71.1%)",
+          "effect": "Risk difference +16.1 percentage points; continuity-corrected OR 2.01",
+          "measure": "Users with at least one self-oriented appetite, food, body, or weight post"
+        },
+        {
+          "control": "0.393 mean; 0.127 median",
+          "diagnosed": "0.558 mean; 0.299 median",
+          "effect": "Mean 0.558 versus 0.393 matches per 1000 words; median 0.299 versus 0.127",
+          "measure": "Self-oriented appetite/weight rate per 1000 words"
+        }
+      ],
+      "signal": "Self-oriented appetite, food, body, and weight language"
+    },
+    {
+      "caveats": [
+        "Broad matches include ordinary solitude, online interaction, and frustration with people.",
+        "Rare-template estimates are sensitive to small counts."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both the broad recurrence measure and the rarer specific template favored diagnosed users in all folds; the specific template had a larger relative effect but lower coverage.",
+      "id": "self_oriented_social_withdrawal",
+      "prompt_guidance": "Use specific self-experience patterns as a review signal, not as proof of actual isolation or impairment.",
+      "quantitative_support": [
+        {
+          "control": "3502/5463 (64.1%)",
+          "diagnosed": "481/619 (77.7%)",
+          "effect": "Risk difference +13.6 percentage points; continuity-corrected OR 1.95",
+          "measure": "Users with at least one self-oriented social-withdrawal post"
+        },
+        {
+          "control": "80/5463 (1.5%)",
+          "diagnosed": "37/619 (6.0%)",
+          "effect": "Risk difference +4.5 percentage points; continuity-corrected OR 4.31",
+          "measure": "Users with a more specific explicit social-isolation template"
+        }
+      ],
+      "signal": "Self-oriented withdrawal and isolation language"
+    },
+    {
+      "caveats": [
+        "Sleep and fatigue are common in general social-media use.",
+        "The broad matcher includes ordinary sleep, waking, and rest discussions."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "User prevalence and robust location statistics were higher for diagnosed users in every fold, although the normalized mean-rate difference was small.",
+      "id": "self_oriented_sleep_fatigue",
+      "prompt_guidance": "Use recurrence and combine with other nonredundant domains; avoid treating ordinary sleep complaints as diagnostic.",
+      "quantitative_support": [
+        {
+          "control": "4368/5463 (80.0%)",
+          "diagnosed": "551/619 (89.0%)",
+          "effect": "Risk difference +9.1 percentage points; continuity-corrected OR 2.02",
+          "measure": "Users with at least one self-oriented sleep/fatigue post"
+        },
+        {
+          "control": "1.286 mean; 0.861 median",
+          "diagnosed": "1.346 mean; 0.984 median",
+          "effect": "Mean 1.346 versus 1.286 matches per 1000 words; median 0.984 versus 0.861",
+          "measure": "Self-oriented sleep/fatigue rate per 1000 words"
+        }
+      ],
+      "signal": "Self-oriented sleep, tiredness, and fatigue language"
+    },
+    {
+      "caveats": [
+        "Ordinary school, work, and conversational confusion can trigger the category.",
+        "The specific explicit-template version was much rarer and nearly null in one fold."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The broad domain was consistently elevated at user level and after normalization, with modest effect size.",
+      "id": "self_oriented_concentration_decision",
+      "prompt_guidance": "Use as a weak supporting feature, preferably requiring explicit difficulty rather than generic mentions of understanding or decisions.",
+      "quantitative_support": [
+        {
+          "control": "4386/5463 (80.3%)",
+          "diagnosed": "550/619 (88.9%)",
+          "effect": "Risk difference +8.6 percentage points; continuity-corrected OR 1.95",
+          "measure": "Users with at least one self-oriented concentration or decision post"
+        },
+        {
+          "control": "0.890 mean; 0.776 median",
+          "diagnosed": "1.021 mean; 0.955 median",
+          "effect": "Mean 1.021 versus 0.890 matches per 1000 words; median 0.955 versus 0.776",
+          "measure": "Self-oriented concentration/decision rate per 1000 words"
+        }
+      ],
+      "signal": "Self-oriented concentration, memory, confusion, and decision language"
+    },
+    {
+      "caveats": [
+        "Matches may describe another person, public events, fiction, advocacy, or metaphor.",
+        "Even explicit self-referential wording is not equivalent to intent or behavior."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Specific matches were uncommon but consistently more prevalent among diagnosed users; context filtering reduced coverage while preserving direction.",
+      "id": "explicit_self_harm_language",
+      "prompt_guidance": "Treat only as a language review flag. Do not infer intent, imminence, or clinical risk from a lexical match.",
+      "quantitative_support": [
+        {
+          "control": "417/5463 (7.6%)",
+          "diagnosed": "98/619 (15.8%)",
+          "effect": "Risk difference +8.2 percentage points; continuity-corrected OR 2.28",
+          "measure": "Users with at least one explicit suicide/self-harm-related lexical match"
+        },
+        {
+          "control": "210/5463 (3.8%)",
+          "diagnosed": "51/619 (8.2%)",
+          "effect": "Risk difference +4.4 percentage points; continuity-corrected OR 2.26",
+          "measure": "Users with an explicit match surviving first-person and context filters"
+        }
+      ],
+      "signal": "Explicit suicide or self-harm-related language"
+    },
+    {
+      "caveats": [
+        "The category includes ordinary embarrassment, mistakes, insults, and interpersonal evaluation.",
+        "Substantial redundancy with negative affect and first-person self-focus is likely."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The direction was stable but the normalized effect was small, making this a supporting rather than primary signal.",
+      "id": "self_oriented_guilt_worthlessness",
+      "prompt_guidance": "Use cautiously and require self-evaluative context; do not equate insults, embarrassment, or praise-related wording with clinical worthlessness.",
+      "quantitative_support": [
+        {
+          "control": "3499/5463 (64.0%)",
+          "diagnosed": "443/619 (71.6%)",
+          "effect": "Risk difference +7.5 percentage points; continuity-corrected OR 1.41",
+          "measure": "Users with at least one self-oriented guilt, shame, inadequacy, or worthlessness match"
+        },
+        {
+          "control": "0.381 mean; 0.274 median",
+          "diagnosed": "0.425 mean; 0.345 median",
+          "effect": "Mean 0.425 versus 0.381 matches per 1000 words; median 0.345 versus 0.274",
+          "measure": "Self-oriented guilt/worthlessness rate per 1000 words"
+        }
+      ],
+      "signal": "Self-oriented guilt, shame, inadequacy, and worthlessness language"
+    },
+    {
+      "caveats": [
+        "Humor frequency is highly dependent on topic, age, platform norms, and interaction style.",
+        "The any-user measure was near ceiling and was therefore less informative than the per-user rate."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "control",
+      "evidence_summary": "Controls had a higher rate of laughter or joking markers despite both groups having high user-level coverage, providing a reproducible counter-signal.",
+      "id": "control_humor_laughter_style",
+      "prompt_guidance": "Use primarily as a collection, engagement, or community-style covariate; do not interpret lower humor as anhedonia without direct self-experience evidence.",
+      "quantitative_support": [
+        {
+          "control": "11.8% mean share of posts",
+          "diagnosed": "8.9% mean share of posts",
+          "effect": "Diagnosed minus control mean difference -2.9 percentage points; direction stable in all folds",
+          "measure": "Per-user share of posts with laughter or joking markers"
+        }
+      ],
+      "signal": "Higher normalized humor/laughter style among controls"
+    },
+    {
+      "caveats": [
+        "Broad future, quitting, and impossibility language is heavily overinclusive.",
+        "The specific pattern has limited coverage and substantial contextual ambiguity."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "The aggregate difference was small and positive, but fold 2 reversed, so this is not a robust standalone signal.",
+      "id": "specific_hopelessness_templates",
+      "prompt_guidance": "Treat as mixed evidence and require corroboration from persistent self-oriented affect or other symptom domains.",
+      "quantitative_support": [
+        {
+          "control": "1134/5463 (20.8%)",
+          "diagnosed": "162/619 (26.2%)",
+          "effect": "Risk difference +5.4 percentage points; continuity-corrected OR 1.36 overall, with one fold reversed",
+          "measure": "Users with a specific self-oriented hopelessness template"
+        }
+      ],
+      "signal": "Specific hopelessness and loss-of-meaning templates"
+    }
+  ],
+  "negative_results": [
+    "Generic negative, literal-death, negation, absolutist, positive-affect, and first-person-any indicators were near ceiling or context-contaminated; raw keywords alone were not persuasive.",
+    "Specific anhedonia-like language was rare: 13/619 diagnosed users (2.1%) versus 78/5463 controls (1.4%), a small +0.7 percentage-point difference.",
+    "Specific hopelessness templates were weak and inconsistent: 26.2% versus 20.8% overall, but the direction reversed in one of four folds.",
+    "Punctuation, capitalization, emoji, ellipsis, and quote-character rates did not provide stable standalone evidence.",
+    "Generic death vocabulary was inadequate for self-harm inference: literal-death language occurred in 72.7% of diagnosed users versus 65.3% of controls, but included idioms, fiction, news, humor, and third-person references.",
+    "Temporal persistence or episode duration could not be established from source-order timelines without timestamps."
+  ],
+  "role": "statistical_robustness",
+  "source_folds": [
+    0,
+    1,
+    2,
+    4
+  ],
+  "users_analyzed": 6082
+}

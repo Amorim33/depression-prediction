@@ -1,0 +1,288 @@
+{
+  "confounds": [
+    "Longer diagnosed timelines create prevalence and co-occurrence advantages.",
+    "Explicit diagnosis or treatment language may reflect label leakage, recruitment source, or mental-health community participation.",
+    "Quoted, lyrical, fictional, news, advocacy, humorous, and third-person symptom language can generate false positives.",
+    "Bereavement, physical illness, relationship conflict, school stress, and temporary crises can mimic depressive language.",
+    "Age, gender or sexual-identity community, interests, and sports engagement are strong plausible proxies.",
+    "Reply formatting, profanity, and other platform-style features are likely collection or activity artifacts.",
+    "The severe class imbalance means modest absolute prevalence gaps can still produce many control-side false positives."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "This may reflect ascertainment or community membership rather than depression itself.",
+        "Treatment references can indicate anxiety, stress, or other conditions."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Treatment/professional vocabulary was substantially more prevalent among diagnosed users, with positive user-level gaps in every development fold.",
+      "id": "treatment_language",
+      "prompt_guidance": "Boost only when treatment is self-referential, action-oriented, or repeated; downweight education, advocacy, quoted advice, and discussion of another person.",
+      "quantitative_support": [
+        {
+          "control": "36.4% of users; 0.88 matching posts per user; 0.167% of posts",
+          "diagnosed": "62.6% of users; 2.16 matching posts per user; 0.347% of posts",
+          "effect": "+26.3 percentage points in user prevalence; +18.0 points in per-user mean rate",
+          "measure": "Mental-health treatment/professional vocabulary"
+        }
+      ],
+      "signal": "Recurring treatment and mental-health-care references"
+    },
+    {
+      "caveats": [
+        "Anxiety is not depression-specific.",
+        "Longer timelines increase the chance of observing both terms."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The treatment-plus-anxiety combination was more discriminative than either broad symptom vocabulary alone and had a positive fold direction throughout.",
+      "id": "treatment_anxiety_combination",
+      "prompt_guidance": "Require independent first-person evidence or repetition across the timeline; discount transient exam, romance, work, or social anxiety and generic advice.",
+      "quantitative_support": [
+        {
+          "control": "19.2%",
+          "diagnosed": "38.7%",
+          "effect": "+19.4 percentage points in user prevalence",
+          "measure": "Anxiety-related vocabulary"
+        },
+        {
+          "control": "10.7%",
+          "diagnosed": "31.1%",
+          "effect": "+20.4 percentage points in the combined feature",
+          "measure": "Treatment vocabulary plus anxiety vocabulary"
+        }
+      ],
+      "signal": "Treatment plus anxiety co-occurrence"
+    },
+    {
+      "caveats": [
+        "Small counts make effect sizes unstable.",
+        "These signals indicate acute-risk language, not necessarily depression or a diagnosis."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "These features were consistently more prevalent among diagnosed users, but the combined event is rare and individual matches are context-sensitive.",
+      "id": "self_harm_suicidality",
+      "prompt_guidance": "Use high-precision first-person intent/action patterns and temporal repetition; reject hair/object cutting, fiction, lyrics, news, advocacy, and threats about other people.",
+      "quantitative_support": [
+        {
+          "control": "1.8%",
+          "diagnosed": "5.7%",
+          "effect": "+3.9 percentage points in user prevalence",
+          "measure": "Explicit self-harm action vocabulary"
+        },
+        {
+          "control": "7.9%",
+          "diagnosed": "16.8%",
+          "effect": "+9.0 percentage points in user prevalence",
+          "measure": "Suicidal-intent vocabulary"
+        },
+        {
+          "control": "0.24%",
+          "diagnosed": "1.78%",
+          "effect": "+1.5 percentage points in rare combined presence",
+          "measure": "Self-harm plus suicidal-intent vocabulary"
+        }
+      ],
+      "signal": "Rare but stronger self-harm and suicidal-intent indicators"
+    },
+    {
+      "caveats": [
+        "73.5% of diagnosed users lacked this lexeme.",
+        "Controls also used it in non-self-referential contexts."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The prevalence gap was positive in all folds, but inspection showed false positives from casual exaggeration, media or lyric references, third-person discussion, and replies; most diagnosed users did not use the lexeme.",
+      "id": "depression_lexeme_context",
+      "prompt_guidance": "Do not treat the lexeme as a diagnosis. Prefer first-person self-disclosure, treatment linkage, persistence, and independent symptom domains; retain absence as weak evidence only.",
+      "quantitative_support": [
+        {
+          "control": "12.6%",
+          "diagnosed": "26.5%",
+          "effect": "+13.9 percentage points in user prevalence",
+          "measure": "Depression-related lexeme"
+        }
+      ],
+      "signal": "Depression terminology is useful but highly context-ambiguous"
+    },
+    {
+      "caveats": [
+        "Quartile persistence is partly confounded by timeline length.",
+        "Low mood language alone has weak specificity."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Sadness-related wording was common in both groups, but diagnosed users showed a stable prevalence gap and more broad-timeline recurrence in the pooled analysis.",
+      "id": "low_mood_persistence",
+      "prompt_guidance": "Use recurrence across separated timeline segments and combine with self-reference, treatment, anxiety, fatigue, or anhedonia; discount jokes, lyrics, relationship drama, bereavement, and physical illness.",
+      "quantitative_support": [
+        {
+          "control": "77.3% overall; 55.0% in at least two quartiles",
+          "diagnosed": "86.9% overall; 69.1% in at least two quartiles",
+          "effect": "+9.6 percentage points in user prevalence; +14.1 points for presence in at least two timeline quartiles",
+          "measure": "Sadness/crying vocabulary and coarse persistence"
+        }
+      ],
+      "signal": "Repeated low-mood language is more useful than an isolated negative word"
+    },
+    {
+      "caveats": [
+        "The heuristic included some non-depression diagnostic discussion.",
+        "Relying on explicit labels risks reproducing collection or annotation artifacts."
+      ],
+      "development_fold_support": [
+        2,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Direct diagnostic wording was uncommon and only weakly separated groups; fold 1 slightly favored controls, while later folds favored diagnosed users. Controls also discussed diagnoses in general or for other conditions.",
+      "id": "explicit_diagnosis_leakage",
+      "prompt_guidance": "Treat explicit self-labeling as possible leakage only when first-person, condition-specific, and corroborated by treatment or persistent symptoms; otherwise downweight it.",
+      "quantitative_support": [
+        {
+          "control": "3.5%",
+          "diagnosed": "5.0%",
+          "effect": "+1.5 percentage points overall, but fold direction was mixed",
+          "measure": "Broad diagnostic/self-label wording"
+        }
+      ],
+      "signal": "Explicit diagnosis wording is sparse and unreliable as a standalone feature"
+    },
+    {
+      "caveats": [
+        "This may reflect sampling, eligibility, or label construction rather than user behavior caused by depression.",
+        "Raw post counts can reverse user-level prevalence conclusions."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Timeline volume was higher for diagnosed users in every fold, inflating the chance of observing any rare keyword or combination.",
+      "id": "activity_volume_confound",
+      "prompt_guidance": "Normalize by user, cap post contributions, use rates and separated recurrence, and control for timeline length before interpreting lexical gaps.",
+      "quantitative_support": [
+        {
+          "control": "Mean 526.5 posts; median 332",
+          "diagnosed": "Mean 622.7 posts; median 386",
+          "effect": "+96 posts mean; +54 posts median",
+          "measure": "Retained timeline length"
+        }
+      ],
+      "signal": "Diagnosed users had longer retained timelines"
+    },
+    {
+      "caveats": [
+        "These patterns can arise from platform use, age, community, or account-type differences.",
+        "User prevalence and post frequency give opposite conclusions for replies."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Mention-heavy formatting was more likely to occur at least once among diagnosed users, while controls had a higher fraction of mention posts; profanity showed a similar non-clinical register gap.",
+      "id": "interaction_register_artifact",
+      "prompt_guidance": "Exclude or heavily regularize interaction-format and profanity features; never interpret them as symptom evidence.",
+      "quantitative_support": [
+        {
+          "control": "85.7% of users; 40.4% of posts",
+          "diagnosed": "96.4% of users; 35.1% of posts",
+          "effect": "+10.8 percentage points in user prevalence, but the raw post-rate direction reversed",
+          "measure": "Reply/mention formatting"
+        },
+        {
+          "control": "88.3% of users; 3.42% of posts",
+          "diagnosed": "96.4% of users; 4.22% of posts",
+          "effect": "+8.1 percentage points in user prevalence; +0.8 points in post rate",
+          "measure": "Strong profanity/register markers"
+        }
+      ],
+      "signal": "Reply style and register are collection or demographic artifacts, not clinical evidence"
+    },
+    {
+      "caveats": [
+        "The corpus appears heterogeneous in age, interests, and online communities.",
+        "Such proxies may create false positives and fairness failures."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Diagnosed users showed more school/appearance, pop-culture, and sexual-identity language, while controls showed more sports language; these separations were stable but are not depression mechanisms.",
+      "id": "demographic_topic_confound",
+      "prompt_guidance": "Audit performance across demographic and interest strata; remove identity and hobby proxies or use them only for confound adjustment, not prediction.",
+      "quantitative_support": [
+        {
+          "control": "36.5%",
+          "diagnosed": "54.7%",
+          "effect": "+18.2 percentage points in user prevalence",
+          "measure": "Sexual-identity/community vocabulary"
+        },
+        {
+          "control": "95.8%",
+          "diagnosed": "99.4%",
+          "effect": "+3.5 percentage points in user prevalence",
+          "measure": "School/youth and appearance/romance topics"
+        },
+        {
+          "control": "76.2%; 2.17% of posts",
+          "diagnosed": "73.5%; 1.14% of posts",
+          "effect": "-2.7 percentage points in user prevalence; roughly half the post rate",
+          "measure": "Sports-fandom vocabulary"
+        }
+      ],
+      "signal": "Stable identity, age, hobby, and topical differences can proxy the label"
+    }
+  ],
+  "negative_results": [
+    "Worthlessness/guilt wording was not stable: pooled prevalence was 45.5% diagnosed versus 43.6% control, but fold 2 reversed and fold 3 was nearly tied.",
+    "Bereavement/loss language showed essentially no separation: 13.6% versus 12.6% overall, with controls higher in fold 2.",
+    "Politics/news language did not distinguish groups: 61.3% diagnosed versus 62.1% control overall, with mixed fold directions.",
+    "Basic sleep, appetite, loneliness, and sadness terms were common in both groups; they should not be treated as specific evidence without self-reference, persistence, or co-occurring domains.",
+    "URLs, hashtags, and emoji were almost absent, suggesting preprocessing or collection artifacts rather than useful behavioral signals."
+  ],
+  "role": "adversarial_confounds",
+  "source_folds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}

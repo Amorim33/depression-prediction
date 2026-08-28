@@ -1,0 +1,302 @@
+{
+  "confounds": [
+    "The dataset is imbalanced: 618 diagnosed users versus 5,463 controls, so rare-feature estimates have substantial uncertainty despite the large total sample.",
+    "Clinical, treatment, and diagnostic terms may be annotation or ascertainment leakage rather than independent linguistic correlates.",
+    "No demographic, age, gender, platform, or sampling metadata are available. Sexual-language prevalence was also higher among diagnosed users (62.6% vs 48.9%), suggesting possible demographic or collection confounding rather than a depression mechanism.",
+    "Source order is available but timestamps are not; repeated posts measure within-timeline recurrence, not calendar persistence or symptom duration.",
+    "Portuguese slang, profanity, negation, quotation, lyric/media discussion, jokes, advocacy, and third-person references create lexical ambiguity. Context filters were heuristic.",
+    "Several leading signals are redundant: first-person affect, explicit self-state, anxiety, loneliness, low motivation, and clinical disclosure likely share a self-disclosure/activity factor."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Affective language may describe others, media, jokes, or quoted text; same-post context heuristics are needed.",
+        "This signal overlaps strongly with self-state, loneliness, anxiety, and clinical-language features."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The direction was positive in every fold, with prevalence gaps of 12.4–15.7 percentage points. The rate-based result also persisted, reducing concern that prolific users alone drove it.",
+      "id": "first_person_affect",
+      "prompt_guidance": "Prefer user prevalence and per-user hit-post rates over pooled token counts. Combine with persistence and explicit self-state context.",
+      "quantitative_support": [
+        {
+          "control": "75.3% of users; median 0.57% of timeline posts.",
+          "diagnosed": "89.3% of users; median 1.03% of timeline posts.",
+          "effect": "+14.1 percentage points in user prevalence; median hit-post share +0.46 percentage points; users with at least three hit posts 66.2% vs 43.9%.",
+          "measure": "User-level co-occurrence of first-person reference with affective language, plus per-user timeline rate."
+        }
+      ],
+      "signal": "First-person affective self-expression"
+    },
+    {
+      "caveats": [
+        "The construction is sparse and its median rate is zero in both classes.",
+        "Some figurative or joking self-statements remain difficult to classify."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The prevalence gap was positive in all folds, ranging from 7.3–12.4 percentage points. Heuristic audits found much less media/news/advocacy overlap than for broad affective hits.",
+      "id": "explicit_self_state_affect",
+      "prompt_guidance": "Use this as a higher-specificity feature for personal experience, but retain quotation and third-person filters.",
+      "quantitative_support": [
+        {
+          "control": "15.1% of users; mean hit-post rate 0.038%.",
+          "diagnosed": "25.4% of users; mean hit-post rate 0.078%.",
+          "effect": "+10.3 percentage points in user prevalence; users with at least three specific co-occurrences 4.5% vs 1.3%.",
+          "measure": "Posts containing an explicit self-state construction together with affective language."
+        }
+      ],
+      "signal": "Explicit first-person experience rather than generic affect"
+    },
+    {
+      "caveats": [
+        "Anxiety vocabulary is not specific to depression.",
+        "Some mentions may concern someone else or a public discussion."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The diagnosed excess was stable across all folds, with fold gaps of 10.7–17.1 percentage points and higher normalized rates.",
+      "id": "anxiety_language",
+      "prompt_guidance": "Treat anxiety as a correlated comorbidity or self-disclosure signal, not as a depression-specific marker.",
+      "quantitative_support": [
+        {
+          "control": "41.9% of users; median hit-post rate 0%.",
+          "diagnosed": "55.7% of users; median hit-post rate 0.10%.",
+          "effect": "+13.7 percentage points in user prevalence; users with at least three hit posts 18.8% vs 11.2%.",
+          "measure": "User-level anxiety-related vocabulary and anxiety-state references."
+        }
+      ],
+      "signal": "Anxiety-related language"
+    },
+    {
+      "caveats": [
+        "Likely label leakage or ascertainment bias: diagnosed users may be selected through self-disclosure or treatment discussion.",
+        "Clinical vocabulary does not establish diagnosis, severity, causality, or current symptoms."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This was the largest measured association and was stable in every fold, with gaps of 18.8–30.3 percentage points.",
+      "id": "clinical_self_disclosure",
+      "prompt_guidance": "Use primarily as a collection or annotation indicator. Downweight or exclude it when the goal is a non-leaky linguistic phenotype.",
+      "quantitative_support": [
+        {
+          "control": "47.4% of users; median hit-post rate 0%.",
+          "diagnosed": "72.3% of users; median hit-post rate 0.38%.",
+          "effect": "+24.9 percentage points in user prevalence; users with at least three hit posts 40.8% vs 16.8%.",
+          "measure": "Depression, treatment, psychiatric-care, medication, and diagnostic vocabulary at user level."
+        }
+      ],
+      "signal": "Clinical and treatment self-disclosure"
+    },
+    {
+      "caveats": [
+        "Loneliness terms can describe fictional characters, friends, or transient situations.",
+        "This feature is partly redundant with affective self-expression and low-motivation language."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "All folds showed a diagnosed excess of 14.7–19.1 percentage points. The persistence threshold retained the same direction.",
+      "id": "first_person_loneliness",
+      "prompt_guidance": "Prioritize first-person and repeated references; do not count generic social commentary as equivalent.",
+      "quantitative_support": [
+        {
+          "control": "35.7% of users; median hit-post rate 0%.",
+          "diagnosed": "52.6% of users; median hit-post rate 0.07%.",
+          "effect": "+16.9 percentage points in user prevalence; users with at least three hit posts 13.9% vs 6.8%.",
+          "measure": "First-person loneliness and social-withdrawal references, rather than generic mentions."
+        }
+      ],
+      "signal": "Personal loneliness or withdrawal"
+    },
+    {
+      "caveats": [
+        "Informal language and ordinary procrastination can resemble anhedonia.",
+        "Very strict anhedonia phrases were too rare for a robust fold-stable result."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The direction was positive in all folds, with gaps of 6.4–18.0 percentage points. A broader hopelessness pattern was also consistently higher in diagnosed users, by 2.8–11.2 points.",
+      "id": "first_person_motivation",
+      "prompt_guidance": "Use as a moderate signal only when paired with first-person context and repetition; avoid interpreting isolated negation or inability phrases clinically.",
+      "quantitative_support": [
+        {
+          "control": "29.4% of users.",
+          "diagnosed": "42.1% of users.",
+          "effect": "+12.6 percentage points in user prevalence; users with at least three hit posts 6.6% vs 4.3%.",
+          "measure": "First-person low-motivation, diminished-interest, or inability-to-act patterns."
+        }
+      ],
+      "signal": "Personal low motivation or diminished interest"
+    },
+    {
+      "caveats": [
+        "Some vocabulary is ambiguous slang or interpersonal insult.",
+        "The broad category is more stable than the rare, highly explicit low-worth subset."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The prevalence direction was positive in all folds, with gaps of 4.2–15.0 percentage points. Repeated-user prevalence showed the same ordering.",
+      "id": "self_directed_negative_evaluation",
+      "prompt_guidance": "Use contextual and first-person constraints; keep this separate from insults, profanity, or negative evaluation of others.",
+      "quantitative_support": [
+        {
+          "control": "48.9% of users; median hit-post rate 0%.",
+          "diagnosed": "59.2% of users; median hit-post rate 0.17%.",
+          "effect": "+10.3 percentage points in user prevalence; users with at least three hit posts 24.1% vs 14.5%.",
+          "measure": "First-person self-directed negative evaluation, guilt, failure, or low-worth vocabulary."
+        }
+      ],
+      "signal": "Self-directed negative evaluation"
+    },
+    {
+      "caveats": [
+        "Mentions may be quotations, advocacy, fictional discussion, or concern about another person.",
+        "This corpus-level association must not be treated as a clinical risk assessment."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The diagnosed excess persisted in all folds, with gaps of 5.2–13.7 percentage points. Removing posts with heuristic quote, media, joke, news, or advocacy markers still left a positive gap of about 9 percentage points.",
+      "id": "direct_suicide_selfharm",
+      "prompt_guidance": "Keep this as a rare, high-specificity but non-diagnostic feature; apply strict context and third-person checks.",
+      "quantitative_support": [
+        {
+          "control": "9.2% of users.",
+          "diagnosed": "17.3% of users.",
+          "effect": "+8.1 percentage points in user prevalence; relative prevalence 1.87x; users with at least three hit posts 1.3% vs 0.2%.",
+          "measure": "Direct suicidal or self-harm-related patterns, not broad death vocabulary."
+        }
+      ],
+      "signal": "Direct suicidal or self-harm language"
+    },
+    {
+      "caveats": [
+        "The signal is sparse and partly reflects longer or more self-focused timelines.",
+        "Lexicon overlap can create artificial co-occurrence."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The combination signal was positive in every fold, though the gap varied substantially from 4.1–17.5 percentage points. Activity-normalized thresholds preserved the same direction.",
+      "id": "multi_domain_symptom_combination",
+      "prompt_guidance": "Use combinations and persistence rather than isolated keywords, while recognizing correlated component features.",
+      "quantitative_support": [
+        {
+          "control": "15.8% of users.",
+          "diagnosed": "24.8% of users.",
+          "effect": "+9.0 percentage points in user prevalence; rate threshold of at least 0.5% of posts was met by 3.4% vs 1.6%.",
+          "measure": "At least two distinct symptom-domain categories co-occurring within a post."
+        }
+      ],
+      "signal": "Within-post combination of multiple symptom domains"
+    },
+    {
+      "caveats": [
+        "No timestamps are available, so repeated mentions do not establish duration or episode persistence.",
+        "Sleep references can be routine, humorous, or situational."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The disturbance-specific direction was positive in every fold, with gaps of 3.7–15.9 percentage points, but effect size was modest.",
+      "id": "sleep_disturbance",
+      "prompt_guidance": "Use disturbance-specific and first-person patterns; generic sleep frequency is too common to be useful.",
+      "quantitative_support": [
+        {
+          "control": "21.7% of users; mean hit-post rate 0.07%.",
+          "diagnosed": "31.4% of users; mean hit-post rate 0.09%.",
+          "effect": "+9.7 percentage points in user prevalence; users with at least three hit posts 4.1% vs 2.1%.",
+          "measure": "Specific sleep-disturbance patterns rather than generic sleep or bedtime vocabulary."
+        }
+      ],
+      "signal": "Sleep disturbance language"
+    },
+    {
+      "caveats": [
+        "This is a collection, engagement, or exposure confound rather than a clinical signal.",
+        "Without timestamps, activity cannot be separated from observation-window duration."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users had higher median activity in every fold. This makes raw post or token frequency unsuitable as evidence and likely inflates any-user prevalence for common terms.",
+      "id": "timeline_activity_exposure",
+      "prompt_guidance": "Normalize within user, report user prevalence separately, and consider activity-matched sensitivity analyses.",
+      "quantitative_support": [
+        {
+          "control": "Median 332 posts and 3,179 words per user.",
+          "diagnosed": "Median 386 posts and 3,944.5 words per user.",
+          "effect": "Median diagnosed timeline was 54 posts longer; mean was about 96 posts higher. Median word volume was about 766 words higher.",
+          "measure": "User-level timeline exposure and activity."
+        }
+      ],
+      "signal": "Higher timeline activity among diagnosed users"
+    }
+  ],
+  "negative_results": [
+    "Generic sleep and food vocabulary was widespread and weakly specific: broad sleep prevalence was 95.1% diagnosed vs 91.6% control, and appetite/food vocabulary 86.4% vs 79.7%; only disturbance-specific sleep showed a modest stable gap.",
+    "Strict low-energy language was null: 2.4% diagnosed vs 2.3% control, with fold differences ranging from -1.1 to +1.5 percentage points.",
+    "Strict anhedonia phrases were rare and not direction-stable across all folds.",
+    "Humor, politics/news, and sports were not reliable class markers; humor direction was mixed, politics was near-null, and sports favored control in three of four folds.",
+    "Positive affect was not protective: user prevalence was 99.5% diagnosed vs 97.1% control, with higher median post-share among diagnosed users, likely reflecting activity or expressiveness rather than symptom status."
+  ],
+  "role": "statistical_robustness",
+  "source_folds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}

@@ -1,0 +1,65 @@
+{
+  "issues": [
+    {
+      "issue": "The decision rule has a hidden control prior and no operating threshold.",
+      "reason": "Saying not to assume a prior conflicts with allowing control when diagnosed evidence is absent; balancing evidence and optimizing precision and recall do not specify how ties are resolved.",
+      "required_revision": "Remove the silence-to-control fallback. State that absent or ambiguous evidence is non-evidence, and supply a fixed decision threshold or tie rule calibrated only on permitted development data.",
+      "severity": "high"
+    },
+    {
+      "issue": "Activity, expressive style, politics, and news are prohibited proxies but are still assigned control direction.",
+      "reason": "These features conflict with the anti-metadata rule, have no quantitative support shown here, and invite platform, demographic, and account-type leakage.",
+      "required_revision": "Delete C01 and C02 as label-directional features and remove class-directional activity language from X02. Retain volume only for exposure normalization, never as a tie-breaker or control signal.",
+      "severity": "high"
+    },
+    {
+      "issue": "Nonspecific symptoms are ranked too close to diagnosis evidence.",
+      "reason": "Self-harm, treatment, work disruption, fatigue, and sleep problems can occur without a diagnosis or concern another person or condition. The top-level ranking also conflicts with D04's corroboration-only caveat.",
+      "required_revision": "Separate direct author-owned diagnosis reports from symptom proxies. Make self-harm ideation, common symptoms, impairment, and treatment secondary corroboration; require clear mental-health ownership for treatment or impairment, and never let one symptom family select diagnosed by itself.",
+      "severity": "high"
+    },
+    {
+      "issue": "Prompt-injection and in-band label handling remain ambiguous.",
+      "reason": "The warning about untrusted text lacks a hard boundary and could either allow output hijacking or cause genuine self-reports to be ignored as embedded labels.",
+      "required_revision": "Place the timeline inside explicit begin/end data delimiters and state that it is literal data. Ignore only commands, output-format requests, and corpus-label claims inside it; preserve semantically clear autobiographical diagnosis or treatment reports as evidence, and emit JSON only after the end delimiter.",
+      "severity": "high"
+    },
+    {
+      "issue": "The ownership audit uses overly broad source-category exclusions.",
+      "reason": "Replies, advocacy, and educational or provider discussion can contain the author's own experience, while first-person roleplay or quoted text can create false ownership.",
+      "required_revision": "Perform attribution at the claim or span level: identify speaker, target, quotation boundaries, and whether the author is reporting or endorsing the experience. Downweight only contaminated claims, not whole replies or educational/provider posts.",
+      "severity": "medium"
+    },
+    {
+      "issue": "Source-order recurrence is an unsupported persistence proxy.",
+      "reason": "Without timestamps, position can reflect export batching, topic clustering, or reposting; repeated wording across blocks is not independent recurrence.",
+      "required_revision": "Remove source-order blocks or thirds as evidence. Count only semantically distinct, author-owned reports, de-duplicate copied material, and describe recurrence as repetition rather than persistence.",
+      "severity": "medium"
+    },
+    {
+      "issue": "The prompt creates false negatives for concise, private, or well-functioning diagnosed users.",
+      "reason": "The fallback language still pushes cases lacking convergence or impairment toward control, despite correctly stating that clinical-vocabulary silence is not control evidence.",
+      "required_revision": "Make recurrence, multi-domain convergence, and functional impairment optional corroboration rather than prerequisites. A clear self-owned diagnosis report should not require repeated symptoms, and sparse disclosure must not favor control.",
+      "severity": "medium"
+    },
+    {
+      "issue": "Qualitative rankings and symptom lists still invite keyword accumulation.",
+      "reason": "Terms such as specific, convergent, and independent are undefined, so multiple correlated words may be converted into an unsupported diagnosed score.",
+      "required_revision": "Define the evidence unit as a semantically complete autobiographical claim, not a token or symptom-word count. Explicitly collapse duplicate wording and cap symptom-only evidence.",
+      "severity": "medium"
+    },
+    {
+      "issue": "Counterevidence guidance contradicts the stated rejection of monotonic control inference.",
+      "reason": "Positive content and absent clinical vocabulary are said not to prove control, yet the prompt still directs the model to balance against counterevidence and permits control selection when positive evidence is weak.",
+      "required_revision": "Change E01 and E02 from counterevidence to non-evidence, and remove them from the balancing score. They may prevent overcalling diagnosed but must not provide votes for control.",
+      "severity": "medium"
+    }
+  ],
+  "strengths_to_preserve": [
+    "Clear corpus-label framing and strict JSON-only output contract.",
+    "Whole-timeline ownership and contamination audit, including quoted and instructional content.",
+    "User-level aggregation, duplicate/correlation control, and resistance to raw activity counts.",
+    "Safeguards against using positive affect or absent clinical vocabulary as decisive control evidence."
+  ],
+  "verdict": "revise"
+}

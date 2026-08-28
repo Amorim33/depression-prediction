@@ -1,0 +1,208 @@
+{
+  "experimentId": "seed42_setembrobr_v7_gpt56_prompt_oof",
+  "folds": [
+    {
+      "fold": 0,
+      "metrics": {
+        "accuracy": 0.47534516765285995,
+        "confusionMatrix": {
+          "labels": [
+            "control",
+            "diagnosed"
+          ],
+          "matrix": [
+            [
+              583,
+              783
+            ],
+            [
+              15,
+              140
+            ]
+          ]
+        },
+        "controlF1": 0.5936863543788187,
+        "diagnosedF1": 0.2597402597402597,
+        "diagnosedPrecision": 0.15167930660888407,
+        "diagnosedRecall": 0.9032258064516129,
+        "fn": 15,
+        "fp": 783,
+        "macroF1": 0.4267133070595392,
+        "tn": 583,
+        "tp": 140
+      },
+      "users": 1521
+    },
+    {
+      "fold": 1,
+      "metrics": {
+        "accuracy": 0.819197896120973,
+        "confusionMatrix": {
+          "labels": [
+            "control",
+            "diagnosed"
+          ],
+          "matrix": [
+            [
+              1147,
+              219
+            ],
+            [
+              56,
+              99
+            ]
+          ]
+        },
+        "controlF1": 0.8929544569871547,
+        "diagnosedF1": 0.41860465116279066,
+        "diagnosedPrecision": 0.3113207547169811,
+        "diagnosedRecall": 0.6387096774193548,
+        "fn": 56,
+        "fp": 219,
+        "macroF1": 0.6557795540749727,
+        "tn": 1147,
+        "tp": 99
+      },
+      "users": 1521
+    },
+    {
+      "fold": 2,
+      "metrics": {
+        "accuracy": 0.8427631578947369,
+        "confusionMatrix": {
+          "labels": [
+            "control",
+            "diagnosed"
+          ],
+          "matrix": [
+            [
+              1198,
+              168
+            ],
+            [
+              71,
+              83
+            ]
+          ]
+        },
+        "controlF1": 0.9092979127134724,
+        "diagnosedF1": 0.40987654320987654,
+        "diagnosedPrecision": 0.33067729083665337,
+        "diagnosedRecall": 0.538961038961039,
+        "fn": 71,
+        "fp": 168,
+        "macroF1": 0.6595872279616745,
+        "tn": 1198,
+        "tp": 83
+      },
+      "users": 1520
+    },
+    {
+      "fold": 3,
+      "metrics": {
+        "accuracy": 0.8868421052631579,
+        "confusionMatrix": {
+          "labels": [
+            "control",
+            "diagnosed"
+          ],
+          "matrix": [
+            [
+              1267,
+              99
+            ],
+            [
+              73,
+              81
+            ]
+          ]
+        },
+        "controlF1": 0.9364375461936437,
+        "diagnosedF1": 0.4850299401197605,
+        "diagnosedPrecision": 0.45,
+        "diagnosedRecall": 0.525974025974026,
+        "fn": 73,
+        "fp": 99,
+        "macroF1": 0.7107337431567021,
+        "tn": 1267,
+        "tp": 81
+      },
+      "users": 1520
+    },
+    {
+      "fold": 4,
+      "metrics": {
+        "accuracy": 0.8572368421052632,
+        "confusionMatrix": {
+          "labels": [
+            "control",
+            "diagnosed"
+          ],
+          "matrix": [
+            [
+              1219,
+              146
+            ],
+            [
+              71,
+              84
+            ]
+          ]
+        },
+        "controlF1": 0.9182674199623352,
+        "diagnosedF1": 0.4363636363636364,
+        "diagnosedPrecision": 0.3652173913043478,
+        "diagnosedRecall": 0.5419354838709678,
+        "fn": 71,
+        "fp": 146,
+        "macroF1": 0.6773155281629858,
+        "tn": 1219,
+        "tp": 84
+      },
+      "users": 1520
+    }
+  ],
+  "futureValidationUsed": false,
+  "hashChain": {
+    "configSha256": "44289c12b44eb3f7cbe605c94a891da4494096a24eb1c4dc888369c614112212",
+    "labelFreeAuditSha256": "f8d71aa1f102a1d19a262e1a136ae038b2633deca0c2f1a75e67f6088552650e",
+    "oofScoresSha256": "a0bab22941635442928320f828804d9f7a13f65eadaa5757a93bfadd21e222cf",
+    "promptLockSha256": "625ba6c38cba6669e6a219db7f62340f555397c24963bd1ac2cd6608a53df779",
+    "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6"
+  },
+  "model": "gpt-5.6-sol",
+  "overall": {
+    "accuracy": 0.7762430939226519,
+    "confusionMatrix": {
+      "labels": [
+        "control",
+        "diagnosed"
+      ],
+      "matrix": [
+        [
+          5414,
+          1415
+        ],
+        [
+          286,
+          487
+        ]
+      ]
+    },
+    "controlF1": 0.8642349748583287,
+    "diagnosedF1": 0.3641121495327103,
+    "diagnosedPrecision": 0.25604626708727657,
+    "diagnosedRecall": 0.630012936610608,
+    "fn": 286,
+    "fp": 1415,
+    "macroF1": 0.6141735621955196,
+    "tn": 5414,
+    "tp": 487
+  },
+  "overallMacroF1Definition": "Macro F1 on all concatenated OOF predictions, not the mean of fold Macro F1 values.",
+  "predictionTarget": "Diagnosed_YN",
+  "predictionThreshold": 0.5,
+  "reasoningEffort": "high",
+  "thresholdSelection": "fixed before OOF inference; no held-out tuning",
+  "users": 7602
+}

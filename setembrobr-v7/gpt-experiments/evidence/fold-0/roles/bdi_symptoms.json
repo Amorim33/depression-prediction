@@ -1,0 +1,390 @@
+{
+  "confounds": [
+    "The label distribution is highly imbalanced: 618 diagnosed users versus 5,463 controls; all reported comparisons are user-level rather than raw post shares.",
+    "Diagnosed users were more active on average (about 623 versus 527 retained posts/user), so full-timeline any-match rates are activity-sensitive; first-50/first-100 analyses and matched-posts-per-user were used as checks.",
+    "Quotation, lyrics, retweets, news, advocacy, third-person discussion, jokes, and idiomatic hyperbole cannot be perfectly separated from personal experience using text-only heuristics.",
+    "Source order supports persistence checks across timeline segments but does not guarantee temporal chronology or clinical duration.",
+    "Differences may reflect self-disclosure, healthcare contact, demographics, fandom or community composition, posting style, collection artifacts, or annotation practices rather than depression itself.",
+    "Portuguese slang, spelling variation, and polysemy create both false positives and missed symptom expressions."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Sadness lexicons overlap with crying and general negative reactions.",
+        "Activity differences inflate full-timeline any-match rates, so early-post estimates are more conservative."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The diagnosed group showed higher user prevalence, higher matched-post intensity, and greater persistence across timeline quartiles (2.32 versus 1.73 occupied quartiles).",
+      "id": "sadness_low_mood",
+      "prompt_guidance": "Prefer repeated first-person affective states over isolated sadness words; treat quoted, lyrical, humorous, or third-person uses cautiously.",
+      "quantitative_support": [
+        {
+          "control": "4,087/5,463 users (74.8%); 18,838 matched posts; 3.45 matched posts/user",
+          "diagnosed": "528/618 users (85.4%); 3,392 matched posts; 5.49 matched posts/user",
+          "effect": "+10.6 percentage points overall; +14.9 points in the first 100 posts",
+          "measure": "User prevalence of sadness/low-mood markers, with exposure-controlled first-100 prevalence"
+        },
+        {
+          "control": "32.1%",
+          "diagnosed": "48.4%",
+          "effect": "+16.3 points for the self-framed first-100 subset",
+          "measure": "First-person sadness subset in first 100 posts"
+        }
+      ],
+      "signal": "Repeated self-framed sadness and low-mood expression"
+    },
+    {
+      "caveats": [
+        "Words such as never, nothing, and worst also occur in fandom, politics, humor, and situational complaints.",
+        "Self-reference was heuristic rather than manually adjudicated."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The difference was positive in every fold and remained after restricting exposure to the first 100 posts; persistence was modestly higher in diagnosed users (2.29 versus 1.93 occupied quartiles).",
+      "id": "pessimism_hopelessness",
+      "prompt_guidance": "Use combinations of pessimistic framing with self-reference and repeated occurrence; do not equate ordinary complaints or dramatic slang with hopelessness.",
+      "quantitative_support": [
+        {
+          "control": "4,361/5,463 users (79.8%); 23,039 matched posts; 4.22 matched posts/user",
+          "diagnosed": "538/618 users (87.1%); 3,305 matched posts; 5.35 matched posts/user",
+          "effect": "+7.3 percentage points overall; +7.3 points in the first 100 posts",
+          "measure": "User prevalence of pessimistic or hopeless self-talk"
+        },
+        {
+          "control": "38.4%",
+          "diagnosed": "49.7%",
+          "effect": "+11.3 points for self-framed first-100 language",
+          "measure": "First-person pessimism subset in first 100 posts"
+        }
+      ],
+      "signal": "Pessimistic, hopeless, or defeat-oriented self-talk"
+    },
+    {
+      "caveats": [
+        "Social-media crying language is often playful or hyperbolic.",
+        "This domain overlaps strongly with general emotional expressiveness."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Crying markers were more prevalent, more frequent per user, and more persistent in diagnosed users; the direction was stable across all folds.",
+      "id": "crying_emotional_expression",
+      "prompt_guidance": "Give more weight to first-person crying or sustained tearfulness than to crying used as laughter, exaggeration, lyrics, or reactions to media.",
+      "quantitative_support": [
+        {
+          "control": "3,402/5,463 users (62.3%); 11,502 matched posts; 2.11 matched posts/user",
+          "diagnosed": "447/618 users (72.3%); 1,981 matched posts; 3.21 matched posts/user",
+          "effect": "+10.0 percentage points overall; +9.2 points in the first 100 posts",
+          "measure": "User prevalence of crying-related markers"
+        },
+        {
+          "control": "25.4%",
+          "diagnosed": "34.8%",
+          "effect": "+9.4 points for the self-framed first-100 subset",
+          "measure": "Self-framed crying subset in first 100 posts"
+        }
+      ],
+      "signal": "Repeated crying or tearfulness expression"
+    },
+    {
+      "caveats": [
+        "Anxiety and stress are not specific to depression.",
+        "Crisis and stress terms may reflect transient events."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This was a robust cross-fold signal with higher early-post prevalence and higher timeline persistence in diagnosed users (1.64 versus 1.24 occupied quartiles).",
+      "id": "agitation_anxiety",
+      "prompt_guidance": "Prefer repeated self-reports of internal agitation or anxiety; separate them from news, advocacy, or discussion of another person's crisis.",
+      "quantitative_support": [
+        {
+          "control": "3,487/5,463 users (63.8%); 11,019 matched posts; 2.02 matched posts/user",
+          "diagnosed": "461/618 users (74.6%); 1,840 matched posts; 2.98 matched posts/user",
+          "effect": "+10.8 percentage points overall; +8.1 points in the first 100 posts",
+          "measure": "User prevalence of anxiety, agitation, crisis, and stress markers"
+        },
+        {
+          "control": "20.6%",
+          "diagnosed": "29.4%",
+          "effect": "+8.8 points for the self-framed first-100 subset",
+          "measure": "Self-framed agitation/anxiety subset in first 100 posts"
+        }
+      ],
+      "signal": "Self-framed anxiety, agitation, crisis, or stress"
+    },
+    {
+      "caveats": [
+        "Informal Portuguese self-insults are frequently humorous or situational.",
+        "Broader worthlessness terms were less stable because of third-person and object-directed insults."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Strict self-directed formulations were consistently more common and had higher persistence, though they were rare after exposure control.",
+      "id": "self_dislike_self_criticism",
+      "prompt_guidance": "Use only explicit self-directed evaluation; exclude insults aimed at others, objects, teams, or joking self-deprecation when possible.",
+      "quantitative_support": [
+        {
+          "control": "507/5,463 users (9.3%); 667 matched posts; 0.12 matched posts/user",
+          "diagnosed": "110/618 users (17.8%); 166 matched posts; 0.27 matched posts/user",
+          "effect": "+8.5 percentage points overall; +1.3 points in the first 100 posts",
+          "measure": "Strict first-person self-dislike/self-criticism markers"
+        },
+        {
+          "control": "1.8%",
+          "diagnosed": "3.1%",
+          "effect": "+1.3 points in first-100 user prevalence",
+          "measure": "Strict self-criticism in first 100 posts"
+        }
+      ],
+      "signal": "Self-directed dislike, harsh self-criticism, or self-devaluation"
+    },
+    {
+      "caveats": [
+        "Expressions equivalent to killing oneself are sometimes idiomatic or humorous.",
+        "A social-media mention is not evidence of intent, severity, or clinical risk."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This was one of the clearest and most stable divergences; self-framed language remained elevated after equalizing early exposure and was more persistent across timeline quartiles (0.26 versus 0.11).",
+      "id": "self_harm_death_ideation",
+      "prompt_guidance": "Prioritize explicit first-person formulations and repeated occurrence; distinguish intent-like language from quoted news, advocacy, third-person reports, and comic hyperbole.",
+      "quantitative_support": [
+        {
+          "control": "547/5,463 users (10.0%); 656 matched posts; 0.12 matched posts/user",
+          "diagnosed": "129/618 users (20.9%); 190 matched posts; 0.31 matched posts/user",
+          "effect": "+10.9 percentage points overall; +2.9 points in the first 100 posts",
+          "measure": "Self-harm/death vocabulary before context filtering"
+        },
+        {
+          "control": "1.7%",
+          "diagnosed": "3.7%",
+          "effect": "+2.0 points for the self-framed first-100 subset",
+          "measure": "Self-framed explicit self-harm/death subset in first 100 posts"
+        }
+      ],
+      "signal": "Self-referential self-harm or death ideation language"
+    },
+    {
+      "caveats": [
+        "Co-occurrence need not be simultaneous or causally related.",
+        "The combinations remain vulnerable to self-selection and annotation effects."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Within-user combinations were more informative than isolated terms: sadness plus agitation was common and stable, while sadness plus self-harm/death was rarer but more discriminative. Both combinations remained directionally positive in all folds under early-exposure control.",
+      "id": "multi_domain_combinations",
+      "prompt_guidance": "Use combinations and repetition across a timeline rather than single keywords; treat co-occurrence as observable language divergence, not a clinical syndrome.",
+      "quantitative_support": [
+        {
+          "control": "40.3%",
+          "diagnosed": "59.2%",
+          "effect": "+18.9 percentage points overall; +7.5 points in the first 100 posts",
+          "measure": "Users with both self-framed sadness and agitation/anxiety"
+        },
+        {
+          "control": "7.0%",
+          "diagnosed": "16.5%",
+          "effect": "+9.5 percentage points overall; +2.0 points in the first 100 posts",
+          "measure": "Users with both self-framed sadness and explicit self-harm/death language"
+        }
+      ],
+      "signal": "Co-occurring self-framed symptom domains"
+    },
+    {
+      "caveats": [
+        "The domain is sparse.",
+        "Many apparent matches concern preferences rather than generalized anhedonia."
+      ],
+      "development_fold_support": [
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Full-timeline prevalence was higher in all folds, but the exposure-controlled signal was small and near-null in one fold; this is supportive but fragile.",
+      "id": "anhedonia_loss_of_pleasure",
+      "prompt_guidance": "Require explicit loss of pleasure or generalized motivation, not dislike of a particular person, activity, or media item.",
+      "quantitative_support": [
+        {
+          "control": "368/5,463 users (6.7%); 423 matched posts; 0.08 matched posts/user",
+          "diagnosed": "69/618 users (11.2%); 81 matched posts; 0.13 matched posts/user",
+          "effect": "+4.5 percentage points overall",
+          "measure": "Loss-of-pleasure or anhedonia-like phrases"
+        },
+        {
+          "control": "1.0%",
+          "diagnosed": "1.9%",
+          "effect": "+0.9 points in first-100 self-framed prevalence",
+          "measure": "Self-framed anhedonia in first 100 posts"
+        }
+      ],
+      "signal": "Rare explicit loss-of-pleasure or loss-of-motivation language"
+    },
+    {
+      "caveats": [
+        "Routine eating and food discussion are abundant in both groups.",
+        "The available text does not reliably establish direction of appetite change."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Food-related language was consistently more prevalent and more frequent among diagnosed users, but this is a weak BDI interpretation because ordinary meal talk dominates.",
+      "id": "appetite_food_talk",
+      "prompt_guidance": "Use only as a secondary signal; seek explicit appetite loss/gain, inability to eat, overeating, or weight-change framing.",
+      "quantitative_support": [
+        {
+          "control": "4,095/5,463 users (75.0%); 21,527 matched posts; 3.94 matched posts/user",
+          "diagnosed": "515/618 users (83.3%); 3,475 matched posts; 5.62 matched posts/user",
+          "effect": "+8.3 percentage points overall; +7.6 points in the first 100 posts",
+          "measure": "Food/appetite vocabulary, including self-framed early mentions"
+        },
+        {
+          "control": "35.5%",
+          "diagnosed": "44.7%",
+          "effect": "+9.2 points for self-framed first-100 mentions",
+          "measure": "Self-framed food/appetite subset in first 100 posts"
+        }
+      ],
+      "signal": "Elevated food/appetite-related talk, not a confirmed appetite change"
+    },
+    {
+      "caveats": [
+        "Sexual discourse is strongly vulnerable to age, gender, relationship, and community composition confounds.",
+        "No reliable loss-of-libido pattern was established."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Sex-related discussion was directionally stable across folds, yet the signal reflects topic prevalence rather than diminished desire.",
+      "id": "sexual_topic_vocabulary",
+      "prompt_guidance": "Do not map sexual-topic frequency to libido symptoms; only use explicit self-reported loss of desire as a candidate feature.",
+      "quantitative_support": [
+        {
+          "control": "2,298/5,463 users (42.1%); 5,653 matched posts; 1.04 matched posts/user",
+          "diagnosed": "318/618 users (51.5%); 959 matched posts; 1.55 matched posts/user",
+          "effect": "+9.4 percentage points overall; +3.6 points in the first 100 posts",
+          "measure": "General sexual/libido-topic vocabulary"
+        },
+        {
+          "control": "9.8%",
+          "diagnosed": "14.1%",
+          "effect": "+4.3 points for self-framed first-100 mentions",
+          "measure": "Self-framed sexual-topic subset in first 100 posts"
+        }
+      ],
+      "signal": "Sexual-topic vocabulary is elevated, but reduced libido is not observed"
+    },
+    {
+      "caveats": [
+        "The lexicon is dominated by interpersonal blame and religious or situational language.",
+        "This is a negative corpus result, not evidence that punishment symptoms are absent clinically."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "control",
+      "evidence_summary": "Punishment and blame terms were common in both groups and, under equalized early exposure, were consistently more common in controls.",
+      "id": "punishment_blame_non_signal",
+      "prompt_guidance": "Do not treat generic blame, moral language, or references to punishment as BDI punishment without explicit self-directed expectation or fear of punishment.",
+      "quantitative_support": [
+        {
+          "control": "62.3% overall; 28.7% first 100",
+          "diagnosed": "62.0% overall; 23.3% first 100",
+          "effect": "−5.1 percentage points overall; −5.4 points in the first 100 posts",
+          "measure": "Generic punishment, blame, and castigo vocabulary"
+        },
+        {
+          "control": "Higher in all four folds",
+          "diagnosed": "Fold differences: −9.4, −3.6, −6.0, −2.4 points",
+          "effect": "Control-led in every fold for first-100 prevalence",
+          "measure": "Diagnosed minus control, folds 1–4"
+        }
+      ],
+      "signal": "Generic punishment/blame language is not a diagnosed symptom signal"
+    },
+    {
+      "caveats": [
+        "Sleep, fatigue, food, and concentration words are routine social-media content.",
+        "Source order is not necessarily chronological time.",
+        "The corpus cannot establish clinical duration or impairment."
+      ],
+      "development_fold_support": [],
+      "direction": "mixed",
+      "evidence_summary": "Full timelines often showed diagnosed excess because diagnosed users were more active, but fold directions weakened or reversed after exposure control.",
+      "id": "non_generalizing_somatic_cognitive_domains",
+      "prompt_guidance": "Treat these as weak contextual features only when explicitly self-reported, persistent, and combined with stronger affective or self-evaluative signals.",
+      "quantitative_support": [
+        {
+          "control": "Sleep 67.1%; energy/fatigue 25.0%; irritability 47.9%; concentration 41.3%",
+          "diagnosed": "Sleep 71.0%; energy/fatigue 26.4%; irritability 49.2%; concentration 41.4% in first 100 posts",
+          "effect": "Mixed or near-null early differences",
+          "measure": "First-100 user prevalence across common BDI-adjacent domains"
+        }
+      ],
+      "signal": "Sleep, fatigue, irritability, concentration, and indecision do not generalize reliably"
+    }
+  ],
+  "negative_results": [
+    "Perceived-failure language did not generalize: overall prevalence was 27.2% diagnosed versus 25.7% control; first-100-post differences by folds 1–4 were +0.9, +1.9, −2.4, and +2.2 percentage points.",
+    "Guilt was mixed after exposure control: first-100 differences were −1.9, +2.6, −2.9, and −1.8 percentage points.",
+    "Punishment/blame language was not diagnosed-enriched: full-timeline prevalence was 62.0% diagnosed versus 62.3% control, and controls were higher in the first 100 posts in all folds.",
+    "Sleep, energy/fatigue, irritability, and concentration were not fold-stable after exposure control. Sleep first-100 differences were −1.0, +6.0, +3.6, and +7.0 points; energy was +0.8, +0.3, −0.9, and +5.4.",
+    "Broad worthlessness terms were higher overall, but self-framed early evidence was mixed; insults often targeted other people, objects, fandoms, or situations.",
+    "No evidence supported clinically interpretable libido loss; only general sexual-topic vocabulary was elevated.",
+    "Generic interest, indecision, food, sleep, and fatigue words were frequent in both groups and are poor standalone BDI proxies."
+  ],
+  "role": "bdi_symptoms",
+  "source_folds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}

@@ -1,0 +1,435 @@
+{
+  "confounds": [
+    "Posting volume differs by label: diagnosed users averaged about 620 retained posts versus 531 for controls, with medians of 391 versus 334; raw post frequencies therefore require per-user normalization.",
+    "Explicit depression wording weakened across development folds even though its direction stayed positive, suggesting temporal, source, or cohort drift.",
+    "Treatment and psychiatric-care language is affected by healthcare access, stigma, self-disclosure, and annotation/collection practices.",
+    "K-pop, LGBTQ+, pronoun, and online-fandom signals may proxy age, gender, identity, community, or platform subculture rather than depression-related semantics.",
+    "First-person heuristics can misclassify quotations, lyrics, jokes, sarcasm, advocacy, news, and discussion of relatives or other users.",
+    "Generic Portuguese words such as sleep, tiredness, friends, work, school, medication, and loneliness are polysemous and require contextual and persistence checks.",
+    "The strong class imbalance means aggregate post totals are not directly comparable; user-level prevalence is the safer primary measure."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "The heuristic is lexical rather than clinical.",
+        "Anxiety and panic terms can describe ordinary situational states."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Depression, anxiety, panic, and disorder terms were more often tied to first-person experience among diagnosed users, with the direction stable in all four folds.",
+      "id": "SEM01",
+      "prompt_guidance": "Require first-person framing and preferably two distinct posts; downweight quotations, lyrics, news, jokes, and discussion of someone else.",
+      "quantitative_support": [
+        {
+          "control": "16.0% of users had at least one matched post",
+          "diagnosed": "36.7% of users had at least one matched post",
+          "effect": "2.3x user prevalence; +20.6 percentage points",
+          "measure": "User-level first-person mental-health vocabulary"
+        },
+        {
+          "control": "4.5% had matches in at least two posts",
+          "diagnosed": "12.3% had matches in at least two posts",
+          "effect": "2.7x persistent prevalence; +7.7 percentage points",
+          "measure": "User-level persistence across at least two posts"
+        }
+      ],
+      "signal": "Repeated first-person clinical mental-health narratives"
+    },
+    {
+      "caveats": [
+        "Treatment access, stigma, and willingness to disclose can differ by subgroup.",
+        "Medication words may concern a relative or a general discussion."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Therapy, psychiatric consultation, medication, and referral language showed a large, persistent diagnosed-group association across every fold.",
+      "id": "SEM02",
+      "prompt_guidance": "Weight repeated self-referential treatment narratives strongly, but interpret them as healthcare-seeking or access signals rather than direct evidence of disorder.",
+      "quantitative_support": [
+        {
+          "control": "26.7%",
+          "diagnosed": "54.4%",
+          "effect": "2.0x user prevalence; +27.7 percentage points",
+          "measure": "First-person treatment or medication context, at least one user match"
+        },
+        {
+          "control": "10.8%",
+          "diagnosed": "35.1%",
+          "effect": "3.2x persistent prevalence; +24.2 percentage points",
+          "measure": "Treatment or medication context in at least two posts"
+        },
+        {
+          "control": "0.094% of posts",
+          "diagnosed": "0.258% of posts",
+          "effect": "2.7x raw post share",
+          "measure": "Matched post share"
+        }
+      ],
+      "signal": "Personal treatment-seeking and medication narratives"
+    },
+    {
+      "caveats": [
+        "It may reflect preventive care, support for another person, or differential healthcare access."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Specific therapy, psychologist, and psychiatrist references were more discriminative than generic mental-health words and were stable across folds.",
+      "id": "SEM03",
+      "prompt_guidance": "Use as a corroborating high-specificity feature when the post clearly concerns the user's own care.",
+      "quantitative_support": [
+        {
+          "control": "15.9%",
+          "diagnosed": "45.2%",
+          "effect": "2.9x user prevalence; +29.4 percentage points",
+          "measure": "First-person psychotherapy or psychiatry context, at least one user match"
+        },
+        {
+          "control": "5.9%",
+          "diagnosed": "25.4%",
+          "effect": "4.3x persistent prevalence; +19.5 percentage points",
+          "measure": "Psychotherapy or psychiatry context in at least two posts"
+        }
+      ],
+      "signal": "Repeated psychotherapy and psychiatry engagement"
+    },
+    {
+      "caveats": [
+        "Anxiety is not depression-specific.",
+        "Self-labeling and conversational exaggeration remain possible."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Noun-based anxiety and panic references in self contexts were consistently elevated among diagnosed users.",
+      "id": "SEM04",
+      "prompt_guidance": "Prefer anxiety, panic, or crisis framed as personal experience; avoid treating ordinary anticipation such as being excited or nervous as impairment.",
+      "quantitative_support": [
+        {
+          "control": "10.8%",
+          "diagnosed": "25.0%",
+          "effect": "2.3x user prevalence; +14.3 percentage points",
+          "measure": "First-person anxiety, panic, or anxiety-crisis context, at least one user match"
+        },
+        {
+          "control": "2.4%",
+          "diagnosed": "7.4%",
+          "effect": "3.1x persistent prevalence; +5.0 percentage points",
+          "measure": "Same context in at least two posts"
+        }
+      ],
+      "signal": "Self-experienced anxiety and panic"
+    },
+    {
+      "caveats": [
+        "Terms can occur in advocacy, education, quotation, lyrics, or discussion of another person.",
+        "The fold attenuation suggests collection or temporal drift."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Direct depression self-reference and explicit diagnostic wording were sparse but consistently more common in diagnosed users; the depression-term gap attenuated from earlier to later development folds.",
+      "id": "SEM05",
+      "prompt_guidance": "Treat explicit self-diagnosis as sparse corroboration, not a standalone decision rule; verify first-person ownership and repeated context.",
+      "quantitative_support": [
+        {
+          "control": "5.3%",
+          "diagnosed": "12.9%",
+          "effect": "2.5x user prevalence; +7.7 percentage points",
+          "measure": "Direct depression term in a self-context post, at least one user match"
+        },
+        {
+          "control": "2.7%",
+          "diagnosed": "5.3%",
+          "effect": "1.9x user prevalence; +2.6 percentage points",
+          "measure": "Explicit diagnosis-related statement, at least one user match"
+        },
+        {
+          "control": "1.2%",
+          "diagnosed": "3.2%",
+          "effect": "2.7x persistent prevalence",
+          "measure": "Direct depression self-context in at least two posts"
+        }
+      ],
+      "signal": "Explicit depression and diagnosis language"
+    },
+    {
+      "caveats": [
+        "Work and study are common topics and may proxy age, occupation, or activity level.",
+        "The impairment lexicon includes non-clinical frustration."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "First-person work/study contexts were common overall but more persistent among diagnosed users, especially when paired with inability, missed tasks, exhaustion, or procrastination cues.",
+      "id": "SEM06",
+      "prompt_guidance": "Look for self-experienced difficulty completing tasks, not merely mentions of school or employment.",
+      "quantitative_support": [
+        {
+          "control": "75.6%",
+          "diagnosed": "86.6%",
+          "effect": "+10.9 percentage points",
+          "measure": "First-person work, study, or education context, at least one user match"
+        },
+        {
+          "control": "58.6%",
+          "diagnosed": "74.8%",
+          "effect": "+16.2 percentage points",
+          "measure": "Same context in at least two posts"
+        },
+        {
+          "control": "47.8%",
+          "diagnosed": "61.7%",
+          "effect": "+13.9 percentage points",
+          "measure": "Task-failure, inability, exhaustion, or procrastination cues in at least two posts"
+        }
+      ],
+      "signal": "Persistent functional-strain language around work or study"
+    },
+    {
+      "caveats": [
+        "These terms can describe ordinary daily states, jokes, fiction, or someone else's experience.",
+        "No clinical severity or duration can be inferred."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Self-referential crying and fatigue were moderately elevated and directionally stable across folds, though much less specific than treatment or diagnosis language.",
+      "id": "SEM07",
+      "prompt_guidance": "Use repeated personal symptom statements and co-occurrence with impairment or treatment; do not rely on isolated generic words such as sleep or tiredness.",
+      "quantitative_support": [
+        {
+          "control": "50.1%",
+          "diagnosed": "62.8%",
+          "effect": "+12.8 percentage points",
+          "measure": "First-person crying or tear-related context, at least one user match"
+        },
+        {
+          "control": "27.6%",
+          "diagnosed": "41.2%",
+          "effect": "+13.6 percentage points",
+          "measure": "Crying or tear-related context in at least two posts"
+        },
+        {
+          "control": "45.2%",
+          "diagnosed": "54.3%",
+          "effect": "+9.1 percentage points",
+          "measure": "First-person fatigue, exhaustion, or low-energy context, at least one user match"
+        }
+      ],
+      "signal": "Repeated emotional and physical symptom narratives"
+    },
+    {
+      "caveats": [
+        "Fold instability suggests collection or cohort effects.",
+        "Words for being alone may describe preference, logistics, or third parties."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Withdrawal cues were higher overall and in folds 0, 1, and 2, but the difference disappeared in fold 4; this is weaker than treatment or clinical vocabulary.",
+      "id": "SEM08",
+      "prompt_guidance": "Require self-experience, repeated occurrence, and specific avoidance or loneliness framing; do not equate low posting with isolation.",
+      "quantitative_support": [
+        {
+          "control": "56.3%",
+          "diagnosed": "65.3%",
+          "effect": "+9.0 percentage points overall; unstable by fold",
+          "measure": "Specific isolation or withdrawal cues, at least one user match"
+        },
+        {
+          "control": "31.5%",
+          "diagnosed": "44.3%",
+          "effect": "+12.8 percentage points overall",
+          "measure": "Isolation or withdrawal cues in at least two posts"
+        }
+      ],
+      "signal": "Isolation and social-withdrawal language"
+    },
+    {
+      "caveats": [
+        "Likely proxies age, gender, online community, and collection source.",
+        "This association may be highly corpus-specific and non-causal."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "K-pop, fandom, fan-art, shipping, and related online-subculture terms were strong and stable corpus-level separators, including under a first-person heuristic.",
+      "id": "SEM09",
+      "prompt_guidance": "Use only as a contextual subgroup feature and never as clinical evidence; separate personal participation from commentary about fandoms.",
+      "quantitative_support": [
+        {
+          "control": "35.9%",
+          "diagnosed": "57.5%",
+          "effect": "1.6x user prevalence; +21.6 percentage points",
+          "measure": "K-pop or online-fandom vocabulary, at least one user match"
+        },
+        {
+          "control": "24.3%",
+          "diagnosed": "44.4%",
+          "effect": "1.8x persistent prevalence; +20.1 percentage points",
+          "measure": "K-pop or online-fandom vocabulary in at least two posts"
+        },
+        {
+          "control": "26.2%",
+          "diagnosed": "51.1%",
+          "effect": "1.9x self-context prevalence",
+          "measure": "Same vocabulary in first-person contexts"
+        }
+      ],
+      "signal": "Persistent K-pop and online-fandom participation"
+    },
+    {
+      "caveats": [
+        "This is a sensitive demographic proxy, not a symptom.",
+        "Differences may reflect sampling, age, gender, or annotation practices."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Sexuality, gender, and pronoun vocabulary was consistently more common among diagnosed users, with the gap remaining when restricted to likely self-contexts.",
+      "id": "SEM10",
+      "prompt_guidance": "Treat as demographic or community context only; distinguish self-disclosure from advocacy, quotation, and discussion of others.",
+      "quantitative_support": [
+        {
+          "control": "35.7%",
+          "diagnosed": "59.8%",
+          "effect": "1.7x user prevalence; +24.1 percentage points",
+          "measure": "LGBTQ+, sexuality, gender, or pronoun vocabulary, at least one user match"
+        },
+        {
+          "control": "23.4%",
+          "diagnosed": "47.8%",
+          "effect": "2.0x self-context prevalence",
+          "measure": "Same vocabulary in first-person contexts"
+        },
+        {
+          "control": "12.2%",
+          "diagnosed": "31.8%",
+          "effect": "2.6x persistent self-context prevalence",
+          "measure": "Self-context matches in at least two posts"
+        }
+      ],
+      "signal": "Identity and pronoun-related self-disclosure"
+    },
+    {
+      "caveats": [
+        "Topic presence is not the same as positive functioning.",
+        "Future words include generic plans and non-personal references."
+      ],
+      "development_fold_support": [],
+      "direction": "none",
+      "evidence_summary": "Diagnosed users continued to mention plans, leisure, friends, events, and other participation; these topics were too common and contextually broad to serve as protective markers.",
+      "id": "SEM11",
+      "prompt_guidance": "Do not rule out diagnosed status because of humor, plans, travel, fandom, friends, or social activity; evaluate whether impairment and treatment narratives coexist.",
+      "quantitative_support": [
+        {
+          "control": "90.7%",
+          "diagnosed": "94.0%",
+          "effect": "Near ceiling; only +3.3 percentage points",
+          "measure": "Positive future, planning, hope, or goal vocabulary, at least one user match"
+        },
+        {
+          "control": "1.434% of posts",
+          "diagnosed": "1.363% of posts",
+          "effect": "Raw post share slightly favors controls",
+          "measure": "Positive-future post share"
+        },
+        {
+          "control": "96.4%",
+          "diagnosed": "97.3%",
+          "effect": "Near ceiling; +0.9 percentage points",
+          "measure": "First-person leisure or social-participation vocabulary, at least one user match"
+        }
+      ],
+      "signal": "Future orientation and social participation are not exclusionary"
+    },
+    {
+      "caveats": [
+        "Controls are much more numerous, and prolific users can dominate aggregate counts.",
+        "Sports and politics terms are often quoted, news-like, or third-person."
+      ],
+      "development_fold_support": [],
+      "direction": "mixed",
+      "evidence_summary": "Controls produced more politics, news, and sports posts per post, but user-level prevalence was similar and fold directions were mixed; raw frequency should not be treated as a user trait.",
+      "id": "SEM12",
+      "prompt_guidance": "Prefer user-level presence or normalized per-user rates and interpret public-topic activity as collection or interest context.",
+      "quantitative_support": [
+        {
+          "control": "2.150% of posts",
+          "diagnosed": "0.978% of posts",
+          "effect": "Controls have 2.2x the raw post share",
+          "measure": "Football and sports vocabulary"
+        },
+        {
+          "control": "1.339% of posts",
+          "diagnosed": "0.682% of posts",
+          "effect": "Controls have 2.0x the raw post share",
+          "measure": "Politics and news vocabulary"
+        },
+        {
+          "control": "73.6% had at least one; 57.3% had matches in at least two posts",
+          "diagnosed": "72.4% of users had at least one sports match; 52.8% had matches in at least two posts",
+          "effect": "Near-equal user coverage",
+          "measure": "User-level sports prevalence"
+        }
+      ],
+      "signal": "Public-topic content differs by post volume more than by user coverage"
+    }
+  ],
+  "negative_results": [
+    "Unqualified words for sleep, relationships, work/study, future, leisure, and social activity were near-universal; first-person context and persistence were necessary for useful separation.",
+    "Positive future language was near ceiling in both groups and had slightly higher raw post share among controls, so it is not a reliable protective or exclusionary signal.",
+    "Humor and social/leisure participation remained common among diagnosed users; their presence does not rule out impairment or treatment narratives.",
+    "Politics, news, and football had higher raw post shares among controls, but user-level coverage was near-equal or fold-unstable, demonstrating prolific-user and topic-mix confounding."
+  ],
+  "role": "semantics_topics",
+  "source_folds": [
+    0,
+    1,
+    2,
+    4
+  ],
+  "users_analyzed": 6082
+}

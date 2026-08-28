@@ -1,0 +1,259 @@
+{
+  "confounds": [
+    "The corpus contains substantial canned greetings, promotional material, and platform-generated profile-view notices; these can distort lexical and repetition statistics.",
+    "Labels are highly imbalanced: 618 diagnosed users versus 5,463 controls, so prevalence calibration should not be inferred from raw class proportions.",
+    "Pronoun, tense, connective, quotation, and humor detection uses simple Portuguese surface lexicons with polysemy and morphology errors.",
+    "Age, gender, education, dialect, social network, posting genre, and platform conventions may explain stylistic differences.",
+    "The diagnosed/control labels are outcomes to explain; none of these signals establishes causality, depression status, or clinical diagnostic validity."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Counts use surface pronoun heuristics and include possessives.",
+        "Quote, lyric, joke, advocacy, and third-person contexts cannot be perfectly separated with surface rules."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The effect was consistent across all folds, with fold AUCs about 0.686–0.716. Plural first-person reference was not elevated, suggesting the signal is specifically singular self-reference rather than collective language.",
+      "id": "singular_self_reference",
+      "prompt_guidance": "Use singular self-reference as a contextual stylistic feature, preferably combined with nearby predicates and message form; do not treat pronoun presence as clinical evidence.",
+      "quantitative_support": [
+        {
+          "control": "32.2%",
+          "diagnosed": "40.0%",
+          "effect": "AUC 0.704",
+          "measure": "Median user-level share of posts containing first-person singular reference"
+        },
+        {
+          "control": "4.59",
+          "diagnosed": "5.59",
+          "effect": "AUC 0.682",
+          "measure": "First-person singular pronouns per 100 tokens"
+        },
+        {
+          "control": "33.1%",
+          "diagnosed": "40.5%",
+          "effect": "AUC 0.697",
+          "measure": "Self-reference share after excluding heuristic joke/quote/news-like posts"
+        }
+      ],
+      "signal": "First-person singular self-reference is the strongest low-level divergence."
+    },
+    {
+      "caveats": [
+        "These are form-based combinations, not validated indicators of subjective experience.",
+        "Question marks may reflect outward dialogue, quotation, or rhetorical style."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "All three combinations retained the same direction in every development fold, outperforming the corresponding isolated low-level markers in several cases.",
+      "id": "self_reference_combinations",
+      "prompt_guidance": "Prefer interaction features such as self-reference plus negation/question/length over isolated keyword counts.",
+      "quantitative_support": [
+        {
+          "control": "7.52%",
+          "diagnosed": "9.95%",
+          "effect": "AUC 0.657",
+          "measure": "Median share of posts containing both self-reference and negation"
+        },
+        {
+          "control": "2.13%",
+          "diagnosed": "3.35%",
+          "effect": "AUC 0.674",
+          "measure": "Median share of posts containing both self-reference and a question mark"
+        },
+        {
+          "control": "4.63%",
+          "diagnosed": "7.15%",
+          "effect": "AUC 0.653",
+          "measure": "Median share of posts containing self-reference and at least 20 tokens"
+        }
+      ],
+      "signal": "Self-reference is more informative when combined with negation, questions, or longer messages."
+    },
+    {
+      "caveats": [
+        "Connective words are polysemous and do not measure formal syntax directly.",
+        "Message genre, education, age, and platform conventions may affect length."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The direction was stable across all folds. Sentence length remained higher in a fixed 50-post window, reducing dependence on total timeline size; multi-sentence frequency itself was not different.",
+      "id": "message_sentence_length",
+      "prompt_guidance": "Use length and connective markers as weak syntactic-complexity proxies, preferably normalized by a fixed post window.",
+      "quantitative_support": [
+        {
+          "control": "9.46",
+          "diagnosed": "10.19",
+          "effect": "AUC 0.563",
+          "measure": "Median tokens per post"
+        },
+        {
+          "control": "8.19",
+          "diagnosed": "8.75",
+          "effect": "AUC 0.585",
+          "measure": "Median tokens per detected sentence"
+        },
+        {
+          "control": "5.09",
+          "diagnosed": "5.37",
+          "effect": "AUC 0.581",
+          "measure": "Connective/subordinator proxies per 100 tokens"
+        }
+      ],
+      "signal": "Diagnosed users produce modestly longer messages and sentence units, with slightly more connective-marker usage."
+    },
+    {
+      "caveats": [
+        "Questions may be conversational, rhetorical, quoted, or engagement-seeking.",
+        "The effect is small and should not be interpreted clinically."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The effect was positive in every fold and persisted in a fixed 50-post window, indicating it is not explained solely by more retained posts.",
+      "id": "question_style",
+      "prompt_guidance": "Use question-post prevalence rather than raw question counts, and combine it with self-reference or message length.",
+      "quantitative_support": [
+        {
+          "control": "7.88%",
+          "diagnosed": "9.57%",
+          "effect": "AUC 0.583",
+          "measure": "Median user-level share of posts containing a question mark"
+        },
+        {
+          "control": "8.0%",
+          "diagnosed": "10.0%",
+          "effect": "AUC 0.568",
+          "measure": "Question-post prevalence in the first 50 posts"
+        }
+      ],
+      "signal": "Question use is modestly higher among diagnosed users."
+    },
+    {
+      "caveats": [
+        "Joke/laughter detection is surface-based and can miss or misclassify humor.",
+        "Demographics, conversational networks, and platform norms are plausible explanations."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "control",
+      "evidence_summary": "Both measures favored controls in all four folds; this contrasts with the higher question rate and suggests a specific punctuation/register difference rather than generally more punctuation.",
+      "id": "exclamatory_laughter_style",
+      "prompt_guidance": "Treat lower exclamation or laughter-marker rates as weak supporting features only, with genre controls.",
+      "quantitative_support": [
+        {
+          "control": "2.65%",
+          "diagnosed": "2.01%",
+          "effect": "AUC 0.454",
+          "measure": "Median user-level share of posts containing exclamation marks"
+        },
+        {
+          "control": "5.56%",
+          "diagnosed": "3.96%",
+          "effect": "AUC 0.442",
+          "measure": "Median joke/laughter-marker post prevalence"
+        }
+      ],
+      "signal": "Controls show more exclamatory and laughter-like surface style."
+    },
+    {
+      "caveats": [
+        "Repeated greetings, automated text, and promotional templates can create this pattern.",
+        "Do not equate recurrence with cognitive rigidity or clinical symptoms."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Repeated two-token openings favored diagnosed users in every fold, whereas exact duplicate posts were indistinguishable. The signal is weak and partly activity-sensitive.",
+      "id": "recurring_openings",
+      "prompt_guidance": "Use recurring opening structures only after controlling for timeline length and common boilerplate.",
+      "quantitative_support": [
+        {
+          "control": "17.75%",
+          "diagnosed": "19.95%",
+          "effect": "AUC 0.553",
+          "measure": "Median share of posts with a repeated two-token opening"
+        },
+        {
+          "control": "0.57%",
+          "diagnosed": "0.57%",
+          "effect": "AUC 0.495",
+          "measure": "Median exact duplicate-post rate"
+        }
+      ],
+      "signal": "Repeated post openings are modestly higher, but exact copy-paste repetition is not."
+    },
+    {
+      "caveats": [
+        "Differences may reflect activity, retention duration, collection rules, or demographic composition rather than label-related style."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The volume direction was stable across folds. Fixed-window analyses showed that the main self-reference and sentence-length effects persist, but aggregate vocabulary and repetition measures are strongly volume-sensitive.",
+      "id": "posting_volume",
+      "prompt_guidance": "Prefer per-user rates, fixed windows, or explicit volume adjustment; never use pooled post frequency as user evidence.",
+      "quantitative_support": [
+        {
+          "control": "332 posts",
+          "diagnosed": "386 posts",
+          "effect": "AUC 0.538",
+          "measure": "Median retained posts per user"
+        },
+        {
+          "control": "3,182 tokens",
+          "diagnosed": "3,950 tokens",
+          "effect": "AUC 0.555",
+          "measure": "Median retained tokens per user"
+        }
+      ],
+      "signal": "Diagnosed timelines are modestly more prolific, making volume a material confound."
+    }
+  ],
+  "negative_results": [
+    "Equal-length lexical diversity was null: random 500-token TTR was 0.592 diagnosed versus 0.588 control (AUC 0.515); top-10 vocabulary share was also equal.",
+    "Exact duplicate-post rate, overall punctuation density, comma use, semicolon use, and multi-sentence rate showed no reliable separation.",
+    "Token-normalized negation was null (2.56 versus 2.55 per 100 tokens; AUC 0.492); second-person pronouns were also null.",
+    "Tense proxies were weak and heuristic: future-post prevalence was only slightly higher in diagnosed users, while past-marker frequency was slightly lower."
+  ],
+  "role": "lexical_syntax",
+  "source_folds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}

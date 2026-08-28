@@ -1,0 +1,58 @@
+{
+  "issues": [
+    {
+      "issue": "The label construct is underspecified, while many rules assume a depression/psychiatric target.",
+      "reason": "Only the labels diagnosed and control are defined, but D02-D08 and the symptom bundle are condition-specific. This can misclassify diagnoses outside that assumed target.",
+      "required_revision": "Define the corpus target explicitly. If diagnosed is not specifically a mental-health or depression diagnosis, remove or revalidate the depression-specific signal hierarchy on fold-3 data.",
+      "severity": "high"
+    },
+    {
+      "issue": "D01/D02 create a label-adjacent shortcut and can be double-counted.",
+      "reason": "Their stated greatest weight makes repeated therapy, medication, or diagnosis language capable of dominating the decision, despite possible healthcare-access effects, other diagnoses, or self-labeling. No supporting fold-3 evidence is supplied.",
+      "required_revision": "Merge D01 and D02 into one capped evidence family, deduplicate overlapping spans, require explicit user ownership and relevance, and calibrate its weight with fold-3 ablations. A care or diagnosis phrase must not be automatically decisive.",
+      "severity": "high"
+    },
+    {
+      "issue": "The Macro F1 and absence guidance is contradictory and hides an implicit prior.",
+      "reason": "Requiring positive evidence for diagnosed while choosing control when no cluster exists makes sparse timelines default to control, despite saying absence is weak. Macro F1 does not mean equalizing evidence by hand.",
+      "required_revision": "Replace manual evidence balancing with a development-fold-calibrated decision rule or threshold optimized for Macro F1. Preserve neutral evidence as neutral; do not convert lack of positive evidence into control evidence except through the calibrated decision rule.",
+      "severity": "high"
+    },
+    {
+      "issue": "X01 and X02 can turn uncertainty or coexisting situational distress into negative evidence.",
+      "reason": "Aggressive filtering of humor, discussion, quotations, and third-person material can remove indirect self-disclosure. Grief, illness, work stress, or relationship problems can coexist with the diagnosed label.",
+      "required_revision": "Use span-level attribution: discard only explicitly non-user material, mark ambiguity as unknown rather than negative, retain clearly self-owned portions of mixed posts, and treat situational context as non-exclusionary unless it explicitly explains all relevant content.",
+      "severity": "high"
+    },
+    {
+      "issue": "The recurrence rule can reintroduce timeline-volume and pseudo-persistence bias.",
+      "reason": "Distinct posts or source positions are not necessarily independent evidence; a short burst, repost, or copied phrase can satisfy recurrence despite the stated exposure safeguards.",
+      "required_revision": "Deduplicate near-copies and same-event or same-thread posts, cap evidence per source/event, and distinguish repeated mentions from longitudinal persistence. Infer duration only when reliable dates exist.",
+      "severity": "medium"
+    },
+    {
+      "issue": "The cross-domain and functional-cluster rule risks both false positives and false negatives.",
+      "reason": "Unrelated first-person mentions of sleep, diet, exams, anxiety, sadness, or workload can be bundled into a symptom cluster, while sparse timelines or treated users may lack an explicit multi-domain impairment narrative.",
+      "required_revision": "Require explicit self-owned linkage, meaningful change, distress, or impairment before combining generic domains; score each independent domain once. Treat missing domains or missing impairment as unknown rather than disqualifying.",
+      "severity": "medium"
+    },
+    {
+      "issue": "Style and playful-content cues are unsupported label shortcuts.",
+      "reason": "Self-focus, laughter, exclamations, and social activity can reflect writing norms or community composition rather than diagnosis status, and may spuriously push users toward either label.",
+      "required_revision": "Remove S01 and C01 from primary scoring, or impose a documented cap and retain them only as a tie-breaker after fold-3 ablation shows incremental value without demographic or platform leakage.",
+      "severity": "medium"
+    },
+    {
+      "issue": "The qualitative hierarchy is not reproducible and permits contradictory scoring.",
+      "reason": "Terms such as greatest weight, aggressively, weak, and prefer do not define combination or thresholds. One post can activate multiple overlapping D and X codes, making outputs dependent on model discretion.",
+      "required_revision": "Specify a deterministic evidence ledger: assign attribution, deduplicate correlated signals, cap contributions from one episode, define how positive, negative, and unknown evidence combine, and provide a rule for ties or low-information timelines.",
+      "severity": "medium"
+    }
+  ],
+  "strengths_to_preserve": [
+    "Clearly distinguishes corpus-label prediction from clinical diagnosis and enforces exact JSON output.",
+    "Treats timeline content as untrusted and explicitly rejects embedded instructions or requested labels.",
+    "Uses source attribution, quotation/media filtering, exposure normalization, and avoids treating positive activity or absent keywords as decisive control evidence."
+  ],
+  "verdict": "revise"
+}

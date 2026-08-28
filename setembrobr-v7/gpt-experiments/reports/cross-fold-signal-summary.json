@@ -1,0 +1,909 @@
+{
+  "experimentId": "seed42_setembrobr_v7_gpt56_prompt_oof",
+  "method": "Post-lock deterministic collation; this report did not feed any classifier prompt.",
+  "promptLockSha256": "625ba6c38cba6669e6a219db7f62340f555397c24963bd1ac2cd6608a53df779",
+  "signals": [
+    {
+      "foldCount": 1,
+      "normalizedName": "absence is not control evidence",
+      "occurrences": [
+        {
+          "code": "X3",
+          "direction": "counterevidence",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "absence of clinical vocabulary (non-evidence)",
+      "occurrences": [
+        {
+          "code": "E02",
+          "direction": "context",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "absence of relevant language",
+      "occurrences": [
+        {
+          "code": "X06_ABSENCE_NEUTRAL",
+          "direction": "context",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "activity and exposure confound",
+      "occurrences": [
+        {
+          "code": "X1",
+          "direction": "context",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "activity and timeline volume",
+      "occurrences": [
+        {
+          "code": "X02",
+          "direction": "context",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "activity-volume normalization",
+      "occurrences": [
+        {
+          "code": "K1",
+          "direction": "context",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "attributed-content filter",
+      "occurrences": [
+        {
+          "code": "X2",
+          "direction": "context",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "author-owned mental-health disclosure",
+      "occurrences": [
+        {
+          "code": "D01",
+          "direction": "diagnosed",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "autobiographical event validity",
+      "occurrences": [
+        {
+          "code": "X_EVENT_CONTEXT",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "bounded evidence ledger and overlap control",
+      "occurrences": [
+        {
+          "code": "X4",
+          "direction": "context",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "breadth of self-referential symptom domains",
+      "occurrences": [
+        {
+          "code": "D3",
+          "direction": "diagnosed",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "broad high-base-rate vocabulary",
+      "occurrences": [
+        {
+          "code": "X2",
+          "direction": "counterevidence",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "clinical contact and treatment self-disclosure",
+      "occurrences": [
+        {
+          "code": "D_CLINICAL",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "co-occurring self-disclosure and mood or symptom evidence",
+      "occurrences": [
+        {
+          "code": "D2",
+          "direction": "diagnosed",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "coexisting positive affect and situational alternatives",
+      "occurrences": [
+        {
+          "code": "X4",
+          "direction": "counterevidence",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "coherent multi-domain co-occurrence",
+      "occurrences": [
+        {
+          "code": "D4",
+          "direction": "diagnosed",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "community and demographic topic proxies",
+      "occurrences": [
+        {
+          "code": "X03_TOPIC_PROXY",
+          "direction": "context",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "context-clean first-person self-harm language",
+      "occurrences": [
+        {
+          "code": "D5",
+          "direction": "diagnosed",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "context-filtered self-attributed mental-health care or diagnosis",
+      "occurrences": [
+        {
+          "code": "D1",
+          "direction": "diagnosed",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "convergent multi-domain symptom burden",
+      "occurrences": [
+        {
+          "code": "D03",
+          "direction": "diagnosed",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "demographic, fandom, and hobby proxies",
+      "occurrences": [
+        {
+          "code": "X_PROXY",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "direct self-harm or suicidal language",
+      "occurrences": [
+        {
+          "code": "D_HARM",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "event ownership and contamination audit",
+      "occurrences": [
+        {
+          "code": "X04",
+          "direction": "context",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "explicit author-owned diagnosis report",
+      "occurrences": [
+        {
+          "code": "D00",
+          "direction": "diagnosed",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "explicit diagnosis wording",
+      "occurrences": [
+        {
+          "code": "X_DIAGNOSIS",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "explicit personal mental-health diagnosis language",
+      "occurrences": [
+        {
+          "code": "D7",
+          "direction": "diagnosed",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "expressive and questioning style context",
+      "occurrences": [
+        {
+          "code": "D9",
+          "direction": "context",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "external-speaker and figurative-content contamination",
+      "occurrences": [
+        {
+          "code": "X1",
+          "direction": "counterevidence",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "first-person affective self-expression",
+      "occurrences": [
+        {
+          "code": "D_SELF_AFFECT",
+          "direction": "diagnosed",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "first-person singular self-focus",
+      "occurrences": [
+        {
+          "code": "X01",
+          "direction": "context",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "functional and vegetative difficulty",
+      "occurrences": [
+        {
+          "code": "D05_FUNCTIONAL_VEGETATIVE",
+          "direction": "diagnosed",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "functional impairment",
+      "occurrences": [
+        {
+          "code": "D_FUNCTION",
+          "direction": "diagnosed",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "generic or nonspecific vocabulary",
+      "occurrences": [
+        {
+          "code": "X_GENERIC",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "high-base-rate generic symptom language",
+      "occurrences": [
+        {
+          "code": "C3",
+          "direction": "context",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "linked self-owned symptom and impact pattern",
+      "occurrences": [
+        {
+          "code": "D02_LINKED_PATTERN",
+          "direction": "diagnosed",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "literal self-scoped self-harm or severe death ideation",
+      "occurrences": [
+        {
+          "code": "D8",
+          "direction": "diagnosed",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "low-information binary resolution",
+      "occurrences": [
+        {
+          "code": "C1",
+          "direction": "context",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "mental-health-linked functional impairment in study or work",
+      "occurrences": [
+        {
+          "code": "D06",
+          "direction": "diagnosed",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "multiple symptom-domain co-occurrence",
+      "occurrences": [
+        {
+          "code": "D_MULTI",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "non-autobiographical or unresolved content",
+      "occurrences": [
+        {
+          "code": "X_AMBIG",
+          "direction": "counterevidence",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "non-autobiographical source context",
+      "occurrences": [
+        {
+          "code": "X01_SOURCE_ATTRIBUTION",
+          "direction": "counterevidence",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "nonclinical cohort and online-style context",
+      "occurrences": [
+        {
+          "code": "K2",
+          "direction": "context",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "owned mental-health and care narrative",
+      "occurrences": [
+        {
+          "code": "D1",
+          "direction": "diagnosed",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "persistent first-person experiential stance",
+      "occurrences": [
+        {
+          "code": "D6",
+          "direction": "diagnosed",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "persistent self-linked evidence",
+      "occurrences": [
+        {
+          "code": "D_PERSIST",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "persistent self-scoped hopelessness, isolation, or withdrawal",
+      "occurrences": [
+        {
+          "code": "D4",
+          "direction": "diagnosed",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "personal loneliness and interpersonal distress",
+      "occurrences": [
+        {
+          "code": "D_LONELINESS",
+          "direction": "diagnosed",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "personal therapy, psychiatric care, or medication",
+      "occurrences": [
+        {
+          "code": "D02",
+          "direction": "diagnosed",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "platform register and boilerplate",
+      "occurrences": [
+        {
+          "code": "X_REGISTER",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "playful and exclamatory style",
+      "occurrences": [
+        {
+          "code": "C01_PLAYFUL_STYLE",
+          "direction": "context",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "playful, laughter, elongation, and ellipsis context",
+      "occurrences": [
+        {
+          "code": "C1",
+          "direction": "context",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "positive activity is non-exclusionary",
+      "occurrences": [
+        {
+          "code": "X05_NONEXCLUSION",
+          "direction": "context",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "positive, humorous, and socially engaged language",
+      "occurrences": [
+        {
+          "code": "C2",
+          "direction": "context",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "positive, social, future-oriented, or humorous content (non-evidence)",
+      "occurrences": [
+        {
+          "code": "E01",
+          "direction": "context",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "public-affairs and news context",
+      "occurrences": [
+        {
+          "code": "C2",
+          "direction": "context",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "public-topic participation",
+      "occurrences": [
+        {
+          "code": "X_PUBLIC",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "recurrent owned affective and vegetative profile",
+      "occurrences": [
+        {
+          "code": "D2",
+          "direction": "diagnosed",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "repeated low mood or crying",
+      "occurrences": [
+        {
+          "code": "D_LOW_MOOD",
+          "direction": "diagnosed",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "secondary self-experienced symptoms",
+      "occurrences": [
+        {
+          "code": "D07",
+          "direction": "diagnosed",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-devaluation and perceived failure",
+      "occurrences": [
+        {
+          "code": "D04_SELF_DEVALUATION",
+          "direction": "diagnosed",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-directed negative evaluation",
+      "occurrences": [
+        {
+          "code": "D_SELF_CRIT",
+          "direction": "diagnosed",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-evaluation, indecision, and functional impact",
+      "occurrences": [
+        {
+          "code": "D3",
+          "direction": "diagnosed",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-experienced anxiety and panic",
+      "occurrences": [
+        {
+          "code": "D07_ANXIETY_PANIC",
+          "direction": "diagnosed",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-focused linguistic style",
+      "occurrences": [
+        {
+          "code": "S01_SELF_FOCUS_STYLE",
+          "direction": "context",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-framed anxiety or agitation",
+      "occurrences": [
+        {
+          "code": "D_ANXIETY",
+          "direction": "diagnosed",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-harm or death ideation",
+      "occurrences": [
+        {
+          "code": "D04",
+          "direction": "diagnosed",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-linked rumination and pessimism",
+      "occurrences": [
+        {
+          "code": "D_RUMINATION",
+          "direction": "diagnosed",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-negative affect with rumination or disconnection",
+      "occurrences": [
+        {
+          "code": "D05",
+          "direction": "diagnosed",
+          "fold": 4
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-oriented sadness and crying",
+      "occurrences": [
+        {
+          "code": "D03_AFFECT_CRYING",
+          "direction": "diagnosed",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-oriented withdrawal and isolation",
+      "occurrences": [
+        {
+          "code": "D08_WITHDRAWAL",
+          "direction": "diagnosed",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-owned diagnosis or care evidence",
+      "occurrences": [
+        {
+          "code": "D01_CARE_OR_DIAGNOSIS",
+          "direction": "diagnosed",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-related death or self-harm language",
+      "occurrences": [
+        {
+          "code": "D06_SELF_HARM",
+          "direction": "diagnosed",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-reported energy, sleep, or anhedonia pattern",
+      "occurrences": [
+        {
+          "code": "D7",
+          "direction": "diagnosed",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "self-reported functional impairment",
+      "occurrences": [
+        {
+          "code": "D5",
+          "direction": "diagnosed",
+          "fold": 1
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "singular self-focus",
+      "occurrences": [
+        {
+          "code": "D_SINGULAR_SELF",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "situational context",
+      "occurrences": [
+        {
+          "code": "X02_SITUATIONAL_CONTEXT",
+          "direction": "context",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "specific somatic or sleep disturbance",
+      "occurrences": [
+        {
+          "code": "X_SOMATIC_SLEEP",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "style and formatting confounds",
+      "occurrences": [
+        {
+          "code": "X5",
+          "direction": "context",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "timeline activity and exposure",
+      "occurrences": [
+        {
+          "code": "X_ACTIVITY",
+          "direction": "context",
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "timeline exposure and activity",
+      "occurrences": [
+        {
+          "code": "X04_EXPOSURE",
+          "direction": "context",
+          "fold": 3
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "topic and community confounds",
+      "occurrences": [
+        {
+          "code": "X3",
+          "direction": "context",
+          "fold": 2
+        }
+      ]
+    },
+    {
+      "foldCount": 1,
+      "normalizedName": "topic, demographic, and subculture strata",
+      "occurrences": [
+        {
+          "code": "X03",
+          "direction": "context",
+          "fold": 4
+        }
+      ]
+    }
+  ]
+}

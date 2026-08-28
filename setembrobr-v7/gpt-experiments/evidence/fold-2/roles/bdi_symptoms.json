@@ -1,0 +1,442 @@
+{
+  "confounds": [
+    "Diagnosed users were more active on average, with about 649 retained posts per user versus 530 for controls; full-timeline any-match prevalence and persistence therefore remain activity-sensitive.",
+    "The label distribution was highly imbalanced: 619 diagnosed versus 5,463 control users.",
+    "First-person detection was heuristic; quotation, lyrics, jokes, news, advocacy, and third-person discussion cannot be perfectly separated with lexical rules.",
+    "Source order was available but dates were not, so ten-bin persistence measures spread across the retained timeline rather than duration or recurrence over calendar time.",
+    "Observed topic differences may reflect demographic, age, gender, fandom, lifestyle, or collection differences rather than symptoms.",
+    "Therapy, medication, and diagnosis terms may reflect ascertainment or annotation processes rather than latent depression severity.",
+    "Portuguese slang, negation, irony, code-switching, and spelling variation limit lexical precision; these results are corpus associations, not clinical measurements."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Lexical sadness includes transient distress and references to other people.",
+        "First-person, quotation, and third-person markers are heuristic and can co-occur."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Sadness and crying were common but consistently more prevalent among diagnosed users. Sadness matches had first-person proxies in roughly 58% of diagnosed versus 44% of control matched posts; quotation markers were about equal.",
+      "id": "sadness_crying_persistence",
+      "prompt_guidance": "Prefer repeated, self-referential sadness or crying combined with other symptoms over isolated emotional words.",
+      "quantitative_support": [
+        {
+          "control": "72.7%",
+          "diagnosed": "85.5%",
+          "effect": "+12.8 percentage points",
+          "measure": "users with any sadness-language match"
+        },
+        {
+          "control": "0.57%",
+          "diagnosed": "0.79%",
+          "effect": "+0.22 percentage points; 1.38x",
+          "measure": "mean matched-post rate per user"
+        },
+        {
+          "control": "49.5%",
+          "diagnosed": "67.5%",
+          "effect": "+18.0 percentage points",
+          "measure": "sadness present in at least 2 of 10 source-order timeline bins"
+        },
+        {
+          "control": "69.7%",
+          "diagnosed": "78.0%",
+          "effect": "+8.4 percentage points",
+          "measure": "users with any crying-language match"
+        }
+      ],
+      "signal": "Sadness and crying, especially when persistent"
+    },
+    {
+      "caveats": [
+        "Some matches describe situational anticipation, excitement, or someone else’s anxiety.",
+        "Do not treat anxiety vocabulary as evidence of depression specifically."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Anxiety/agitation vocabulary showed a large, stable user-level difference and stronger persistence. Broad matched posts also had more first-person proxies among diagnosed users.",
+      "id": "anxiety_agitation",
+      "prompt_guidance": "Use anxiety/agitation as a supporting domain, especially when persistent and paired with sadness, fatigue, or sleep disturbance.",
+      "quantitative_support": [
+        {
+          "control": "47.1%",
+          "diagnosed": "62.7%",
+          "effect": "+15.5 percentage points",
+          "measure": "users with anxiety/agitation-language match"
+        },
+        {
+          "control": "0.247%",
+          "diagnosed": "0.342%",
+          "effect": "+0.095 percentage points; 1.38x",
+          "measure": "mean matched-post rate per user"
+        },
+        {
+          "control": "23.0%",
+          "diagnosed": "36.3%",
+          "effect": "+13.3 percentage points",
+          "measure": "anxiety/agitation present in at least 2 of 10 bins"
+        }
+      ],
+      "signal": "Anxiety and agitation"
+    },
+    {
+      "caveats": [
+        "Insults and self-deprecating humor can resemble self-criticism.",
+        "Guilt terms may concern interpersonal events without depressive meaning."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Self-evaluative negative language was less frequent than sadness but showed stable diagnosed-user enrichment. Strict self-dislike was rare, making the broader self-criticism/worthlessness cluster more useful.",
+      "id": "negative_self_evaluation",
+      "prompt_guidance": "Weight direct self-evaluation and repeated guilt more than generic insults or negative judgments of others.",
+      "quantitative_support": [
+        {
+          "control": "14.2%",
+          "diagnosed": "22.9%",
+          "effect": "+8.8 percentage points",
+          "measure": "users with explicit self-criticism matches"
+        },
+        {
+          "control": "12.9%",
+          "diagnosed": "18.7%",
+          "effect": "+5.8 percentage points",
+          "measure": "users with worthlessness matches"
+        },
+        {
+          "control": "7.4%",
+          "diagnosed": "14.1%",
+          "effect": "+6.6 percentage points",
+          "measure": "users with self-directed guilt matches"
+        },
+        {
+          "control": "2.9%",
+          "diagnosed": "5.5%",
+          "effect": "+2.6 percentage points",
+          "measure": "self-criticism present in at least 2 of 10 bins"
+        }
+      ],
+      "signal": "Self-criticism, worthlessness, and guilt"
+    },
+    {
+      "caveats": [
+        "This is corpus association, not risk assessment.",
+        "Figurative expressions, jokes, lyrics, and discussion of others remain false-positive sources."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Stricter self-directed patterns were consistently enriched among diagnosed users. Broad death terms had substantial figurative, quoted, entertainment, news, and third-person contamination; quote markers were lower for diagnosed matched posts than controls.",
+      "id": "explicit_self_harm_death",
+      "prompt_guidance": "Require self-directed or intent-like wording and preferably persistence or co-occurring distress; never use isolated death vocabulary as a clinical inference.",
+      "quantitative_support": [
+        {
+          "control": "11.3%",
+          "diagnosed": "24.2%",
+          "effect": "+13.0 percentage points",
+          "measure": "users with broad death/self-harm vocabulary"
+        },
+        {
+          "control": "7.5%",
+          "diagnosed": "17.1%",
+          "effect": "+9.6 percentage points; 2.56x",
+          "measure": "users with stricter self-directed death/self-harm patterns"
+        },
+        {
+          "control": "0.9%",
+          "diagnosed": "3.7%",
+          "effect": "+2.8 percentage points",
+          "measure": "strict self-harm pattern present in at least 2 of 10 bins"
+        }
+      ],
+      "signal": "Self-harm and death ideation language"
+    },
+    {
+      "caveats": [
+        "Generic sleep mentions were nearly ubiquitous and weakly discriminative.",
+        "Timeline bins reflect source order, not verified calendar persistence."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Energy and sleep-disturbance patterns were consistently higher in diagnosed users, and the combined sadness-energy-sleep pattern was also stable across folds.",
+      "id": "energy_sleep_combination",
+      "prompt_guidance": "Prefer disturbance wording and cross-domain co-occurrence; generic mentions of sleeping or tiredness are insufficient.",
+      "quantitative_support": [
+        {
+          "control": "37.6%; mean rate 0.162%",
+          "diagnosed": "47.7%",
+          "effect": "+10.1 percentage points; +0.027 percentage points in rate",
+          "measure": "users with low-energy/fatigue matches; mean rate 0.189%"
+        },
+        {
+          "control": "13.6%; mean rate 0.044%",
+          "diagnosed": "20.4%",
+          "effect": "+6.7 percentage points; +0.009 percentage points in rate",
+          "measure": "users with sleep-disturbance matches; mean rate 0.053%"
+        },
+        {
+          "control": "31.1%",
+          "diagnosed": "43.1%",
+          "effect": "+12.1 percentage points",
+          "measure": "users with sadness plus low-energy plus sleep matches"
+        }
+      ],
+      "signal": "Low energy, fatigue, and sleep disturbance in combination"
+    },
+    {
+      "caveats": [
+        "Any-match combinations can occur across widely separated posts.",
+        "Some component lexicons contain ordinary or figurative language."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Combinations were more discriminative than isolated domains, particularly sadness paired with crying, anxiety, energy problems, self-criticism, or self-harm/death language.",
+      "id": "multi_domain_cooccurrence",
+      "prompt_guidance": "Use combinations as corroboration, but do not convert them into a BDI score or assume simultaneous clinical symptoms.",
+      "quantitative_support": [
+        {
+          "control": "57.0%",
+          "diagnosed": "71.4%",
+          "effect": "+14.4 percentage points",
+          "measure": "users with sadness plus crying matches"
+        },
+        {
+          "control": "48.3%",
+          "diagnosed": "62.7%",
+          "effect": "+14.3 percentage points",
+          "measure": "users with sadness plus anxiety matches"
+        },
+        {
+          "control": "10.0%",
+          "diagnosed": "22.6%",
+          "effect": "+12.6 percentage points",
+          "measure": "users with sadness plus broad self-harm/death matches"
+        },
+        {
+          "control": "10.9%",
+          "diagnosed": "19.9%",
+          "effect": "+9.0 percentage points",
+          "measure": "users with sadness plus failure plus self-criticism matches"
+        }
+      ],
+      "signal": "Multi-domain symptom combinations"
+    },
+    {
+      "caveats": [
+        "Food, weight, boredom, and social-activity talk are frequent nonclinical contexts.",
+        "Persistence was low for both domains."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both domains were modestly enriched among diagnosed users, with appetite-change wording showing the clearer post-rate difference. Loss-of-pleasure prevalence was nearly null in one fold but remained directionally positive.",
+      "id": "pleasure_and_appetite",
+      "prompt_guidance": "Seek explicit loss or change relative to the user’s baseline and pair with other symptoms.",
+      "quantitative_support": [
+        {
+          "control": "20.9%",
+          "diagnosed": "26.3%",
+          "effect": "+5.4 percentage points",
+          "measure": "users with loss-of-pleasure/loss-of-interest matches"
+        },
+        {
+          "control": "15.4%; 0.054%",
+          "diagnosed": "22.9%; 0.108%",
+          "effect": "+7.5 percentage points; 2.0x in mean post rate",
+          "measure": "users and mean rate with appetite-change matches"
+        },
+        {
+          "control": "5.3%",
+          "diagnosed": "6.8%",
+          "effect": "+1.5 percentage points",
+          "measure": "loss-of-pleasure present in at least 2 of 10 bins"
+        }
+      ],
+      "signal": "Loss of pleasure and appetite change"
+    },
+    {
+      "caveats": [
+        "This domain is especially vulnerable to ordinary-choice and fandom contexts.",
+        "It may reflect age, personality, or topic composition rather than depressive indecision."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Indecision was one of the strongest stable corpus divergences and remained separated when limiting users to their first 300 retained posts. However, many matches concerned ordinary choices.",
+      "id": "indecision_language",
+      "prompt_guidance": "Use only when persistent, distress-linked, or combined with negative affect; exclude routine choices about media, clothing, purchases, or plans.",
+      "quantitative_support": [
+        {
+          "control": "39.5%; 0.147%",
+          "diagnosed": "58.2%; 0.228%",
+          "effect": "+18.7 percentage points; 1.55x in mean post rate",
+          "measure": "users and mean rate with indecision/difficulty-deciding matches"
+        },
+        {
+          "control": "16.4%",
+          "diagnosed": "33.4%",
+          "effect": "+17.0 percentage points",
+          "measure": "indecision present in at least 2 of 10 bins"
+        }
+      ],
+      "signal": "Indecision-like language"
+    },
+    {
+      "caveats": [
+        "Generic inability includes ordinary tasks, sleep, choices, and technical problems.",
+        "The stricter failure lexicon was sparse."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "The broad failure signal was consistently higher in diagnosed users, but most of that gap came from generic inability expressions. Explicit self-failure, fracasso, or incapacity wording was small and only weakly separated.",
+      "id": "perceived_failure_vs_generic_difficulty",
+      "prompt_guidance": "Do not elevate generic inability; require self-evaluative failure or co-occurrence with persistent negative affect and other domains.",
+      "quantitative_support": [
+        {
+          "control": "63.6%",
+          "diagnosed": "75.1%",
+          "effect": "+11.5 percentage points",
+          "measure": "users with broad failure/difficulty wording"
+        },
+        {
+          "control": "14.7%",
+          "diagnosed": "16.5%",
+          "effect": "+1.8 percentage points",
+          "measure": "users with stricter self-evaluative failure wording"
+        },
+        {
+          "control": "39.2%",
+          "diagnosed": "53.0%",
+          "effect": "+13.8 percentage points",
+          "measure": "broad failure/difficulty wording present in at least 2 of 10 bins"
+        }
+      ],
+      "signal": "Perceived failure is confounded by generic inability language"
+    },
+    {
+      "caveats": [
+        "Possible label leakage or ascertainment bias.",
+        "Healthcare access, age, socioeconomic status, and willingness to disclose may drive this signal."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Mental-health-care vocabulary was the largest non-symptom divergence and was stable across folds. It may be highly predictive of labels but is not itself a BDI symptom.",
+      "id": "mental_health_care_context",
+      "prompt_guidance": "Use as corroboration or a separate collection signal; never treat treatment or diagnosis vocabulary as proof of current symptom severity.",
+      "quantitative_support": [
+        {
+          "control": "33.6%; 0.143%",
+          "diagnosed": "61.2%; 0.393%",
+          "effect": "+27.7 percentage points; 2.75x in mean post rate",
+          "measure": "users and mean rate mentioning therapy, psychologists, or psychiatrists"
+        },
+        {
+          "control": "49.4%; 0.277%",
+          "diagnosed": "73.7%; 0.590%",
+          "effect": "+24.2 percentage points; +0.313 percentage points in rate",
+          "measure": "users and mean rate mentioning treatment, medication, diagnosis, or mental-health care"
+        },
+        {
+          "control": "18.3%",
+          "diagnosed": "35.9%",
+          "effect": "+17.6 percentage points",
+          "measure": "users mentioning diagnosis/depression-related vocabulary"
+        }
+      ],
+      "signal": "Therapy, medication, and diagnostic vocabulary"
+    },
+    {
+      "caveats": [
+        "The lexicon includes broad words such as worse or horrible.",
+        "Topic and event composition can strongly affect pessimism vocabulary."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Pessimism-like wording had a modest diagnosed-user prevalence difference but no normalized post-rate difference and reversed direction in one development fold.",
+      "id": "pessimism_weak_generalization",
+      "prompt_guidance": "Prefer explicit hopelessness or future-negative self-referential language, and require corroborating domains.",
+      "quantitative_support": [
+        {
+          "control": "42.7%; 0.181%",
+          "diagnosed": "49.3%; 0.179%",
+          "effect": "+6.5 percentage points, but -0.002 percentage points in mean post rate",
+          "measure": "users and mean rate with explicit pessimism/hopelessness patterns"
+        },
+        {
+          "control": "19.3%",
+          "diagnosed": "24.4%",
+          "effect": "+5.1 percentage points",
+          "measure": "pessimism present in at least 2 of 10 bins"
+        }
+      ],
+      "signal": "Pessimism is modest and context-sensitive"
+    }
+  ],
+  "negative_results": [
+    "Punishment/deservingness language did not generalize: precise punishment terms favored diagnosed users in only 2/4 folds (14.4% vs 16.2% overall).",
+    "Reduced-libido language was extremely rare (0.8% diagnosed vs 0.2% control), lacked persistence, and was not stable across folds.",
+    "Explicit self-failure was weak after disambiguation (16.5% vs 14.7%; 3/4 folds); broad inability wording was inflated by ordinary tasks, sleep, and choices.",
+    "Generic sleep, concentration, and irritability mentions were high-base-rate and weakly separated. Generic sleep occurred for 94.5% diagnosed vs 90.3% control.",
+    "Pessimism showed only modest user-level separation and no post-rate separation (0.179% diagnosed vs 0.181% control); one fold reversed direction.",
+    "Strict self-dislike was rare (3.9% vs 2.0%); self-criticism, worthlessness, and guilt were stronger signals."
+  ],
+  "role": "bdi_symptoms",
+  "source_folds": [
+    0,
+    1,
+    3,
+    4
+  ],
+  "users_analyzed": 6082
+}
