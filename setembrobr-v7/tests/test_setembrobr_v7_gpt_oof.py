@@ -21,6 +21,15 @@ pipeline = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = pipeline
 SPEC.loader.exec_module(pipeline)
 
+VALIDATION_SCRIPT = PROJECT / "gpt-experiments/scripts/setembrobr_v7_gpt_validation.py"
+VALIDATION_SPEC = importlib.util.spec_from_file_location(
+    "setembrobr_v7_gpt_validation", VALIDATION_SCRIPT
+)
+assert VALIDATION_SPEC and VALIDATION_SPEC.loader
+validation = importlib.util.module_from_spec(VALIDATION_SPEC)
+sys.modules[VALIDATION_SPEC.name] = validation
+VALIDATION_SPEC.loader.exec_module(validation)
+
 
 class FakeEncoding:
     def encode(self, text: str) -> list[int]:
@@ -444,6 +453,103 @@ class EndToEndOfflineAuditTests(unittest.TestCase):
         metrics = pipeline.metrics_from_codes(actual, predicted)
         self.assertEqual(metrics["confusionMatrix"]["matrix"], [[1, 1], [1, 1]])
         self.assertEqual(metrics["macroF1"], 0.5)
+
+
+class SealedFutureValidationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.item = SyntheticExperiment(Path(self.temporary.name))
+        self.item.prepare()
+        self.item.create_prompt_lock()
+        self.paths = pipeline.ArtifactPaths(
+            self.item.root / ".work/gpt-validation-fold3", self.item.experiment
+        )
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def test_validation_requests_are_label_free_and_labels_open_only_after_audit(self) -> None:
+        lock = pipeline.load_prompt_lock(self.item.config, self.item.paths)
+        selected = pipeline.fold_lock(lock, validation.PROMPT_FOLD)
+        with (
+            mock.patch.object(validation, "VALIDATION_USERS", 2),
+            mock.patch.object(
+                validation, "PROMPT_SHA256", selected["classifierPromptSha256"]
+            ),
+            mock.patch.object(pipeline, "tokenizer", return_value=FakeEncoding()),
+        ):
+            validation.prepare_command(self.item.source, self.item.config, self.paths)
+            manifest = json.loads(
+                (self.paths.batches / "batch-manifest.json").read_text(encoding="utf-8")
+            )
+            labels = {
+                row["user_id"]: row["label"]
+                for row in pipeline.read_csv(
+                    self.paths.work / "sealed-labels" / "validation-labels.csv"
+                )
+            }
+            identities = {
+                row["request_id"]: row["user_id"]
+                for row in pipeline.read_csv(
+                    self.paths.mappings / "validation-identities.csv"
+                )
+            }
+            for shard in manifest["shards"]:
+                outputs = []
+                for request in pipeline.read_jsonl(Path(shard["path"])):
+                    self.assertFalse(
+                        pipeline.nested_forbidden_keys(
+                            request["body"],
+                            {"label", "fold", "user_id", "userid", "diagnosed_yn", "split"},
+                        )
+                    )
+                    user_id = identities[request["custom_id"]]
+                    diagnosed = labels[user_id] == "yes"
+                    parsed = {
+                        "prediction": "diagnosed" if diagnosed else "control",
+                        "diagnosed_probability": 0.9 if diagnosed else 0.1,
+                        "evidence_codes": [selected["evidenceCodes"][0]] if diagnosed else [],
+                        "counterevidence_codes": (
+                            [] if diagnosed else [selected["evidenceCodes"][1]]
+                        ),
+                        "uncertainty": "low",
+                    }
+                    outputs.append(
+                        {
+                            "custom_id": request["custom_id"],
+                            "response": {
+                                "status_code": 200,
+                                "body": response_body(
+                                    "gpt-5.6-sol", parsed, f"response-{request['custom_id']}"
+                                ),
+                            },
+                            "error": None,
+                        }
+                    )
+                output_path = self.paths.batches / "outputs" / f"{shard['shardId']}.jsonl"
+                shard["outputSha256"] = pipeline.write_jsonl(output_path, outputs)
+                shard["outputPath"] = str(output_path.resolve())
+                shard["batchId"] = f"batch-{shard['shardId']}"
+                shard["status"] = "completed"
+                shard["submittedAt"] = "2026-01-02T00:00:00Z"
+                shard["fetchedAt"] = "2026-01-03T00:00:00Z"
+            pipeline.write_json(self.paths.batches / "batch-manifest.json", manifest)
+
+            validation.audit_command(self.item.config, self.paths)
+            audit = json.loads(
+                (self.paths.reports / "label-free-validation-audit.json").read_text()
+            )
+            self.assertTrue(audit["ok"])
+            self.assertFalse(audit["labelsReadDuringAudit"])
+            scores = pipeline.read_csv(self.paths.scores / validation.SCORE_FILENAME)
+            self.assertEqual(set(scores[0]), {"user_id", "score", "model_id"})
+
+            validation.evaluate_command(self.item.config, self.paths)
+            report = json.loads(
+                (self.paths.reports / "fold-3-future-validation-results.json").read_text()
+            )
+            self.assertEqual(report["metrics"]["macroF1"], 1.0)
+            self.assertTrue(report["labelsJoinedOnlyAfterLabelFreeAudit"])
 
 
 if __name__ == "__main__":

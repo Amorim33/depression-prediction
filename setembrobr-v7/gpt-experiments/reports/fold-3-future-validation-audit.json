@@ -1,0 +1,23 @@
+{
+  "allRetriesByteIdentical": true,
+  "duplicateIdenticalRequests": 0,
+  "experimentId": "seed42_setembrobr_v7_gpt56_fold3_future_validation",
+  "foldAbsentFromRequests": true,
+  "fullTimelineHashesMatch": true,
+  "labelFreeScoresSha256": "0b700cb3802f01c1403a90622691919e5ff2c973a0a8fd568c4491e91beedb1d",
+  "labelsAbsentFromRequests": true,
+  "labelsReadDuringAudit": false,
+  "missingUsers": 0,
+  "model": "gpt-5.6-sol",
+  "normalizedResponsesSha256": "9059aa2fbb0937de3ff24a078c8f7c143c9e875407ef0a42ef14f92f17da8611",
+  "ok": true,
+  "originalUserIdsAbsentFromRequestMetadata": true,
+  "predictionThreshold": 0.5,
+  "promptLockedBeforeInference": true,
+  "promptSha256": "94a2871ff61f98b8a3b9827b6de3c0f6cf4efcd461209a3e3412b12fe46567d9",
+  "reasoningEffort": "high",
+  "selectedOofFold": 3,
+  "usersExpected": 400,
+  "usersWithValidLabelFreeResponse": 400,
+  "validationErrorUsers": 0
+}

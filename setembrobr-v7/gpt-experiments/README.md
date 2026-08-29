@@ -84,3 +84,31 @@ The API contract follows the official OpenAI documentation for
 [`gpt-5.6-luna`](https://developers.openai.com/api/docs/models/gpt-5.6-luna),
 [`gpt-5.6-sol`](https://developers.openai.com/api/docs/models/gpt-5.6-sol), and the
 [Batch API](https://platform.openai.com/docs/api-reference/batch).
+
+## Separately authorized future-validation result
+
+After the OOF prompts and scores were finalized, the user separately authorized a one-shot
+evaluation of the highest observed OOF fold prompt. The selected fold-3 prompt remained byte
+identical at SHA-256
+`94a2871ff61f98b8a3b9827b6de3c0f6cf4efcd461209a3e3412b12fe46567d9`, and the decision threshold
+remained `0.5`. The 400 label-free requests used complete timelines with Sol `high`; all responses
+passed the sealed audit before labels were opened.
+
+The future-validation Macro F1 is `0.7204642384`. Diagnosed-class F1 is `0.6624605678`, precision
+is `0.8974358974`, and recall is `0.525`. The confusion matrix is `[[188, 12], [95, 105]]` in
+`[control, diagnosed]` order. This is a post-selection estimate because the prompt was chosen as
+the highest of five observed OOF fold scores; no validation result was used to change the prompt
+or threshold.
+
+The restricted timelines, identity map, sealed labels, API requests and responses, and label-free
+user scores are under `.work/gpt-validation-fold3/`. Reproduce the separately authorized stages
+with:
+
+```bash
+make gpt-validation-prepare
+make gpt-validation-submit
+make gpt-validation-status
+make gpt-validation-fetch
+make gpt-validation-audit
+make gpt-validation-evaluate
+```

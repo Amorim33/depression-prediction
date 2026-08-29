@@ -44,6 +44,9 @@ GPT_OOF_FOLD ?=
 GPT_OOF_FOLD_ARG = $(if $(GPT_OOF_FOLD),--fold $(GPT_OOF_FOLD),)
 GPT_OOF = $(PYTHON) gpt-experiments/scripts/setembrobr_v7_gpt_oof.py \
 	--config $(GPT_OOF_CONFIG) --work-dir $(GPT_OOF_OUTPUT_DIR) --env-file $(GPT_OOF_ENV_FILE)
+GPT_VALIDATION_OUTPUT_DIR ?= .work/gpt-validation-fold3
+GPT_VALIDATION = $(PYTHON) gpt-experiments/scripts/setembrobr_v7_gpt_validation.py \
+	--config $(GPT_OOF_CONFIG) --work-dir $(GPT_VALIDATION_OUTPUT_DIR) --env-file $(GPT_OOF_ENV_FILE)
 
 .PHONY: help setup lint test validate seal pool-embeddings train-oof audit-oof lock-threshold \
 	fit-full score-test audit-test evaluate-test materialize-corpus audit-final run \
@@ -61,6 +64,8 @@ GPT_OOF = $(PYTHON) gpt-experiments/scripts/setembrobr_v7_gpt_oof.py \
 	fedora-label-comparison-fetch
 .PHONY: gpt-oof-setup gpt-oof-prepare gpt-oof-analyze gpt-oof-lock gpt-oof-smoke \
 	gpt-oof-submit gpt-oof-status gpt-oof-fetch gpt-oof-audit gpt-oof-evaluate
+.PHONY: gpt-validation-prepare gpt-validation-submit gpt-validation-status \
+	gpt-validation-fetch gpt-validation-audit gpt-validation-evaluate
 
 help:
 	@$(PYTHON) scripts/setembrobr_v7_qwen_logreg.py --help
@@ -76,12 +81,14 @@ lint:
 		scripts/setembrobr_v7_label_comparison.py scripts/promote_reports.py \
 		scripts/promote_ensemble_reports.py scripts/promote_label_comparison_reports.py \
 		gpt-experiments/scripts/setembrobr_v7_gpt_oof.py \
+		gpt-experiments/scripts/setembrobr_v7_gpt_validation.py \
 		tests/test_setembrobr_v7_qwen_logreg.py tests/test_setembrobr_v7_ensemble_contract.py \
 		tests/test_setembrobr_v7_label_comparison.py tests/test_setembrobr_v7_gpt_oof.py
 	$(PYTHON) -m ruff check scripts/setembrobr_v7_qwen_logreg.py scripts/setembrobr_v7_ensemble.py \
 		scripts/setembrobr_v7_label_comparison.py scripts/promote_reports.py \
 		scripts/promote_ensemble_reports.py scripts/promote_label_comparison_reports.py \
 		gpt-experiments/scripts/setembrobr_v7_gpt_oof.py \
+		gpt-experiments/scripts/setembrobr_v7_gpt_validation.py \
 		tests/test_setembrobr_v7_qwen_logreg.py tests/test_setembrobr_v7_ensemble_contract.py \
 		tests/test_setembrobr_v7_label_comparison.py tests/test_setembrobr_v7_gpt_oof.py
 
@@ -287,3 +294,21 @@ gpt-oof-audit:
 
 gpt-oof-evaluate: gpt-oof-audit
 	$(GPT_OOF) evaluate
+
+gpt-validation-prepare:
+	$(GPT_VALIDATION) prepare --source-pkl $(SOURCE_PKL)
+
+gpt-validation-submit: gpt-validation-prepare
+	$(GPT_VALIDATION) submit
+
+gpt-validation-status:
+	$(GPT_VALIDATION) status
+
+gpt-validation-fetch:
+	$(GPT_VALIDATION) fetch
+
+gpt-validation-audit:
+	$(GPT_VALIDATION) audit
+
+gpt-validation-evaluate: gpt-validation-audit
+	$(GPT_VALIDATION) evaluate
