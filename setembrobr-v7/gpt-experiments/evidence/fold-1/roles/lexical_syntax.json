@@ -1,0 +1,299 @@
+{
+  "confounds": [
+    "Diagnosed users were more active overall, with higher median post counts and total word counts; account age, retention-window length, and missing-timeline mechanisms may confound stylistic rates.",
+    "The label is an observational outcome, not proof that any linguistic feature is causal, clinically diagnostic, or specific to depression.",
+    "Demographic, regional, age, platform, and topic differences can affect punctuation, laughter, uppercase usage, direct address, and lexical diversity.",
+    "Context disambiguation was heuristic; quotations, lyrics, news, jokes, advocacy, and discussion of others are not perfectly separable from self-reference.",
+    "The diagnosed/control imbalance was substantial: 618 diagnosed users versus 5,463 controls, so prevalence estimates and small effects should be interpreted cautiously.",
+    "No timestamps or external metadata were available, limiting tests of temporal change, collection period, and posting context. "
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Pronouns can occur in quotations, lyrics, jokes, advocacy, or discussion of others. Third-person co-occurrence was modestly higher among diagnosed users, so the signal is not pure self-disclosure.",
+        "The context categories were heuristic lexical filters, not manual annotations."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The difference persisted in both early and late timeline quartiles: first-person post rates were about 42% versus 33% for diagnosed and control users, respectively.",
+      "id": "persistent_first_person_self_reference",
+      "prompt_guidance": "Use per-user first-person post prevalence and its early/late persistence; combine with contextual filtering and other stylistic features rather than using raw counts or interpreting it clinically.",
+      "quantitative_support": [
+        {
+          "control": "Median 0.337",
+          "diagnosed": "Median 0.416",
+          "effect": "Cliff's delta +0.423 pooled; fold deltas +0.461, +0.407, +0.423, +0.401",
+          "measure": "Per-user fraction of posts containing first-person or self-possessive forms"
+        },
+        {
+          "control": "Median 0.325",
+          "diagnosed": "Median 0.377",
+          "effect": "Cliff's delta +0.361 pooled; positive in all four folds",
+          "measure": "Heuristic first-person state/action rate after excluding quote/report, lyric, joke, and advocacy cues"
+        }
+      ],
+      "signal": "Higher persistent first-person/self-reference and first-person state/action phrasing."
+    },
+    {
+      "caveats": [
+        "Questions may reflect engagement, fandom, direct address, or rhetorical style rather than internal experience.",
+        "The effect is modest in absolute percentage-point terms."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Question prevalence was higher in diagnosed users in both early and late timeline segments, with a small but consistent first-person-question interaction.",
+      "id": "questions_and_first_person_questions",
+      "prompt_guidance": "Use user-level question-post rates and interactions with first-person and negation markers; avoid raw question-token totals.",
+      "quantitative_support": [
+        {
+          "control": "Median 0.079",
+          "diagnosed": "Median 0.098",
+          "effect": "Cliff's delta +0.193 pooled; fold deltas +0.225, +0.185, +0.156, +0.207",
+          "measure": "Per-user fraction of question-bearing posts"
+        },
+        {
+          "control": "Median 0.072",
+          "diagnosed": "Median 0.092",
+          "effect": "Cliff's delta +0.203 pooled; positive in all folds",
+          "measure": "Fraction of first-person posts that also contain a question"
+        },
+        {
+          "control": "Median 0.015",
+          "diagnosed": "Median 0.019",
+          "effect": "Cliff's delta +0.144 pooled; fold deltas +0.140, +0.164, +0.143, +0.129",
+          "measure": "Per-user fraction of posts containing both a question and negation"
+        }
+      ],
+      "signal": "More questioning, especially questioning combined with first-person or negation."
+    },
+    {
+      "caveats": [
+        "Diagnosed users also had longer timelines overall: median 408 versus 334 posts and 4,266 versus 3,210 words.",
+        "Retention-window length, account age, activity, and demographic composition could explain part of the effect."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Post-level length and structuring differences were consistent, although smaller after adjustment for total timeline word count.",
+      "id": "longer_posts_and_structuring_punctuation",
+      "prompt_guidance": "Prefer per-post length distributions, long-post prevalence, and normalized structural-punctuation rates; do not use total words or total posts as primary evidence.",
+      "quantitative_support": [
+        {
+          "control": "Median 0.084",
+          "diagnosed": "Median 0.110",
+          "effect": "Cliff's delta +0.180 pooled; fold deltas +0.238, +0.185, +0.162, +0.137",
+          "measure": "Per-user fraction of posts with at least 20 words"
+        },
+        {
+          "control": "Median 9.44 words",
+          "diagnosed": "Median 10.24 words",
+          "effect": "Cliff's delta +0.145 pooled; positive in all folds",
+          "measure": "Per-user mean words per post"
+        },
+        {
+          "control": "Median 0.020",
+          "diagnosed": "Median 0.027",
+          "effect": "Cliff's delta +0.176 pooled; fold deltas +0.178, +0.176, +0.148, +0.204",
+          "measure": "Per-user fraction of posts containing a colon or semicolon"
+        },
+        {
+          "control": "Median 0.0303",
+          "diagnosed": "Median 0.0329",
+          "effect": "Cliff's delta +0.188 pooled; positive in all folds",
+          "measure": "Per-user coordination-marker rate"
+        }
+      ],
+      "signal": "Slightly longer posts with more structural punctuation and coordination."
+    },
+    {
+      "caveats": [
+        "Common conversational formulas and repeated function-word sequences can inflate this measure.",
+        "The effect is weaker than the first-person and question signals."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Repeated bigrams showed a small, fold-stable increase that survived timeline-length adjustment, whereas whole-post duplication did not differ.",
+      "id": "repeated_phrase_structures",
+      "prompt_guidance": "Use normalized repeated-bigram or recurring-phrase measures, preferably adjusted for timeline length; avoid treating copied-post frequency as equivalent.",
+      "quantitative_support": [
+        {
+          "control": "Median 0.214",
+          "diagnosed": "Median 0.239",
+          "effect": "Cliff's delta +0.108 pooled; fold deltas +0.154, +0.066, +0.133, +0.080",
+          "measure": "Per-user rate of repeated bigram occurrences across the timeline"
+        },
+        {
+          "control": "Lower residual rate",
+          "diagnosed": "Higher residual rate",
+          "effect": "Length-adjusted Cliff's delta +0.068; positive in all folds",
+          "measure": "Repeated-bigram rate after adjustment for total timeline words"
+        }
+      ],
+      "signal": "More recurring local phrase structures, without more exact copied posts."
+    },
+    {
+      "caveats": [
+        "Uppercase conventions vary strongly by age, platform, topic, and individual style.",
+        "This is an emphasis proxy, not evidence of affect or symptom severity."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Uppercase-dominant post prevalence was higher in every development fold, though the size varied substantially.",
+      "id": "uppercase_emphasis",
+      "prompt_guidance": "Use the fraction of uppercase-dominant posts, optionally conditional on first-person posts, and combine with punctuation context.",
+      "quantitative_support": [
+        {
+          "control": "Median 0.027",
+          "diagnosed": "Median 0.046",
+          "effect": "Cliff's delta +0.166 pooled; fold deltas +0.173, +0.184, +0.083, +0.222",
+          "measure": "Per-user fraction of uppercase-dominant posts"
+        },
+        {
+          "control": "Median 0.017",
+          "diagnosed": "Median 0.032",
+          "effect": "Cliff's delta +0.173 pooled",
+          "measure": "Uppercase-post rate among first-person posts"
+        }
+      ],
+      "signal": "More uppercase-based emphasis."
+    },
+    {
+      "caveats": [
+        "These markers are highly sensitive to demographic, regional, platform, and conversational norms.",
+        "Lower laughter or ellipsis use should not be interpreted as a clinical indicator."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "control",
+      "evidence_summary": "All three style markers were lower for diagnosed users in every fold; exclamation use also trended lower.",
+      "id": "lower_laughter_elongation_ellipsis",
+      "prompt_guidance": "Use a combined low-playfulness/low-elongation style bundle based on per-user post rates, not raw marker counts.",
+      "quantitative_support": [
+        {
+          "control": "Median 0.077",
+          "diagnosed": "Median 0.058",
+          "effect": "Cliff's delta -0.118 pooled; fold deltas -0.174, -0.082, -0.096, -0.118",
+          "measure": "Per-user fraction of posts containing laughter markers"
+        },
+        {
+          "control": "Median 0.204",
+          "diagnosed": "Median 0.179",
+          "effect": "Cliff's delta -0.111 pooled; negative in all folds",
+          "measure": "Per-user fraction of posts with repeated-character elongation"
+        },
+        {
+          "control": "Median 0.040",
+          "diagnosed": "Median 0.030",
+          "effect": "Cliff's delta -0.078 pooled; negative in all folds",
+          "measure": "Per-user fraction of posts containing ellipses"
+        }
+      ],
+      "signal": "Control users showed more laughter, character elongation, and ellipsis usage."
+    },
+    {
+      "caveats": [
+        "Negation may be rhetorical, quoted, humorous, or directed at external events.",
+        "The distinction between post prevalence and token density indicates sensitivity to post composition and length."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The post-level difference was positive in all folds but small and largely disappeared when measured as token density.",
+      "id": "modest_negation_prevalence",
+      "prompt_guidance": "Treat negation-bearing-post prevalence as a weak complementary feature, especially in combination with first-person questions; do not over-weight it.",
+      "quantitative_support": [
+        {
+          "control": "Median 0.182",
+          "diagnosed": "Median 0.192",
+          "effect": "Cliff's delta +0.096 pooled; fold deltas +0.129, +0.081, +0.126, +0.049",
+          "measure": "Per-user fraction of posts containing at least one negation marker"
+        },
+        {
+          "control": "Median 0.0242",
+          "diagnosed": "Median 0.0241",
+          "effect": "Cliff's delta approximately -0.010 pooled",
+          "measure": "Negation-token density among all tokens"
+        }
+      ],
+      "signal": "A weak increase in the prevalence of negation-bearing posts, not in negation-token density."
+    },
+    {
+      "caveats": [
+        "Portuguese morphology, spelling variation, mentions, and preprocessing affect diversity measures.",
+        "Vocabulary concentration remains vulnerable to collection-window and activity differences."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "none",
+      "evidence_summary": "Diagnosed users had more tokens and types but lower raw type-token ratios; length-normalized diversity did not provide a stable independent distinction.",
+      "id": "lexical_diversity_is_length_driven",
+      "prompt_guidance": "Do not use raw TTR or vocabulary size alone. Prefer length-adjusted diversity or recurring-phrase features.",
+      "quantitative_support": [
+        {
+          "control": "Median TTR 0.340; content TTR 0.509",
+          "diagnosed": "Median TTR 0.312; content TTR 0.477",
+          "effect": "Raw pooled Cliff's delta -0.114 for TTR and -0.093 for content-word TTR",
+          "measure": "Unadjusted lexical diversity"
+        },
+        {
+          "control": "No stable residual separation",
+          "diagnosed": "No stable residual separation",
+          "effect": "Length-adjusted content-TTR Cliff's delta +0.009; length-adjusted content-Herdan effect approximately 0",
+          "measure": "Lexical diversity after adjustment for total timeline words"
+        }
+      ],
+      "signal": "Lower raw lexical diversity is primarily explained by timeline-length differences."
+    }
+  ],
+  "negative_results": [
+    "Raw lexical diversity was lower for diagnosed users before length adjustment (median TTR 0.312 vs 0.340; Cliff's delta -0.114), but length-adjusted diversity was near zero and not directionally robust; do not treat raw TTR as an independent signal.",
+    "Exact duplicate-post rates were essentially identical (about 1.1% per user) with mixed fold directions.",
+    "Subordination, comma/period, and short-post proxies lacked stable separation. Past-tense markers were slightly lower and future markers slightly higher for diagnosed users, but effects were small.",
+    "Quote/report/news cues within first-person posts were not fold-stable, so first-person wording cannot be equated with verified self-disclosure.",
+    "URLs were nearly absent and therefore uninformative."
+  ],
+  "role": "lexical_syntax",
+  "source_folds": [
+    0,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}

@@ -1,0 +1,312 @@
+{
+  "confounds": [
+    "The diagnosed/control groups are highly imbalanced: 619 diagnosed users versus 5,463 controls.",
+    "Retained timeline volume differs by label, so raw post counts, token counts, unique-word counts, and unnormalized diversity measures can be misleading.",
+    "No timestamps or demographic metadata were available to separate observation duration, age, cohort, platform activity, or collection effects.",
+    "Simple lexical lists and punctuation rules are noisy for Portuguese slang, contractions, spelling variation, and polysemy.",
+    "Surface first-person markers do not reliably distinguish lived experience from quotation, lyrics, jokes, role-play, advocacy, news, or discussion of another person.",
+    "Punctuation-based sentence and clause proxies are sensitive to missing punctuation and social-media fragments.",
+    "Equal-user and pooled-post estimates can diverge substantially; prolific users should not dominate stylistic comparisons."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Pronoun and first-person verb markers are surface indicators and include possessives.",
+        "No full semantic attribution model was used to exclude quoted or performative language."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The strongest stylistic separation was a higher share of first-person-marked posts among diagnosed users, with a large and stable fold-wise gap.",
+      "id": "self_reference_persistence",
+      "prompt_guidance": "Use as a corpus-derived style feature, not evidence of lived experience; combine with persistence and context filters for quotation, lyrics, jokes, or role-play.",
+      "quantitative_support": [
+        {
+          "control": "37.5% of posts; 6.03% of tokens",
+          "diagnosed": "46.4% mean share of posts containing first-person markers; 7.54% of tokens",
+          "effect": "+8.9 percentage points; Cohen d=0.72; positive in all 4 folds",
+          "measure": "Equal-user first-person-post prevalence and token rate"
+        },
+        {
+          "control": "15.2%",
+          "diagnosed": "38.8% of users had first-person markers in at least half of posts",
+          "effect": "+23.6 percentage points",
+          "measure": "User prevalence above 50% first-person-marked posts"
+        }
+      ],
+      "signal": "Persistent surface first-person marking"
+    },
+    {
+      "caveats": [
+        "Co-occurrence is stylistic and does not identify the topic or experiencer of the negation.",
+        "The estimate is user-weighted; prolific users were not allowed to dominate it."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The combination of self-reference and negation was more prevalent than either a generic token count alone and remained stable across folds.",
+      "id": "first_person_negation_cooccurrence",
+      "prompt_guidance": "Prefer this persistent combination over isolated negation keywords, while excluding quoted, lyrical, or third-person contexts when possible.",
+      "quantitative_support": [
+        {
+          "control": "10.14%",
+          "diagnosed": "13.11% mean share of posts containing both first-person and negation markers",
+          "effect": "+2.97 percentage points; Cohen d=0.58; positive in all 4 folds",
+          "measure": "User-level co-occurrence of first-person and negation markers"
+        },
+        {
+          "control": "Lower in every fold",
+          "diagnosed": "Higher in every development fold",
+          "effect": "Fold differences ranged from +2.7 to +3.6 percentage points",
+          "measure": "Fold stability"
+        }
+      ],
+      "signal": "Repeated first-person-plus-negation structure"
+    },
+    {
+      "caveats": [
+        "Sentence segmentation relies on social-media punctuation and may be distorted by fragments or missing terminal punctuation.",
+        "The effect is small for raw post length."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed timelines contained somewhat longer posts, longer punctuation-defined spans, and more connector markers; the direction persisted after a fixed-post subsampling check.",
+      "id": "longer_connected_sentence_spans",
+      "prompt_guidance": "Use as a weak syntactic-complexity proxy and normalize by post count; prefer multiple measures rather than raw length alone.",
+      "quantitative_support": [
+        {
+          "control": "10.29",
+          "diagnosed": "10.77 mean words per post",
+          "effect": "+0.48 words per post; Cohen d=0.13; positive in all 4 folds",
+          "measure": "Equal-user mean post length"
+        },
+        {
+          "control": "8.92",
+          "diagnosed": "9.75 words per sentence-like unit",
+          "effect": "+0.83 words per punctuation-defined sentence-like unit; Cohen d=0.34; positive in all 4 folds",
+          "measure": "Sentence-length proxy"
+        },
+        {
+          "control": "8.91",
+          "diagnosed": "9.80",
+          "effect": "+0.89 words per sentence-like unit in a fixed 50-post sample",
+          "measure": "Length-normalized check using 50 posts per user"
+        },
+        {
+          "control": "8.73%",
+          "diagnosed": "9.17% clause/connector-marker token rate",
+          "effect": "+0.45 percentage points; Cohen d=0.31; positive in all 4 folds",
+          "measure": "Clause/connector proxy"
+        }
+      ],
+      "signal": "Slightly longer and more connected sentence-like spans"
+    },
+    {
+      "caveats": [
+        "Punctuation does not establish uncertainty, help-seeking, or personal disclosure.",
+        "The effect is modest and may reflect conversation or platform-use differences."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Question-bearing posts were modestly more common at both equal-user and pooled-post levels, with consistent fold direction.",
+      "id": "interrogative_profile",
+      "prompt_guidance": "Treat question marks as an interrogative-style proxy; inspect rhetorical questions and quoted dialogue before interpretation.",
+      "quantitative_support": [
+        {
+          "control": "8.95%",
+          "diagnosed": "10.19% mean share of question-bearing posts",
+          "effect": "+1.24 percentage points; Cohen d=0.21; positive in all 4 folds",
+          "measure": "Equal-user question-post prevalence"
+        },
+        {
+          "control": "36.1%",
+          "diagnosed": "47.5% of users had questions in at least 10% of posts",
+          "effect": "+11.4 percentage points",
+          "measure": "User prevalence above 10% question-bearing posts"
+        },
+        {
+          "control": "9.69%",
+          "diagnosed": "10.66% pooled post frequency",
+          "effect": "+0.97 percentage points",
+          "measure": "Raw post-weighted question frequency"
+        }
+      ],
+      "signal": "More persistent question-mark use"
+    },
+    {
+      "caveats": [
+        "The pattern may reflect writing conventions, age, or platform norms.",
+        "Lower boundary punctuation also affects sentence-length proxies."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users were less likely to have timelines with frequent exclamation or ellipsis posts, although the ellipsis gap attenuated when weighting every post equally.",
+      "id": "lower_expressive_boundary_punctuation",
+      "prompt_guidance": "Use as a low-weight punctuation-style feature and retain equal-user versus pooled estimates separately.",
+      "quantitative_support": [
+        {
+          "control": "7.27%",
+          "diagnosed": "4.96% mean share of exclamation-bearing posts",
+          "effect": "−2.32 percentage points; Cohen d=−0.19; negative in all 4 folds",
+          "measure": "Equal-user exclamation-post prevalence"
+        },
+        {
+          "control": "9.15%",
+          "diagnosed": "6.86% mean share of ellipsis-bearing posts",
+          "effect": "−2.29 percentage points; Cohen d=−0.19; negative in all 4 folds",
+          "measure": "Equal-user ellipsis-post prevalence"
+        },
+        {
+          "control": "6.66% exclamation and 6.79% ellipsis",
+          "diagnosed": "4.17% exclamation and 6.51% ellipsis pooled frequencies",
+          "effect": "For exclamations, −2.49 percentage points pooled; for ellipses, only −0.28 points pooled",
+          "measure": "Raw post-weighted punctuation frequency"
+        }
+      ],
+      "signal": "Less exclamation and ellipsis use at the user level"
+    },
+    {
+      "caveats": [
+        "The apparent divergence depends on equal-user aggregation.",
+        "Negation may occur in quotations, jokes, lyrics, or discussion of others."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Negation appeared in a slightly larger share of diagnosed users’ timelines, but the effect nearly disappeared under post weighting and was not robust at token level.",
+      "id": "weak_negation_persistence",
+      "prompt_guidance": "Use only as a weak persistence feature, preferably in combination with first-person marking; do not treat negation alone as meaningful.",
+      "quantitative_support": [
+        {
+          "control": "20.98%",
+          "diagnosed": "22.23% mean share of negation-bearing posts",
+          "effect": "+1.25 percentage points; Cohen d=0.16; positive in all 4 folds",
+          "measure": "Equal-user negation-post prevalence"
+        },
+        {
+          "control": "95.1%",
+          "diagnosed": "98.4% of users exceeded 10% negation-bearing posts",
+          "effect": "+3.3 percentage points",
+          "measure": "User prevalence above 10% negation-bearing posts"
+        },
+        {
+          "control": "21.18%",
+          "diagnosed": "21.32% pooled negation-bearing posts",
+          "effect": "+0.14 percentage points",
+          "measure": "Raw post-weighted negation frequency"
+        }
+      ],
+      "signal": "Small user-level negation persistence with pooled attenuation"
+    },
+    {
+      "caveats": [
+        "Exact duplication is not the same as semantic repetition or perseveration.",
+        "Fold 1 showed only a very small effect."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Exact normalized-post repetition was lower among diagnosed users, but the effect was small and likely reflects templates, reposting, or collection behavior.",
+      "id": "exact_repetition_profile",
+      "prompt_guidance": "Treat as an auxiliary repetition feature only; separate copied content, lyrics, and repost-like material when possible.",
+      "quantitative_support": [
+        {
+          "control": "3.92%",
+          "diagnosed": "2.49% mean duplicate-post excess rate",
+          "effect": "−1.43 percentage points; Cohen d=−0.13; negative in all 4 folds",
+          "measure": "Equal-user exact normalized-post repetition"
+        },
+        {
+          "control": "4.49%",
+          "diagnosed": "3.23% pooled duplicate-post excess",
+          "effect": "−1.26 percentage points",
+          "measure": "Raw post-weighted repetition"
+        },
+        {
+          "control": "6.8%",
+          "diagnosed": "3.9% of users had duplicate excess of at least 10%",
+          "effect": "−2.9 percentage points",
+          "measure": "User prevalence of high exact repetition"
+        }
+      ],
+      "signal": "Slightly less exact-post repetition"
+    },
+    {
+      "caveats": [
+        "Differences may reflect observation length, platform activity, demographics, or collection and retention processes.",
+        "Raw vocabulary counts are especially confounded by this effect."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users had somewhat longer retained timelines, which explains part of the raw vocabulary and activity differences.",
+      "id": "timeline_volume_effect",
+      "prompt_guidance": "Model, match, or residualize timeline volume; never use posting volume as clinical evidence.",
+      "quantitative_support": [
+        {
+          "control": "530.5 posts per user; median 334",
+          "diagnosed": "619.9 retained posts per user; median 391",
+          "effect": "+89.3 posts; Cohen d=0.17; positive in all 4 folds, but only +28 posts in fold 2",
+          "measure": "Equal-user retained-timeline volume"
+        },
+        {
+          "control": "5,511",
+          "diagnosed": "6,370 mean timeline words",
+          "effect": "+859.7 words",
+          "measure": "Total retained words"
+        }
+      ],
+      "signal": "Higher retained posting volume"
+    }
+  ],
+  "negative_results": [
+    "Full-timeline lexical-diversity gaps were volume-sensitive: TTR was 0.328 versus 0.344 and entropy 6.094 versus 5.995, but after capping users at 500 tokens, TTR was 0.564 versus 0.560 and entropy 5.249 versus 5.229; several capped effects were not stable in fold 4.",
+    "Token-level negation frequency was not robust; one fold reversed, and pooled negation-bearing post frequency was nearly identical: 21.32% versus 21.18%.",
+    "Past- and future-tense marker rates were effectively null and inconsistent across folds.",
+    "Comma and quotation rates were weak or mixed; detected URLs, mentions, and hashtags were negligible or absent.",
+    "A modest third-person-post elevation was observed, but it does not distinguish first-person experience from discussion of others, advocacy, news, or narrative text."
+  ],
+  "role": "lexical_syntax",
+  "source_folds": [
+    0,
+    1,
+    2,
+    4
+  ],
+  "users_analyzed": 6082
+}

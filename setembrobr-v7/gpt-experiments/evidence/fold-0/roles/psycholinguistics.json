@@ -1,0 +1,333 @@
+{
+  "confounds": [
+    "Activity is imbalanced: diagnosed users have higher median posts (386 vs 332) and tokens (3892 vs 3132); the corpus contains 384798 diagnosed posts versus 2876329 control posts. Per-user rates reduce prolific-user domination but do not remove activity-related selection.",
+    "The label may be associated with self-disclosure, help-seeking, or annotation practices, making mental-health vocabulary a possible proxy or leakage signal rather than a causal linguistic marker.",
+    "Portuguese informal style, slang, age, gender, and community composition may explain differences in laughter, direct address, and first-person usage.",
+    "Keyword and same-post co-occurrence features cannot fully distinguish autobiographical experience from quotation, lyrics, memes, jokes, news, advocacy, or discussion of another person.",
+    "Negation scope, irony, polysemy, and morphology were only heuristically handled; terms such as nothing, never, without, saudade, and action verbs are not intrinsically depressive.",
+    "Persistence was estimated from four equal source-order segments, not real time; retained-timeline density and posting-period effects may influence apparent persistence.",
+    "The 618 diagnosed users versus 5463 control users create class imbalance and make small exploratory effects vulnerable to multiple-testing and sampling variation."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Verb-form matching is conservative and imperfect in Portuguese.",
+        "Self-markers alone do not establish that the surrounding content is autobiographical."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The clearest self-reference effect is a within-user shift toward singular rather than collective framing. It is visible in normalized post shares, not merely raw corpus counts.",
+      "id": "singular_self_reference_over_plural",
+      "prompt_guidance": "Use per-user singular share and singular-versus-plural balance; retain plural as a separate feature and avoid raw counts.",
+      "quantitative_support": [
+        {
+          "control": "44.5%",
+          "diagnosed": "53.5% of posts on average contained singular self-markers.",
+          "effect": "+9.1 percentage points; Cohen d=0.74; fold differences ranged from +8.2 to +9.8 points.",
+          "measure": "Per-user mean share of posts with first-person singular pronouns, possessives, or conservative first-person verb forms."
+        },
+        {
+          "control": "89.9%",
+          "diagnosed": "92.9% singular among posts carrying singular/plural first-person markers.",
+          "effect": "+3.0 percentage points; Cohen d=0.41; stable across folds (+2.7 to +3.2).",
+          "measure": "Singular share among self-referential posts."
+        },
+        {
+          "control": "4.6%",
+          "diagnosed": "4.1% of posts with plural self-markers.",
+          "effect": "-0.5 percentage points; Cohen d=-0.15; diagnosed lower in all folds.",
+          "measure": "Per-user mean share of posts with first-person plural markers."
+        }
+      ],
+      "signal": "Greater first-person singular focus relative to first-person plural"
+    },
+    {
+      "caveats": [
+        "Lexical affect hits were not fully disambiguated for irony, quotation, lyrics, or discussion of others.",
+        "Persistence uses four equal source-order segments, not calendar intervals."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The self-conditioned effect is larger than the broad negative-affect effect, with slightly greater persistence across the retained timeline.",
+      "id": "self_linked_negative_affect",
+      "prompt_guidance": "Prefer self-reference-by-affect interactions and persistence features over isolated negative keywords.",
+      "quantitative_support": [
+        {
+          "control": "3.43%",
+          "diagnosed": "4.65% of posts combined singular self-reference with negative-affect vocabulary.",
+          "effect": "+1.22 percentage points; Cohen d=0.54; fold differences +1.09 to +1.45 points.",
+          "measure": "Per-user mean share of posts with singular self-reference plus negative-affect terms in the same post."
+        },
+        {
+          "control": "6.07%",
+          "diagnosed": "6.93% negative-affect posts.",
+          "effect": "+0.85 percentage points; Cohen d=0.31; fold differences +0.67 to +1.16 points.",
+          "measure": "Per-user mean share of posts with negative-affect vocabulary."
+        },
+        {
+          "control": "96.5%",
+          "diagnosed": "99.0% had negative-affect hits in at least two of four equal source-order segments.",
+          "effect": "+2.6 percentage points overall; fold differences +2.0 to +2.8 points.",
+          "measure": "User-level persistence of negative-affect vocabulary."
+        }
+      ],
+      "signal": "Negative affect is more informative when anchored to singular self-reference and persists across timelines"
+    },
+    {
+      "caveats": [
+        "The lexicon includes ordinary cognition, memory, and uncertainty verbs.",
+        "No syntactic scope or discourse-level distinction was available."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The interaction between singular self-reference and mental-state vocabulary is substantially stronger than the generic mental-word rate.",
+      "id": "self_linked_rumination",
+      "prompt_guidance": "Model self-reference × cognition/emotion interactions and repeated presence across segments; do not treat common thinking verbs as clinical rumination by themselves.",
+      "quantitative_support": [
+        {
+          "control": "19.1%",
+          "diagnosed": "23.8% of posts combined singular self-reference with mental-state or repetitive-thinking vocabulary.",
+          "effect": "+4.66 percentage points; Cohen d=0.57; fold differences +4.25 to +5.05 points.",
+          "measure": "Per-user mean share of self-linked rumination/mental-state posts."
+        },
+        {
+          "control": "33.0%",
+          "diagnosed": "34.9% generic rumination/mental-state posts.",
+          "effect": "+1.95 percentage points; Cohen d=0.20; fold differences +1.22 to +2.63 points.",
+          "measure": "Per-user mean share of posts with broad rumination vocabulary."
+        }
+      ],
+      "signal": "Self-linked mental-state and rumination language"
+    },
+    {
+      "caveats": [
+        "Positive terms can be conversational, ironic, or directed at others.",
+        "The effect is modest compared with self-reference and rumination."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users did not show a simple suppression of positive emotion; both positive language and same-post affective mixing were slightly higher.",
+      "id": "bidirectional_affect_and_mixed_valence",
+      "prompt_guidance": "Use joint positive/negative features and avoid a one-dimensional negative-affect score.",
+      "quantitative_support": [
+        {
+          "control": "11.6%",
+          "diagnosed": "13.0% positive-affect posts.",
+          "effect": "+1.39 percentage points; Cohen d=0.27; fold differences +0.76 to +2.14 points.",
+          "measure": "Per-user mean share of posts with positive-affect vocabulary."
+        },
+        {
+          "control": "0.63%",
+          "diagnosed": "0.81% contained both positive- and negative-affect hits.",
+          "effect": "+0.18 percentage points; Cohen d=0.27; fold differences +0.17 to +0.21 points.",
+          "measure": "Per-user mean share of mixed-valence posts."
+        }
+      ],
+      "signal": "Broader and more mixed affective expression, not uniformly negative language"
+    },
+    {
+      "caveats": [
+        "The agency lexicon includes common forms such as wanting, going, doing, and being able to.",
+        "These are associative language patterns, not evidence of clinical functioning."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The data do not support a deficit-only agency narrative: diagnosed users show more self-linked action language, but also modestly more constrained-agency and hopelessness language.",
+      "id": "coexisting_agency_and_constraint",
+      "prompt_guidance": "Use agency and constraint as separate, interacting dimensions rather than collapsing them into a single score.",
+      "quantitative_support": [
+        {
+          "control": "10.8%",
+          "diagnosed": "14.2% of posts combined singular self-reference with agency/action vocabulary.",
+          "effect": "+3.35 percentage points; Cohen d=0.61; fold differences +2.90 to +3.80 points.",
+          "measure": "Per-user mean share of self-linked agency posts."
+        },
+        {
+          "control": "3.21%",
+          "diagnosed": "4.03% combined singular self-reference with hopelessness-related vocabulary.",
+          "effect": "+0.82 percentage points; Cohen d=0.42; fold differences +0.37 to +0.99 points.",
+          "measure": "Per-user mean share of self-linked constrained-future/hopelessness posts."
+        },
+        {
+          "control": "16.9%",
+          "diagnosed": "18.3% broad helplessness/constrained-agency posts.",
+          "effect": "+1.37 percentage points; Cohen d=0.21; fold differences +1.13 to +1.73 points.",
+          "measure": "Per-user mean share of posts with helplessness vocabulary."
+        }
+      ],
+      "signal": "Higher action language coexists with higher constrained-agency language"
+    },
+    {
+      "caveats": [
+        "Terms such as saudade, nobody, and isolation are context-sensitive.",
+        "The signal weakens among highly prolific users."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Loneliness-related language is modestly higher when anchored to the speaker, but general references to friends, family, groups, and interaction are not lower.",
+      "id": "modest_loneliness_without_social_withdrawal",
+      "prompt_guidance": "Prefer self-conditioned loneliness features; do not infer social withdrawal from the absence of general social words.",
+      "quantitative_support": [
+        {
+          "control": "0.84%",
+          "diagnosed": "1.07% of posts combined singular self-reference with loneliness/isolation vocabulary.",
+          "effect": "+0.23 percentage points; Cohen d=0.27; fold differences +0.21 to +0.26 points.",
+          "measure": "Per-user mean share of self-linked loneliness posts."
+        },
+        {
+          "control": "14.1%",
+          "diagnosed": "14.5% broad social-connection posts.",
+          "effect": "+0.38 percentage points; Cohen d=0.05; differences were near zero in three folds.",
+          "measure": "Per-user mean share of posts with social-connection vocabulary."
+        }
+      ],
+      "signal": "A small self-linked loneliness signal without broad loss of social vocabulary"
+    },
+    {
+      "caveats": [
+        "Laughter markers, slang, and direct address are highly sensitive to age, gender, community, and platform style.",
+        "Laughter may signal joking, masking, quotation, or affiliative engagement."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Normalized rates suggest a conversational-style difference: less laughter per post and somewhat more direct address. User-level presence alone gives the opposite impression for laughter because diagnosed timelines are longer.",
+      "id": "conversational_stance_and_laughter_density",
+      "prompt_guidance": "Use per-user density, not any-hit prevalence; combine laughter, direct address, and self-linked affect rather than interpreting them as simple sociability measures.",
+      "quantitative_support": [
+        {
+          "control": "7.7%",
+          "diagnosed": "5.7% of posts contained laughter markers.",
+          "effect": "-2.02 percentage points; Cohen d=-0.28; diagnosed lower by 1.33 to 2.60 points in every fold.",
+          "measure": "Per-user mean share of posts with laughter markers."
+        },
+        {
+          "control": "14.7%",
+          "diagnosed": "16.7% direct-address posts.",
+          "effect": "+1.96 percentage points; Cohen d=0.30; fold differences +1.27 to +3.23 points.",
+          "measure": "Per-user mean share of posts with direct-address vocabulary."
+        },
+        {
+          "control": "91.0%",
+          "diagnosed": "94.5% had at least one laughter-marked post.",
+          "effect": "Any-user prevalence was actually higher for diagnosed users despite lower density.",
+          "measure": "User-level prevalence of any laughter marker."
+        }
+      ],
+      "signal": "Lower laughter density but slightly more direct-address language"
+    },
+    {
+      "caveats": [
+        "Explicit markers do not capture Portuguese tense morphology comprehensively.",
+        "Higher rates may reflect narrativity, planning, or topic composition rather than affect."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both temporal marker classes are modestly elevated, which argues against a simple past-rumination or future-absence interpretation.",
+      "id": "bidirectional_temporal_orientation",
+      "prompt_guidance": "Model past and future orientation jointly and use relative contrasts only after activity and topic adjustment.",
+      "quantitative_support": [
+        {
+          "control": "11.6%",
+          "diagnosed": "12.5% past-oriented posts.",
+          "effect": "+0.91 percentage points; Cohen d=0.18; fold differences +0.63 to +1.07 points.",
+          "measure": "Per-user mean share of posts with explicit past-oriented markers."
+        },
+        {
+          "control": "18.1%",
+          "diagnosed": "19.2% future-oriented posts.",
+          "effect": "+1.12 percentage points; Cohen d=0.18; fold differences +1.04 to +1.20 points.",
+          "measure": "Per-user mean share of posts with explicit future-oriented markers."
+        }
+      ],
+      "signal": "Slightly more explicit temporal framing in both past and future directions"
+    },
+    {
+      "caveats": [
+        "The uncertainty lexicon includes common conversational forms such as thinking, seeming, and not knowing.",
+        "The uncertainty difference reverses in the highest activity quartile."
+      ],
+      "development_fold_support": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Tentative or epistemically uncertain language is slightly higher, while certainty language is effectively unchanged.",
+      "id": "uncertainty_more_than_certainty",
+      "prompt_guidance": "Treat uncertainty as a weak, activity-interacting feature; do not use certainty as a primary discriminator.",
+      "quantitative_support": [
+        {
+          "control": "20.8%",
+          "diagnosed": "22.3% uncertainty/hedging posts.",
+          "effect": "+1.51 percentage points; Cohen d=0.21; fold differences +1.28 to +1.86 points.",
+          "measure": "Per-user mean share of posts with uncertainty markers."
+        },
+        {
+          "control": "2.30%",
+          "diagnosed": "2.35% certainty-marker posts.",
+          "effect": "+0.04 percentage points; Cohen d=0.03; foldwise direction mixed.",
+          "measure": "Per-user mean share of posts with certainty markers."
+        }
+      ],
+      "signal": "Small increase in uncertainty language but no certainty excess"
+    }
+  ],
+  "negative_results": [
+    "First-person plural language was not elevated; its per-user post share was slightly lower in diagnosed users.",
+    "Certainty markers were essentially null (2.35% vs 2.30%; d=0.03). Absolutist language was only marginally higher (+0.44 percentage points; d=0.10).",
+    "Negation was weakly higher overall (+1.15 percentage points; d=0.16) but reversed among the highest-activity users.",
+    "Generic hopelessness was weak and inconsistent; the stable effect appeared only when combined with singular self-reference.",
+    "Broad social-connection vocabulary was not reduced (+0.38 percentage points; d=0.05).",
+    "Third-person markers were negligible and reversed direction in fold 4. Quote/lyrics heuristics were rare and weak, so they do not provide a reliable standalone signal.",
+    "There was no simple past-focused or future-impoverished profile: both past and future markers were slightly higher in diagnosed users."
+  ],
+  "role": "psycholinguistics",
+  "source_folds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}

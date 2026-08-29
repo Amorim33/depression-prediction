@@ -1,0 +1,20 @@
+{
+  "allPromptsLockedBeforeInference": true,
+  "allRetriesByteIdentical": true,
+  "duplicateIdenticalRequests": 0,
+  "experimentId": "seed42_setembrobr_v7_gpt56_prompt_oof",
+  "foldsAbsentFromSolRequests": true,
+  "fullTimelineHashesMatch": true,
+  "futureValidationUsersPresent": false,
+  "labelsAbsentFromSolRequests": true,
+  "missingUsers": 0,
+  "model": "gpt-5.6-sol",
+  "normalizedResponsesSha256": "b12f3404b311e655fcb38d1a9a6bb7a9bb97dc290f88dd521ec8626143f5a3cc",
+  "ok": true,
+  "originalUserIdsAbsentFromSolRequests": true,
+  "promptLockSha256": "625ba6c38cba6669e6a219db7f62340f555397c24963bd1ac2cd6608a53df779",
+  "reasoningEffort": "high",
+  "usersExpected": 7602,
+  "usersWithValidLabelFreeResponse": 7602,
+  "validationErrorUsers": 0
+}

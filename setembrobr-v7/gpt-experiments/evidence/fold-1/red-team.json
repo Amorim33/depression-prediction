@@ -1,0 +1,64 @@
+{
+  "issues": [
+    {
+      "issue": "Nonclinical style, topic, and identity proxies are treated as control or diagnosed signals.",
+      "reason": "The supplied material provides no calibration for these directions. They embed platform, demographic, and sampling assumptions and can cause both false positives and false negatives, despite the prohibition on demographic assumptions.",
+      "required_revision": "Remove C1, C2, D9, and K2 as directional label evidence. Use style, news, identity, and fandom only for context or scope resolution, not as positive evidence for either label.",
+      "severity": "high"
+    },
+    {
+      "issue": "The binary output conflicts with the absence-is-not-control rule.",
+      "reason": "The prompt says uncertainty should remain unresolved, but it must emit either label. Without an explicit tie rule, the model will implicitly use class prevalence or default to control.",
+      "required_revision": "Add a fixed, predeclared tie/no-signal rule and state that it is only a decision tie-break, not evidence derived from silence, prevalence, or Macro F1.",
+      "severity": "high"
+    },
+    {
+      "issue": "Weighting and combination rules are too qualitative and non-reproducible.",
+      "reason": "Terms such as high, moderate, weak, independently, corroborated, and better-supported do not specify how evidence offsets or combines, allowing keyword accumulation and arbitrary decisions.",
+      "required_revision": "Define an evidence hierarchy and minimum conditions; count unique, context-filtered events once, cap correlated signals, and remove Macro F1 as an inference instruction unless a fixed decision threshold is supplied.",
+      "severity": "medium"
+    },
+    {
+      "issue": "Whole-post downweighting can confuse discussion with self-experience.",
+      "reason": "A post can discuss mental health while also containing genuine autobiographical disclosure. Blanket handling of advice, advocacy, replies, and humor creates false negatives.",
+      "required_revision": "Resolve scope at the proposition or clause level. Retain explicit first-person experience embedded in advice, advocacy, replies, humor, or mixed posts; discard only material shown to be exclusively external, quoted, fictional, or figurative.",
+      "severity": "high"
+    },
+    {
+      "issue": "Recurrence and normalization requirements are undefined and length-sensitive.",
+      "reason": "Rates over “retained posts” can be unstable or circular; equal source-order segments are not temporal persistence, and repetition requirements can miss brief or episodic evidence while duplicates mimic persistence.",
+      "required_revision": "Define the normalization denominator before semantic filtering, deduplicate reposts and repeated content, and use segment recurrence only when there is enough independent material. Do not require recurrence for one clear, scope-confirmed high-specificity disclosure.",
+      "severity": "high"
+    },
+    {
+      "issue": "D3 can become a generic symptom-keyword shortcut.",
+      "reason": "Correlated domains from one stressor, physical illness, relationship event, or post may be counted as independent, producing false positives despite the stated caveat.",
+      "required_revision": "Count symptom breadth only when domains are explicitly self-experienced, semantically specific, and supported by distinct events or contexts. Do not let the number of domains alone establish the diagnosed label.",
+      "severity": "medium"
+    },
+    {
+      "issue": "D8 has inconsistent salience and corroboration requirements.",
+      "reason": "The prompt alternates between context-confirmed, corroborated, and high-salience rules; this can either overweight an isolated phrase or suppress one genuine disclosure.",
+      "required_revision": "Remove the unsupported claim that self-harm language is rare and make corroboration mean clear personal scope and nonfigurative context, not necessarily repeated mentions. Keep it non-diagnostic and prevent it from dominating other evidence.",
+      "severity": "medium"
+    },
+    {
+      "issue": "D1 may overcount unrelated treatment or label-language leakage.",
+      "reason": "The current wording gives high weight to broad care and medication language and does not clearly separate personal clinical disclosure from discussion of the classification task.",
+      "required_revision": "Count care, medication, or diagnosis only when explicitly linked to the user's own mental-health treatment or condition. Medication alone, another person's care, and corpus/task-label discussion must not qualify; genuine autobiographical disclosure should remain usable.",
+      "severity": "medium"
+    },
+    {
+      "issue": "Prompt-injection handling is stated but not structurally isolated.",
+      "reason": "Raw timeline text can imitate instructions or output schemas, while the phrase “ignore labels” is ambiguous enough to cause the model to discard genuine self-reports.",
+      "required_revision": "Place the timeline in an explicit data field or delimiters and state that embedded commands, JSON requests, label assertions, and formatting instructions have no authority and must not alter criteria or output.",
+      "severity": "medium"
+    }
+  ],
+  "strengths_to_preserve": [
+    "Clearly separates corpus-label prediction from clinical diagnosis and safety assessment.",
+    "Explicitly addresses speaker scope, negation, quotation, figurative content, and embedded instructions.",
+    "Uses user-level normalization and rejects raw totals, generic keywords, and absence alone as control evidence."
+  ],
+  "verdict": "revise"
+}

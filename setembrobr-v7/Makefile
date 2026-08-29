@@ -37,6 +37,17 @@ LABEL_COMPARISON = $(PYTHON) scripts/setembrobr_v7_label_comparison.py \
 	--config $(LABEL_COMPARISON_CONFIG) --baseline-output $(OUTPUT_DIR) \
 	--output-dir $(LABEL_COMPARISON_OUTPUT_DIR)
 
+GPT_OOF_CONFIG ?= gpt-experiments/config.json
+GPT_OOF_OUTPUT_DIR ?= .work/gpt-experiments
+GPT_OOF_ENV_FILE ?= ../.env
+GPT_OOF_FOLD ?=
+GPT_OOF_FOLD_ARG = $(if $(GPT_OOF_FOLD),--fold $(GPT_OOF_FOLD),)
+GPT_OOF = $(PYTHON) gpt-experiments/scripts/setembrobr_v7_gpt_oof.py \
+	--config $(GPT_OOF_CONFIG) --work-dir $(GPT_OOF_OUTPUT_DIR) --env-file $(GPT_OOF_ENV_FILE)
+GPT_VALIDATION_OUTPUT_DIR ?= .work/gpt-validation-fold3
+GPT_VALIDATION = $(PYTHON) gpt-experiments/scripts/setembrobr_v7_gpt_validation.py \
+	--config $(GPT_OOF_CONFIG) --work-dir $(GPT_VALIDATION_OUTPUT_DIR) --env-file $(GPT_OOF_ENV_FILE)
+
 .PHONY: help setup lint test validate seal pool-embeddings train-oof audit-oof lock-threshold \
 	fit-full score-test audit-test evaluate-test materialize-corpus audit-final run \
 	promote-reports fedora-sync fedora-setup fedora-run fedora-start fedora-status fedora-fetch
@@ -51,6 +62,10 @@ LABEL_COMPARISON = $(PYTHON) scripts/setembrobr_v7_label_comparison.py \
 	label-comparison-audit-test label-comparison-evaluate label-comparison-audit-final \
 	label-comparison-run promote-label-comparison-reports fedora-label-comparison-run \
 	fedora-label-comparison-fetch
+.PHONY: gpt-oof-setup gpt-oof-prepare gpt-oof-analyze gpt-oof-lock gpt-oof-smoke \
+	gpt-oof-submit gpt-oof-status gpt-oof-fetch gpt-oof-audit gpt-oof-evaluate
+.PHONY: gpt-validation-prepare gpt-validation-submit gpt-validation-status \
+	gpt-validation-fetch gpt-validation-audit gpt-validation-evaluate
 
 help:
 	@$(PYTHON) scripts/setembrobr_v7_qwen_logreg.py --help
@@ -58,17 +73,24 @@ help:
 setup:
 	$(PYTHON) -m pip install --requirement requirements.lock.txt
 
+gpt-oof-setup:
+	$(PYTHON) -m pip install --requirement gpt-experiments/requirements.lock.txt
+
 lint:
 	$(PYTHON) -m py_compile scripts/setembrobr_v7_qwen_logreg.py scripts/setembrobr_v7_ensemble.py \
 		scripts/setembrobr_v7_label_comparison.py scripts/promote_reports.py \
 		scripts/promote_ensemble_reports.py scripts/promote_label_comparison_reports.py \
+		gpt-experiments/scripts/setembrobr_v7_gpt_oof.py \
+		gpt-experiments/scripts/setembrobr_v7_gpt_validation.py \
 		tests/test_setembrobr_v7_qwen_logreg.py tests/test_setembrobr_v7_ensemble_contract.py \
-		tests/test_setembrobr_v7_label_comparison.py
+		tests/test_setembrobr_v7_label_comparison.py tests/test_setembrobr_v7_gpt_oof.py
 	$(PYTHON) -m ruff check scripts/setembrobr_v7_qwen_logreg.py scripts/setembrobr_v7_ensemble.py \
 		scripts/setembrobr_v7_label_comparison.py scripts/promote_reports.py \
 		scripts/promote_ensemble_reports.py scripts/promote_label_comparison_reports.py \
+		gpt-experiments/scripts/setembrobr_v7_gpt_oof.py \
+		gpt-experiments/scripts/setembrobr_v7_gpt_validation.py \
 		tests/test_setembrobr_v7_qwen_logreg.py tests/test_setembrobr_v7_ensemble_contract.py \
-		tests/test_setembrobr_v7_label_comparison.py
+		tests/test_setembrobr_v7_label_comparison.py tests/test_setembrobr_v7_gpt_oof.py
 
 test: lint
 	$(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v
@@ -245,3 +267,48 @@ fedora-label-comparison-fetch:
 	rsync -az $(FEDORA_HOST):$(FEDORA_LABEL_COMPARISON_OUTPUT_DIR)/locks/ $(LABEL_COMPARISON_OUTPUT_DIR)/locks/
 	$(PYTHON) scripts/promote_label_comparison_reports.py \
 		--output-dir $(LABEL_COMPARISON_OUTPUT_DIR) --artifacts-dir artifacts/label-comparison
+
+gpt-oof-prepare:
+	$(GPT_OOF) prepare --source-pkl $(SOURCE_PKL)
+
+gpt-oof-analyze: gpt-oof-prepare
+	$(GPT_OOF) analyze $(GPT_OOF_FOLD_ARG)
+
+gpt-oof-lock: gpt-oof-analyze
+	$(GPT_OOF) lock
+
+gpt-oof-smoke: gpt-oof-lock
+	$(GPT_OOF) smoke
+
+gpt-oof-submit: gpt-oof-smoke
+	$(GPT_OOF) submit
+
+gpt-oof-status:
+	$(GPT_OOF) status
+
+gpt-oof-fetch:
+	$(GPT_OOF) fetch
+
+gpt-oof-audit:
+	$(GPT_OOF) audit
+
+gpt-oof-evaluate: gpt-oof-audit
+	$(GPT_OOF) evaluate
+
+gpt-validation-prepare:
+	$(GPT_VALIDATION) prepare --source-pkl $(SOURCE_PKL)
+
+gpt-validation-submit: gpt-validation-prepare
+	$(GPT_VALIDATION) submit
+
+gpt-validation-status:
+	$(GPT_VALIDATION) status
+
+gpt-validation-fetch:
+	$(GPT_VALIDATION) fetch
+
+gpt-validation-audit:
+	$(GPT_VALIDATION) audit
+
+gpt-validation-evaluate: gpt-validation-audit
+	$(GPT_VALIDATION) evaluate

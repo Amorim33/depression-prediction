@@ -1,0 +1,51 @@
+{
+  "experimentId": "seed42_setembrobr_v7_gpt56_fold3_future_validation",
+  "hashChain": {
+    "configSha256": "44289c12b44eb3f7cbe605c94a891da4494096a24eb1c4dc888369c614112212",
+    "labelFreeAuditSha256": "cf9cab29ee09f4750d326f95e2bf3025e0d5e4e8bfba230bb4229347e082b896",
+    "labelFreeScoresSha256": "0b700cb3802f01c1403a90622691919e5ff2c973a0a8fd568c4491e91beedb1d",
+    "promptLockSha256": "625ba6c38cba6669e6a219db7f62340f555397c24963bd1ac2cd6608a53df779",
+    "sealedLabelsSha256": "a02ae1ee3a490414d094b753b1bf9fdc8d41f80bfb65b21744f69f4d4c74a572",
+    "sourceSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77"
+  },
+  "labelsJoinedOnlyAfterLabelFreeAudit": true,
+  "metrics": {
+    "accuracy": 0.7325,
+    "confusionMatrix": {
+      "labels": [
+        "control",
+        "diagnosed"
+      ],
+      "matrix": [
+        [
+          188,
+          12
+        ],
+        [
+          95,
+          105
+        ]
+      ]
+    },
+    "controlF1": 0.7784679089026915,
+    "diagnosedF1": 0.6624605678233438,
+    "diagnosedPrecision": 0.8974358974358975,
+    "diagnosedRecall": 0.525,
+    "fn": 95,
+    "fp": 12,
+    "macroF1": 0.7204642383630177,
+    "tn": 188,
+    "tp": 105
+  },
+  "model": "gpt-5.6-sol",
+  "predictionTarget": "Diagnosed_YN",
+  "predictionThreshold": 0.5,
+  "promptSha256": "94a2871ff61f98b8a3b9827b6de3c0f6cf4efcd461209a3e3412b12fe46567d9",
+  "reasoningEffort": "high",
+  "selectedOofFold": 3,
+  "selectionCaveat": "prompt selection used OOF fold performance; this is a one-shot post-selection validation estimate",
+  "selectionRule": "highest observed held-out-fold Macro F1 among the five locked OOF prompts",
+  "stage": "separately authorized future-validation evaluation",
+  "thresholdSelection": "unchanged 0.5 OOF lock; no validation tuning",
+  "users": 400
+}

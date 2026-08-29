@@ -1,0 +1,186 @@
+{
+  "allPromptsLockedBeforeInference": true,
+  "analysisModel": {
+    "model": "gpt-5.6-luna",
+    "reasoningEffort": "xhigh"
+  },
+  "classificationModel": {
+    "model": "gpt-5.6-sol",
+    "predictionThreshold": 0.5,
+    "reasoningEffort": "high"
+  },
+  "configSha256": "44289c12b44eb3f7cbe605c94a891da4494096a24eb1c4dc888369c614112212",
+  "experimentId": "seed42_setembrobr_v7_gpt56_prompt_oof",
+  "folds": [
+    {
+      "analysisProvenanceSha256": "2e0281ec8dbf4f1906cd4f303df9b1ccb1ae64eedc6ef5eb2d608ba36181a924",
+      "classifierPromptSha256": "e4a4b14388e59a7b2d76ea69270eb759f53265ac10125715adaa6144599704ca",
+      "developmentFolds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "developmentUsers": 6081,
+      "evidenceCodes": [
+        "X_EVENT_CONTEXT",
+        "D_SELF_AFFECT",
+        "D_RUMINATION",
+        "D_LOW_MOOD",
+        "D_ANXIETY",
+        "D_SELF_CRIT",
+        "D_LONELINESS",
+        "D_FUNCTION",
+        "D_CLINICAL",
+        "D_HARM",
+        "D_MULTI",
+        "D_PERSIST",
+        "D_SINGULAR_SELF",
+        "X_SOMATIC_SLEEP",
+        "X_DIAGNOSIS",
+        "X_ACTIVITY",
+        "X_PROXY",
+        "X_PUBLIC",
+        "X_REGISTER",
+        "X_GENERIC",
+        "X_AMBIG"
+      ],
+      "finalEvidenceSha256": "a3f406522307005ac4a4dd7e4527e1d20ad76104cf52c8ded5efc240f465b90b",
+      "heldoutFold": 0,
+      "heldoutUsers": 1521,
+      "outerManifestSha256": "7b87e914af0d26eb291705c3e75c713f182e218e50c6bfbce299f2417944fd5f"
+    },
+    {
+      "analysisProvenanceSha256": "b89c285d13cb0ee335cd6c69ff03d1532deed270c53cfc21953b0440d298403b",
+      "classifierPromptSha256": "3439e4d073202a5cc4eec5341a1940d9d0eb5214119fda0dc85a9c119bcfb316",
+      "developmentFolds": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "developmentUsers": 6081,
+      "evidenceCodes": [
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7",
+        "D8",
+        "D9",
+        "C1",
+        "C2",
+        "K1",
+        "K2",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "finalEvidenceSha256": "8b9d68bbb86efe2fa7ed883c625b8f1f5251b51a6dd60deb3fb1cd8ba8268c78",
+      "heldoutFold": 1,
+      "heldoutUsers": 1521,
+      "outerManifestSha256": "14265b8d0966959c182f19514ab2795256282bdf8034403bd1922b1c543edf50"
+    },
+    {
+      "analysisProvenanceSha256": "acd2c13b24eba37a3c466ed5b342d4890be3e38b2bdc2d60e8bcd95f0e013e3c",
+      "classifierPromptSha256": "5d4c4d2f3758cb26133f1ef9dc29cbff8d83c2c96bf59daecf69a139e4f67172",
+      "developmentFolds": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "developmentUsers": 6082,
+      "evidenceCodes": [
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D7",
+        "X1",
+        "X2",
+        "X3",
+        "X4",
+        "X5",
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "finalEvidenceSha256": "342a5a404dc0d84a211c86cee29e5d0058259aa55b720846dc039c808088468d",
+      "heldoutFold": 2,
+      "heldoutUsers": 1520,
+      "outerManifestSha256": "eb4dea7faebfde070465964e3bdddff8a6906439cdd6c59d697c758a74bd7e59"
+    },
+    {
+      "analysisProvenanceSha256": "6a611fafbe61637bd104fc8133359ba44ab03198b84618d257c6d96a52aa1828",
+      "classifierPromptSha256": "94a2871ff61f98b8a3b9827b6de3c0f6cf4efcd461209a3e3412b12fe46567d9",
+      "developmentFolds": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "developmentUsers": 6082,
+      "evidenceCodes": [
+        "D01_CARE_OR_DIAGNOSIS",
+        "D02_LINKED_PATTERN",
+        "D03_AFFECT_CRYING",
+        "D04_SELF_DEVALUATION",
+        "D05_FUNCTIONAL_VEGETATIVE",
+        "D06_SELF_HARM",
+        "D07_ANXIETY_PANIC",
+        "D08_WITHDRAWAL",
+        "S01_SELF_FOCUS_STYLE",
+        "C01_PLAYFUL_STYLE",
+        "X01_SOURCE_ATTRIBUTION",
+        "X02_SITUATIONAL_CONTEXT",
+        "X03_TOPIC_PROXY",
+        "X04_EXPOSURE",
+        "X05_NONEXCLUSION",
+        "X06_ABSENCE_NEUTRAL"
+      ],
+      "finalEvidenceSha256": "a684948ab82fc0c8247047c850e9146274d111ac09ebedba02b5a8326da0e3ea",
+      "heldoutFold": 3,
+      "heldoutUsers": 1520,
+      "outerManifestSha256": "0fe5420bf823b5f707e04e1fca47da5d5d5a372f19681807bdd57a2fe5443d8f"
+    },
+    {
+      "analysisProvenanceSha256": "700905e3b254fe04c649cad601e59c526bf0736d88301fe710f5394cd6197d0d",
+      "classifierPromptSha256": "4b27362921a2029c60bc00e55f5ebb7f16bcf5f20e4639ec4317e9f5682d6899",
+      "developmentFolds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "developmentUsers": 6082,
+      "evidenceCodes": [
+        "D00",
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "D07",
+        "X01",
+        "X02",
+        "X03",
+        "E01",
+        "E02",
+        "X04"
+      ],
+      "finalEvidenceSha256": "4f31e28b9c3257249f5c52ac03a8ef5f2b89c4c3c6204575c9baf003a5ce6932",
+      "heldoutFold": 4,
+      "heldoutUsers": 1520,
+      "outerManifestSha256": "0e5a535ce206ae5711dadf079c9693b704aadb21d3948994cd8863bc6a575839"
+    }
+  ],
+  "lockedAt": "2026-08-28T00:13:06.517831Z",
+  "sourceSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6"
+}

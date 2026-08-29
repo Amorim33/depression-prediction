@@ -1,0 +1,258 @@
+{
+  "confounds": [
+    "Activity differed by label: diagnosed users averaged about 630 posts versus 528 for control users, with medians of about 396 versus 335; diagnosed users also had more words per timeline.",
+    "The corpus is imbalanced: 618 diagnosed users versus 5,464 control users, so rare lexical categories have noisier estimates.",
+    "Pooled raw-post frequencies can be dominated by prolific users and sometimes obscure or reverse user-level effects.",
+    "Lexical matching was heuristic and not manually annotated for Portuguese negation scope, sarcasm, quotation, lyrics, news, advocacy, or third-person reference.",
+    "Source-order persistence is not equivalent to calendar persistence because timestamps and equal observation windows were unavailable.",
+    "Topic, fandom, identity, demographic, and collection-source differences may explain part of the observed divergence.",
+    "Treatment and diagnostic language may be label-proximal or reflect self-report, making it useful for prediction but inappropriate as evidence of causality or clinical diagnosis."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Pronoun and possessive matching is only a proxy for genuine self-reference and includes object, possessive, quoted, and conversational uses.",
+        "The diagnosed group was more active, so user-normalized rates are preferable to pooled post counts."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Singular self-reference was nearly universal but substantially more frequent per user among diagnosed users. The effect was stable across all four folds; plural self-reference did not show the same pattern.",
+      "id": "singular_self_reference",
+      "prompt_guidance": "Weight sustained first-person singular usage more than isolated pronouns, and combine it with affective or experiential language.",
+      "quantitative_support": [
+        {
+          "control": "99.7% had a marker; mean rate 31.2%",
+          "diagnosed": "100.0% had a singular-self marker; mean rate 40.2%",
+          "effect": "+0.3 percentage points in user prevalence; +9.0 percentage points in mean within-user post rate",
+          "measure": "User-level prevalence and mean proportion of posts containing singular first-person markers"
+        },
+        {
+          "control": "Lower in every development fold",
+          "diagnosed": "Higher in every development fold",
+          "effect": "Fold mean-rate gaps: +9.7, +8.0, +9.0, and +9.2 percentage points",
+          "measure": "Diagnosed minus control mean within-user post-rate gap by source fold 0–3"
+        }
+      ],
+      "signal": "Frequent first-person singular self-reference"
+    },
+    {
+      "caveats": [
+        "Loneliness markers include broad terms such as nobody or alone, which can refer to situations or other people.",
+        "These are observable linguistic associations, not evidence of clinical hopelessness or depression."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Conjunctions requiring first-person singular language plus negative affect and social-disconnection or hopelessness vocabulary separated users more clearly than isolated negative words.",
+      "id": "self_negative_social_disconnection",
+      "prompt_guidance": "Prefer repeated self-plus-state combinations over keyword counts; treat loneliness and hopelessness as stronger when they co-occur with explicit self-reference.",
+      "quantitative_support": [
+        {
+          "control": "61.5%",
+          "diagnosed": "78.6% had both self-negative language and a loneliness marker",
+          "effect": "+17.1 percentage points; fold gaps +20.9, +14.0, +15.9, +17.9 points",
+          "measure": "User-level prevalence of self-negative affect co-occurring with loneliness"
+        },
+        {
+          "control": "66.6%",
+          "diagnosed": "79.3% had both self-negative language and hopelessness markers",
+          "effect": "+12.7 percentage points; fold gaps +13.7, +10.6, +11.2, +15.4 points",
+          "measure": "User-level prevalence of self-negative affect co-occurring with hopelessness"
+        }
+      ],
+      "signal": "Self-anchored negative affect combined with loneliness or hopelessness"
+    },
+    {
+      "caveats": [
+        "Persistence uses source-order thirds, not verified calendar intervals.",
+        "Agency lexicons include ordinary plans, desires, and task-related statements."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users showed more inability/loss-of-control language and greater persistence, while also showing more positive-agency vocabulary. The corpus supports a polarized or more emotionally explicit agency profile rather than uniformly reduced agency.",
+      "id": "polarized_agency",
+      "prompt_guidance": "Use negative-agency persistence as a feature, but do not interpret agency-positive language as evidence against diagnosed labeling or assume passivity.",
+      "quantitative_support": [
+        {
+          "control": "79.0%; mean rate 0.79%",
+          "diagnosed": "88.8% had negative-agency markers; mean rate 1.06%",
+          "effect": "+9.8 percentage points in prevalence; +0.27 percentage points in mean post rate",
+          "measure": "User-level negative-agency language"
+        },
+        {
+          "control": "55.1% and 30.8%, respectively",
+          "diagnosed": "71.0% persisted across at least two source-order thirds; 44.7% across all three",
+          "effect": "+15.9 percentage points for persistence in at least two thirds; +13.9 points across all three thirds",
+          "measure": "Persistence by three equal source-order timeline thirds"
+        },
+        {
+          "control": "99.0%; mean rate 11.64%",
+          "diagnosed": "100.0% had positive-agency markers; mean rate 13.78%",
+          "effect": "+2.14 percentage points in mean post rate",
+          "measure": "Counterevidence: positive-agency language"
+        }
+      ],
+      "signal": "More negative agency, but not simple passivity"
+    },
+    {
+      "caveats": [
+        "Words such as why, think, and maybe are highly polysemous and can occur in ordinary conversation.",
+        "Persistence is based on retained source order and may reflect differing timeline coverage."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The strongest psycholinguistic combination was self-negative language with uncertainty and rumination. Both components were more persistent across the timeline among diagnosed users.",
+      "id": "rumination_uncertainty_cluster",
+      "prompt_guidance": "Look for repeated self-focused thinking, indecision, doubt, and mental preoccupation together rather than treating any single hedge or question as diagnostic.",
+      "quantitative_support": [
+        {
+          "control": "79.4%",
+          "diagnosed": "93.2% had self-negative language jointly with rumination and uncertainty markers",
+          "effect": "+13.8 percentage points; fold gaps +15.6, +10.2, +14.5, +15.0 points",
+          "measure": "User-level prevalence of the self-negative/rumination/uncertainty conjunction"
+        },
+        {
+          "control": "72.2%",
+          "diagnosed": "84.0% had uncertainty markers in all three source-order thirds",
+          "effect": "+11.8 points for all-three-thirds persistence",
+          "measure": "Persistence of uncertainty markers"
+        },
+        {
+          "control": "77.3%",
+          "diagnosed": "85.4% had rumination markers in all three thirds",
+          "effect": "+8.1 points for all-three-thirds persistence",
+          "measure": "Persistence of rumination markers"
+        }
+      ],
+      "signal": "Persistent self-referential rumination and uncertainty"
+    },
+    {
+      "caveats": [
+        "The affect lexicons contain broad and polysemous items such as pain, well, love, and good.",
+        "Positive affect may reflect humor, fandom, affiliation, or social interaction rather than mood."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users used more negative-affect language, but also more positive-affect language. The reliable distinction is greater affective expressiveness or topic engagement, not a one-sided negative-valence profile.",
+      "id": "broad_affective_expressiveness",
+      "prompt_guidance": "Combine affective polarity with self-reference, persistence, and context; do not use positive emotion as a simple control indicator.",
+      "quantitative_support": [
+        {
+          "control": "97.5%; mean rate 3.95%",
+          "diagnosed": "99.2% prevalence; mean rate 4.76%",
+          "effect": "+0.81 percentage points in mean post rate; token-normalized fold gaps +0.449, +0.673, +0.393, +0.750 per 1,000 words",
+          "measure": "Negative-affect vocabulary"
+        },
+        {
+          "control": "98.7%; mean rate 8.10%",
+          "diagnosed": "100.0% prevalence; mean rate 9.20%",
+          "effect": "+1.10 percentage points in mean post rate; token-normalized fold gaps +0.689, +0.743, +1.493, +0.526 per 1,000 words",
+          "measure": "Positive-affect vocabulary"
+        }
+      ],
+      "signal": "Broader affective expressiveness, not negativity alone"
+    },
+    {
+      "caveats": [
+        "This vocabulary may reflect treatment history, advocacy, news, quotations, or discussion of someone else.",
+        "It is especially unsuitable for causal or clinical interpretation because it may be close to the labeling process itself."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Treatment, diagnostic, and acute-risk terms were the strongest discovered lexical signals beyond the assigned hypotheses and were stable across folds.",
+      "id": "mental_health_care_vocabulary",
+      "prompt_guidance": "Treat this as a high-yield but label-proximal corpus feature; require self-reference and context before interpreting it as personal experience.",
+      "quantitative_support": [
+        {
+          "control": "48.8%; mean rate 0.25%",
+          "diagnosed": "72.3% mentioned mental-health-care or diagnostic vocabulary; mean rate 0.59%",
+          "effect": "+23.5 percentage points in prevalence; +0.34 percentage points in mean post rate; fold gaps +26.8, +25.0, +18.0, +24.5 points",
+          "measure": "User-level mental-health-care vocabulary"
+        },
+        {
+          "control": "38.5%; mean rate 0.15%",
+          "diagnosed": "50.8% used acute-risk vocabulary; mean rate 0.20%",
+          "effect": "+13.3 percentage points in prevalence; +0.05 percentage points in mean post rate; fold gaps +16.8, +10.1, +9.1, +13.4 points",
+          "measure": "User-level acute-risk vocabulary"
+        }
+      ],
+      "signal": "Mental-health-care and acute-risk vocabulary"
+    },
+    {
+      "caveats": [
+        "The patterns may encode age, gender, sexuality, online subculture, or collection-source differences.",
+        "Sensitive identity-related language should not be used as a clinical proxy."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "These topic clusters were consistently more prevalent among diagnosed users, but they look more like collection, demographic, or subculture strata than psychological signals.",
+      "id": "topic_and_demographic_strata",
+      "prompt_guidance": "Use only as possible sampling-stratum covariates; do not treat fandom or identity vocabulary as evidence of depression.",
+      "quantitative_support": [
+        {
+          "control": "84.8%; mean rate 1.66%",
+          "diagnosed": "91.9% used entertainment/fandom vocabulary; mean rate 2.37%",
+          "effect": "+7.1 percentage points in prevalence; +0.71 percentage points in mean post rate; fold gaps +9.1, +5.5, +7.7, +6.0 points",
+          "measure": "User-level topic/register vocabulary"
+        },
+        {
+          "control": "58.0%; mean rate 0.45%",
+          "diagnosed": "74.1% used identity-discussion vocabulary; mean rate 0.72%",
+          "effect": "+16.1 percentage points in prevalence; +0.27 percentage points in mean post rate; fold gaps +17.9, +16.3, +14.2, +16.0 points",
+          "measure": "User-level topic/register vocabulary"
+        }
+      ],
+      "signal": "Topic and register mixture involving fandom/media and identity discussion"
+    }
+  ],
+  "negative_results": [
+    "First-person plural was not discriminative: mean within-user post rate was 3.31% for diagnosed versus 3.45% for control.",
+    "Absolutist and negation markers were near-universal and weak; token-normalized fold effects changed sign, so they are not robust standalone signals.",
+    "Temporal orientation was unstable. For example, future markers were 2.14% versus 2.10% by user-mean rate, but pooled raw-post rates reversed to 1.90% versus 1.97%.",
+    "Certainty markers were weak and inconsistent relative to the more stable uncertainty/rumination cluster.",
+    "Conversational markers showed style differences overall—more questions but less laughter and exclamation among diagnosed users—yet are too collection- and activity-sensitive for standalone use.",
+    "Context contamination was substantial: negative-affect terms co-occurred with third-person/no-self proxies for 55.5% of diagnosed versus 47.4% of control users, and also appeared in jokes, quotations, lyrics, and news."
+  ],
+  "role": "psycholinguistics",
+  "source_folds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "users_analyzed": 6082
+}

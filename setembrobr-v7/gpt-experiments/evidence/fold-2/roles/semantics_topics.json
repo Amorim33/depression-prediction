@@ -1,0 +1,288 @@
+{
+  "confounds": [
+    "Diagnosed users had somewhat longer retained timelines on average than controls: approximately 649 versus 530 posts per user, with medians around 408 versus 338; user-level prevalence and raw post shares were therefore both reported.",
+    "The dataset is label-imbalanced, with 619 diagnosed and 5,463 control users, and may contain community-specific sampling.",
+    "Fandom and identity-related language may proxy age, gender, sexuality, platform subculture, or source selection rather than depression.",
+    "Explicit mental-health self-disclosure may be close to the annotation target, so it should not be interpreted as an independent causal or clinical marker.",
+    "Rule-based semantic filtering cannot perfectly identify quotation, lyrics, jokes, advocacy, news, or discussion of another person.",
+    "Source-order timelines lack reliable timestamps, limiting conclusions about duration, onset, or temporal persistence.",
+    "Portuguese social-media spelling, repetition, reply conventions, and topic-specific slang introduce measurement noise."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Heuristic first-person markers are imperfect and can retain figurative or humorous uses.",
+        "Source order lacks timestamps, so persistence is not equivalent to clinical duration."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The strongest semantic pattern was self-referential and persistent mental-health discussion rather than raw keyword presence. The user-level gap was larger than the raw post-frequency gap, reducing prolific-user distortion.",
+      "id": "self_experienced_persistent_mental_health",
+      "prompt_guidance": "Prioritize user-level prevalence and repeated distinct posts; detect first-person experience and exclude lyrics, jokes, news, advocacy, and discussion of others.",
+      "quantitative_support": [
+        {
+          "control": "69.0% any mental-health terms; 47.1% first-person clean context",
+          "diagnosed": "88.0% any mental-health terms; 74.0% first-person clean context",
+          "effect": "+19.1 percentage points user prevalence; +26.9 points after first-person/non-quoted filtering",
+          "measure": "Users with at least one matching post"
+        },
+        {
+          "control": "25.2%",
+          "diagnosed": "54.4%",
+          "effect": "+29.2 percentage points",
+          "measure": "Users with at least two first-person clean mental-health posts"
+        },
+        {
+          "control": "0.209%",
+          "diagnosed": "0.439%",
+          "effect": "2.1x raw post share",
+          "measure": "All posts matching first-person clean mental-health context"
+        }
+      ],
+      "signal": "Repeated first-person mental-health narratives, excluding obvious quotation and third-person markers."
+    },
+    {
+      "caveats": [
+        "Professional-care terms can refer to someone else or to general commentary.",
+        "Treatment access and willingness to disclose may reflect demographic or collection differences."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Treatment and medication references were consistently more prevalent among diagnosed users at the user level. The self-use contrast was clearer than raw post counts, indicating that context and user aggregation matter.",
+      "id": "treatment_and_medication",
+      "prompt_guidance": "Use self-referential treatment and medication patterns as supporting evidence; distinguish personal use from advice, news, or discussion of another person.",
+      "quantitative_support": [
+        {
+          "control": "34.9%; 0.160% of posts",
+          "diagnosed": "61.1%; 0.313% of posts",
+          "effect": "+26.2 percentage points; raw post share about 2.0x",
+          "measure": "At least one therapy, psychologist, psychiatrist, consultation, or treatment reference"
+        },
+        {
+          "control": "24.5%; 0.086% of posts",
+          "diagnosed": "42.5%; 0.138% of posts",
+          "effect": "+18.0 percentage points; raw post share about 1.6x",
+          "measure": "At least one medication or antidepressant reference"
+        },
+        {
+          "control": "40.0%",
+          "diagnosed": "51.2%",
+          "effect": "+11.2 percentage points",
+          "measure": "At least one self-referential medication-use pattern"
+        }
+      ],
+      "signal": "Greater discussion of professional care and medication, with a smaller but still positive self-use component."
+    },
+    {
+      "caveats": [
+        "Some mentions are tests, memes, exaggeration, or references to treatment of others.",
+        "The label may itself be correlated with mental-health self-disclosure, creating annotation circularity."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Depression and anxiety terms separated users consistently, but the raw post-rate gaps were small relative to user-level gaps. Narrow self-referential phrasing was rarer but more interpretable.",
+      "id": "depression_anxiety_and_diagnosis_language",
+      "prompt_guidance": "Treat explicit diagnosis or symptom self-statements as supporting evidence, not as independent clinical validation; require first-person and non-figurative context where possible.",
+      "quantitative_support": [
+        {
+          "control": "10.6%",
+          "diagnosed": "25.2%",
+          "effect": "+14.6 percentage points",
+          "measure": "Users mentioning depression or depressive states"
+        },
+        {
+          "control": "48.6%",
+          "diagnosed": "66.2%",
+          "effect": "+17.6 percentage points",
+          "measure": "Users mentioning anxiety, panic, or crises"
+        },
+        {
+          "control": "1.3%",
+          "diagnosed": "2.9%",
+          "effect": "About 2.2x",
+          "measure": "Narrow self-depression phrasing"
+        },
+        {
+          "control": "5.4%",
+          "diagnosed": "10.2%",
+          "effect": "About 1.9x",
+          "measure": "Narrow self-anxiety phrasing"
+        }
+      ],
+      "signal": "Explicit depression/anxiety language and diagnosis-related vocabulary are label-proximal semantic cues."
+    },
+    {
+      "caveats": [
+        "Generic isolation words can be rhetorical; work and study vocabulary is nearly ubiquitous.",
+        "Observed differences may partly reflect activity, age, employment, or student-status composition."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Broad isolation and impairment terms were more prevalent among diagnosed users, but narrow first-person formulations produced a clearer contrast than generic terms such as nobody, work, or study.",
+      "id": "self_reported_isolation_and_impairment",
+      "prompt_guidance": "Require self-reference and preferably repetition; combine isolation or impairment with treatment, anxiety, depression, or sleep signals rather than using generic social vocabulary.",
+      "quantitative_support": [
+        {
+          "control": "84.0% broad; 3.6% narrow self-isolation",
+          "diagnosed": "91.3% broad; 11.5% narrow self-isolation",
+          "effect": "+7.3 percentage points broad; +7.9 points for narrow self-report",
+          "measure": "Users with isolation/loneliness terms"
+        },
+        {
+          "control": "68.1% broad; 29.8% narrow self-impairment",
+          "diagnosed": "78.7% broad; 40.5% narrow self-impairment",
+          "effect": "+10.6 percentage points broad; +10.8 points for narrow self-report",
+          "measure": "Users with inability, concentration, or work/study-impairment patterns"
+        }
+      ],
+      "signal": "Self-reported isolation and inability/impairment patterns, especially when combined with mental-health or treatment language."
+    },
+    {
+      "caveats": [
+        "The broad lexicon includes discussion of public events, other people, and dark humor.",
+        "This is not a clinical-risk estimate and should not be interpreted as one."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The signal is consistent at user level but remains semantically heterogeneous. First-person intent or self-harm formulations are much rarer and more informative than general mentions.",
+      "id": "suicidality_self_harm_context",
+      "prompt_guidance": "Use only as contextual semantic evidence; exclude news, advocacy, fictional, lyrical, quoted, and joking uses, and do not equate presence with current clinical risk.",
+      "quantitative_support": [
+        {
+          "control": "39.3%; 0.149% of posts",
+          "diagnosed": "51.4%; 0.200% of posts",
+          "effect": "+12.0 percentage points; about 1.3x raw post share",
+          "measure": "Users with suicide/self-harm-related terms"
+        },
+        {
+          "control": "0.93%",
+          "diagnosed": "2.75%",
+          "effect": "About 2.9x",
+          "measure": "Narrow first-person self-harm or suicidal-intent phrasing"
+        }
+      ],
+      "signal": "Suicide/self-harm vocabulary is elevated, with a stronger contrast for narrow first-person formulations."
+    },
+    {
+      "caveats": [
+        "Fandom concentration may proxy age, gender, sexuality, platform subculture, or account source.",
+        "Topic presence alone does not establish impairment or depression."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This was a strong non-clinical topical separator and was stable across folds. It likely reflects community composition or demographic structure rather than a causal mental-health mechanism.",
+      "id": "fandom_online_community_topics",
+      "prompt_guidance": "Use fandom as a collection/community covariate or interaction feature, not as a diagnostic cue; test robustness after topic and demographic adjustment.",
+      "quantitative_support": [
+        {
+          "control": "26.4%; 0.614% of posts",
+          "diagnosed": "44.4%; 1.555% of posts",
+          "effect": "+18.0 percentage points user prevalence; about 2.5x raw post share",
+          "measure": "Users/posts containing K-pop, fan-culture, fan-art, shipping, or related fandom terms"
+        }
+      ],
+      "signal": "Fandom and online fan-culture topics, especially K-pop-related activity, are substantially more common."
+    },
+    {
+      "caveats": [
+        "The corpus contains highly political control timelines and prolific reply activity.",
+        "Political interest may be confounded with source communities and annotation procedures."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Politics and news are not a stable diagnosed-user signal. The raw-frequency contrast suggests a control-community or activity composition effect rather than a semantic depression marker.",
+      "id": "politics_news_activity",
+      "prompt_guidance": "Downweight political/news volume and include topic, community, and activity controls; prefer user-level features over raw counts.",
+      "quantitative_support": [
+        {
+          "control": "73.5% users; 1.753% of posts",
+          "diagnosed": "75.1% users; 0.842% of posts",
+          "effect": "Mixed user-level direction; raw post share about 2.1x in controls",
+          "measure": "Political/news vocabulary"
+        },
+        {
+          "control": "Fold direction varied",
+          "diagnosed": "Fold direction varied",
+          "effect": "User-level prevalence differences by fold: +5.2, +4.6, -2.9, and -0.4 percentage points",
+          "measure": "Diagnosed minus control user prevalence across folds 0, 1, 3, and 4"
+        }
+      ],
+      "signal": "Political/news engagement is common in both labels, while controls generate more such posts per user on average."
+    },
+    {
+      "caveats": [
+        "Broad terms are frequent and semantically ambiguous.",
+        "No timestamps or offline participation measures are available."
+      ],
+      "development_fold_support": [],
+      "direction": "none",
+      "evidence_summary": "Both labels contain extensive humor and social-activity language. These domains are saturated by broad lexicons and do not support a simple withdrawal-or-no-humor interpretation.",
+      "id": "humor_and_social_participation",
+      "prompt_guidance": "Do not treat jokes, fandom, outings, or social references as evidence against diagnosis; seek self-reported impairment and longitudinal context.",
+      "quantitative_support": [
+        {
+          "control": "97.1% users; 12.00% of posts",
+          "diagnosed": "98.9% users; 10.06% of posts",
+          "effect": "No useful stable separation; raw post share lower for diagnosed users",
+          "measure": "Humor/laughter vocabulary"
+        },
+        {
+          "control": "96.9% users; 4.24% of posts",
+          "diagnosed": "98.2% users; 3.33% of posts",
+          "effect": "No useful stable separation; raw post share lower for diagnosed users",
+          "measure": "Social-participation vocabulary"
+        }
+      ],
+      "signal": "No robust evidence that diagnosed users uniformly lack humor or social participation."
+    }
+  ],
+  "negative_results": [
+    "Broad relationship, work/study, physical-symptom, and future-orientation vocabulary was common in both labels and was not specific enough alone.",
+    "Humor and social-participation terms did not provide a useful stable separator; diagnosed users still showed substantial joking, fandom, and participation language.",
+    "Political/news vocabulary had nearly equal user prevalence but higher raw post frequency among controls, with fold-level direction crossing zero.",
+    "Isolated depression, suicide, medication, or isolation keywords often occurred in figurative, quoted, lyrical, news, advocacy, or third-person contexts; contextualized repetition was more informative."
+  ],
+  "role": "semantics_topics",
+  "source_folds": [
+    0,
+    1,
+    3,
+    4
+  ],
+  "users_analyzed": 6082
+}

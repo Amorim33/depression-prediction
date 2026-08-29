@@ -1,0 +1,40 @@
+{
+  "configSha256": "44289c12b44eb3f7cbe605c94a891da4494096a24eb1c4dc888369c614112212",
+  "experimentId": "seed42_setembrobr_v7_gpt56_prompt_oof",
+  "foldCounts": {
+    "0": 1521,
+    "1": 1521,
+    "2": 1520,
+    "3": 1520,
+    "4": 1520
+  },
+  "futureValidationRowsMaterialized": false,
+  "mappingSha256": "5c7cb3c55a8ef5ecbb5053671e82e36841ed3a356118aa18b6f9ccc4a87b45ec",
+  "ok": true,
+  "outerManifests": [
+    {
+      "fold": 0,
+      "sha256": "7b87e914af0d26eb291705c3e75c713f182e218e50c6bfbce299f2417944fd5f"
+    },
+    {
+      "fold": 1,
+      "sha256": "14265b8d0966959c182f19514ab2795256282bdf8034403bd1922b1c543edf50"
+    },
+    {
+      "fold": 2,
+      "sha256": "eb4dea7faebfde070465964e3bdddff8a6906439cdd6c59d697c758a74bd7e59"
+    },
+    {
+      "fold": 3,
+      "sha256": "0fe5420bf823b5f707e04e1fca47da5d5d5a372f19681807bdd57a2fe5443d8f"
+    },
+    {
+      "fold": 4,
+      "sha256": "0e5a535ce206ae5711dadf079c9693b704aadb21d3948994cd8863bc6a575839"
+    }
+  ],
+  "sourceSha256": "3cde615183d38eaac6788857bc55f14c9b78fa4ad90e2a9007feb51e0e69dc77",
+  "trainManifestSha256": "c0af134ff4c351ce836b6f6d456122946a74a7f453dcaea8619f1576eaf188d6",
+  "trainPosts": 4098614,
+  "trainUsers": 7602
+}

@@ -1,0 +1,276 @@
+{
+  "confounds": [
+    "The development corpus has a fixed label composition of 618 diagnosed and 5464 control users, approximately 10.2% diagnosed; classifier thresholds and positive predictive value depend on the unseen deployment prior.",
+    "All users have at least 50 retained posts, so the corpus is conditioned on activity and cannot support absence-of-posts interpretations.",
+    "Diagnosed users are more prolific, and raw post counts can be dominated by a few high-volume users.",
+    "Source order is available but timestamps are not; duration, onset, and true temporal persistence cannot be established.",
+    "Mental-health vocabulary is heavily confounded by replies, reposts, quotation, third-person talk, music/film/news, advocacy, jokes, bereavement, physical illness, and temporary situational distress.",
+    "Stable sexuality, school-age, fandom, and online-discourse differences indicate demographic or collection artifacts that can masquerade as clinical signal.",
+    "Hashtags are absent and several punctuation/style features are nearly universal, suggesting preprocessing or platform-specific collection artifacts."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Activity may reflect platform engagement, age, recruitment, or selection rather than symptoms.",
+        "No held-out-fold prior or collection mechanism may be inferred."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users have longer retained timelines, so pooled post counts can overstate lexical differences. All users have at least 50 retained posts, indicating collection conditioning.",
+      "id": "activity_volume_confound",
+      "prompt_guidance": "Normalize by user and include log timeline size; prefer user prevalence and per-user rates over pooled post totals.",
+      "quantitative_support": [
+        {
+          "control": "527.87",
+          "diagnosed": "629.95",
+          "effect": "+19.3% overall; diagnosed users were more active in all four folds, with a +5% to +28% range",
+          "measure": "mean retained posts per user"
+        }
+      ],
+      "signal": "Timeline activity volume"
+    },
+    {
+      "caveats": [
+        "May encode help-seeking access, demographic composition, or annotation leakage rather than depression.",
+        "Care language is not itself evidence of a depressive disorder."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This is one of the most stable divergences, but it includes treatment for others, professional or educational discussion, advocacy, jokes, and general self-care.",
+      "id": "clinical_care_language",
+      "prompt_guidance": "Require first-person alignment, mental-health context, and repetition; downweight isolated provider, advocacy, or humorous uses.",
+      "quantitative_support": [
+        {
+          "control": "34.0% users; 0.79 posts/user; 0.14% post rate",
+          "diagnosed": "61.7% users; 2.05 posts/user; 0.40% post rate",
+          "effect": "+27.7 percentage points; 2.61x more matching posts per user and about 2.9x the mean per-user post rate",
+          "measure": "therapy/psychological-care vocabulary: user prevalence, raw count, and per-user post rate"
+        }
+      ],
+      "signal": "Therapy, psychology, psychiatry, and mental-health-care language"
+    },
+    {
+      "caveats": [
+        "A single clinical word has low specificity in this social-media style.",
+        "Fold 0 demonstrates that prolific controls can dominate raw term counts."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "User-level presence is consistently higher for diagnosed users, but inspection shows frequent non-self, idiomatic, entertainment, reply, and situational uses in both labels.",
+      "id": "clinical_terms_context_fragility",
+      "prompt_guidance": "Treat lexical hits as candidates only. Check negation, first-person verb-pronoun alignment, quotation/reply structure, media references, and persistence.",
+      "quantitative_support": [
+        {
+          "control": "11.8%",
+          "diagnosed": "27.5%",
+          "effect": "+15.7 percentage points; direction stable in every fold",
+          "measure": "user prevalence of depression/depressed terminology"
+        },
+        {
+          "control": "41.3% users; 0.21% mean per-user post rate",
+          "diagnosed": "53.6% users; 0.27% mean per-user post rate",
+          "effect": "+12.2 percentage points; direction stable in every fold, but small per-post-rate gap",
+          "measure": "user prevalence and mean per-user post rate of anxiety terminology"
+        }
+      ],
+      "signal": "Depression and anxiety terms"
+    },
+    {
+      "caveats": [
+        "Rare events make estimates sensitive to a few users.",
+        "The signal may reflect annotation or self-disclosure leakage and has safety implications distinct from diagnosis."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This is a stronger divergence than generic sadness, but it still appears in quotations, lyrics, advocacy, jokes, discussion of someone else, and temporary crises.",
+      "id": "self_harm_strong_but_non_specific",
+      "prompt_guidance": "Use only as a high-sensitivity contextual feature; distinguish self-reference from media, third-person, and rhetorical use. Do not treat it as a depression diagnosis.",
+      "quantitative_support": [
+        {
+          "control": "9.8% users; 0.120 posts/user; 0.02% mean per-user post rate",
+          "diagnosed": "21.2% users; 0.345 posts/user; 0.06% mean per-user post rate",
+          "effect": "+11.5 percentage points; 1.77x user prevalence and 2.87x mean matching posts per user",
+          "measure": "suicide/self-harm vocabulary"
+        }
+      ],
+      "signal": "Suicide and self-harm language"
+    },
+    {
+      "caveats": [
+        "Literal hunger, fear, love, grief, physical illness, exams, work stress, and media reactions generate many false positives.",
+        "Absence of these terms is not reliable evidence for control."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "These families are directionally higher at user level, but they are common, often idiomatic or entertainment-related, and partly explained by longer timelines. Crying and sleep indicators nearly saturate in prolific users.",
+      "id": "generic_symptoms_volume_sensitive",
+      "prompt_guidance": "Use as weak supporting evidence only; require self-directed meaning, impairment or persistence, and convergence with clinical-care or self-harm context.",
+      "quantitative_support": [
+        {
+          "control": "70.3% users; 2.64 posts/user; 0.51% mean per-user post rate",
+          "diagnosed": "80.3% users; 3.79 posts/user; 0.66% mean per-user post rate",
+          "effect": "+10.0 percentage points, but high baseline and shrinking separation among high-volume users",
+          "measure": "sadness vocabulary"
+        },
+        {
+          "control": "83.5% users; 6.64 posts/user; 1.42% mean per-user post rate",
+          "diagnosed": "90.9% users; 8.85 posts/user; 1.54% mean per-user post rate",
+          "effect": "+7.5 percentage points in user prevalence, but only about +0.12 percentage points in per-post rate",
+          "measure": "fatigue/sleep vocabulary"
+        }
+      ],
+      "signal": "Sadness, crying, fatigue, sleep, appetite, and emptiness terms"
+    },
+    {
+      "caveats": [
+        "This may directly leak the annotation or recruitment process rather than reflect latent depression.",
+        "Do not hard-code a label from explicit diagnosis language alone."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Broad terminology is stable across folds, but many instances concern physical diagnoses, personality labels, someone else, advocacy, or diagnostic jokes. Direct self-diagnosis-shaped language is rare.",
+      "id": "explicit_diagnosis_leakage",
+      "prompt_guidance": "Keep this as a low-weight, context-gated feature. Require professional or first-person mental-health interpretation and penalize humor, quotation, third-person, and non-mental diagnoses.",
+      "quantitative_support": [
+        {
+          "control": "15.2% broad-term users; approximately 0.6% strict-pattern users",
+          "diagnosed": "25.7% broad-term users; approximately 0.8% strict-pattern users",
+          "effect": "+10.6 percentage points for broad clinical/mental-health wording, but a strict first-person diagnosis-shaped pattern was rare and nearly non-separating",
+          "measure": "explicit diagnosis/mental-health vocabulary"
+        }
+      ],
+      "signal": "Diagnosis, mental-health, laudo, and CID-style wording"
+    },
+    {
+      "caveats": [
+        "An at-sign or repost-like marker is only a proxy and is not sufficient to identify quotation.",
+        "No timestamps are available, so persistence cannot be verified across real time."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Programmatic inspection of symptom-bearing posts found these non-self mechanisms in both labels. Diagnosed users also have more reply/repost and emoji style markers, creating a collection/style confound.",
+      "id": "quoted_third_person_media_false_positives",
+      "prompt_guidance": "Model event ownership: who feels or does what. Detect quotation, third-person subjects, media/news cues, advocacy, joke markers, and idiomatic constructions before counting symptoms.",
+      "quantitative_support": [
+        {
+          "control": "30.9% and 15.7%, respectively",
+          "diagnosed": "39.6% users with an RT-like post; 22.6% with an emoji post",
+          "effect": "RT-like structure: +8.7 percentage points; emoji presence: +6.9 percentage points",
+          "measure": "user-level structural/style proxies"
+        }
+      ],
+      "signal": "Replies, repost-like structure, quotations, third-person discussion, lyrics, news, advocacy, jokes, and literal idioms"
+    },
+    {
+      "caveats": [
+        "These proxies may encode protected or sensitive attributes.",
+        "Cross-fold stability does not establish clinical validity; it can instead indicate stable sampling bias."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Large, fold-stable topic shifts suggest that diagnosed and control users occupy different demographic or online subcultures. These features can predict labels without being depression-related.",
+      "id": "demographic_topic_sampling_confound",
+      "prompt_guidance": "Do not use identity, age, fandom, or platform-culture vocabulary as clinical evidence. Validate symptom signals within matched topical and demographic strata when possible.",
+      "quantitative_support": [
+        {
+          "control": "about 21.6%",
+          "diagnosed": "about 40.0%",
+          "effect": "+18.4 percentage points; stable across all folds",
+          "measure": "user prevalence of a common sexual-orientation term"
+        },
+        {
+          "control": "31.1%",
+          "diagnosed": "46.3%",
+          "effect": "+15.2 percentage points; stable across all folds",
+          "measure": "user prevalence of meme/online-discourse vocabulary"
+        },
+        {
+          "control": "34.3%",
+          "diagnosed": "47.8%",
+          "effect": "+13.4 percentage points; stable across all folds",
+          "measure": "user prevalence of school/youth vocabulary"
+        }
+      ],
+      "signal": "Sexuality/identity, fandom, online-discourse, and school-age topic vocabulary"
+    },
+    {
+      "caveats": [
+        "The 7-family union is broad and may still miss indirect symptom language.",
+        "Labels are outcomes to explain, not proof that every lexicon-silent user has depression."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "A lexicon-only detector would miss a nontrivial minority of labeled diagnosed users, including users whose retained timelines may be ordinary, positive, topical, or non-disclosing.",
+      "id": "false_negative_lexicon_silence",
+      "prompt_guidance": "Never use clinical-vocabulary absence as evidence for control. Add profile-specific baselines, self-directed behavioral patterns, and cross-signal persistence; use count/spread rather than timestamps.",
+      "quantitative_support": [
+        {
+          "control": "Not applicable; this is a missed-diagnosed-user screen",
+          "diagnosed": "6.0% lexicon-silent diagnosed users",
+          "effect": "37 of 618 diagnosed users, 6.0%, had none of seven broad clinical/mental-health families; fold counts were 7, 12, 10, and 8",
+          "measure": "absence of depression, anxiety, care, medication, explicit mental-health, self-harm, and emptiness/loneliness families"
+        }
+      ],
+      "signal": "Diagnosed timelines without broad clinical vocabulary"
+    }
+  ],
+  "negative_results": [
+    "Generic hopelessness/frustration vocabulary is near-saturated and unstable: 92.9% diagnosed versus 90.3% control users overall, with the direction reversing in fold 2.",
+    "Raw depression-term frequency is collection-sensitive: control users averaged 1.24 matching posts in fold 0 versus 0.72 for diagnosed users, while folds 1–3 reversed this pattern.",
+    "Positive-affect and social-support language are not absent from diagnosed timelines: prevalence is 99.8% versus 97.5% and 100.0% versus 98.4%, respectively.",
+    "Hashtags were absent, while question marks, short posts, long posts, and capitalization were nearly ubiquitous; these are uninformative features."
+  ],
+  "role": "adversarial_confounds",
+  "source_folds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "users_analyzed": 6082
+}

@@ -1,0 +1,386 @@
+{
+  "confounds": [
+    "Diagnosed users were more active: approximately 649 versus 530 retained posts per user, with the diagnosed group higher in every fold. Raw post counts and full-timeline prevalence are therefore exposure-sensitive.",
+    "The corpus may encode self-disclosure or annotation practices around mental-health language; explicit treatment and diagnosis vocabulary should not be treated as causal or clinically diagnostic.",
+    "Portuguese orthography, slang, reflexive pronouns, possessives, and ambiguous negation create lexicon errors; quotation, lyrics, advocacy, news, and third-person heuristics are incomplete.",
+    "Unknown demographic, age, gender, fandom, and platform-style differences may drive pronoun use, laughter, punctuation, social vocabulary, and emotional expressivity.",
+    "No timestamps were available for temporal analysis, so past/future markers reflect language rather than longitudinal orientation.",
+    "Class imbalance remains substantial: 619 diagnosed and 5463 control users, despite similar label composition across development folds."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Pronouns and possessives are ambiguous in informal Portuguese.",
+        "All users had at least 50 retained posts; first-50 estimates reduce prolific-user bias but do not remove selection effects."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The singular gap was positive in every fold (+7.6 to +10.3 pp); the plural difference favored controls in every fold.",
+      "id": "singular_vs_collective_self_reference",
+      "prompt_guidance": "Use self-focus as a contextual feature and prefer per-user rates; combine it with affect or modality rather than treating pronouns as diagnostic.",
+      "quantitative_support": [
+        {
+          "control": "31.2%",
+          "diagnosed": "40.6%",
+          "effect": "+9.4 percentage points",
+          "measure": "Mean share of each user's first 50 posts containing explicit first-person singular markers"
+        },
+        {
+          "control": "2.6%",
+          "diagnosed": "2.3%",
+          "effect": "-0.3 percentage points",
+          "measure": "Mean share containing first-person plural/collective markers"
+        }
+      ],
+      "signal": "Higher singular self-focus with slightly less collective self-reference"
+    },
+    {
+      "caveats": [
+        "The affect lexicon includes positive as well as negative states.",
+        "Simple context heuristics cannot remove all advocacy, quotation, or discussion of others.",
+        "Explicit mental-health wording may reflect annotation or collection processes rather than latent depression."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Self-plus-affect and self-plus-mental-state effects were positive in all folds; the filtered self-plus-mental-state rate differed by +0.73 to +0.87 pp.",
+      "id": "self_marked_affect_and_mental_state",
+      "prompt_guidance": "Prioritize repeated first-person affective or mental-state expression, with quotation and third-person checks.",
+      "quantitative_support": [
+        {
+          "control": "6.5%",
+          "diagnosed": "9.3%",
+          "effect": "+2.8 percentage points",
+          "measure": "First-50 post share containing a singular self-marker plus an affect marker"
+        },
+        {
+          "control": "0.77%",
+          "diagnosed": "1.55%",
+          "effect": "+0.78 percentage points",
+          "measure": "All-post share containing self-marking plus mental/affective-state vocabulary after simple quote, lyric, and joke filtering"
+        },
+        {
+          "control": "78.7%",
+          "diagnosed": "95.0%",
+          "effect": "+16.3 percentage points",
+          "measure": "Users with at least one self-marked mental/affective-state post, unfiltered"
+        }
+      ],
+      "signal": "More first-person, non-obviously quoted affect and mental-state expression"
+    },
+    {
+      "caveats": [
+        "Informal slang, sarcasm, lyrics, and expressive fandom language can trigger affect lexicons.",
+        "The negative-versus-positive balance was small and not fully fold-stable."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both positive and negative affect rates were higher for diagnosed users in all four folds; the total emotional-expression gap was more consistent than negative-valence imbalance.",
+      "id": "emotional_vocabulary_volume_and_valence",
+      "prompt_guidance": "Model emotional expressivity and valence separately; do not equate any negative word with depression-related evidence.",
+      "quantitative_support": [
+        {
+          "control": "16.3%",
+          "diagnosed": "18.3%",
+          "effect": "+2.0 percentage points",
+          "measure": "Combined positive- plus negative-affect share in first 50 posts"
+        },
+        {
+          "control": "4.7%",
+          "diagnosed": "5.6%",
+          "effect": "+0.9 percentage points",
+          "measure": "Negative-affect share in first 50 posts"
+        },
+        {
+          "control": "11.6%",
+          "diagnosed": "12.7%",
+          "effect": "+1.1 percentage points",
+          "measure": "Positive-affect share in first 50 posts"
+        }
+      ],
+      "signal": "Higher emotional vocabulary volume, but not a purely negative-valence signature"
+    },
+    {
+      "caveats": [
+        "Refusal, inability, and lack can describe ordinary logistics, relationships, or third parties.",
+        "User-level prevalence is based on any occurrence and remains exposure-sensitive."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Generic negation was modestly higher in every fold; representative constraint constructions showed larger, consistently positive user-prevalence gaps.",
+      "id": "negation_and_constraint_modality",
+      "prompt_guidance": "Use combinations of first-person reference, negation, and constrained agency; do not interpret any single negated phrase as hopelessness.",
+      "quantitative_support": [
+        {
+          "control": "20.9%",
+          "diagnosed": "22.7%",
+          "effect": "+1.7 percentage points",
+          "measure": "Negation share in first 50 posts"
+        },
+        {
+          "control": "48.6%",
+          "diagnosed": "63.7%",
+          "effect": "+15.0 percentage points",
+          "measure": "Users with at least one inability/constraint construction"
+        },
+        {
+          "control": "41.9%",
+          "diagnosed": "57.4%",
+          "effect": "+15.4 percentage points",
+          "measure": "Users with at least one refusal or blocked-intention construction"
+        },
+        {
+          "control": "58.1%",
+          "diagnosed": "73.5%",
+          "effect": "+15.4 percentage points",
+          "measure": "Users with at least one lack/absence construction"
+        }
+      ],
+      "signal": "More negation and constraint-oriented modality"
+    },
+    {
+      "caveats": [
+        "Wanting, needing, trying, or planning does not establish actual control.",
+        "Higher self-reference and activity can mechanically increase action-language rates."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Agency-marker rates were higher in all folds, so a simple reduced-agency interpretation is contradicted; constraint and agency cues can co-occur.",
+      "id": "agency_action_language_counterevidence",
+      "prompt_guidance": "Treat agency as mixed and contextual. Do not infer helplessness from the diagnosed label or from desire/effort verbs alone.",
+      "quantitative_support": [
+        {
+          "control": "12.4%",
+          "diagnosed": "15.4%",
+          "effect": "+3.1 percentage points",
+          "measure": "Agency/action-marker share in first 50 posts"
+        },
+        {
+          "control": "10.4%",
+          "diagnosed": "11.0%",
+          "effect": "+0.6 percentage points",
+          "measure": "Future-oriented marker share in first 50 posts"
+        }
+      ],
+      "signal": "More action and volition vocabulary, not less agency vocabulary"
+    },
+    {
+      "caveats": [
+        "Lexical tense and temporal adverbs are not actual timestamps.",
+        "Memory, nostalgia, entertainment, and ordinary planning can produce the same markers."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Rumination, past, and future markers were all slightly higher in every fold; the pattern is broader temporal self-narration rather than exclusive past focus.",
+      "id": "temporal_orientation_and_rumination",
+      "prompt_guidance": "Use persistence and interaction with self-marking and affect; do not operationalize depression as past focus or reduced future language alone.",
+      "quantitative_support": [
+        {
+          "control": "6.6%",
+          "diagnosed": "7.1%",
+          "effect": "+0.5 percentage points",
+          "measure": "Rumination/remembering-marker share in first 50 posts"
+        },
+        {
+          "control": "10.4%",
+          "diagnosed": "11.1%",
+          "effect": "+0.7 percentage points",
+          "measure": "Past-oriented marker share in first 50 posts"
+        },
+        {
+          "control": "10.4%",
+          "diagnosed": "11.0%",
+          "effect": "+0.6 percentage points",
+          "measure": "Future-oriented marker share in first 50 posts"
+        }
+      ],
+      "signal": "Small increase in temporal and remembering language without a future-absence pattern"
+    },
+    {
+      "caveats": [
+        "Conversational habits and platform style affect epistemic markers.",
+        "The certainty lexicon was small and included highly ambiguous words."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Hedging was higher in every fold (+0.3 to +1.2 pp), whereas certainty markers were near-equal with mixed fold signs.",
+      "id": "hedging_and_epistemic_stance",
+      "prompt_guidance": "Prefer hedging as a modest stance cue; treat certainty and absolutism as unsupported standalone signals.",
+      "quantitative_support": [
+        {
+          "control": "2.7%",
+          "diagnosed": "3.4%",
+          "effect": "+0.7 percentage points",
+          "measure": "Hedging-marker share in first 50 posts"
+        },
+        {
+          "control": "2.1%",
+          "diagnosed": "2.1%",
+          "effect": "Approximately 0 percentage points",
+          "measure": "Certainty-marker share across full timelines"
+        }
+      ],
+      "signal": "More hedging, but no reliable certainty excess"
+    },
+    {
+      "caveats": [
+        "Punctuation and laughter markers are demographic and platform-sensitive.",
+        "Laughter can accompany distress, sarcasm, or quotation."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Questioning was higher and exclamation/laughter markers lower in every fold; this suggests a style shift, not general disengagement.",
+      "id": "questioning_vs_playful_conversational_stance",
+      "prompt_guidance": "Use conversational stance only as supporting evidence and explicitly separate laughter, jokes, and irony from affect.",
+      "quantitative_support": [
+        {
+          "control": "9.0%",
+          "diagnosed": "10.2%",
+          "effect": "+1.2 percentage points",
+          "measure": "Question-mark post share in first 50 posts"
+        },
+        {
+          "control": "7.1%",
+          "diagnosed": "5.3%",
+          "effect": "-1.8 percentage points",
+          "measure": "Exclamation-mark post share in first 50 posts"
+        },
+        {
+          "control": "10.5%",
+          "diagnosed": "8.1%",
+          "effect": "-2.6 percentage points",
+          "measure": "Joke/laughter-marker post share in first 50 posts"
+        }
+      ],
+      "signal": "More questioning alongside less exclamatory and playful output"
+    },
+    {
+      "caveats": [
+        "Terms may refer to advocacy, news, lyrics, or someone else.",
+        "This signal is especially vulnerable to annotation leakage and collection differences."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Each marker family showed a positive user-prevalence gap in all four folds; this was among the strongest lexical separations.",
+      "id": "explicit_mental_health_lexicon",
+      "prompt_guidance": "If used, require repeated, first-person, non-quoted context and treat it as label-correlated evidence, never as a clinical diagnosis.",
+      "quantitative_support": [
+        {
+          "control": "49.2%",
+          "diagnosed": "71.9%",
+          "effect": "+22.7 percentage points",
+          "measure": "Users with at least one first-person feeling-state marker"
+        },
+        {
+          "control": "15.4%",
+          "diagnosed": "32.8%",
+          "effect": "+17.4 percentage points",
+          "measure": "Users with at least one anxiety-related vocabulary marker"
+        },
+        {
+          "control": "15.3%",
+          "diagnosed": "31.3%",
+          "effect": "+16.1 percentage points",
+          "measure": "Users with at least one therapy or clinician-related marker"
+        },
+        {
+          "control": "9.5%",
+          "diagnosed": "23.3%",
+          "effect": "+13.7 percentage points",
+          "measure": "Users with at least one depression-related vocabulary marker"
+        }
+      ],
+      "signal": "Strong association with explicit mental-health and treatment vocabulary"
+    },
+    {
+      "caveats": [
+        "Relational nouns are broad and demographic-sensitive.",
+        "Mentioning social ties does not establish actual support or connectedness."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Social/relational vocabulary was slightly higher for diagnosed users in every fold, while explicit loneliness was rare and not stable after equal-exposure control.",
+      "id": "social_connectedness_is_not_lower",
+      "prompt_guidance": "Model social connection and loneliness separately; absence of social words is not supported as a robust signal here.",
+      "quantitative_support": [
+        {
+          "control": "13.4%",
+          "diagnosed": "14.5%",
+          "effect": "+1.1 percentage points",
+          "measure": "Social/relational vocabulary share in first 50 posts"
+        },
+        {
+          "control": "1.0%",
+          "diagnosed": "1.2%",
+          "effect": "+0.2 percentage points, with one fold reversed",
+          "measure": "Loneliness/isolating vocabulary share in first 50 posts"
+        }
+      ],
+      "signal": "No simple social-withdrawal pattern"
+    }
+  ],
+  "negative_results": [
+    "Absolutist language was weak: 8.8% vs 8.4% of first-50 posts, with one fold reversing direction.",
+    "A broad hopelessness lexicon showed no reliable difference: 0.9% vs 0.9% of first-50 posts.",
+    "Certainty markers were essentially equal (about 2.1% vs 2.1%) with mixed fold directions.",
+    "Explicit loneliness/isolating vocabulary was rare and unstable after equal-exposure control.",
+    "Quotation markers were slightly more common in controls; lyric markers were only marginally higher in diagnosed users, and self-plus-mental-state/lyric overlap was tiny."
+  ],
+  "role": "psycholinguistics",
+  "source_folds": [
+    0,
+    1,
+    3,
+    4
+  ],
+  "users_analyzed": 6082
+}

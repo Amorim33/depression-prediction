@@ -1,0 +1,281 @@
+{
+  "confounds": [
+    "The diagnosed/control classes are highly imbalanced: 619 diagnosed-labeled versus 5,463 control users.",
+    "Diagnosed-labeled users have substantially more retained posts, so timeline size, account activity, observation windows, and retention rules can affect diversity, repetition, and persistence measures.",
+    "Age, gender, region, platform norms, interaction style, fandom, and account type may influence pronouns, punctuation, message length, and elongation.",
+    "Heuristic separation of personal experience from quotation, jokes, lyrics, advocacy, news, replies, and third-person discussion is imperfect.",
+    "Source-order halves and quarters are persistence proxies because timestamps were unavailable; they do not establish temporal stability.",
+    "All findings explain label-associated observable divergence only; they do not establish depression, diagnosis, or causality."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "The context filter is heuristic and cannot fully remove jokes, lyrics, quotations, or discussion of others.",
+        "Possessives and state verbs can reflect topic or demographic style rather than personal experience.",
+        "This is association with the label, not evidence of clinical diagnosis or causality."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The diagnosed-labeled group used first-person/self-oriented forms more often in every fold. The gap remained in both timeline halves, and it persisted after adjusting for log post count and after excluding several obvious non-personal contexts.",
+      "id": "first_person_self_reference",
+      "prompt_guidance": "Use as a low-level style/stance feature only; prefer explicit first-person forms and combinations with syntax or punctuation rather than isolated pronouns.",
+      "quantitative_support": [
+        {
+          "control": "0.318-0.326 of posts",
+          "diagnosed": "0.404-0.418 of posts",
+          "effect": "+8.1 to +9.5 percentage points across folds",
+          "measure": "user-level prevalence of first-person/self-oriented markers"
+        },
+        {
+          "control": "0.147-0.151 of posts",
+          "diagnosed": "0.180-0.189 of posts",
+          "effect": "+3.3 to +4.1 percentage points",
+          "measure": "heuristically cleaned self-state/experience posts, excluding obvious quote, reply, link, lyric, and news cues"
+        },
+        {
+          "control": "2.94-3.04% of tokens",
+          "diagnosed": "3.95-3.97% of tokens",
+          "effect": "+0.9 to +1.0 percentage points",
+          "measure": "explicit first-person singular token rate"
+        }
+      ],
+      "signal": "Higher singular self-reference and self-state phrasing"
+    },
+    {
+      "caveats": [
+        "Sentence segmentation is approximate for short, fragmentary social-media posts.",
+        "Some length difference is related to higher activity and topic composition.",
+        "No direct parse-based syntactic complexity was assumed."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Across all folds, diagnosed-labeled timelines showed modestly longer messages, more clause-marker posts, and a higher sentence-length proxy. The effects are small but directionally consistent.",
+      "id": "longer_clause_bearing_messages",
+      "prompt_guidance": "Treat this as a syntactic-complexity proxy; normalize at the user level and combine with self-reference or punctuation features.",
+      "quantitative_support": [
+        {
+          "control": "8.87-9.00",
+          "diagnosed": "9.51-9.88 tokens per sentence proxy",
+          "effect": "+0.57 to +0.96 tokens",
+          "measure": "user-level mean tokens per sentence proxy"
+        },
+        {
+          "control": "0.485-0.487",
+          "diagnosed": "0.499-0.525 of posts",
+          "effect": "+1.3 to +4.0 percentage points",
+          "measure": "posts containing a clause/conjunction marker"
+        },
+        {
+          "control": "10.23-10.36",
+          "diagnosed": "10.42-11.15 tokens per post",
+          "effect": "+0.20 to +0.79 tokens",
+          "measure": "mean post length"
+        }
+      ],
+      "signal": "Slightly longer and more clause-bearing messages"
+    },
+    {
+      "caveats": [
+        "Question marks may be rhetorical or conversational.",
+        "Negation words can occur in quotations, jokes, advocacy, or ordinary disagreement.",
+        "The measured effect is small and not clinically specific."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Question and negation prevalence were higher for diagnosed-labeled users in every fold, with small but persistent gaps after post-volume adjustment.",
+      "id": "questions_and_negation",
+      "prompt_guidance": "Use as weak stance markers within a multifeature profile; do not interpret negation or questions as inherently depressive.",
+      "quantitative_support": [
+        {
+          "control": "0.088-0.091",
+          "diagnosed": "0.097-0.106 of posts",
+          "effect": "+0.8 to +1.5 percentage points",
+          "measure": "question-mark post prevalence"
+        },
+        {
+          "control": "0.209-0.211",
+          "diagnosed": "0.220-0.231 of posts",
+          "effect": "+0.9 to +2.0 percentage points",
+          "measure": "negation-marker post prevalence"
+        },
+        {
+          "control": "0.0272-0.0274",
+          "diagnosed": "0.0278-0.0282 of tokens",
+          "effect": "+0.0005 to +0.0009",
+          "measure": "token-level negation rate"
+        }
+      ],
+      "signal": "More question marking and slightly more negation"
+    },
+    {
+      "caveats": [
+        "These markers are sensitive to age, platform conventions, and conversational style.",
+        "Repeated-character detection also captures ordinary spelling patterns.",
+        "Reply, fandom, humor, and interpersonal context may drive the difference."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "control",
+      "evidence_summary": "Controls consistently showed more emphatic punctuation and repeated-character styling. This is a stable corpus-style contrast, not evidence that diagnosed-labeled users express less emotion.",
+      "id": "reduced_expressive_punctuation",
+      "prompt_guidance": "Consider as a corpus/platform-style feature with strong confound warnings; avoid semantic or clinical interpretation.",
+      "quantitative_support": [
+        {
+          "control": "0.067-0.076",
+          "diagnosed": "0.048-0.059 of posts",
+          "effect": "-0.8 to -2.8 percentage points",
+          "measure": "exclamation-mark post prevalence"
+        },
+        {
+          "control": "0.083-0.085",
+          "diagnosed": "0.058-0.064 of posts",
+          "effect": "-2.1 to -2.5 percentage points",
+          "measure": "ellipsis post prevalence"
+        },
+        {
+          "control": "0.223-0.230",
+          "diagnosed": "0.191-0.200 of posts",
+          "effect": "-2.6 to -3.3 percentage points",
+          "measure": "posts with character elongation/repeated-character strings"
+        }
+      ],
+      "signal": "More exclamation, ellipsis, and character-elongation usage among controls"
+    },
+    {
+      "caveats": [
+        "Guiraud and entropy remain partly dependent on timeline size and topic mix.",
+        "The adjusted effects were modest and not uniformly strong within individual folds.",
+        "No conclusion about vocabulary richness or clinical state should be drawn."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "mixed",
+      "evidence_summary": "Diagnosed-labeled users had longer timelines and lower raw type-token ratios, but length-adjusted breadth and concentration measures pointed weakly toward broader, less concentrated vocabularies in every fold.",
+      "id": "length_adjusted_lexical_breadth",
+      "prompt_guidance": "Use Guiraud, entropy, concentration, or residualized diversity measures rather than raw type-token ratio; treat the effect as weak.",
+      "quantitative_support": [
+        {
+          "control": "19.39-19.52",
+          "diagnosed": "20.15-21.04",
+          "effect": "+0.76 to +1.52 Guiraud units",
+          "measure": "length-normalized vocabulary breadth proxy"
+        },
+        {
+          "control": "0.442-0.444",
+          "diagnosed": "0.430-0.434",
+          "effect": "-0.97 to -1.25 percentage points",
+          "measure": "share of tokens from the 50 most frequent user-specific types"
+        },
+        {
+          "control": "5.993-6.007",
+          "diagnosed": "6.077-6.154",
+          "effect": "+0.084 to +0.148 nats",
+          "measure": "within-user token entropy"
+        }
+      ],
+      "signal": "Raw lexical diversity is volume-confounded; adjusted breadth is mildly higher and concentration mildly lower"
+    },
+    {
+      "caveats": [
+        "Could reflect observation-window, retention, account-activity, or collection differences.",
+        "Mean volume is skew-sensitive; medians overlap substantially.",
+        "Raw token counts must not be used as independent evidence."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed-labeled users had more retained posts and tokens in every development fold. This is a major observable difference and a likely source of confounding for unnormalized lexical measures.",
+      "id": "posting_volume",
+      "prompt_guidance": "Always report user-level normalized rates and include log timeline size as a control; do not treat activity itself as a psychological signal.",
+      "quantitative_support": [
+        {
+          "control": "522-538",
+          "diagnosed": "628-669 mean retained posts",
+          "effect": "+95 to +147 posts",
+          "measure": "timeline post count"
+        },
+        {
+          "control": "5,260-5,634",
+          "diagnosed": "6,210-6,996 mean retained tokens",
+          "effect": "+762 to +1,514 tokens",
+          "measure": "total token volume"
+        }
+      ],
+      "signal": "Higher retained-timeline activity"
+    },
+    {
+      "caveats": [
+        "Median-split thresholds were chosen for corpus analysis and are not validated cutoffs.",
+        "The combination may encode demographic, topic, or platform differences.",
+        "No predictive or clinical performance is claimed from development data alone."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "A simple exploratory combination was consistently more prevalent among diagnosed-labeled users than controls, supporting use of bundled low-level cues rather than isolated keywords.",
+      "id": "combined_style_profile",
+      "prompt_guidance": "Use only as an exploratory multifeature profile and validate on the absent held-out fold; avoid threshold-based interpretation.",
+      "quantitative_support": [
+        {
+          "control": "5.6-6.9%",
+          "diagnosed": "13.5-18.2% of users",
+          "effect": "+6.6 to +12.6 percentage points",
+          "measure": "fold-wise median-split composite: high self-reference, questions, sentence length, and low ellipsis"
+        },
+        {
+          "control": "reference group",
+          "diagnosed": "higher composite mean",
+          "effect": "+1.34 to +1.55 SD",
+          "measure": "standardized additive composite gap"
+        }
+      ],
+      "signal": "Co-occurring self-reference, interrogative style, longer syntax, and lower ellipsis"
+    }
+  ],
+  "negative_results": [
+    "Raw type-token ratio was lower for diagnosed-labeled users in all folds, but the difference disappeared or slightly reversed after controlling for log timeline size; this is not evidence of restricted vocabulary.",
+    "Past-tense/retrospective markers were not directionally stable: post-level rates reversed in fold 4 and token-level rates were slightly lower for diagnosed-labeled users.",
+    "Second-person usage changed direction across folds, and first-person plural differences were small; no robust pronoun-family signature beyond singular self-reference.",
+    "There was no general repetition/perseveration increase: exact-post and trigram reuse were lower for diagnosed-labeled users, while bigram reuse was only slightly higher.",
+    "URLs, hashtags, emoji prevalence, and uppercase usage showed no useful stable separation."
+  ],
+  "role": "lexical_syntax",
+  "source_folds": [
+    0,
+    1,
+    3,
+    4
+  ],
+  "users_analyzed": 6082
+}

@@ -1,0 +1,226 @@
+{
+  "confounds": [
+    "Diagnosed users were more active: median timeline size was about 408 posts versus 334 for controls, with means about 627 versus 530. Any-hit prevalence can therefore be inflated; per-user post-rate normalization reduced but did not eliminate this concern.",
+    "Mental-health terms are polysemous and may represent self-report, treatment access, advocacy, jokes, lyrics, quotations, news, or discussion of someone else.",
+    "The context filters were heuristic and cannot perfectly separate first-person experience from third-person or quoted material.",
+    "Fold-to-fold variation was largest for rare suicidality/self-harm language and isolation language, consistent with sampling sensitivity.",
+    "The corpus contains only labels, source fold, and retained posts; no timestamps or demographic metadata are available to separate duration, life-stage, event, or cohort effects.",
+    "The diagnosed/control imbalance is substantial: 618 diagnosed versus 5,463 control users, so rare-feature estimates have limited precision.",
+    "All findings are observational associations with labels and should not be interpreted as clinical diagnosis, severity, or causal mechanisms."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Terms can reflect help-seeking, advocacy, ordinary anxiety, metaphor, or discussion of another person.",
+        "This feature is partly redundant with direct mental-health disclosure; user-level correlation with the treatment subset was high."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Strongest low-level divergence. The gap remained positive in every development fold, approximately 24.4 to 32.2 percentage points. Treatment-related language was also substantially enriched.",
+      "id": "explicit_mental_health_treatment",
+      "prompt_guidance": "Use as a high-value but non-diagnostic feature. Prefer user-level prevalence and normalized rates, and require context and persistence rather than isolated keywords.",
+      "quantitative_support": [
+        {
+          "control": "45.3% of users had at least one matching post",
+          "diagnosed": "73.6% of users had at least one matching post",
+          "effect": "Delta +28.3 percentage points; risk ratio 1.62",
+          "measure": "User-level prevalence of explicit mental-health or treatment vocabulary"
+        },
+        {
+          "control": "30.3% prevalence; mean fraction 0.124%",
+          "diagnosed": "57.0% prevalence; mean per-user matching-post fraction 0.360%",
+          "effect": "Delta +26.6 percentage points; risk ratio 1.88",
+          "measure": "Professional-treatment subset"
+        },
+        {
+          "control": "Mean matching-post fraction 0.237%",
+          "diagnosed": "Mean matching-post fraction 0.614%",
+          "effect": "Per-user normalized rate remained higher; medians 0.398% vs 0.000%",
+          "measure": "Post-frequency normalized within user"
+        }
+      ],
+      "signal": "Explicit mental-health and treatment vocabulary"
+    },
+    {
+      "caveats": [
+        "The first-person detector is regex-based and can still misclassify possessives or conversational references.",
+        "Presence of self-report language is evidence of expressed experience, not proof of diagnosis or causality."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This context-aware measure was positive in all folds, with diagnosed-minus-control prevalence gaps of roughly 27.6 to 37.0 percentage points. It is more discriminative than raw term presence and less dominated by prolific users.",
+      "id": "first_person_mental_health_disclosure",
+      "prompt_guidance": "Prioritize explicit ownership or self-reporting, while filtering quotation, lyric, joke, advocacy, news, and third-person contexts. Combine with persistence across the timeline.",
+      "quantitative_support": [
+        {
+          "control": "24.9% of users",
+          "diagnosed": "56.6% of users",
+          "effect": "Delta +31.7 percentage points; risk ratio 2.27",
+          "measure": "At least one context-filtered post containing first-person/possessive cues with mental-health or treatment vocabulary"
+        },
+        {
+          "control": "0.087% mean normalized rate",
+          "diagnosed": "0.296% mean normalized rate",
+          "effect": "Mean per-user matching-post fraction 0.296% vs 0.087%; medians 0.132% vs 0.000%",
+          "measure": "Per-user normalized rate after excluding posts with quotation/joke markers"
+        }
+      ],
+      "signal": "First-person/context-filtered mental-health disclosure"
+    },
+    {
+      "caveats": [
+        "Broad mood terms are common in ordinary social interaction and can describe short-lived reactions.",
+        "Subjective or introspective language is a discourse-style marker as well as a possible symptom-related signal."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Direct mood/symptom language was consistently enriched, with fold gaps of about 15.8 to 22.8 percentage points. Subjective-state verbs provided an additional, somewhat broader signal.",
+      "id": "self_reported_mood_introspection",
+      "prompt_guidance": "Use as a complementary feature to explicit mental-health disclosure; distinguish direct self-state descriptions from general commentary and transient emotion.",
+      "quantitative_support": [
+        {
+          "control": "39.7% prevalence",
+          "diagnosed": "58.3% prevalence",
+          "effect": "Delta +18.5 percentage points; risk ratio 1.47",
+          "measure": "Context-filtered first-person mood/symptom language"
+        },
+        {
+          "control": "0.152% mean matching-post fraction",
+          "diagnosed": "0.244% mean matching-post fraction",
+          "effect": "Mean normalized rate 0.244% vs 0.152%; medians 0.135% vs 0.000%",
+          "measure": "Per-user normalized rate"
+        },
+        {
+          "control": "69.0%",
+          "diagnosed": "85.0% used subjective-state verbs at least once",
+          "effect": "Delta +16.0 percentage points; median normalized rate 0.675% vs 0.377%",
+          "measure": "Subjective-state/introspection vocabulary excluding apology-like uses"
+        }
+      ],
+      "signal": "First-person mood/symptom and subjective-state language"
+    },
+    {
+      "caveats": [
+        "Words about being alone, having nobody, or avoiding people can describe relationships, logistics, or humor.",
+        "The smallest gap occurred in fold 4, indicating sensitivity to cohort composition."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The direction was positive in every fold, but the magnitude varied substantially: approximately +2.3 to +12.7 percentage points. This is a secondary signal rather than a primary discriminator.",
+      "id": "isolation_withdrawal",
+      "prompt_guidance": "Use only in combination with direct self-report or mental-health vocabulary, and normalize within user. Treat as supportive evidence, not a standalone marker.",
+      "quantitative_support": [
+        {
+          "control": "57.6% prevalence",
+          "diagnosed": "66.8% prevalence",
+          "effect": "Delta +9.3 percentage points; risk ratio 1.16",
+          "measure": "User-level isolation/withdrawal vocabulary"
+        },
+        {
+          "control": "0.309% mean matching-post fraction",
+          "diagnosed": "0.378% mean matching-post fraction",
+          "effect": "Mean normalized rate 0.378% vs 0.309%; medians 0.248% vs 0.149%",
+          "measure": "Per-user normalized rate"
+        }
+      ],
+      "signal": "Isolation and withdrawal language"
+    },
+    {
+      "caveats": [
+        "The two components are correlated, though less redundant than explicit mental-health and treatment vocabulary.",
+        "Co-occurrence does not establish clinical severity, duration, or causality."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The combination is more informative than either isolated broad vocabulary group and remains stable after context filtering. It still has substantial control prevalence, so it is probabilistic rather than diagnostic.",
+      "id": "combined_self_disclosure_mood",
+      "prompt_guidance": "Prioritize combinations and persistence over single keywords. A useful feature should require both self-referential mental-health language and independent mood/symptom evidence.",
+      "quantitative_support": [
+        {
+          "control": "15.7% of users",
+          "diagnosed": "38.5% of users showed both signals somewhere in the timeline",
+          "effect": "Delta +22.8 percentage points; risk ratio 2.45",
+          "measure": "Co-occurrence of direct mental-health disclosure and direct mood/symptom language"
+        },
+        {
+          "control": "Positive in all four development folds",
+          "diagnosed": "Positive in all four development folds",
+          "effect": "Fold gaps approximately +18.4 to +25.6 percentage points",
+          "measure": "Cross-fold stability"
+        }
+      ],
+      "signal": "Combination of direct mental-health disclosure with direct mood/symptom language"
+    },
+    {
+      "caveats": [
+        "Likely reflects age, gender, identity, platform style, or sampling differences.",
+        "These are sensitive or demographic-adjacent attributes and should not be treated as causal or diagnostic evidence."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Creative/hobby language was consistently diagnosed-enriched, and identity vocabulary showed an even larger stable gap. These appear useful for detecting collection or cohort structure, not for explaining depression.",
+      "id": "nonclinical_cohort_style_markers",
+      "prompt_guidance": "Use only for fairness checks, stratified validation, or collection diagnostics. Exclude sensitive identity terms from diagnostic prompting and avoid interpreting them clinically.",
+      "quantitative_support": [
+        {
+          "control": "85.6% prevalence",
+          "diagnosed": "94.7% prevalence",
+          "effect": "Delta +9.0 percentage points; risk ratio 1.11",
+          "measure": "Creative/online-hobby vocabulary, a data-discovered style marker"
+        },
+        {
+          "control": "56.1% prevalence",
+          "diagnosed": "72.2% prevalence",
+          "effect": "Delta +16.1 percentage points; risk ratio 1.29",
+          "measure": "Broad sexual-identity vocabulary"
+        }
+      ],
+      "signal": "Non-clinical online-style and cohort markers"
+    }
+  ],
+  "negative_results": [
+    "Broad self-evaluation/helplessness lexicons were nearly universal: about 99% of both classes, with only +1.6 to +1.8 percentage points for diagnosed users; weak standalone signals.",
+    "Low-energy/sleep vocabulary was common in both groups (90.8% diagnosed vs 83.4% control; +7.4 pp) and had small normalized-rate separation, so it should be downweighted alone.",
+    "Generic mortality vocabulary was not fold-stable: diagnosed-minus-control gaps were approximately +4.8, -2.8, +3.8, and +5.4 pp across folds.",
+    "Positive-affect vocabulary was not reduced among diagnosed users; it appeared in 99.8% diagnosed vs 98.4% control users, cautioning against a simple negative-valence interpretation.",
+    "Sports/fandom vocabulary showed essentially no class separation overall (87.9% diagnosed vs 87.2% control) and mixed fold directions."
+  ],
+  "role": "statistical_robustness",
+  "source_folds": [
+    0,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}

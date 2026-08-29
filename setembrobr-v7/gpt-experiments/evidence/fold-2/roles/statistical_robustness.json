@@ -1,0 +1,238 @@
+{
+  "confounds": [
+    "Diagnosed users were more active in every fold, so raw post frequency and any-hit prevalence are exposure-sensitive.",
+    "Mental-health and treatment vocabulary may encode self-identification, treatment access, or annotation/collection procedures rather than depression itself.",
+    "Quotation, lyrics, jokes, news, advocacy, and third-person discussion are only heuristically separable in short informal Portuguese posts.",
+    "Demographic, age, gender/sexuality, school or work stage, topic mix, and platform-style differences may explain parts of the observed gaps.",
+    "The diagnosed class is much smaller than the control class, so predictive values will differ from prevalence gaps; no external calibration or held-out-fold inference was used.",
+    "Source order lacks reliable timestamps, so block coverage is persistence of language within the retained timeline, not duration or recurrence of a clinical episode."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Any-hit prevalence remains length-sensitive.",
+        "Self-reference includes common conversational forms and is not clinically specific."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Diagnosed users had longer timelines in every development fold. Self-reference was also higher after normalization, but this is an exposure and self-disclosure effect rather than a depression-specific signal.",
+      "id": "activity_length_confound",
+      "prompt_guidance": "Use per-user rates, length matching, or activity-adjusted models; never interpret raw post counts as evidence.",
+      "quantitative_support": [
+        {
+          "control": "529.8 mean posts",
+          "diagnosed": "648.6 mean posts",
+          "effect": "+118.8 posts per user; +22.4% relative",
+          "measure": "Timeline activity"
+        },
+        {
+          "control": "338 median posts",
+          "diagnosed": "408 median posts",
+          "effect": "+70 posts per user",
+          "measure": "Timeline activity"
+        }
+      ],
+      "signal": "Higher retained-timeline activity and self-reference"
+    },
+    {
+      "caveats": [
+        "Nested mental-health, anxiety, and therapy lexicons are redundant.",
+        "Explicit self-disclosure may reflect how labels were collected rather than latent depression."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This was the strongest low-level signal. Context filtering reduced prevalence but preserved a clear, four-fold-stable diagnosed excess.",
+      "id": "context_filtered_mental_health_self_disclosure",
+      "prompt_guidance": "Prioritize as a high-yield but potentially label-leaking feature; cap counts, preserve context filters, and combine with independent affective or persistence features.",
+      "quantitative_support": [
+        {
+          "control": "37.5% of users",
+          "diagnosed": "64.8% of users",
+          "effect": "+27.3 percentage points; positive in all folds",
+          "measure": "Any context-filtered self-directed mental-health/care post"
+        },
+        {
+          "control": "0.000 median posts/100",
+          "diagnosed": "0.201 median posts/100",
+          "effect": "+0.201 posts per 100 retained posts; fold median gaps +0.128 to +0.283",
+          "measure": "Normalized context-filtered rate"
+        },
+        {
+          "control": "30.8% of users",
+          "diagnosed": "55.7% of users",
+          "effect": "+24.9 percentage points",
+          "measure": "Any context-filtered therapy/care vocabulary"
+        }
+      ],
+      "signal": "Self-directed mental-health, treatment, and care vocabulary after excluding likely quotation, joking, and nearby third-person contexts"
+    },
+    {
+      "caveats": [
+        "Terms remain polysemous and can describe temporary frustration, metaphor, or someone else despite heuristic filtering.",
+        "These are observable language correlates, not symptoms or diagnoses."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both affective domains showed modest but consistent diagnosed excesses under per-user normalization and context filtering.",
+      "id": "sadness_hopelessness_self_directed",
+      "prompt_guidance": "Use as a combined, persistent profile rather than isolated keywords; require repeated or multi-domain evidence.",
+      "quantitative_support": [
+        {
+          "control": "57.9% of users; 0.180 median posts/100",
+          "diagnosed": "74.3% of users; 0.380 median posts/100",
+          "effect": "+16.4 percentage points; fold median-rate gaps +0.173 to +0.241",
+          "measure": "Context-filtered sadness"
+        },
+        {
+          "control": "42.6% of users; 0.000 median posts/100",
+          "diagnosed": "54.3% of users; 0.093 median posts/100",
+          "effect": "+11.7 percentage points; fold median-rate gaps +0.047 to +0.141",
+          "measure": "Context-filtered hopelessness"
+        }
+      ],
+      "signal": "Self-directed sadness and hopelessness"
+    },
+    {
+      "caveats": [
+        "High base rates make specificity low.",
+        "Age, lifestyle, body-image, and collection-topic differences are plausible confounds."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "These domains were common but showed small, consistently positive diagnosed-control gaps after normalization.",
+      "id": "vegetative_lifestyle_signals",
+      "prompt_guidance": "Treat as secondary features and combine with self-directed affective evidence; do not use ordinary food or sleep discussion alone.",
+      "quantitative_support": [
+        {
+          "control": "78.9% of users; 0.713 median posts/100",
+          "diagnosed": "87.1% of users; 0.917 median posts/100",
+          "effect": "+8.2 percentage points; fold median-rate gaps +0.097 to +0.283",
+          "measure": "Context-filtered sleep-related vocabulary"
+        },
+        {
+          "control": "74.0% of users; 0.485 median posts/100",
+          "diagnosed": "85.6% of users; 0.769 median posts/100",
+          "effect": "+11.6 percentage points; fold median-rate gaps +0.176 to +0.332",
+          "measure": "Context-filtered appetite/eating vocabulary"
+        }
+      ],
+      "signal": "Sleep and appetite/eating language"
+    },
+    {
+      "caveats": [
+        "Profanity, entertainment topics, and conversational style can drive the difference.",
+        "Broad negative language is not equivalent to depressive affect."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both signals were robust across folds, but their high prevalence and overlap with profanity make them weakly specific.",
+      "id": "anger_negative_language",
+      "prompt_guidance": "Downweight relative to self-directed mental-health/care features and avoid summing redundant negative lexicons.",
+      "quantitative_support": [
+        {
+          "control": "83.5% of users; 1.017 median posts/100",
+          "diagnosed": "94.7% of users; 1.461 median posts/100",
+          "effect": "+11.2 percentage points; fold median-rate gaps +0.299 to +0.601",
+          "measure": "Context-filtered anger/irritability"
+        },
+        {
+          "control": "89.6% of users; 1.363 median posts/100",
+          "diagnosed": "96.3% of users; 1.950 median posts/100",
+          "effect": "+6.7 percentage points; fold median-rate gaps +0.449 to +0.650",
+          "measure": "Context-filtered broad negative affect"
+        }
+      ],
+      "signal": "Anger/irritability and broad negative-affect language"
+    },
+    {
+      "caveats": [
+        "Positive terms include routine enthusiasm, social interaction, and generic intensifiers.",
+        "This pattern may reflect demographic or platform-style differences."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Positive vocabulary was nearly universal and had a higher normalized median among diagnosed users, indicating mixed affect or broader self-expression rather than a simple loss-of-positive-language pattern.",
+      "id": "positive_affect_counterevidence",
+      "prompt_guidance": "Do not use absence of positive words as a diagnostic proxy; model positive and negative language jointly and adjust for activity.",
+      "quantitative_support": [
+        {
+          "control": "94.5% of users; 2.762 median posts/100",
+          "diagnosed": "99.4% of users; 3.662 median posts/100",
+          "effect": "+4.9 percentage points; fold median-rate gaps +0.629 to +1.066",
+          "measure": "Context-filtered positive-affect vocabulary"
+        }
+      ],
+      "signal": "Positive-affect language is not reduced"
+    },
+    {
+      "caveats": [
+        "Metaphor, quotation, jokes, and advocacy remain difficult to eliminate perfectly.",
+        "Sparse events require uncertainty-aware evaluation and should not be treated as clinical evidence."
+      ],
+      "development_fold_support": [],
+      "direction": "diagnosed",
+      "evidence_summary": "The pooled user-level prevalence gap is notable, but normalized median frequency was zero in both classes and every fold, indicating sparse coverage rather than robust rate separation.",
+      "id": "rare_self_harm_terms",
+      "prompt_guidance": "Use only as a high-precision, low-coverage auxiliary feature with self-directed and persistent-context checks; never infer imminent risk.",
+      "quantitative_support": [
+        {
+          "control": "4.5% of users",
+          "diagnosed": "13.9% of users",
+          "effect": "+9.5 percentage points",
+          "measure": "Any strict self-harm vocabulary"
+        },
+        {
+          "control": "0.009 mean posts/100",
+          "diagnosed": "0.033 mean posts/100",
+          "effect": "+0.024 posts per 100 retained posts",
+          "measure": "Normalized strict self-harm rate"
+        }
+      ],
+      "signal": "Strict self-harm vocabulary"
+    }
+  ],
+  "negative_results": [
+    "The direct depression-term feature is sparse: self-directed prevalence was 12.3% diagnosed versus 5.0% control, but the median normalized rate was zero in both groups.",
+    "Anhedonia, concentration/memory, and guilt/worthlessness lexicons had low coverage or weak separation; broad terms were heavily confounded by ordinary forgetting, insults, and daily-life complaints.",
+    "Strict self-harm terms were more prevalent among diagnosed users (13.9% versus 4.5%), but median normalized frequency was zero in both classes, so this is a low-coverage auxiliary flag rather than a robust standalone signal.",
+    "Positive language was not depleted; it was common in both classes and somewhat higher among diagnosed users, contradicting a simple negative-affect-only interpretation."
+  ],
+  "role": "statistical_robustness",
+  "source_folds": [
+    0,
+    1,
+    3,
+    4
+  ],
+  "users_analyzed": 6082
+}

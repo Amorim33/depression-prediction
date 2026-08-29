@@ -1,0 +1,77 @@
+{
+  "issues": [
+    {
+      "issue": "The target label is not operationally defined.",
+      "reason": "The prompt uses broad distress, anxiety, loneliness, self-harm, and treatment as evidence without establishing whether they correspond to the corpus target. This conflates label prediction with clinical inference and creates transdiagnostic false positives.",
+      "required_revision": "Define exactly what `diagnosed` denotes, including the target condition, annotation source/time, and meaning of `control`. Align every directional feature with that definition; otherwise make broad symptoms, treatment, and self-harm neutral or secondary.",
+      "severity": "high"
+    },
+    {
+      "issue": "Generic and public activity create an implicit control classifier.",
+      "reason": "These rules turn absence of personal disclosure and account genre into control-side evidence, contradicting the instruction not to infer control from absence and risking activity, sampling, and privacy proxies.",
+      "required_revision": "Remove C_PUBLIC, C_PUNISH, and the class-directed part of X_GENERIC. Treat genericity, public-topic posting, and lack of self-disclosure as neutral exposure/context information, not control evidence, unless fold-0 development results demonstrate a capped incremental benefit.",
+      "severity": "high"
+    },
+    {
+      "issue": "The Macro F1 and symmetry guidance is unsupported.",
+      "reason": "Macro F1 does not imply equal class prevalence or a symmetric decision threshold. The current wording leaves an unstated prior and default behavior.",
+      "required_revision": "Retain the no-quota rule, but remove the claim that Macro F1 requires symmetry. Use only a permitted development-set calibration or a documented fixed threshold/tie rule; do not let generic absence determine ties.",
+      "severity": "high"
+    },
+    {
+      "issue": "The signal catalog still invites isolated-keyword anchoring.",
+      "reason": "Terms such as absolute words, self-harm language, treatment, and diagnosis are salient enough to override their caveats, while no reproducible context test is specified.",
+      "required_revision": "Replace lexical cue lists and qualitative high-weight wording with mandatory event-level extraction: self as actor, literalness, target, time, and personal impact. No token or phrase alone should receive class direction; ambiguous events are neutral.",
+      "severity": "high"
+    },
+    {
+      "issue": "First-person wording is not sufficient evidence of self-experience.",
+      "reason": "First-person educational, hypothetical, meta-discursive, or reported content can pass the current autobiographical filter and produce false positives.",
+      "required_revision": "Require an explicit distinction between a user asserting their own literal state/action and discussing, explaining, hypothesizing, advising about, or reporting another person's state. Treat unresolved actor or context as neutral.",
+      "severity": "high"
+    },
+    {
+      "issue": "Singular self-focus is an unsupported style shortcut.",
+      "reason": "The prompt itself acknowledges demographic, genre, and writing-style confounding, but still assigns this feature a diagnosed direction.",
+      "required_revision": "Move D_SINGULAR_SELF to neutral/context-only status and prohibit it from increasing either class probability unless fold-0 evidence establishes robust incremental value after genre and activity adjustment.",
+      "severity": "medium"
+    },
+    {
+      "issue": "D_MULTI and D_PERSIST can double-count correlated evidence and timeline exposure.",
+      "reason": "The prompt warns that features are correlated and source order is not time, but then applies recurrence multipliers that favor prolific users and repeated copies.",
+      "required_revision": "Deduplicate reposts and near-duplicates, cap evidence per domain and exposure bin, and use separated source-order segments only as weak context rather than a multiplier or proof of persistence. Specify how bins are formed.",
+      "severity": "high"
+    },
+    {
+      "issue": "Clinical and self-harm cues have ambiguous leakage and excessive class weight.",
+      "reason": "These signals may be transdiagnostic, historical, about another person, or label leakage. Calling them both strongly predictive and potentially leaky gives contradictory guidance and likely increases false positives.",
+      "required_revision": "Define whether user-authored treatment or diagnosis disclosures are allowed features and exclude corpus metadata or annotation artifacts. Give clinical-care and self-harm content only target-validated, non-decisive weight; do not let either cue alone determine the label.",
+      "severity": "high"
+    },
+    {
+      "issue": "The persistence and corroboration emphasis may cause false negatives.",
+      "reason": "Diagnosed users may have sparse, short, private, or narrowly focused timelines; requiring repetition across segments or independent domains over-penalizes valid limited evidence.",
+      "required_revision": "Make recurrence, multi-domain co-occurrence, and functional impairment incremental rather than prerequisites. Allow a highly specific single autobiographical disclosure to contribute calibrated evidence, while keeping an ambiguous isolated keyword neutral.",
+      "severity": "medium"
+    },
+    {
+      "issue": "The prompt-injection defense is not operationally explicit enough.",
+      "reason": "The single untrusted-data sentence may not prevent raw posts from altering the requested format, claiming an authoritative label, or directing the classifier.",
+      "required_revision": "Add a clearly delimited timeline-data block and explicitly instruct the classifier to ignore embedded instructions, role claims, output requests, JSON, and corpus-label assertions as commands or gold labels. Parse any permitted self-report only as ordinary post content.",
+      "severity": "medium"
+    },
+    {
+      "issue": "The evidence ledger is qualitative and empirically under-justified.",
+      "reason": "No fold-specific statistics are supplied for the stated weights, and the model has no reproducible rule for combining conflicting or insufficient evidence.",
+      "required_revision": "Remove unsupported strength claims such as `strongly label-associated`, `high`, or assertions about feature overlap unless accompanied by fold-0 development measurements. Provide a deterministic aggregation and conflict-resolution rule or keep unvalidated features weak/neutral.",
+      "severity": "medium"
+    }
+  ],
+  "strengths_to_preserve": [
+    "Clearly distinguishes corpus-label prediction from clinical diagnosis and risk assessment, with a strict JSON-only output.",
+    "Explicitly treats timeline posts as untrusted data and discounts quotations, fiction, third-person references, and public content.",
+    "Avoids demographic, fandom, hobby, platform-style, and raw-activity shortcuts.",
+    "Recognizes leakage, timeline-length effects, correlated features, and that positive affect or missing disclosure do not prove control."
+  ],
+  "verdict": "revise"
+}

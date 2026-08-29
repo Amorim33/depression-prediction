@@ -1,0 +1,371 @@
+{
+  "confounds": [
+    "The diagnosed group had more retained posts per user on average: about 630 versus 528, with medians about 396 versus 335; user-level prevalence is therefore preferable to raw frequency.",
+    "The groups are highly imbalanced: 618 diagnosed users versus 5,464 controls, so fold-level estimates for diagnosed users are noisier.",
+    "Explicit mental-health and treatment vocabulary is much more common among diagnosed users and may reflect recruitment, self-identification, or annotation processes rather than latent symptoms.",
+    "Age, gender, sexuality, socioeconomic context, and subcommunity are unavailable; these could especially confound libido, sleep, irritability, and activity-related language.",
+    "Portuguese slang, spelling variation, profanity, hyperbole, quotations, lyrics, memes, news, and third-person discussion make lexical context filters imperfect.",
+    "Posts are in source order but lack comparable calendar dates, so persistence across real-world time cannot be established.",
+    "Labels are observational outcomes; these findings explain corpus divergence and should not be treated as clinical diagnosis, BDI scoring, or causal evidence."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Some direct terms can be rhetorical or quoted despite filtering.",
+        "The signal indicates corpus divergence, not imminent intent or severity."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The strongest symptom-domain divergence; the user-level gap was positive in every fold, with direct-screen gaps of +14.0, +10.8, +11.6, and +14.9 points.",
+      "id": "direct_self_harm_death",
+      "prompt_guidance": "Prioritize first-person desire, ideation, or action language and repeated evidence across posts; downweight lyrics, jokes, quotations, news, and discussion of others. Do not treat this as a clinical risk assessment.",
+      "quantitative_support": [
+        {
+          "control": "10.9% (598/5464)",
+          "diagnosed": "23.8% (147/618)",
+          "effect": "+12.9 percentage points; RR 2.18",
+          "measure": "User prevalence of direct self-harm/death-ideation expressions"
+        },
+        {
+          "control": "5.8%",
+          "diagnosed": "14.7%",
+          "effect": "+8.9 percentage points; RR 2.53",
+          "measure": "Stricter self-referential, non-quote/non-third-person screen"
+        }
+      ],
+      "signal": "Self-harm or death ideation"
+    },
+    {
+      "caveats": [
+        "Worthlessness alone was less stable and slightly reversed in one fold.",
+        "Lexical self-reference heuristics are imperfect in conversational Portuguese."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Self-directed negative evaluation was consistently higher in diagnosed users; fold gaps were positive for both self-dislike and self-criticism.",
+      "id": "negative_self_evaluation",
+      "prompt_guidance": "Combine self-directed evaluation with sadness, failure, or worthlessness signals; exclude insults toward other people and generic appearance or joking language.",
+      "quantitative_support": [
+        {
+          "control": "5.9%",
+          "diagnosed": "15.5%",
+          "effect": "+9.6 percentage points; RR 2.63",
+          "measure": "Direct self-dislike user prevalence"
+        },
+        {
+          "control": "7.8%",
+          "diagnosed": "12.1%",
+          "effect": "+4.3 percentage points; RR 1.55",
+          "measure": "Direct self-criticism user prevalence"
+        }
+      ],
+      "signal": "Self-dislike and self-criticism"
+    },
+    {
+      "caveats": [
+        "High control prevalence limits specificity.",
+        "Raw sadness frequency was only 0.46 versus 0.35 occurrences per 100 posts, reinforcing the need for user-level measurement."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Personal sadness language was common in both groups but consistently more prevalent among diagnosed users.",
+      "id": "personal_sadness",
+      "prompt_guidance": "Use first-person and repeated low-mood evidence, preferably combined with energy, sleep, self-evaluation, or death-ideation signals; avoid isolated emotional words in lyrics or social commentary.",
+      "quantitative_support": [
+        {
+          "control": "59.4%",
+          "diagnosed": "71.7%",
+          "effect": "+12.3 percentage points; RR 1.21",
+          "measure": "Personal sadness/low-mood user prevalence"
+        },
+        {
+          "control": "Positive in all four folds",
+          "diagnosed": "Fold gaps for folds 0/1/2/3",
+          "effect": "+14.1, +11.8, +6.6, and +16.4 percentage points",
+          "measure": "Per-fold diagnosed-minus-control difference"
+        }
+      ],
+      "signal": "First-person sadness and low mood"
+    },
+    {
+      "caveats": [
+        "Common conversational forms of inability and failure create substantial false positives.",
+        "The smallest gaps occurred in fold 2, so effect size is not uniform."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both domains were directionally positive in every fold; pessimism gaps were +15.5, +14.0, +4.4, and +11.7 points, while failure gaps were +15.0, +9.4, +4.1, and +9.8.",
+      "id": "pessimism_perceived_failure",
+      "prompt_guidance": "Favor repeated self-referential defeat or hopelessness over ordinary task failure; combine with sadness, self-criticism, or low energy.",
+      "quantitative_support": [
+        {
+          "control": "52.8%",
+          "diagnosed": "64.2%",
+          "effect": "+11.4 percentage points",
+          "measure": "Self-referential pessimism/defeat user prevalence"
+        },
+        {
+          "control": "19.1%",
+          "diagnosed": "28.6%",
+          "effect": "+9.5 percentage points",
+          "measure": "Self-referential perceived-failure user prevalence"
+        }
+      ],
+      "signal": "Pessimism and perceived failure"
+    },
+    {
+      "caveats": [
+        "Low prevalence makes estimates sensitive to lexical coverage.",
+        "Loss-of-interest specifically was weaker and nearly null in some folds."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Anhedonic language was uncommon but showed a small positive gap in all four folds: +4.8, +3.9, +2.2, and +3.5 points under the broader self-reference screen.",
+      "id": "loss_of_pleasure",
+      "prompt_guidance": "Require explicit loss of pleasure or motivation and prefer recurrence across posts; distinguish it from temporary boredom or refusal of one activity.",
+      "quantitative_support": [
+        {
+          "control": "5.5%",
+          "diagnosed": "9.1%",
+          "effect": "+3.6 percentage points; RR 1.65",
+          "measure": "Self-referential loss-of-pleasure/anhedonic-motivation user prevalence"
+        },
+        {
+          "control": "4.1%",
+          "diagnosed": "6.1%",
+          "effect": "+2.0 percentage points",
+          "measure": "Stricter direct anhedonia screen"
+        }
+      ],
+      "signal": "Loss of pleasure or motivation"
+    },
+    {
+      "caveats": [
+        "The raw-rate similarity suggests activity and prolific-user effects.",
+        "Exact fatigue vocabulary alone was not stable."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Low-energy language was one of the most stable somatic divergences, despite similar raw occurrence rates of about 0.35 versus 0.34 per 100 posts.",
+      "id": "low_energy",
+      "prompt_guidance": "Use user prevalence and recurrence, not raw counts; combine with sleep, sadness, or loss of pleasure and exclude routine tiredness or humor.",
+      "quantitative_support": [
+        {
+          "control": "57.9%",
+          "diagnosed": "66.3%",
+          "effect": "+8.4 percentage points; RR 1.15",
+          "measure": "Low-energy/fatigue-related user prevalence"
+        },
+        {
+          "control": "Positive in all four folds",
+          "diagnosed": "Fold gaps for folds 0/1/2/3",
+          "effect": "+8.6, +9.2, +7.5, and +8.6 percentage points",
+          "measure": "Per-fold diagnosed-minus-control difference"
+        }
+      ],
+      "signal": "Low energy and exhaustion"
+    },
+    {
+      "caveats": [
+        "Sleep vocabulary is topic- and lifestyle-sensitive.",
+        "No calendar timestamps were available for temporal persistence."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Sleep-problem language was consistently more prevalent among diagnosed users, though the fold-1 gap was small.",
+      "id": "sleep_problems",
+      "prompt_guidance": "Prefer explicit sleep disruption or persistent sleep complaints over ordinary mentions of sleeping, nights, or schedules.",
+      "quantitative_support": [
+        {
+          "control": "15.1%",
+          "diagnosed": "22.0%",
+          "effect": "+6.9 percentage points; RR 1.46",
+          "measure": "Sleep-problem user prevalence"
+        },
+        {
+          "control": "Positive in all four folds",
+          "diagnosed": "Fold gaps for folds 0/1/2/3",
+          "effect": "+13.3, +2.4, +4.1, and +7.7 percentage points",
+          "measure": "Per-fold diagnosed-minus-control difference"
+        }
+      ],
+      "signal": "Insomnia or disrupted sleep"
+    },
+    {
+      "caveats": [
+        "The lexicon includes broad anxiety, crisis, anger, and profanity language.",
+        "This may partly reflect expressive style or community-topic differences."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both screens were strongly and consistently positive; agitation gaps were +22.8, +11.5, +16.0, and +17.7 points, and irritability gaps were +19.7, +14.0, +14.0, and +14.2.",
+      "id": "agitation_irritability",
+      "prompt_guidance": "Use combinations of repeated agitation, irritability, or distress with other symptom domains; avoid treating generic anger, profanity, or anxiety-topic discussion as BDI symptoms.",
+      "quantitative_support": [
+        {
+          "control": "53.7%",
+          "diagnosed": "70.7%",
+          "effect": "+17.0 percentage points",
+          "measure": "Self-referential agitation/anxious-distress user prevalence"
+        },
+        {
+          "control": "67.7%",
+          "diagnosed": "83.2%",
+          "effect": "+15.5 percentage points",
+          "measure": "Self-referential irritability user prevalence"
+        }
+      ],
+      "signal": "Agitation, anxious distress, and irritability"
+    },
+    {
+      "caveats": [
+        "Generic uncertainty is common online.",
+        "Concentration and memory language added little beyond this signal."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Indecision was a modest but directionally stable divergence across all folds.",
+      "id": "indecision",
+      "prompt_guidance": "Prefer explicit difficulty deciding or choosing, especially when repeated or co-occurring with low energy and pessimism; downweight ordinary conversational uncertainty.",
+      "quantitative_support": [
+        {
+          "control": "16.5%",
+          "diagnosed": "23.5%",
+          "effect": "+7.0 percentage points; RR 1.42",
+          "measure": "Self-referential indecision user prevalence"
+        },
+        {
+          "control": "Positive in all four folds",
+          "diagnosed": "Fold gaps for folds 0/1/2/3",
+          "effect": "+4.2, +10.5, +4.7, and +8.6 percentage points",
+          "measure": "Per-fold diagnosed-minus-control difference"
+        }
+      ],
+      "signal": "Indecision and difficulty choosing"
+    },
+    {
+      "caveats": [
+        "This is a corpus-level composite, not a clinical BDI score.",
+        "Domains are correlated, so the composite is not an additive symptom count."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "A joint feature requiring at least three self-referential domains was more discriminative than any generic symptom keyword and was stable across folds.",
+      "id": "multi_domain_burden",
+      "prompt_guidance": "Use multi-domain combinations and repeated evidence across source-order segments; avoid making decisions from a single isolated keyword or post.",
+      "quantitative_support": [
+        {
+          "control": "65.2%",
+          "diagnosed": "82.4%",
+          "effect": "+17.2 percentage points",
+          "measure": "Users with self-referential hits in at least three symptom domains"
+        },
+        {
+          "control": "Positive in all four folds",
+          "diagnosed": "Fold gaps for folds 0/1/2/3",
+          "effect": "+23.7, +17.0, +11.2, and +16.8 percentage points",
+          "measure": "Per-fold diagnosed-minus-control difference"
+        }
+      ],
+      "signal": "Multi-domain symptom burden"
+    },
+    {
+      "caveats": [
+        "Potential annotation leakage or recruitment bias is substantial.",
+        "Terms include treatment, anxiety, medication, and diagnosis references, not only depression symptoms."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "This was a strong auxiliary signal, but it is contextual rather than a BDI symptom and may reflect how labels or users were collected.",
+      "id": "explicit_mental_health_context",
+      "prompt_guidance": "Treat as a separate metadata or collection feature; do not interpret it as symptom severity or use it as a substitute for self-referential symptom evidence.",
+      "quantitative_support": [
+        {
+          "control": "53.9%",
+          "diagnosed": "78.2%",
+          "effect": "+24.3 percentage points; RR 1.45",
+          "measure": "Explicit mental-health, treatment, or diagnosis vocabulary"
+        },
+        {
+          "control": "Positive in all four folds",
+          "diagnosed": "Fold gaps for folds 0/1/2/3",
+          "effect": "+32.5, +21.7, +17.2, and +25.5 percentage points",
+          "measure": "Per-fold diagnosed-minus-control difference"
+        }
+      ],
+      "signal": "Explicit mental-health or treatment disclosure"
+    }
+  ],
+  "negative_results": [
+    "Punishment language did not generalize: diagnosed-control user-prevalence differences by fold were +1.4, +0.9, -2.6, and -2.2 percentage points.",
+    "Guilt showed only a small overall excess and reversed in fold 2; it is not a stable independent signal.",
+    "Crying was very rare and unstable: fold differences were +1.2, +0.4, +0.6, and -0.2 percentage points.",
+    "Appetite and exact fatigue terms had low coverage and negligible or mixed effects; low-energy language was more reliable.",
+    "Loss-of-interest, worthlessness, and concentration signals were weak or borderline after self-reference filtering; worthlessness reversed slightly in fold 2.",
+    "Libido-related language differed on broad screens, but generic sexuality and demographic/topic differences dominate; it is not interpretable as reduced libido.",
+    "Raw post frequency is less discriminative than user prevalence for several domains, so prolific users should not be allowed to dominate."
+  ],
+  "role": "bdi_symptoms",
+  "source_folds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "users_analyzed": 6082
+}

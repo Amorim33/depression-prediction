@@ -1,0 +1,322 @@
+{
+  "confounds": [
+    "Diagnosed users have approximately 19% more retained posts and words, creating a major activity and collection confound.",
+    "The four-block persistence checks use source order, not calibrated dates; temporal drift and topic changes may remain.",
+    "Portuguese slang, spelling variation, contractions, accents, emojis, and polysemous negation/pronoun forms reduce rule precision.",
+    "Punctuation, laughter, capitalization, and message length may primarily reflect demographic, subcommunity, fandom, device, or account-type differences.",
+    "Labels are outcomes to explain; none of these associations establishes causality or clinical diagnostic validity.",
+    "The diagnosed class is much smaller than the control class (618 vs 5464 users), so small effects require conservative weighting and validation."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "This may reflect activity, retention, account type, or collection differences rather than language."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The volume gap is consistent across all four development folds and is much larger than most stylistic effects.",
+      "id": "activity_volume_effect",
+      "prompt_guidance": "Use log volume only as a collection/activity covariate; prefer per-user rates and fixed-length samples for linguistic features.",
+      "quantitative_support": [
+        {
+          "control": "527.87 posts/user",
+          "diagnosed": "629.95 posts/user",
+          "effect": "+19.3%; fold differences +28 to +147 posts",
+          "measure": "retained posts per user"
+        },
+        {
+          "control": "5386 words/user",
+          "diagnosed": "6429 words/user",
+          "effect": "+19.4%",
+          "measure": "total retained words per user"
+        }
+      ],
+      "signal": "Diagnosed timelines contain more retained activity and total text."
+    },
+    {
+      "caveats": [
+        "Sentence counts are heuristic surface proxies, not parses or validated complexity measures."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The pattern is consistent overall, though the mean-length difference reverses in the highest posting-volume quartile.",
+      "id": "longer_less_segmented_messages",
+      "prompt_guidance": "Use normalized length, length variability, and punctuation density together; test interactions with posting volume.",
+      "quantitative_support": [
+        {
+          "control": "10.14",
+          "diagnosed": "10.70",
+          "effect": "+0.56 words/post; all folds positive (+0.45 to +0.81)",
+          "measure": "mean words per post"
+        },
+        {
+          "control": "0.756",
+          "diagnosed": "0.801",
+          "effect": "+0.045",
+          "measure": "coefficient of variation of post word counts"
+        },
+        {
+          "control": "11.45%",
+          "diagnosed": "13.08%",
+          "effect": "+1.63 percentage points",
+          "measure": "posts with at least 20 words"
+        },
+        {
+          "control": "1.131",
+          "diagnosed": "1.104",
+          "effect": "-0.028 sentence units/post; all folds diagnosed lower",
+          "measure": "sentence-boundary proxy per post"
+        },
+        {
+          "control": "1.057",
+          "diagnosed": "1.019",
+          "effect": "-0.039 punctuation marks/post; all folds diagnosed lower",
+          "measure": "punctuation marks per post"
+        }
+      ],
+      "signal": "Messages are slightly longer and more variable, but less sentence- or punctuation-segmented."
+    },
+    {
+      "caveats": [
+        "Questions may be rhetorical, quoted, conversational, or topic-specific."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both punctuation-based and lexical question measures agree across folds.",
+      "id": "questioning_style",
+      "prompt_guidance": "Use as a weak stylistic feature, preferably at user-level prevalence rather than raw question counts.",
+      "quantitative_support": [
+        {
+          "control": "8.90%",
+          "diagnosed": "9.98%",
+          "effect": "+1.08 percentage points; fold differences +0.76 to +1.43 pp",
+          "measure": "posts containing a question mark"
+        },
+        {
+          "control": "33.37%",
+          "diagnosed": "35.45%",
+          "effect": "+2.08 percentage points; fold differences +1.50 to +3.00 pp",
+          "measure": "posts containing an interrogative marker"
+        },
+        {
+          "control": "73.4%",
+          "diagnosed": "85.8%",
+          "effect": "+12.4 percentage points",
+          "measure": "users with question-mark prevalence at least 5%"
+        }
+      ],
+      "signal": "Questioning and interrogative forms are modestly more prevalent and more widely distributed among diagnosed users."
+    },
+    {
+      "caveats": [
+        "Negation items include polysemous forms such as sem and nada; topic and conversational style can drive the difference."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The macro-user direction is stable in all folds; post-pooled rates are nearly identical, limiting strength.",
+      "id": "modest_negation_increase",
+      "prompt_guidance": "Use as a low-weight combination feature with pronoun and question rates, not as an isolated marker.",
+      "quantitative_support": [
+        {
+          "control": "20.92%",
+          "diagnosed": "22.36%",
+          "effect": "+1.44 percentage points",
+          "measure": "macro-user mean prevalence of negation-marked posts"
+        },
+        {
+          "control": "24.6%",
+          "diagnosed": "30.1%",
+          "effect": "+5.5 percentage points",
+          "measure": "users with negation in at least 25% of posts"
+        },
+        {
+          "control": "21.08%",
+          "diagnosed": "21.45%",
+          "effect": "+0.37 percentage points",
+          "measure": "post-pooled negation prevalence"
+        }
+      ],
+      "signal": "Negation is slightly more persistent at the user level, but the token-level effect is very small."
+    },
+    {
+      "caveats": [
+        "Regex laughter markers and punctuation are highly sensitive to age, fandom, dialect, and interaction style."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "control",
+      "evidence_summary": "The direction is stable across folds and remains visible after using per-user post prevalence.",
+      "id": "lower_laughter_and_expressive_punctuation",
+      "prompt_guidance": "Treat as a control-associated counterfeature; combine with genre/account-type controls.",
+      "quantitative_support": [
+        {
+          "control": "7.12%",
+          "diagnosed": "5.13%",
+          "effect": "-1.98 percentage points; all folds diagnosed lower",
+          "measure": "posts containing exclamation marks"
+        },
+        {
+          "control": "8.41%",
+          "diagnosed": "6.20%",
+          "effect": "-2.21 percentage points; all folds diagnosed lower",
+          "measure": "posts containing ellipsis"
+        },
+        {
+          "control": "14.36%",
+          "diagnosed": "12.26%",
+          "effect": "-2.10 percentage points; all folds diagnosed lower",
+          "measure": "posts containing laughter/stretch markers"
+        }
+      ],
+      "signal": "Control users show more laughter markers, exclamations, and ellipses."
+    },
+    {
+      "caveats": [
+        "Reposts, copied text, and account genre can dominate repetition measures; the overall TTR result was null."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "All fixed-sample concentration and repetition measures favor lower repetition in diagnosed users, but absolute effects are small.",
+      "id": "slightly_lower_repetition_and_concentration",
+      "prompt_guidance": "Prefer fixed-length user-level concentration and n-gram features; do not infer broad lexical diversity from this result.",
+      "quantitative_support": [
+        {
+          "control": "49.22%",
+          "diagnosed": "47.93%",
+          "effect": "-1.28 percentage points",
+          "measure": "share of tokens in the 50 most frequent words, fixed 50-post sample"
+        },
+        {
+          "control": "0.783%",
+          "diagnosed": "0.616%",
+          "effect": "-0.167 percentage points",
+          "measure": "share occupied by the most frequent trigram, fixed 50-post sample"
+        },
+        {
+          "control": "98.61%",
+          "diagnosed": "99.53%",
+          "effect": "+0.93 percentage points",
+          "measure": "unique-post rate, fixed 50-post sample"
+        },
+        {
+          "control": "2.84%",
+          "diagnosed": "1.65%",
+          "effect": "-1.19 percentage points",
+          "measure": "exact duplicate-post rate across the full timeline"
+        }
+      ],
+      "signal": "Diagnosed users show slightly less phrase repetition and vocabulary concentration when timeline length is controlled."
+    },
+    {
+      "caveats": [
+        "Capitalization may reflect names, abbreviations, quoting conventions, device behavior, or emphasis unrelated to mental state."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The post-level difference is small but directionally stable; user-level presence shows a larger gap.",
+      "id": "capitalization_bursts",
+      "prompt_guidance": "Use only as a weak style feature and pair with punctuation, volume, and demographic/account controls.",
+      "quantitative_support": [
+        {
+          "control": "4.22%",
+          "diagnosed": "5.22%",
+          "effect": "+1.00 percentage point; all folds diagnosed higher",
+          "measure": "posts meeting the all-caps-burst proxy"
+        },
+        {
+          "control": "80.5%",
+          "diagnosed": "87.1%",
+          "effect": "+6.6 percentage points",
+          "measure": "users with at least one all-caps-burst post"
+        }
+      ],
+      "signal": "Capitalization bursts are modestly more common among diagnosed users."
+    },
+    {
+      "caveats": [
+        "Surface rules cannot reliably distinguish personal reports from discussion of someone else or paraphrased/reposted content."
+      ],
+      "development_fold_support": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "mixed",
+      "evidence_summary": "The result cautions against interpreting any first-person-style difference as autobiographical experience; surface pronouns can occur in talk about others, quoted material, lyrics, news, jokes, or advocacy.",
+      "id": "pronoun_context_is_not_autobiography",
+      "prompt_guidance": "Flag quotation, attribution, lyric/news cues, laughter, and third-person content before interpreting pronoun features as self-experience.",
+      "quantitative_support": [
+        {
+          "control": "8.28%",
+          "diagnosed": "9.33%",
+          "effect": "+1.06 percentage points; fold differences +0.54 to +1.66 pp",
+          "measure": "posts containing third-person pronoun markers"
+        },
+        {
+          "control": "0.994",
+          "diagnosed": "1.097",
+          "effect": "+0.103 per 100 words",
+          "measure": "third-person marker token rate"
+        },
+        {
+          "control": "2.50%",
+          "diagnosed": "2.28%",
+          "effect": "-0.23 percentage points; all folds diagnosed lower",
+          "measure": "posts containing explicit quote marks"
+        }
+      ],
+      "signal": "Third-person reference is higher in diagnosed users, while explicit quotation proxies are not higher."
+    }
+  ],
+  "negative_results": [
+    "Overall lexical diversity was essentially null: mean per-post TTR was 96.66% diagnosed vs 96.96% control; fixed-50-post pooled TTR was 58.05% vs 58.33%.",
+    "Tense proxies were weak: past-marker posts were 12.67% vs 12.60%; future-marker posts were 10.88% vs 10.23%, with almost no token-rate difference.",
+    "Second-person markers were not stable: 9.11% diagnosed vs 9.43% control posts, with only 2/4 folds favoring diagnosed.",
+    "No useful link/hashtag signal: no hashtags and only three external-link strings in approximately 3.27 million posts.",
+    "The clean pooled rate of the exact pronoun “eu” was higher for diagnosed users (2.87 vs 2.07 per 100 tokens), but this is token-weighted and was not promoted without validated macro-user and fold-level support.",
+    "Coarse quotation, lyrics, news, and advocacy cues were too sparse or ambiguous for a reliable class difference."
+  ],
+  "role": "lexical_syntax",
+  "source_folds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "users_analyzed": 6082
+}

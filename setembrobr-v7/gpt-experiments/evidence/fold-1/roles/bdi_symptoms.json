@@ -1,0 +1,317 @@
+{
+  "confounds": [
+    "Diagnosed users were generally more prolific: mean retained posts were approximately 553-669 per fold versus 522-538 for controls. User-level prevalence was therefore prioritized over raw post totals.",
+    "The label distribution was highly imbalanced: 618 diagnosed users versus 5,463 controls.",
+    "Topical composition differed across accounts, with political/news replies, fandom, entertainment, education, and pandemic discourse producing many nonclinical symptom-like expressions.",
+    "Posts lack clinical duration, severity, impairment, medication, demographic, and temporal-context information; source order cannot establish persistence.",
+    "Lexical detectors remain vulnerable to negation, sarcasm, slang, quotation, and discussion of someone else."
+  ],
+  "findings": [
+    {
+      "caveats": [
+        "Several components, especially indecision, fatigue, and sleep, can reflect ordinary life stress.",
+        "Matched posts were sparse, so breadth across users was stronger than repeated posting intensity."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "The clearest separation was a combination of domains rather than isolated terms. Diagnosed users were higher in every fold; fold prevalence was roughly 59-72% versus 46-47% for controls.",
+      "id": "multi_domain_self_report",
+      "prompt_guidance": "Use as a composite supporting feature, requiring multiple distinct domains and first-person framing; do not interpret as a clinical score.",
+      "quantitative_support": [
+        {
+          "control": "Approximately 46.3%",
+          "diagnosed": "Approximately 65.5% of users had at least 3 of 18 self-referential domains",
+          "effect": "OR approximately 2.2; diagnosed excess about 19 percentage points",
+          "measure": "User prevalence of >=3 distinct domains"
+        }
+      ],
+      "signal": "Breadth across multiple self-referential BDI-like domains"
+    },
+    {
+      "caveats": [
+        "Crying was often linked to music, fiction, embarrassment, or humor.",
+        "Anxiety/agitation can reflect exams, social situations, or pandemic conditions rather than depression."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "All three affective domains were higher among diagnosed users in all four folds. Narrow first-person matching reduced contamination from third-person and entertainment references.",
+      "id": "negative_affect",
+      "prompt_guidance": "Prefer explicit self-state framing and combinations of affective domains over raw emotional vocabulary.",
+      "quantitative_support": [
+        {
+          "control": "32.3%; matched-post share 0.108%",
+          "diagnosed": "48.4% of users; matched-post share 0.167%",
+          "effect": "OR 1.96; +16.0 percentage points; pooled Fisher p < 1e-14",
+          "measure": "Self-framed sadness"
+        },
+        {
+          "control": "35.3%; matched-post share 0.129%",
+          "diagnosed": "49.7%; matched-post share 0.172%",
+          "effect": "OR 1.81; +14.4 percentage points; pooled Fisher p < 1e-11",
+          "measure": "Self-framed crying"
+        },
+        {
+          "control": "32.7%; matched-post share 0.113%",
+          "diagnosed": "48.4%; matched-post share 0.177%",
+          "effect": "OR 1.93; +15.7 percentage points; pooled Fisher p < 1e-13",
+          "measure": "Self-framed anxiety/agitation"
+        }
+      ],
+      "signal": "Self-framed sadness, crying, and agitation/anxiety"
+    },
+    {
+      "caveats": [
+        "Failure and indecision often concerned coursework, games, relationships, or everyday choices.",
+        "Moral blame and guilt can refer to other people or public events."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Every listed cognitive domain favored diagnosed users in every fold, with the strongest and most frequent differences in pessimism and indecision.",
+      "id": "negative_cognition",
+      "prompt_guidance": "Combine negative-cognition features; require self-reference and avoid treating ordinary task failure or choices as depressive cognition alone.",
+      "quantitative_support": [
+        {
+          "control": "25.0%",
+          "diagnosed": "39.6%",
+          "effect": "OR 1.97; +14.6 percentage points",
+          "measure": "Self-framed pessimism/hopelessness"
+        },
+        {
+          "control": "43.1%",
+          "diagnosed": "57.6%",
+          "effect": "OR 1.79; +14.5 percentage points",
+          "measure": "Self-framed indecision"
+        },
+        {
+          "control": "12.0%",
+          "diagnosed": "19.6%",
+          "effect": "OR 1.78; +7.6 percentage points",
+          "measure": "Self-criticism"
+        },
+        {
+          "control": "8.3%",
+          "diagnosed": "15.2%",
+          "effect": "OR 1.97; +6.9 percentage points",
+          "measure": "Self-framed failure/inability"
+        },
+        {
+          "control": "8.7%",
+          "diagnosed": "15.0%",
+          "effect": "OR 1.86; +6.3 percentage points",
+          "measure": "Self-blame/guilt"
+        },
+        {
+          "control": "12.5%",
+          "diagnosed": "18.0%",
+          "effect": "OR 1.53; +5.4 percentage points",
+          "measure": "Worthlessness language"
+        }
+      ],
+      "signal": "Pessimism, failure, guilt, self-criticism, worthlessness, and indecision"
+    },
+    {
+      "caveats": [
+        "Pandemic, school, work, and late-night social-media activity are strong alternative explanations.",
+        "No duration, severity, or impairment information is available."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both domains were higher in diagnosed users across all folds, and the gap was clearer for specific sleep problems than for generic sleep vocabulary.",
+      "id": "somatic_energy_sleep",
+      "prompt_guidance": "Use fatigue plus sleep disturbance as a supporting combination, not either generic sleep or tiredness alone.",
+      "quantitative_support": [
+        {
+          "control": "16.7%; matched-post share 0.045%",
+          "diagnosed": "27.2%; matched-post share 0.066%",
+          "effect": "OR 1.86; +10.5 percentage points",
+          "measure": "Self-framed low energy/fatigue"
+        },
+        {
+          "control": "15.2%; matched-post share 0.038%",
+          "diagnosed": "23.8%; matched-post share 0.055%",
+          "effect": "OR 1.74; +8.6 percentage points",
+          "measure": "Specific sleep-problem language"
+        }
+      ],
+      "signal": "Low energy/fatigue combined with sleep disturbance"
+    },
+    {
+      "caveats": [
+        "Many matches concerned temporary boredom or a single activity.",
+        "The data do not establish persistent anhedonia."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Specific loss-of-interest and pleasure-loss formulations were consistently higher in diagnosed users, but prevalence was low and effects were modest.",
+      "id": "anhedonia_interest",
+      "prompt_guidance": "Require broad or repeated loss across activities; do not count dislike of one show, class, food, or task as anhedonia.",
+      "quantitative_support": [
+        {
+          "control": "5.6%; matched-post share 0.012%",
+          "diagnosed": "10.4%; matched-post share 0.020%",
+          "effect": "OR 1.95; +4.8 percentage points",
+          "measure": "Loss of interest/volition"
+        },
+        {
+          "control": "4.9%; matched-post share 0.011%",
+          "diagnosed": "7.8%; matched-post share 0.015%",
+          "effect": "OR 1.64; +2.9 percentage points",
+          "measure": "Anhedonia/pleasure-loss wording"
+        }
+      ],
+      "signal": "Reduced interest, motivation, or pleasure"
+    },
+    {
+      "caveats": [
+        "Death terms were frequently about celebrities, fictional characters, songs, or news.",
+        "Hyperbolic phrases such as wanting to die from embarrassment, love, fatigue, or frustration were common."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Direct self-referential wording was more common in diagnosed users in all folds, but semantic inspection indicated that most occurrences were idiomatic, humorous, fandom-related, or tied to frustration; explicit intent or planning was rare.",
+      "id": "death_self_harm_language",
+      "prompt_guidance": "Treat as a high-sensitivity safety cue requiring contextual review, never as a diagnostic feature or standalone risk estimate.",
+      "quantitative_support": [
+        {
+          "control": "2.2%; matched-post share 0.0048%",
+          "diagnosed": "4.5% of users; matched-post share 0.0083%",
+          "effect": "OR 2.11; +2.3 percentage points",
+          "measure": "Direct self-referential death/self-harm wording"
+        }
+      ],
+      "signal": "Death or self-harm ideation language"
+    },
+    {
+      "caveats": [
+        "Irritability commonly described politics, media figures, or interpersonal disputes.",
+        "Punishment and karma language often expressed moral judgment toward others rather than self-punishment."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Both were directionally stable but substantially weaker than negative affect and cognition. Punishment language was especially context-heavy.",
+      "id": "weak_irritability_punishment",
+      "prompt_guidance": "Use only as secondary features, preferably alongside self-framed sadness, pessimism, or fatigue.",
+      "quantitative_support": [
+        {
+          "control": "24.5%",
+          "diagnosed": "29.3%",
+          "effect": "OR 1.27; +4.7 percentage points; fold gaps about +1 to +7 points",
+          "measure": "Self-framed irritability"
+        },
+        {
+          "control": "18.5%",
+          "diagnosed": "23.8%",
+          "effect": "OR 1.37; +5.2 percentage points; fold gaps about +2 to +7 points",
+          "measure": "Self-directed punishment/retribution language"
+        }
+      ],
+      "signal": "Irritability and punishment themes"
+    },
+    {
+      "caveats": [
+        "Heuristic context filters can miss subtle quotation and sarcasm.",
+        "Source-order repetition is not equivalent to clinical persistence or duration."
+      ],
+      "development_fold_support": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "direction": "diagnosed",
+      "evidence_summary": "Narrow self-referential detectors produced more coherent label divergence than raw keyword counts. Broad matches frequently involved quotations, songs, films, news, jokes, advocacy, or third-person discussion.",
+      "id": "context_filtered_self_reference",
+      "prompt_guidance": "Filter quotation marks, entertainment markers, news/public-figure discussion, explicit jokes, and help/advocacy language before assigning symptom evidence.",
+      "quantitative_support": [
+        {
+          "control": "Broad death matches had first-person cues in 49.2%; 38.3% music/entertainment and 21.6% humor cues",
+          "diagnosed": "Broad death matches had first-person cues in 60.3% of posts; 39.0% also referenced music/entertainment and 21.7% had humor cues",
+          "effect": "Self-cue share was 58.2% diagnosed vs 45.2% control among broad sadness matches",
+          "measure": "Context audit of matched posts"
+        }
+      ],
+      "signal": "First-person, context-filtered symptom framing"
+    },
+    {
+      "caveats": [
+        "Small counts make apparent pooled differences unstable.",
+        "Environmental and demographic differences may affect these topics."
+      ],
+      "development_fold_support": [],
+      "direction": "mixed",
+      "evidence_summary": "These domains did not generalize as robust separators. Appetite and concentration were rare with fold reversals; libido-loss was nearly absent despite abundant generic sexual content.",
+      "id": "weak_or_mixed_domains",
+      "prompt_guidance": "Do not use generic food, focus, or sexual vocabulary as BDI symptom evidence without explicit self-reported change.",
+      "quantitative_support": [
+        {
+          "control": "3.2%",
+          "diagnosed": "4.2%",
+          "effect": "Pooled OR 1.31; Fisher p approximately 0.20; fold direction mixed",
+          "measure": "Specific appetite-change language"
+        },
+        {
+          "control": "4.1%",
+          "diagnosed": "5.2%",
+          "effect": "Pooled OR 1.29; Fisher p approximately 0.20; fold direction mixed",
+          "measure": "Specific concentration difficulty"
+        },
+        {
+          "control": "4 users",
+          "diagnosed": "4 users",
+          "effect": "Too sparse for reliable effect estimation",
+          "measure": "Specific libido-loss language"
+        }
+      ],
+      "signal": "Appetite, concentration, and libido-loss domains"
+    }
+  ],
+  "negative_results": [
+    "Appetite-change language was rare and inconsistent: 4.2% diagnosed vs 3.2% control users pooled; fold direction was mixed.",
+    "Specific concentration difficulty was rare and inconsistent: 5.2% vs 4.1%; one development fold reversed direction.",
+    "Libido-loss phrases were extremely sparse (4 users per label); generic sexual content is not evidence of reduced libido.",
+    "Broad keywords such as sleep, death, hunger, crying, and sex were frequently nonclinical, including entertainment, jokes, news, quotations, or discussion of others."
+  ],
+  "role": "bdi_symptoms",
+  "source_folds": [
+    0,
+    2,
+    3,
+    4
+  ],
+  "users_analyzed": 6081
+}
